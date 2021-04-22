@@ -35,6 +35,7 @@
 <meta property="article:modified_time" content="2020-02-14T04:03:49.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
+<meta property="article:tag" content="提审">
 <meta name="twitter:card" content="summary">
 
 
@@ -191,7 +192,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E4%BB%98"><span class="nav-number">1.</span> <span class="nav-text">支付</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B7%B7%E6%B7%86%EF%BC%8C%E6%9C%89%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98"><span class="nav-number">1.1.</span> <span class="nav-text">有混淆，有三方支付</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E6%9C%89AliPaySDK"><span class="nav-number">1.2.</span> <span class="nav-text">提示有AliPaySDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI%E8%AE%BE%E8%AE%A1%E4%B8%8D%E8%A7%84%E8%8C%83"><span class="nav-number">2.</span> <span class="nav-text">UI设计不规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%A0%B8%E9%A2%84%E8%AE%A1%E8%80%97%E6%97%B6%E5%BE%88%E4%B9%85"><span class="nav-number">3.</span> <span class="nav-text">审核预计耗时很久</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E4%BB%98"><span class="nav-number">1.</span> <span class="nav-text">支付</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%86%E5%93%81%E5%AE%9A%E4%BB%B7"><span class="nav-number">1.1.</span> <span class="nav-text">商品定价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B7%B7%E6%B7%86%EF%BC%8C%E6%9C%89%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98"><span class="nav-number">1.2.</span> <span class="nav-text">有混淆，有三方支付</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E6%9C%89AliPaySDK"><span class="nav-number">1.3.</span> <span class="nav-text">提示有AliPaySDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI%E8%AE%BE%E8%AE%A1%E4%B8%8D%E8%A7%84%E8%8C%83"><span class="nav-number">2.</span> <span class="nav-text">UI设计不规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E6%A0%B8%E9%A2%84%E8%AE%A1%E8%80%97%E6%97%B6%E5%BE%88%E4%B9%85"><span class="nav-number">3.</span> <span class="nav-text">审核预计耗时很久</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -207,7 +208,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -220,7 +221,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -303,7 +304,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.1k</span>
+      <span>4.9k</span>
     </span>
 </div>
 
@@ -317,7 +318,20 @@
         <p>汇总提审被拒解决方案</p>
 <span id="more"></span>
 
-<h2 id="支付"><a href="#支付" class="headerlink" title="支付"></a>支付</h2><h3 id="有混淆，有三方支付"><a href="#有混淆，有三方支付" class="headerlink" title="有混淆，有三方支付"></a>有混淆，有三方支付</h3><ol>
+<h2 id="支付"><a href="#支付" class="headerlink" title="支付"></a>支付</h2><h3 id="商品定价"><a href="#商品定价" class="headerlink" title="商品定价"></a>商品定价</h3><ol>
+<li>苹果反馈</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Guideline 3.0 - Business</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Your game app includes in-app purchase products for consumable credits priced over $99.99, Tier 60.</span><br><span class="line"></span><br><span class="line">Next Steps</span><br><span class="line"></span><br><span class="line">To resolve this issue, please revise your app to ensure that a single in-app purchase product for consumable credits is priced at nothing more than $99.99, Tier 60.</span><br><span class="line"></span><br><span class="line">To edit in-app purchases:</span><br><span class="line"></span><br><span class="line">- Log in to App Store Connect</span><br><span class="line">- Click on &quot;My Apps&quot;</span><br><span class="line">- Select your app</span><br><span class="line">- Click on &quot;Features&quot; to view your in-app purchases</span><br><span class="line">- Click &quot;Edit In-App Purchase Details&quot;</span><br><span class="line">- Make the desired changes</span><br><span class="line">- Click Save</span><br><span class="line">- Once you&#39;ve completed all changes, click the &quot;Submit for Review&quot; button at the top of the App Version Information page.</span><br><span class="line"></span><br><span class="line">Note: When an in-app purchase is in the &quot;Developer Action Needed&quot; state, you must make some change to it before it can move to Waiting for Review.</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>排查问题</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App内是否有大约$99美元的商品</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>解决方案</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">删除定价过高的商品，重新配置</span><br></pre></td></tr></table></figure>
+
+<h3 id="有混淆，有三方支付"><a href="#有混淆，有三方支付" class="headerlink" title="有混淆，有三方支付"></a>有混淆，有三方支付</h3><ol>
 <li>苹果反馈</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Guideline 2.3.1 - Performance</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">We discovered that your app contains obfuscated code, selector mangling, or features meant to subvert the App Review process by changing this app&#39;s concept after approval to the App Store.</span><br><span class="line"></span><br><span class="line">The next submission of this app may require a longer review time, and this app will not be eligible for an expedited review until this issue is resolved.</span><br><span class="line"></span><br><span class="line">Next Steps</span><br><span class="line"></span><br><span class="line">- Review the Performance section of the App Store Review Guidelines.</span><br><span class="line">- Ensure your app is compliant with all sections of the App Store Review Guidelines and the Terms &amp; Conditions of the Apple Developer Program.</span><br><span class="line">- Once your app is fully compliant, resubmit your app for review.</span><br><span class="line"></span><br><span class="line">Submitting apps designed to mislead or harm customers or evade the review process may result in the termination of your Apple Developer Program account. Review the Terms &amp; Conditions of the Apple Developer Program to learn more about our policies regarding termination.</span><br><span class="line"></span><br><span class="line">Guideline 3.1.1 - Business - Payments - In-App Purchase</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">We still noticed that your app provides access to external payment mechanisms for purchases or subscriptions to be used in the app, which is not appropriate for the App Store.</span><br><span class="line"></span><br><span class="line">Specifically, we found that your app includes code for alternative payment mechanisms.</span><br><span class="line"></span><br><span class="line">Next Steps</span><br><span class="line"></span><br><span class="line">To resolve this issue, please remove any external payment mechanisms from this app. If you feel that we have misunderstood how your app uses this payment mechanism, please respond to this message and explain what users are able to purchase via this payment mechanism and how we can locate the purchases in your app.</span><br></pre></td></tr></table></figure>
@@ -358,21 +372,13 @@
 <h2 id="审核预计耗时很久"><a href="#审核预计耗时很久" class="headerlink" title="审核预计耗时很久"></a>审核预计耗时很久</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Other - Other</span><br><span class="line"></span><br><span class="line">Hello,</span><br><span class="line"></span><br><span class="line">The review of your app is taking longer than expected. Once we have completed our review, we will notify you via Resolution Center.</span><br><span class="line"></span><br><span class="line">If you would like to inquire about the status of this review, you may file a request via the Apple Developer Contact Us page.</span><br><span class="line"></span><br><span class="line">Best regards,</span><br><span class="line"></span><br><span class="line">App Store Review</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
+<li>问题排查</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. App第一个版本审核就会很慢</span><br><span class="line">2. App内有一些业务是否违反规则，审核人员暂时断定不了。</span><br><span class="line">3. 之前提交的版本跟目前提交的版本有很大差异（包大小，应用名，logo等关键信息）</span><br><span class="line">4. 账号出现问题，账号下其他App出现违规行为等</span><br><span class="line">5. 苹果太忙了，先给一个 reject，等有空再说。</span><br><span class="line">6. 审核机制有变化</span><br></pre></td></tr></table></figure>
+<ol start="3">
 <li>解决方案</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 耐心等待就好了</span><br><span class="line">2. 如果3天没有回复，那就&#96;Apple Developer Contact Us&#96;联系苹果</span><br><span class="line">3. 等待回复就好，别病急乱投医。</span><br></pre></td></tr></table></figure>
-<p><strong>可能原因</strong></p>
-<blockquote>
-<ol>
-<li>App第一个版本审核就会很慢</li>
-<li>App内有一些业务是否违反规则，审核人员暂时断定不了。</li>
-<li>之前提交的版本跟目前提交的版本有很大差异（包大小，应用名，logo等关键信息）</li>
-<li>账号出现问题，账号下其他App出现违规行为等</li>
-<li>苹果太忙了，先给一个 reject，等有空再说。</li>
-<li>审核机制有变化</li>
-</ol>
-</blockquote>
-
     </div>
 
     
@@ -419,6 +425,7 @@
 
           <div class="post-tags">
               <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+              <a href="/tags/%E6%8F%90%E5%AE%A1/" rel="tag"><i class="fa fa-tag"></i> 提审</a>
           </div>
 
         
@@ -430,8 +437,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/02/20/flutter/Flutter%E8%AF%B7%E6%B1%82%E5%BA%93Http/" rel="next" title="Flutter - Http库">
-                  Flutter - Http库 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/02/14/ios/general/Connect%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" rel="next" title="Connect问题汇总">
+                  Connect问题汇总 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -490,14 +497,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">533k</span>
+    <span title="站点总字数">534k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:05</span>
+    <span title="站点阅读时长">8:06</span>
   </span>
 </div>
 

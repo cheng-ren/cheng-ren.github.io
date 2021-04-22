@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="iOSer">
+<meta property="og:type" content="website">
+<meta property="og:title" content="任成の博客">
+<meta property="og:url" content="https://rencheng.cc/page/12/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="iOSer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="机器学习 爬虫 iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/page/12/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/" class="post-title-link" itemprop="url">iOS12和Xcode10踩坑</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-05 14:28:20" itemprop="dateCreated datePublished" datetime="2018-07-05T14:28:20+08:00">2018-07-05</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn.renchengqi.com/blog/tgezo.png"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/06/25/ios/objc/OC-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/06/25/ios/objc/OC-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">OC-内存管理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-25 16:06:02" itemprop="dateCreated datePublished" datetime="2018-06-25T16:06:02+08:00">2018-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <span id="more"></span>
+
+<h2 id="常用概念"><a href="#常用概念" class="headerlink" title="常用概念"></a>常用概念</h2><h3 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h3><p>该释放的对象没有释放</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="iOS程序的内存布局"><a href="#iOS程序的内存布局" class="headerlink" title="iOS程序的内存布局"></a>iOS程序的内存布局</h2><p><img src="https://cdn.renchengqi.com/blog/a75cu.jpg"></p>
+<ul>
+<li>代码段：编译之后的代码</li>
+<li>数据段<ul>
+<li>字符串常量：比如NSString *str = @”123”</li>
+<li>已初始化数据：已初始化的全局变量、静态变量等</li>
+<li>未初始化数据：未初始化的全局变量、静态变量等</li>
+</ul>
+</li>
+<li>栈：函数调用开销，比如局部变量。分配的内存空间地址越来越小</li>
+<li>堆：通过alloc、malloc、calloc等动态分配的空间，分配的内存空间地址越来越大</li>
+</ul>
+<h2 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h2><p>从64bit开始，iOS引入了<code>Tagged Pointer</code>技术，用于优化<code>NSNumber</code>、<code>NSDate</code>、<code>NSString</code>等小对象的存储</p>
+<p>在没有使用<code>Tagged Pointer</code>之前， <code>NSNumber</code>等对象需要<code>动态分配内存</code>、维护<code>引用计数</code>等，<code>NSNumber指针存储的是堆中</code>NSNumber`对象的地址值</p>
+<p>使用<code>Tagged Pointer</code>之后，NSNumber指针里面存储的数据变成了：<code>Tag + Data</code>，也就是将数据直接存储在了指针中。当指针不够存储数据时，才会使用动态分配内存的方式来存储数据</p>
+<p><code>objc_msgSend</code>能识别<code>Tagged Pointer</code>，比如<code>NSNumber</code>的<code>intValue</code>方法，直接从指针提取数据，节省了以前的调用开销</p>
+<blockquote>
+<p>如何判断一个指针是否为Tagged Pointer？<br>iOS平台，最高有效位是1（第64bit）；WWDC2020：最低有效位是1<br>Mac平台，最低有效位是1</p>
+</blockquote>
+<h2 id="OC对象的内存管理"><a href="#OC对象的内存管理" class="headerlink" title="OC对象的内存管理"></a>OC对象的内存管理</h2><p>在iOS中，使用<code>引用计数</code>来管理OC对象的内存.</p>
+<ul>
+<li><p>一个新创建的OC对象引用计数默认是1，当引用计数减为0，OC对象就会销毁，释放其占用的内存空间</p>
+</li>
+<li><p>调用<code>retain</code>会让OC对象的引用计数<code>+1</code>，调用<code>release</code>会让OC对象的引用计数<code>-1</code></p>
+</li>
+<li><p>想<code>拥有</code>某个对象，就让它的引用计数<code>+1</code>；<code>不</code>想再拥有某个对象，就让它的引用计数<code>-1</code></p>
+</li>
+</ul>
+<p><strong>@property</strong><br>旧：生成一个成员变量，以及setter和getter的<code>声明</code>，搭配<code>@synthesize</code>使用<br>新：生成一个下划线开头成员变量，以及setter和getter的<code>声明</code>及实现<br><strong>@synthesize</strong><br>自动生成成员变量和属性的setter，getter实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@synthesize dog &#x3D; _dog;</span><br></pre></td></tr></table></figure>
+
+<p><strong>@autorelease</strong><br>系统会在恰当的时候进行释放</p>
+<blockquote>
+<p>可以通过以下私有函数来查看自动释放池的情况</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">void</span> _objc_autoreleasePoolPrint(<span class="keyword">void</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>拷贝</strong><br>产生一个副本对象，跟源对象不影响. 修改了源对象，不会影响副本对象；修改了副本对象，不会影响源对象。</p>
+<p><strong>iOS提供两种拷贝</strong></p>
+<ul>
+<li>copy 不可变拷贝，产生不可变副本</li>
+<li>mutableCopy，可变拷贝，产生可变副本</li>
+</ul>
+<p><strong>深拷贝和浅拷贝</strong></p>
+<ul>
+<li>浅拷贝：指针拷贝<ul>
+<li>没有产生新对象</li>
+<li>引用计数+1</li>
+</ul>
+</li>
+<li>深拷贝：内容拷贝<ul>
+<li>产生新的对象。</li>
+<li>新的对象引用计数为1</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">copy</th>
+<th align="left">mutableCopy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">NSString</td>
+<td align="left">NSString</br>浅拷贝</td>
+<td align="left">NSMutableString</br>深拷贝</td>
+</tr>
+<tr>
+<td align="left">NSMutableString</td>
+<td align="left">NSString</br>深拷贝</td>
+<td align="left">NSMutableString</br>深拷贝</td>
+</tr>
+<tr>
+<td align="left">NSArray</td>
+<td align="left">NSArray</br>浅拷贝</td>
+<td align="left">NSMutableArray</br></td>
+</tr>
+<tr>
+<td align="left">NSMutableArray</td>
+<td align="left">NSArray</br>深拷贝</td>
+<td align="left">NSMutableArray</br>深拷贝</td>
+</tr>
+<tr>
+<td align="left">NSDictionary</td>
+<td align="left">NSDictionary</br>浅拷贝</td>
+<td align="left">NSMutableDictionary</br>深拷贝</td>
+</tr>
+<tr>
+<td align="left">NSMutableDictionary</td>
+<td align="left">NSDictionary</br>深拷贝</td>
+<td align="left">NSMutableDictionary</br>深拷贝</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>copy 并不代表浅拷贝。如果对一个可变对象做copy操作，那么其就是深拷贝。</p>
+</blockquote>
+<h3 id="MRC-手动内存管理"><a href="#MRC-手动内存管理" class="headerlink" title="MRC - 手动内存管理"></a>MRC - 手动内存管理</h3><p>当调用<code>alloc</code>、<code>new</code>、<code>copy</code>、<code>mutableCopy</code>方法返回了一个对象，在不需要这个对象时，要调用<code>release</code>或者<code>autorelease</code>来释放它</p>
+<p><strong>复杂数据类型(retain,strong)的setter和getter</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)seDog:(Dog *)dog &#123;</span><br><span class="line">    <span class="keyword">if</span> (_dog != dog) &#123;    </span><br><span class="line">        [_dog release];</span><br><span class="line">        _dog = [dog <span class="keyword">retain</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">- (Dog *)dog &#123;</span><br><span class="line">    <span class="keyword">return</span> _dog;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)dealloc &#123;</span><br><span class="line">    [_dog release];</span><br><span class="line">    _dog = <span class="literal">nil</span>;</span><br><span class="line">    <span class="comment">// 或者</span></span><br><span class="line">    <span class="comment">// self.dog = nil;</span></span><br><span class="line">    [<span class="keyword">super</span> dealloc];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>基础数据类型(assign)的setter和getter</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)seAge:(<span class="keyword">int</span>)age &#123;</span><br><span class="line">    _age = age;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span>)age &#123;</span><br><span class="line">    <span class="keyword">return</span> _age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>涉及不到内存管理操作</p>
+</blockquote>
+<p><strong>遵循NSCoping协议类型(copy)的setter和getter</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)seName:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">if</span> (_name != name) &#123;</span><br><span class="line">        [_name release];</span><br><span class="line">        _name = [name <span class="keyword">copy</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">return</span> _name;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)dealloc &#123;</span><br><span class="line">    [_name release];</span><br><span class="line">    [<span class="keyword">super</span> dealloc];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>遍历构造器</strong><br>譬如<code>[NSArray array]</code>这种遍历构造器生成的对象，内部做了<code>autorelease</code>的处理，外部不需要再进行<code>release</code>操作</p>
+<p><strong>集合</strong></p>
+<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><p>在OC中，只有<code>NSData</code>，<code>NSString</code>，<code>NSSet</code>，<code>NSArray</code>，<code>NSDictionary</code>这些类支持<code>copy</code>操作。如果想对其他类实现copy操作，如下代码去实现<br><strong>遵循NSCoping协议</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">NSCoping</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>实现协议方法</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">id</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    Person *person = [[Person alloc] init];</span><br><span class="line">    person.age = <span class="keyword">self</span>.age;</span><br><span class="line">    person.name = <span class="keyword">self</span>.name;</span><br><span class="line">    <span class="keyword">return</span> person;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">iOS-多线程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-18 16:19:02" itemprop="dateCreated datePublished" datetime="2018-06-18T16:19:02+08:00">2018-06-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>多线程，充分利用设备多核的技术。应用非常广泛</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/06/03/ios/objc/OC-Runloop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/06/03/ios/objc/OC-Runloop/" class="post-title-link" itemprop="url">Runloop</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-03 14:45:19" itemprop="dateCreated datePublished" datetime="2018-06-03T14:45:19+08:00">2018-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Runloop是面试中的重点，也是开发过程中对性能优化的点</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/03/ios/objc/OC-Runloop/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/06/02/ios/objc/OC-Block/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/06/02/ios/objc/OC-Block/" class="post-title-link" itemprop="url">OC-Block</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-02 14:45:19" itemprop="dateCreated datePublished" datetime="2018-06-02T14:45:19+08:00">2018-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>382</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本篇文章是学习<a target="_blank" rel="noopener" href="https://ke.qq.com/course/package/11609">MJ的底层原理课程</a>后所总结的文章，请看正版课程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/02/ios/objc/OC-Block/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/05/31/ios/objc/OC-Runtime/" class="post-title-link" itemprop="url">OC-Runtime</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-31 14:45:19" itemprop="dateCreated datePublished" datetime="2018-05-31T14:45:19+08:00">2018-05-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同<br>Objective-C的动态性是由Runtime API来支撑的<br>Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写</p>
+<p>libobjc源码<br><a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/">下载地址</a><br><a target="_blank" rel="noopener" href="https://opensource.apple.com/source">代码地址</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gnustep.org/resources/downloads.php">GNUstep</a>是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍。虽然GNUstep不是苹果官方源码，但还是具有一定的参考价值。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/31/ios/objc/OC-Runtime/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/04/07/ios/general/%E7%94%B3%E8%AF%B7%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E8%B4%A6%E5%8F%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/04/07/ios/general/%E7%94%B3%E8%AF%B7%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E8%B4%A6%E5%8F%B7/" class="post-title-link" itemprop="url">申请苹果开发者账号</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-07 10:22:10" itemprop="dateCreated datePublished" datetime="2018-04-07T10:22:10+08:00">2018-04-07</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>142</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>列举申请开发者账号需要的资料</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/07/ios/general/%E7%94%B3%E8%AF%B7%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E8%B4%A6%E5%8F%B7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/04/06/ios/general/TypeEncodings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/04/06/ios/general/TypeEncodings/" class="post-title-link" itemprop="url">Type Encodings</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-06 23:42:58" itemprop="dateCreated datePublished" datetime="2018-04-06T23:42:58+08:00">2018-04-06</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html">官方文档</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/" class="post-title-link" itemprop="url">iOS-探索对象本质</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-16 14:22:35" itemprop="dateCreated datePublished" datetime="2018-03-16T14:22:35+08:00">2018-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>645</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>如果想探究OC对象的本质，所以我们需要了解OC这门语言；然后我们也要熟悉研究东西怎么切入</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/03/02/markdown/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/03/02/markdown/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="post-title-link" itemprop="url">markdown-数学公式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-02 15:54:06" itemprop="dateCreated datePublished" datetime="2018-03-02T15:54:06+08:00">2018-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.8k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>以后的一个阶段要进行数学方面的学习，所以整理博客的时候难免会用到数学公式，下面列一下</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/03/02/markdown/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

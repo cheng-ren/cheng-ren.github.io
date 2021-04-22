@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="基于Python语言的网络编程，主要是socket网络通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python-网络编程（一）">
+<meta property="og:url" content="https://rencheng.cc/2019/07/14/python/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B02/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="基于Python语言的网络编程，主要是socket网络通信">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-14T02:28:42.000Z">
+<meta property="article:modified_time" content="2019-07-14T02:28:42.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/14/python/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B02/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Python-网络编程（一） | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">处理流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">套接字类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Socket方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E7%A8%8B%E5%BA%8F"><span class="nav-number">5.</span> <span class="nav-text">示例程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BA%A4%E4%BA%92"><span class="nav-number">5.1.</span> <span class="nav-text">简单交互</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">5.1.1.</span> <span class="nav-text">服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">5.1.2.</span> <span class="nav-text">客户端</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E6%8E%A5%E6%94%B6"><span class="nav-number">5.2.</span> <span class="nav-text">循环接收</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8-1"><span class="nav-number">5.2.1.</span> <span class="nav-text">服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">5.2.2.</span> <span class="nav-text">循环客户端</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/14/python/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python-网络编程（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-14 10:28:42" itemprop="dateCreated datePublished" datetime="2019-07-14T10:28:42+08:00">2019-07-14</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>基于Python语言的网络编程，主要是socket网络通信</p>
+<span id="more"></span>
+
+<p>socket网络通信</p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用于网络计算机通信的一种接口</span><br><span class="line">利用socket在系统软件级实现数据收发处理</span><br><span class="line">最早由加州大学伯克利分校开发</span><br><span class="line">是目前互联网通信的基础、标准</span><br><span class="line">计算机双方要进行通信，必须创建socket</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h3><ol>
+<li>服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">创建(socket)</span><br><span class="line">绑定地址(bind)</span><br><span class="line">监听(listen)</span><br><span class="line">接受(accept)</span><br><span class="line">接收数据(recv)</span><br><span class="line">发送数据(send)</span><br><span class="line">关闭连接(close)</span><br></pre></td></tr></table></figure>
+</li>
+<li>客户端<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">创建(socket)</span><br><span class="line">连接服务器(connect)</span><br><span class="line">发送数据(send)</span><br><span class="line">接收数据(recv)</span><br><span class="line">关闭连接(close)		</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="套接字类型"><a href="#套接字类型" class="headerlink" title="套接字类型"></a>套接字类型</h3><ol>
+<li>流式套接字(SOCK_STREAM)： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">面向连接、可靠传输、数据无差错的收发序列</span><br><span class="line">提供流量控制功能</span><br><span class="line">数据被看做字节流，长度无限制，多个数据包的数据持续流入</span><br></pre></td></tr></table></figure>
+</li>
+<li>数据报套接字(SOCK_DGRAM) <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">面向无连接、不可靠传输，数据可能丢失、错误、重发</span><br><span class="line">数据构成一个一个独立的数据报，每次一次发送就是一个数据报</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Socket方法"><a href="#Socket方法" class="headerlink" title="Socket方法"></a>Socket方法</h3><ol>
+<li><p>创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">socket.socket(socket_family &#x3D; AF_INET,  socket_type &#x3D; SOCK_STREAM, proto &#x3D; 0)</span><br><span class="line">参数：socket_family  地址族类型, 默认填写AF_INET</span><br><span class="line">     socket_type    套接字类型</span><br><span class="line">     SOCK_STREAM    流式套接字</span><br><span class="line">     SOCK_DGRAM     数据报套接字</span><br><span class="line">     proto          子协议类型，默认填写0</span><br></pre></td></tr></table></figure></li>
+<li><p>绑定：绑定IP地址和端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">socket.bind(address)</span><br><span class="line">参数：address   地址，元组类型; 第一个值为IP，第二个值为端口</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听：使服务器可以接收连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">socket.listen(backlog)</span><br><span class="line">参数： backlog     未接收连接请求个数; 超过该值，则会拒绝后面的请求</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接受连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">connfd,addr &#x3D; sockfd.accept()</span><br><span class="line">功能：阻塞，等待客户端连接请求; </span><br><span class="line">如果有新的连接，则返回; </span><br><span class="line">返回值为一个新的socket(用于数据通信)和客户端地址</span><br></pre></td></tr></table></figure></li>
+<li><p>接收数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data &#x3D; connfd.recv(buffersize)</span><br><span class="line">功能 ： 流式套接字接收消息</span><br><span class="line">参数 ： 一次最多接收多大的消息  字节</span><br><span class="line">返回值 ： 返回接收到的内容</span><br><span class="line">          如果对方关闭或发送完成，则返回空串</span><br></pre></td></tr></table></figure></li>
+<li><p>发送数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n &#x3D; connfd.send(data)</span><br><span class="line">功能 ： 流式套接字发送消息</span><br><span class="line">参数 ： 要发送的内容  要求bytes格式</span><br><span class="line">返回值 ： 返回实际发送的字节数</span><br></pre></td></tr></table></figure></li>
+<li><p>关闭套接字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sockfd.close（）</span><br><span class="line">功能：关闭套接字 tcp套接字连接断开</span><br></pre></td></tr></table></figure></li>
+<li><p>请求连接(只能在客户端调用)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sockfd.connect(addr)</span><br><span class="line">功能: 连接服务端套接字</span><br><span class="line">参数: addr  服务端地址</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h3><h4 id="简单交互"><a href="#简单交互" class="headerlink" title="简单交互"></a>简单交互</h4><h5 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line"></span><br><span class="line">address &#x3D; (&quot;127.0.0.1&quot;, 9999)</span><br><span class="line"></span><br><span class="line">svr &#x3D; socket.socket()</span><br><span class="line">svr.bind(address)</span><br><span class="line">svr.listen(10)</span><br><span class="line">print(&quot;服务器已启动：&quot;, address)</span><br><span class="line"></span><br><span class="line">sockfd, addr &#x3D; svr.accept()</span><br><span class="line">print(&quot;收到客户端请求：&quot;, addr)</span><br><span class="line"></span><br><span class="line">data &#x3D; sockfd.recv(1024)</span><br><span class="line">print(data.decode())</span><br><span class="line"></span><br><span class="line">sockfd.close()</span><br><span class="line">svr.close()</span><br></pre></td></tr></table></figure>
+<h5 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line"></span><br><span class="line">address &#x3D; (&quot;127.0.0.1&quot;, 9999)</span><br><span class="line"></span><br><span class="line">client &#x3D; socket.socket()</span><br><span class="line">client.connect(address)</span><br><span class="line">print(&quot;连接服务器成功&quot;)</span><br><span class="line"></span><br><span class="line">msg &#x3D; &quot;This is test msg&quot;</span><br><span class="line">client.send(msg.encode())</span><br><span class="line"></span><br><span class="line">print(&quot;发送消息：&quot;,msg)</span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
+<h4 id="循环接收"><a href="#循环接收" class="headerlink" title="循环接收"></a>循环接收</h4><h5 id="服务器-1"><a href="#服务器-1" class="headerlink" title="服务器"></a>服务器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">address &#x3D; (&quot;127.0.0.1&quot;, 9999)</span><br><span class="line">svr &#x3D; socket.socket()</span><br><span class="line">svr.bind(address)</span><br><span class="line">svr.listen(10)</span><br><span class="line">print(&quot;服务器已启动：&quot;, address) </span><br><span class="line">sockfd, addr &#x3D; svr.accept()</span><br><span class="line">print(&quot;收到客户端请求：&quot;, addr)</span><br><span class="line">while True:</span><br><span class="line">	data &#x3D; sockfd.recv(1024)</span><br><span class="line">	if data &#x3D;&#x3D; &quot;&quot;: </span><br><span class="line">		sockfd.close()</span><br><span class="line">	print(data.decode())</span><br><span class="line">svr.close()</span><br></pre></td></tr></table></figure>
+
+<h5 id="循环客户端"><a href="#循环客户端" class="headerlink" title="循环客户端"></a>循环客户端</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">address &#x3D; (&quot;127.0.0.1&quot;, 9999)</span><br><span class="line">client &#x3D; socket.socket()</span><br><span class="line">client.connect(address)</span><br><span class="line">print(&quot;连接服务器成功&quot;)</span><br><span class="line">while True:</span><br><span class="line">	msg &#x3D; input(&quot;请输入要发送的消息:&quot;)</span><br><span class="line">	if msg &#x3D;&#x3D; &quot;q&quot; or msg &#x3D;&#x3D; &quot;Q&quot;:</span><br><span class="line">		break</span><br><span class="line">	client.send(msg.encode()) </span><br><span class="line">	print(&quot;发送消息：&quot;,msg)</span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 网络编程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/14/python/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01/" rel="prev" title="网络编程基础篇">
+                  <i class="fa fa-chevron-left"></i> 网络编程基础篇
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/14/ios/objc/iOS-%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8/" rel="next" title="iOS-高精度定时器">
+                  iOS-高精度定时器 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

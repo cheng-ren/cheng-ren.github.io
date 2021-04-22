@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="今年整体上问题不大，没有出现编译报错问题。 用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS13和Xcode11踩坑">
+<meta property="og:url" content="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="今年整体上问题不大，没有出现编译报错问题。 用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/g8big.png">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/ojqu0.gif">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/mefgj.png">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/m2g0d.gif">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/kpbaf.jpg">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/i0378.jpg">
+<meta property="article:published_time" content="2019-07-24T06:41:04.000Z">
+<meta property="article:modified_time" content="2019-07-24T06:41:04.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/g8big.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>iOS13和Xcode11踩坑 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#modal%E6%96%B0%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">modal新样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#textfield-leftview"><span class="nav-number">2.</span> <span class="nav-text">textfield.leftview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC%E8%AE%BF%E9%97%AE%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7Crash"><span class="nav-number">3.</span> <span class="nav-text">KVC访问私有属性Crash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#navigationBar-shouldPopItem"><span class="nav-number">4.</span> <span class="nav-text">navigationBar:shouldPopItem:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9C%E9%97%B4%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">夜间模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A6%81%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">禁用方法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS13和Xcode11踩坑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-24 14:41:04" itemprop="dateCreated datePublished" datetime="2019-07-24T14:41:04+08:00">2019-07-24</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.7k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="https://cdn.renchengqi.com/blog/g8big.png"></p>
+<p>今年整体上问题不大，没有出现编译报错问题。</p>
+<p>用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美<br>用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了</p>
+<span id="more"></span>
+
+<h2 id="modal新样式"><a href="#modal新样式" class="headerlink" title="modal新样式"></a>modal新样式</h2><p>iOS 13 多了一个新的枚举类型 <code>UIModalPresentationAutomatic</code>，且是<code>modalPresentationStyle</code>的默认值。</p>
+<p><code>UIModalPresentationAutomatic</code>实际是表现是在 =iOS 13的设备上被映射成<code>UIModalPresentationPageSheet</code>。</p>
+<p>我这边的设计师表示，新样式不错，可以不用改😆。</p>
+<p>不过， <code>PageSheet</code> 与 <code>FullScreen</code> 对比 有个需要注意的地方，控制器的生命周期有点区别：</p>
+<p>以 <code>控制器A</code>、<code>控制器B</code> 举例：</p>
+<ul>
+<li><code>控制器A</code> present <code>控制器B</code><br>  <code>控制器A</code> 不会调用 <code>viewWillDisappear</code> 以及 <code>viewDidDisappear</code></li>
+<li><code>控制器B</code> dismiss 时<br>  <code>控制器A</code> 不会调用 <code>viewWillAppear</code> 以及 <code>viewDidAppear</code></li>
+</ul>
+<p>那么如果有些业务逻辑会在<code>控制器A</code>的生命周期里做的话，就需要考虑其他方式实现，或者改回<code>UIModalPresentationFullScreen</code><br><img src="https://cdn.renchengqi.com/blog/ojqu0.gif"></p>
+<p>如果需要改成原本全屏的样式，可以处理Controller:</p>
+<ul>
+<li>初始化时设置<code>modalPresentationStyle</code>值</li>
+<li>跳转修改<code>modalPresentationStyle</code>值</li>
+<li>覆盖<code>modalPresentationStyle</code>的get方法</li>
+</ul>
+<p>看上面gif，用户是可以通过手势下拉关闭被present出来的控制器的，那如果我需要禁止他下来要怎么实现呢？</p>
+<blockquote>
+<p>可以参考<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/view_controllers/disabling_pulling_down_a_sheet?language=objc">disabling_pulling_down_a_sheet</a>的Demo</p>
+</blockquote>
+<p>设置<code>presentationController.delegate</code> 代理对象，实现<code>UIAdaptivePresentationControllerDelegate</code>协议方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XXViewController</span> () &lt;<span class="title">UIAdaptivePresentationControllerDelegate</span>&gt;</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">BOOL</span> allowBack;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XXViewController</span></span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果vc被navigation套了一层就要取navigation的presentationController</span></span><br><span class="line">    <span class="keyword">self</span>.navigationController.presentationController.delegate = <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用UIAdaptivePresentationControllerDelegate 协议方法控制能否下拉dismiss</span></span><br><span class="line"><span class="comment">// 或者不实现这个协议，设置self.modalInPresentation（YES-不允许下拉关闭，NO-可以下拉关闭）</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)presentationControllerShouldDismiss:(<span class="built_in">UIPresentationController</span> *)presentationController &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.allowBack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果 self.modalInPresentation=YES 或者</span></span><br><span class="line"><span class="comment">// 上面协议方法return NO，用户再下拉就会在这收到回调</span></span><br><span class="line">- (<span class="keyword">void</span>)presentationControllerDidAttemptToDismiss:(<span class="built_in">UIPresentationController</span> *)presentationController &#123;</span><br><span class="line">    <span class="comment">// 如果self.allowBack == NO，会回调到这里</span></span><br><span class="line">    <span class="comment">// 可以在这里做一些事情然后再考虑让 self.allowBack=YES 或</span></span><br><span class="line">    <span class="comment">// 则让 self.modalInPresentation=NO 即可让页面可以下拉返回</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="textfield-leftview"><a href="#textfield-leftview" class="headerlink" title="textfield.leftview"></a>textfield.leftview</h2><p>如下方式，直接给<code>textfield.leftView</code>赋值一个<code>UILabel</code>对象，他的宽高会被 <code>sizeToFit</code>，而不是创建时的值。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// left view label</span></span><br><span class="line"><span class="built_in">UILabel</span> *phoneLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">63</span>, <span class="number">50</span>)];</span><br><span class="line">phoneLabel.text = <span class="string">@&quot;手机号&quot;</span>;</span><br><span class="line">phoneLabel.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>];</span><br><span class="line"><span class="comment">// set textfield left view</span></span><br><span class="line"><span class="keyword">self</span>.textfieldName.leftView = phoneLabel;</span><br></pre></td></tr></table></figure>
+<p>如所看到，实际leftview的width为59，height为19：<br><img src="https://cdn.renchengqi.com/blog/mefgj.png"><br>通过监听<code>leftView</code>的<code>frame</code>变化，发现是<code>layoutSubview</code>之后变化的。<br>最终还是给UILabel多套了一个UIView来解决</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// label</span></span><br><span class="line"><span class="built_in">UILabel</span> *phoneLabel = [[<span class="built_in">UILabel</span> alloc] init];</span><br><span class="line">phoneLabel.text = <span class="string">@&quot;手机号&quot;</span>;</span><br><span class="line">phoneLabel.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>];</span><br><span class="line">[phoneLabel sizeToFit];</span><br><span class="line">phoneLabel.centerY = <span class="number">50</span>/<span class="number">2.</span>f;</span><br><span class="line"><span class="comment">// left view</span></span><br><span class="line"><span class="built_in">UIView</span> *leftView = [[<span class="built_in">UIView</span> alloc] initWithFrame:(<span class="built_in">CGRect</span>)&#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">63</span>, <span class="number">50</span>&#125;];</span><br><span class="line">[leftView addSubview:phoneLabel];</span><br><span class="line"><span class="comment">// set textfield left view</span></span><br><span class="line"><span class="keyword">self</span>.textfieldName.leftView = leftView;</span><br></pre></td></tr></table></figure>
+
+<h2 id="KVC访问私有属性Crash"><a href="#KVC访问私有属性Crash" class="headerlink" title="KVC访问私有属性Crash"></a>KVC访问私有属性Crash</h2><p>打开有<code>UISearchBar</code>的页面发现Crash了，看到控制台输出提示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取_searchField</span></span><br><span class="line"><span class="built_in">UITextField</span> *sField = [<span class="keyword">self</span>.searchbar valueForKey:<span class="string">@&quot;_searchField&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// crash log</span></span><br><span class="line">*** Terminating app due to uncaught exception <span class="string">&#x27;NSGenericException&#x27;</span>, reason: </span><br><span class="line"><span class="string">&#x27;Access to UISearchBar&#x27;</span>s _searchField ivar is prohibited. </span><br><span class="line">This is an application bug<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>看起来是禁止访问私有属性了。</strong></p>
+<p>用 Xcode 10 编译的 App 在 iOS 13 上能正常使用，那么就是 Xcode 11 做了限制访问私有属性的一些处理了。</p>
+<p>偶然发现 iOS 13 中增加了<code>UISearchTextField</code>类，且暴露了<code>searchTextField</code>。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UISearchTextField.h</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIKIT_CLASS_AVAILABLE_IOS_ONLY</span>(<span class="number">13.0</span>)</span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UISearchTextField</span> : <span class="title">UITextField</span></span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UISearchBar</span> (<span class="title">UITokenSearch</span>)</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="built_in">UISearchTextField</span> *searchTextField;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>但是仅在 iOS 13 以上系统支持，还是暂时用遍历view的方式去做了😂</p>
+<h2 id="navigationBar-shouldPopItem"><a href="#navigationBar-shouldPopItem" class="headerlink" title="navigationBar:shouldPopItem:"></a>navigationBar:shouldPopItem:</h2><p>点击导航栏返回的时候Crash了，控制台输出提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Теrmіnаtіng арр due to uncaught exception&#39; NSInternalInconsistencyException&#39; , </span><br><span class="line">reason : &#39; Override of -navigationBar : shouldPopItem: returned YES after </span><br><span class="line">manually popping a view controller ( navigat ionController&#x3D;&lt;MHCRNavgationController : 0x106039400&gt;) &#39;</span><br></pre></td></tr></table></figure>
+<p>因为我们工程里，基本上所有的<code>Controller</code>是继承基类<code>BaseViewController</code>并实现<code>- (BOOL)naviBack:</code>方法，用于实现在用户点击返回和侧滑返回时，一些不能返回的特殊处理。<br>其根本原理是通过实现<code>UINavgationBar</code>的代理方法<code>- (BOOL)navigationBar:shouldPopItem:</code>来做的控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)navigationBar:(UINavigationBar *)navigationBar</span><br><span class="line">        shouldPopItem:(UINavigationItem *)item &#123;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 默认可以返回</span><br><span class="line">    BOOL canGoBack &#x3D; YES;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; BaseViewController定义协议方法判断能否能点击返回上一层</span><br><span class="line">    UIViewController *vc &#x3D; self.viewControllers.lastObject;</span><br><span class="line">    if ([vc isKindOfClass:BaseViewController.class]) &#123;</span><br><span class="line">        canGoBack &#x3D; [(BaseViewController *)vc naviBack:nil];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (canGoBack) &#123;</span><br><span class="line">        [self popViewControllerAnimated:YES];</span><br><span class="line">    &#125;</span><br><span class="line">    return canGoBack;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我实现的时候有<code>Return YES</code>啊！想了想，试着<strong>注释</strong>了<code>[self popViewControllerAnimated:YES]</code>，发现没有崩溃了。<br>但是在iOS 12上，会发现控制器没有回到上一层，如图，只有navbar回到上一层了：<br><img src="https://cdn.renchengqi.com/blog/m2g0d.gif"><br>好吧，那只能判断一下版本解决这个问题了，修改方式：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)navigationBar:(<span class="built_in">UINavigationBar</span> *)navigationBar</span><br><span class="line">        shouldPopItem:(<span class="built_in">UINavigationItem</span> *)item &#123;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 判断 iOS 版本低于13</span></span><br><span class="line">    <span class="built_in">BOOL</span> bellow13 = !@available(iOS <span class="number">13.0</span>, *);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 默认可以返回</span></span><br><span class="line">    <span class="built_in">BOOL</span> canGoBack = <span class="literal">YES</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// BaseViewController定义协议方法判断能否能点击返回上一层</span></span><br><span class="line">    <span class="built_in">UIViewController</span> *vc = <span class="keyword">self</span>.viewControllers.lastObject;</span><br><span class="line">    <span class="keyword">if</span> ([vc isKindOfClass:BaseViewController.class]) &#123;</span><br><span class="line">        canGoBack = [(BaseViewController *)vc naviBack:<span class="literal">nil</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (canGoBack &amp;&amp; bellow13) &#123;</span><br><span class="line">        <span class="comment">// 如果低于13且可以返回，就执行popViewController</span></span><br><span class="line">        [<span class="keyword">self</span> popViewControllerAnimated:<span class="literal">YES</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> canGoBack;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="夜间模式"><a href="#夜间模式" class="headerlink" title="夜间模式"></a>夜间模式</h2><p>WWDC 19 直播的时候看到夜间模式，老实说挺开心的，直到我用 Xcode 11 开始做适配，妈耶！x N</p>
+<p><strong>注意：使用 Xcode 10 编译的 App 依然是日间模式，不会产生效果！！！</strong></p>
+<p>初步扫了一下出现的问题如下图，大致情况是：没有设置背景色的系统控件会被设置成黑色，部分控件是tintColor没设置的话也会被改。<br><img src="https://cdn.renchengqi.com/blog/kpbaf.jpg"><br><img src="https://cdn.renchengqi.com/blog/i0378.jpg"></p>
+<p>由于Assets里的Color配置是<code>iOS 12</code>以上才能使用的，所以如果没有做全局主题色设计且需要支持iOS 12以下设备，改起来会比较恶心。</p>
+<p>对此现象，找设计师沟通。设计师表示，暂时没有精力做夜间模式规划。<br>设计师问：能否强制只日间模式？<br>答：能。配置方式有两种，<code>单页面配置</code> 和 <code>全局配置</code>。</p>
+<ul>
+<li>单页配置<br>  将需要配置的<code>UIViewControler</code>对象的<code>overrideUserInterfaceStyle</code>属性设置成<code>UIUserInterfaceStyleLight</code>或者<code>UIUserInterfaceStyleDark</code>以强制是某个页面显示为<code>浅/深色模式</code></li>
+<li>全局配置<br>  在工程的<code>Info.plist</code>的中，增加/修改<code>UIUserInterfaceStyle</code>为<code>UIUserInterfaceStyleLight</code>或<code>UIUserInterfaceStyleDark</code></li>
+</ul>
+<h2 id="禁用方法"><a href="#禁用方法" class="headerlink" title="禁用方法"></a>禁用方法</h2><p><strong>textField 更改holder颜色崩溃</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[textField setValue:HexColor(<span class="number">0x999999</span>) forKeyPath:<span class="string">@&quot;_placeholderLabel.textColor&quot;</span>];</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方式</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSAttributedString</span> *attrString = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="string">@&quot;请输入占位文字&quot;</span> attributes:@&#123;<span class="built_in">NSForegroundColorAttributeName</span>:HexColor(<span class="number">0x999999</span>), <span class="built_in">NSFontAttributeName</span>:textField.font&#125;];</span><br><span class="line">textField.attributedPlaceholder = attrString;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/20/ios/swift/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" rel="prev" title="Swift">
+                  <i class="fa fa-chevron-left"></i> Swift
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/30/ios/general/DarkMode/" rel="next" title="iOS-支持Dark Mode">
+                  iOS-支持Dark Mode <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

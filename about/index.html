@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="任成-北京-5年-iOS开发工程师  个人信息   function browserRedirect() {     var sUserAgent &#x3D; navigator.userAgent.toLowerCase();     var bIsIpad &#x3D; sUserAgent.match(&#x2F;ipad&#x2F;i) &#x3D;&#x3D; &quot;ipad&quot;;     var bIsIphoneOs &#x3D; sUserAgent.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="任成-iOS开发工程师">
+<meta property="og:url" content="https://rencheng.cc/about/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="任成-北京-5年-iOS开发工程师  个人信息   function browserRedirect() {     var sUserAgent &#x3D; navigator.userAgent.toLowerCase();     var bIsIpad &#x3D; sUserAgent.match(&#x2F;ipad&#x2F;i) &#x3D;&#x3D; &quot;ipad&quot;;     var bIsIphoneOs &#x3D; sUserAgent.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://object.renchengqi.com/image/avatar_cun.JPG">
+<meta property="article:published_time" content="2020-01-01T03:42:24.000Z">
+<meta property="article:modified_time" content="2021-04-22T06:28:39.412Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="机器学习 爬虫 iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://object.renchengqi.com/image/avatar_cun.JPG">
+
+
+<link rel="canonical" href="https://rencheng.cc/about/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>任成-iOS开发工程师 | 任成の博客
+</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">个人信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%BB%8F%E5%8E%86"><span class="nav-number">2.</span> <span class="nav-text">工作经历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E7%88%B1%EF%BC%88%E5%8C%97%E4%BA%AC%EF%BC%89%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-%EF%BC%882018%E5%B9%B44%E6%9C%88-%E4%BB%8A%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">互爱（北京）科技有限公司 （2018年4月-今）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%92-%E7%88%B1%E6%94%B6%E8%97%8F%E7%88%B1%E8%BF%99%E9%87%8C-%E5%BC%80%E5%8F%91%E4%B8%AD"><span class="nav-number">2.1.1.</span> <span class="nav-text">晒 - 爱收藏爱这里 - (开发中)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%90%8C%E8%82%A1-%E4%BA%8C%E6%AC%A1%E5%85%83%E4%BA%BA%E6%B0%94%E8%AE%A8%E8%AE%BA%E7%A4%BE%E5%8C%BA"><span class="nav-number">2.1.2.</span> <span class="nav-text">萌股 - 二次元人气讨论社区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BetaData-%E5%B7%B2%E5%BC%80%E6%BA%90"><span class="nav-number">2.1.3.</span> <span class="nav-text">BetaData - 已开源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%85%A7%E8%AF%8A%E5%81%A5%E5%BA%B7-%E5%B7%B2%E4%B8%8B%E6%9E%B6"><span class="nav-number">2.1.4.</span> <span class="nav-text">慧诊健康 - 已下架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%88%E8%91%A3%E4%BC%9A%EF%BC%88%E5%8C%97%E4%BA%AC%EF%BC%89%E4%BF%A1%E6%81%AF%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%882017%E5%B9%B41%E6%9C%88-2018%E5%B9%B43%E6%9C%88%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">师董会（北京）信息科技有限公司（2017年1月-2018年3月）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%88%E8%91%A3%E4%BC%9A-%E6%89%BE%E5%A4%A7%E5%92%96%E5%B0%B1%E4%B8%8A%E5%B8%88%E8%91%A3%E4%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">师董会 - 找大咖就上师董会</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%97%E4%BA%AC%E7%A2%A7%E4%BA%91%E7%A7%BB%E5%8A%A8%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%882015%E5%B9%B410%E6%9C%88-2017%E5%B9%B41%E6%9C%88%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">北京碧云移动科技有限公司（2015年10月-2017年1月）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E6%98%AF%E7%91%9C-%E7%91%9C%E4%BC%BD%E5%87%8F%E8%82%A5%E7%98%A6%E8%BA%AB%E5%A1%91%E5%BD%A2%E8%AE%A1%E5%88%92"><span class="nav-number">2.3.1.</span> <span class="nav-text">全是瑜 - 瑜伽减肥瘦身塑形计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%BA%E7%9A%84%E5%BE%8B%E5%B8%88-%E5%B7%B2%E4%B8%8B%E6%9E%B6"><span class="nav-number">2.3.2.</span> <span class="nav-text">俺的律师 - 已下架</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%93%E4%B8%9A%E6%8A%80%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">专业技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%88%91%E5%89%96%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">自我剖析</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner page posts-expand">
+  
+  
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">任成-iOS开发工程师
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <hr>
+<p>任成-北京-5年-iOS开发工程师</p>
+<hr>
+<h2 id="个人信息"><a href="#个人信息" class="headerlink" title="个人信息"></a>个人信息</h2><html>
+<head>
+<script type="text/javascript">
+function browserRedirect() {
+    var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        //跳转移动端页面
+    } else {
+        //pc
+        document.getElementsByClassName("imgb").style.width = "50px";
+    }
+}
+browserRedirect();
+</script>
+<style>
+.imgb { 
+    position:absolute;
+    width:120px;
+    height:170px;
+    right:2px;
+    background-color:#444;
+}
+@media (prefers-color-scheme: dark) {
+  .imgb { 
+    position:absolute;
+    width:120px;
+    height:170px;
+    right:2px;
+    background-color:#444;
+  }
+}
+@media (prefers-color-scheme: light) {
+  .imgb { 
+    position:absolute;
+    width:120px;
+    height:170px;
+    right:2px;
+    background-color:#fff;
+  }
+}
+</style>
+</head>
+<table style="position:relative;">
+<tr style="margin-right:130px">
+<td>姓名 / 性别</td>
+<td><b>任成</b> / 男</td>
+<td class="imgb">
+<img src="https://object.renchengqi.com/image/avatar_cun.JPG" style="width:120px;"/>
+</td>
+</tr>
+<tr>
+<td>求职意向</td> 
+<td>iOS开发工程师</td> 
+</tr>
+</tr>
+<tr>
+<td>工作年限</td> 
+<td>5年+</td> 
+</tr>
+<tr>
+<td>期望城市</td> 
+<td>北京</td> 
+</tr>
+<tr>
+<td>电话/微信</td>
+<td><a href="tel:13681105571">13681105571</a></td> 
+</tr>
+<tr>
+<td>专业</td> 
+<td>计算机科学与技术</td> 
+</tr>
+<tr>
+<td>毕业院校</td> 
+<td>大连东软信息学院</td> 
+</tr>
+<tr>
+<td>E-mail</td> 
+<td><a href="mailto:rencheng11@icloud.com">rencheng11@icloud.com</a></td> 
+<tr>
+<td>技术博客</td> 
+<td><a href="https://rencheng.cc">https://rencheng.cc/</a></td>
+</tr>
+</table> 
+</html>
+
+<hr>
+<h2 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h2><h3 id="互爱（北京）科技有限公司-（2018年4月-今）"><a href="#互爱（北京）科技有限公司-（2018年4月-今）" class="headerlink" title="互爱（北京）科技有限公司 （2018年4月-今）"></a>互爱（北京）科技有限公司 （2018年4月-今）</h3><blockquote>
+<p>负责iOS团队基础服务建设；技术调研和选型；进度评估和风险把控；推进组件化方案落地；推进大前端方案落地；工作协调和汇报反馈以及项目日常迭代工作；</p>
+</blockquote>
+<h4 id="晒-爱收藏爱这里-开发中"><a href="#晒-爱收藏爱这里-开发中" class="headerlink" title="晒 - 爱收藏爱这里 - (开发中)"></a><a href="">晒 - 爱收藏爱这里</a> - (开发中)</h4><blockquote>
+<p>负责该项目iOS平台0~1的孵化；使用Swift语言作为主要开发语言；Flutter大前端方案落地；</p>
+</blockquote>
+<ul>
+<li>短视频预缓存以及边下边播</li>
+<li>封装Swift基础组件库和工具类</li>
+<li>FlutterBoost框架集成使用</li>
+<li>代码检测SwiftLint for Sonarqube</li>
+</ul>
+<h4 id="萌股-二次元人气讨论社区"><a href="#萌股-二次元人气讨论社区" class="headerlink" title="萌股 - 二次元人气讨论社区"></a><a target="_blank" rel="noopener" href="https://apps.apple.com/cn/app/id1414185391">萌股 - 二次元人气讨论社区</a></h4><blockquote>
+<p>负责项目的日常功能迭代，业务组的技术支持以及技术调研工作；</p>
+</blockquote>
+<ul>
+<li>短视频采集、编辑、压缩、转码及播放</li>
+<li>社区数据采集及展示（YYText，可拓展信息类型方案）</li>
+<li>Live2d调研及实践（为业务提供Cocoapods私有库）</li>
+<li>代码检测OCLint for Sonarqube</li>
+<li>持续集成方案调研与落地</li>
+</ul>
+<h4 id="BetaData-已开源"><a href="#BetaData-已开源" class="headerlink" title="BetaData - 已开源"></a><a target="_blank" rel="noopener" href="https://github.com/hoongbin/sdk-ios">BetaData</a> - 已开源</h4><blockquote>
+<p>负责SDK升级和维护工作</p>
+</blockquote>
+<ul>
+<li>SDK封装和分发</li>
+<li>iOS全埋点实践（AOP编程思想）</li>
+<li>数据上报和数据加密策略</li>
+<li>广告跟踪及归因系统</li>
+</ul>
+<h4 id="慧诊健康-已下架"><a href="#慧诊健康-已下架" class="headerlink" title="慧诊健康 - 已下架"></a><a target="_blank" rel="noopener" href="https://apps.apple.com/cn/app/id1434271846">慧诊健康</a> - 已下架</h4><blockquote>
+<p>用户端/教练端-双端同步开发<br>负责项目的功能迭代，技术选型和前期调研工作<br>负责抽离耦合业务Library，两端代码共享</p>
+</blockquote>
+<ul>
+<li>基础框架搭建</li>
+<li>组件化方案调研与落地</li>
+<li>人工智能调研与实践（百度云人体关键点AI智能分析训练分）</li>
+<li>视频处理（裁减，拼接，加密，压缩，水印）</li>
+<li>图片处理（缩放，旋转，压缩，水印）</li>
+</ul>
+<h3 id="师董会（北京）信息科技有限公司（2017年1月-2018年3月）"><a href="#师董会（北京）信息科技有限公司（2017年1月-2018年3月）" class="headerlink" title="师董会（北京）信息科技有限公司（2017年1月-2018年3月）"></a>师董会（北京）信息科技有限公司（2017年1月-2018年3月）</h3><blockquote>
+<p>技术负责人；负责项目进度把控，人员分配及任务派发；获2017年度最佳男员工；</p>
+</blockquote>
+<h4 id="师董会-找大咖就上师董会"><a href="#师董会-找大咖就上师董会" class="headerlink" title="师董会 - 找大咖就上师董会"></a><a target="_blank" rel="noopener" href="https://apps.apple.com/cn/app/id1097714979">师董会 - 找大咖就上师董会</a></h4><blockquote>
+<p>项目技术负责人；负责关键技术调研选型，技术难题攻坚；负责迭代进度评估，任务分配等工作；</p>
+</blockquote>
+<ul>
+<li>直播开发（腾讯云直播，七牛云直播）</li>
+<li>即时通讯（腾讯云，融云，环信）</li>
+<li>视频点播（播放器的调研与实践）</li>
+<li>业务模块重构整合</li>
+<li>PC站用户授权设计与实践</li>
+</ul>
+<h3 id="北京碧云移动科技有限公司（2015年10月-2017年1月）"><a href="#北京碧云移动科技有限公司（2015年10月-2017年1月）" class="headerlink" title="北京碧云移动科技有限公司（2015年10月-2017年1月）"></a>北京碧云移动科技有限公司（2015年10月-2017年1月）</h3><h4 id="全是瑜-瑜伽减肥瘦身塑形计划"><a href="#全是瑜-瑜伽减肥瘦身塑形计划" class="headerlink" title="全是瑜 - 瑜伽减肥瘦身塑形计划"></a><a target="_blank" rel="noopener" href="https://apps.apple.com/cn/app/id1170979685">全是瑜 - 瑜伽减肥瘦身塑形计划</a></h4><blockquote>
+<p>负责该项目从0到1的孵化并上架；产品和UI的协调与沟通；</p>
+</blockquote>
+<ul>
+<li>搭建工程框架；多尺寸适配滚动方案</li>
+<li>乐视视频Vod功能</li>
+<li>常用UI组件封装</li>
+<li>常用工具类封装</li>
+</ul>
+<h4 id="俺的律师-已下架"><a href="#俺的律师-已下架" class="headerlink" title="俺的律师 - 已下架"></a>俺的律师 - 已下架</h4><blockquote>
+<p>负责该项目商城模块的日常迭代；</p>
+</blockquote>
+<ul>
+<li>订单数据采集与流转</li>
+<li>三方SDK的接入和使用</li>
+<li>完善职业技能知识体系</li>
+</ul>
+<hr>
+<h2 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h2><ul>
+<li>熟练使用UIKit系统库控件，能根据需求定制所需要控件</li>
+<li>熟悉<code>GCD</code>、<code>NSOperation</code>、<code>NSThread</code>多线程编程</li>
+<li>熟练使用<code>归解档</code>、<code>Sqlite3</code>、<code>CoreData</code>、<code>FMDB</code>等数据持久化方案</li>
+<li>熟练使用<code>Xib</code>、<code>Masonry</code>和<code>SnapKit</code>的自动布局方式</li>
+<li>熟悉常用设计模式(<code>MVC</code>、<code>代理</code>、<code>工厂</code>、<code>Action/Target</code>、<code>观察者</code>、<code>单例</code>等)</li>
+<li>熟练掌握CocoaPods对三方库进行管理，以及创建自己库</li>
+<li>熟悉TCP/UDP网络传输协议，了解XMPP/Socket原理</li>
+<li>熟悉AFNetworking，SDWebImage，MJRefresh, UM社会化组件, UM推送, 极光推送, 能快速集成百度地图, 高德地图, 支付宝支付, 微信支付, 苹果内购, 熟悉环信, 融云的SDK的集成方法</li>
+</ul>
+<p><strong>接过的第三方库</strong></p>
+<html>
+<table>
+<tr style="margin-right:130px">
+<td align="center"><b>功能</b></td>
+<td align="center"><b>第三方库</b></td>
+</tr>
+<!-- 登录 -->
+<tr>
+    <td rowspan="5", align="center"><b>登录</b></td>
+    <td align="center">一键登录(极光认证/移动)</td>
+</tr>
+<tr>
+    <td align="center">微信登录</td>
+</tr>
+<tr>
+    <td align="center">QQ登录</td> 
+</tr>
+<tr>
+    <td align="center">微博登录</td> 
+</tr>
+<tr>
+    <td align="center">苹果登录</td> 
+</tr>
+<!-- 分享 -->
+<tr>
+    <td rowspan="3", align="center"><b>分享</b></td>
+    <td align="center">友盟</td>
+</tr>
+<tr>
+    <td align="center">极光</td>
+</tr>
+<tr>
+    <td align="center">ShareSDK</td> 
+</tr>
+<!-- 推送 -->
+<tr>
+    <td rowspan="2", align="center"><b>推送</b></td>
+    <td align="center">极光推送</td>
+</tr>
+<tr>
+    <td align="center">友盟推送</td>
+</tr>
+<!-- 支付 -->
+<tr>
+    <td rowspan="4", align="center"><b>支付</b></td>
+    <td align="center">IAP</td>
+</tr>
+<tr>
+    <td align="center">微信支付</td> 
+</tr>
+<tr>
+    <td align="center">支付宝支付</td>
+</tr>
+<tr>
+    <td align="center">银联支付</td> 
+</tr>
+<!-- 地图 -->
+<tr>
+    <td rowspan="2", align="center"><b>地图</b></td>
+    <td align="center">高德地图</td>
+</tr>
+<tr>
+    <td align="center">百度地图</td> 
+</tr>
+<!-- IM -->
+<tr>
+    <td rowspan="3", align="center"><b>IM</b></td>
+    <td align="center">融云</td>
+</tr>
+<tr>
+    <td align="center">环信</td> 
+</tr>
+<tr>
+    <td align="center">腾讯IM</td>
+</tr>
+<!-- 直播 -->
+<tr>
+    <td rowspan="3", align="center"><b>直播</b></td>
+    <td align="center">七牛云（连麦）</td>
+</tr>
+<tr>
+    <td align="center">腾讯云</td> 
+</tr>
+<tr>
+    <td align="center">阿里云</td>
+</tr>
+<!-- Deeplink -->
+<tr>
+    <td rowspan="2", align="center"><b>Deeplink</b></td>
+    <td align="center">极光魔链</td>
+</tr>
+<tr>
+    <td align="center">LinkedME</td> 
+</tr>
+<!-- 分析埋点 -->
+<tr>
+    <td rowspan="3", align="center"><b>埋点/统计</b></td>
+    <td align="center">百度统计</td>
+</tr>
+<tr>
+    <td align="center">友盟统计</td> 
+</tr>
+<tr>
+    <td align="center">神策分析</td> 
+</tr>
+<!-- 崩溃上报 -->
+<tr>
+    <td align="center"><b>崩溃上报</b></td>
+    <td align="center">Bugly</td>
+</tr>
+
+<!-- 分割线 -->
+</table> 
+</html>
+
+<p><strong>接过的开源框架</strong></p>
+<html>
+<table>
+<tr style="margin-right:130px">
+<td align="center"><b>功能</b></td>
+<td align="center"><b>开源框架</b></td>
+</tr>
+<!-- 网络框架 -->
+<tr>
+    <td rowspan="2", align="center"><b>网络框架</b></td>
+    <td align="center">AFNetworking</td>
+</tr>
+<tr>
+    <td align="center">Alamofire</td> 
+</tr>
+<!-- 图片异步框架 -->
+<tr>
+    <td rowspan="2", align="center"><b>图片异步</b></td>
+    <td align="center">SDWebImage</td>
+</tr>
+<tr>
+    <td align="center">Kingfisher</td> 
+</tr>
+<!-- AutoLayout -->
+<tr>
+    <td rowspan="3", align="center"><b>AutoLayout</b></td>
+    <td align="center">StoryBoard/Xib (System)</td>
+</tr>
+<tr>
+    <td align="center">Masonry</td> 
+</tr>
+<tr>
+    <td align="center">SnapKit</td>
+</tr>
+<!-- 分割线 -->
+</table> 
+</html>
+
+<hr>
+<h2 id="自我剖析"><a href="#自我剖析" class="headerlink" title="自我剖析"></a>自我剖析</h2><blockquote>
+<p>热爱生活，崇尚技术，忠于学习，乐于分享。</p>
+</blockquote>
+<ul>
+<li>工作认真负责，认真对待每一件事情，每一个技术点，反馈及时，能做到尽早暴露风险以及问题</li>
+<li>热爱学习各种感兴趣的技术，大部分都是工作相关的，怎么提升个人效率，怎么提升团队效率，怎么解决一些沟通问题等</li>
+<li>喜欢项目管理，可以把项目排好进度，协调人员进行里程碑开发，纵向思考很多问题然后一一解决</li>
+<li>喜欢分享，有好玩的技术，优秀的方案或者好用的工具会分享推荐给别人，我觉得我们要承认没有最好，只有更好</li>
+<li>喜欢思考，过一段时间会总结一下自己的状体，生活上工作上。希望可以找到一位镜子领导，指引、修正、鼓励、批评</li>
+</ul>
+<hr>
+
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

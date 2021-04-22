@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="MongoDB 查询文档使用 find() 方法。find() 方法以非结构化的方式来显示所有文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB-查找操作">
+<meta property="og:url" content="https://rencheng.cc/2019/08/11/mongodb/%E6%9F%A5%E6%89%BE%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="MongoDB 查询文档使用 find() 方法。find() 方法以非结构化的方式来显示所有文档。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-11T03:50:14.000Z">
+<meta property="article:modified_time" content="2019-08-11T03:50:14.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/08/11/mongodb/%E6%9F%A5%E6%89%BE%E6%93%8D%E4%BD%9C/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>MongoDB-查找操作 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#findOne"><span class="nav-number">2.</span> <span class="nav-text">findOne</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#query%E6%9B%B4%E5%A4%9A%E7%9A%84%E7%AD%9B%E9%80%89%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">query更多的筛选用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">3.1.</span> <span class="nav-text">比较操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#eq-%E7%AD%89%E4%BA%8E"><span class="nav-number">3.1.1.</span> <span class="nav-text">$eq 等于 &#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lt-%E5%B0%8F%E4%BA%8E-lt"><span class="nav-number">3.1.2.</span> <span class="nav-text">$lt 小于 &lt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lte-%E5%B0%8F%E4%BA%8E%E7%AD%89%E4%BA%8E-lt"><span class="nav-number">3.1.3.</span> <span class="nav-text">$lte  小于等于 &lt;&#x3D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gt-%E5%A4%A7%E4%BA%8E-gt"><span class="nav-number">3.1.4.</span> <span class="nav-text">$gt  大于 &gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gte-%E5%A4%A7%E4%BA%8E%E7%AD%89%E4%BA%8E-gt"><span class="nav-number">3.1.5.</span> <span class="nav-text">$gte 大于等于 &gt;&#x3D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ne-%E4%B8%8D%E7%AD%89%E4%BA%8E"><span class="nav-number">3.1.6.</span> <span class="nav-text">$ne  不等于  !&#x3D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in-%E5%8C%85%E5%90%AB"><span class="nav-number">3.1.7.</span> <span class="nav-text">$in  包含</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nin-%E4%B8%8D%E5%8C%85%E5%90%AB"><span class="nav-number">3.1.8.</span> <span class="nav-text">$nin 不包含</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">3.2.</span> <span class="nav-text">逻辑操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#and-%E9%80%BB%E8%BE%91%E4%B8%8E"><span class="nav-number">3.2.1.</span> <span class="nav-text">$and 逻辑与</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#or-%E9%80%BB%E8%BE%91%E6%88%96"><span class="nav-number">3.2.2.</span> <span class="nav-text">$or  逻辑或</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#not-%E9%80%BB%E8%BE%91%E9%9D%9E"><span class="nav-number">3.2.3.</span> <span class="nav-text">$not  逻辑非</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/08/11/mongodb/%E6%9F%A5%E6%89%BE%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MongoDB-查找操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-11 11:50:14" itemprop="dateCreated datePublished" datetime="2019-08-11T11:50:14+08:00">2019-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>MongoDB 查询文档使用 find() 方法。find() 方法以非结构化的方式来显示所有文档。</p>
+<span id="more"></span>
+
+
+
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find(query,field)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能 ：   查找文档</li>
+<li>参数 <ul>
+<li>query  查找条件，相当于where子句</li>
+<li>field  查找的域</li>
+</ul>
+</li>
+<li>返回值 ： 查找到的所有文档</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">query：  以键值对方式传递参数，如果是空&#123;&#125;表示查找所          有内容</span><br><span class="line"></span><br><span class="line">  e.g.   查找所有性别为w的文档  </span><br><span class="line">         db.class0.find(&#123;sex:&#39;w&#39;&#125;)</span><br><span class="line"></span><br><span class="line">field：  以键值对的方式给出要查找（不查找）的域</span><br><span class="line">        以域名为键，以0,1为值分别表示不查找和查找</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果某一个或多个域设置为0 表示这些域不查找，其他域均查找</li>
+<li>如果某一个或多个域设置为1 表示这些域查找，其他域均不查找</li>
+<li><code>_id</code> 除非设置为0 否则均会查找</li>
+<li>除<code>_id</code>域其他域不能有的设置1有的设置0</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 查找结果只有name域</span><br><span class="line">db.class0.find(&#123;sex:&#39;w&#39;&#125;,&#123;_id:0,name:1&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="findOne"><a href="#findOne" class="headerlink" title="findOne"></a>findOne</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">findOne(query,field)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>功能 ： 查找第一条符合条件的文档</li>
+<li>参数 ： 同find</li>
+<li>返回值： 返回查找到的文档</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 查找集合中性别为女的第一个文档</span><br><span class="line">db.class0.findOne(&#123;sex:&#39;w&#39;&#125;,&#123;_id:0,name:1&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="query更多的筛选用法"><a href="#query更多的筛选用法" class="headerlink" title="query更多的筛选用法"></a>query更多的筛选用法</h2><p>操作符 ： 使用<code>$</code>符号注明的一个特殊字符串，表达一定的含义，比如 <code>$lt</code> 表示小于</p>
+<h3 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符"></a>比较操作符</h3><h4 id="eq-等于"><a href="#eq-等于" class="headerlink" title="$eq 等于 =="></a><em>$eq</em> 等于 ==</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">e.g. 查找年龄等于18</span><br><span class="line">db.class0.find(&#123;age:&#123;$eq:18&#125;&#125;,&#123;_id:0&#125;)</span><br><span class="line">&#x3D;&#x3D;&gt; db.class0.find(&#123;age:18&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="lt-小于-lt"><a href="#lt-小于-lt" class="headerlink" title="$lt 小于 &lt;"></a><em>$lt</em> 小于 &lt;</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">e.g. 查找年龄小于18的</span><br><span class="line">db.class0.find(&#123;age:&#123;$lt:18&#125;&#125;,&#123;_id:0&#125;)</span><br><span class="line">db.class0.find(&#123;name:&#123;$lt:&quot;John&quot;&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在mongodb中字符串可以比较大小</p>
+</blockquote>
+<h4 id="lte-小于等于-lt"><a href="#lte-小于等于-lt" class="headerlink" title="$lte  小于等于 &lt;="></a><em>$lte</em>  小于等于 &lt;=</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  年龄小于等于18 </span><br><span class="line">db.class0.find(&#123;age:&#123;$lte:18&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="gt-大于-gt"><a href="#gt-大于-gt" class="headerlink" title="$gt  大于 &gt;"></a><em>$gt</em>  大于 &gt;</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  查找年龄大于16 且 小于19</span><br><span class="line">db.class0.find(&#123;age:&#123;$gt:16,$lt:19&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在mongodb中所有的{} [] 中都可以写多个条件。但根据   参数的不同表达的意思不一样</p>
+</blockquote>
+<h4 id="gte-大于等于-gt"><a href="#gte-大于等于-gt" class="headerlink" title="$gte 大于等于 &gt;="></a><em>$gte</em> 大于等于 &gt;=</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  大于等于19</span><br><span class="line">db.class0.find(&#123;age:&#123;$gte:19&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="ne-不等于"><a href="#ne-不等于" class="headerlink" title="$ne  不等于  !="></a><em>$ne</em>  不等于  !=</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  性别不等于‘m’的 </span><br><span class="line">db.class0.find(&#123;sex:&#123;$ne:&#39;m&#39;&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用ne查找也会找到该域不存在的文档</p>
+</blockquote>
+<h4 id="in-包含"><a href="#in-包含" class="headerlink" title="$in  包含"></a><em>$in</em>  包含</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 找到年龄为 [10,20,30]</span><br><span class="line">db.class0.find(&#123;age:&#123;$in:[10,20,30]&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="nin-不包含"><a href="#nin-不包含" class="headerlink" title="$nin 不包含"></a><em>$nin</em> 不包含</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  找到年龄不是 17  18   19 的</span><br><span class="line">db.class0.find(&#123;age:&#123;$nin:[17,18,19]&#125;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h3><h4 id="and-逻辑与"><a href="#and-逻辑与" class="headerlink" title="$and 逻辑与"></a><em>$and</em> 逻辑与</h4><ol>
+<li>在 query 如果写多个条件默认即为 and 关系</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">db.class0.find(&#123;age:&#123;$lt:18&#125;,sex:&#39;m&#39;&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>逻辑与 $and</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 年龄小于18并且 性别为男</span><br><span class="line">db.class0.find(&#123;$and:[&#123;age:&#123;$lt:18&#125;&#125;,&#123;sex:&#39;m&#39;&#125;]&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>区别： 第一种不能对相同的域进行操作</p>
+</blockquote>
+<h4 id="or-逻辑或"><a href="#or-逻辑或" class="headerlink" title="$or  逻辑或"></a><em>$or</em>  逻辑或</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 年龄小于16或者年龄大于18</span><br><span class="line">db.class0.find(&#123;$or:[&#123;age:&#123;$lte:16&#125;&#125;,&#123;age:&#123;$gt:18&#125;&#125;]&#125;,&#123;_id:0&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="not-逻辑非"><a href="#not-逻辑非" class="headerlink" title="$not  逻辑非"></a><em>$not</em>  逻辑非</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">e.g.  查找年龄不小于18岁的</span><br><span class="line">db.class0.find(&#123;age:&#123;$not:&#123;$lt:18&#125;&#125;&#125;,&#123;_id:0&#125;)&#96;&#96;&#96;</span><br><span class="line">&gt; 非运算并不是正常运算取反</span><br><span class="line">&gt; age &lt; 18 不等于 not[age &lt; 18]</span><br><span class="line">&gt; 是因为mongo过于灵活，某个域的值的类型不一致</span><br><span class="line"></span><br><span class="line">#### *$nor*   not  (a or b)  &#x3D;&#x3D;&#x3D;&gt; (not a) and (not b)</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p>e.g.  性别不是m且年龄不小于18<br>db.class0.find({$nor:[{sex:’m’},{age:{$lt:18}}]},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 逻辑条件混合</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（年龄大于17 并且 为男生）  或者 姓名叫 Abby<br> db.class0.find({$or:[{age:{$gt:17},sex:’m’},{name:’Abby’}]},{_id:0})</p>
+<p>（年龄不大于18 或者为 女性） 并且 姓名 大于Lucy<br> e.g.<br> db.class0.find({$or:[{age:{$not:{$gt:18}}},{sex:’w’}],name:{$gt:’Lucy’}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 数组 Array</span><br><span class="line"></span><br><span class="line">* 数组是有序的数据集合</span><br><span class="line">* mongo中数组也可以有多重数据元素混合</span><br><span class="line"></span><br><span class="line">查找数组中包含某一条件的元素</span><br></pre></td></tr></table></figure>
+<p>e.g.  只要score数组中包含小于60的元素即可查询过滤<br>db.class1.find({score:{$lt:60}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### $all</span><br><span class="line"></span><br><span class="line">查找数组同时包含多项的文档</span><br></pre></td></tr></table></figure>
+<p>e.g.  查找同时包含49  67的文档<br>db.class1.find({score:{$all:[49,67]}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### $size</span><br><span class="line">通过数组元素个数查找</span><br></pre></td></tr></table></figure>
+<p>e.g. 查找score中包含两个元素的文档<br>db.class1.find({score:{$size:2}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### $slice</span><br><span class="line">取数组的部分进行显示，在&#96;field&#96;中声明</span><br></pre></td></tr></table></figure>
+<p>e.g.  显示数组中前两项<br>db.class2.find({},{_id:0,score:{$slice:2}})</p>
+<p>e.g.   跳过第一项显示后面两项<br>db.class2.find({},{_id:0,score:{$slice:[1,2]}})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 其他常用查找操作符</span><br><span class="line"></span><br><span class="line">#### $exists</span><br><span class="line">通过某个域是否存在筛选（true表示存在false表示不存在）</span><br></pre></td></tr></table></figure>
+<p>e.g. ： 查找不存在sex域的文档<br>db.class1.find({sex:{$exists:false}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### $mod</span><br><span class="line">余数查找</span><br></pre></td></tr></table></figure>
+<p>e.g.  找出年龄为单数的文档<br>db.class1.find({age:{$mod:[2,1]}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### $type</span><br><span class="line">找出指定数据类型的文档</span><br></pre></td></tr></table></figure>
+<p>e.g.  查找name域值类型为2的文档<br>db.class1.find({name:{$type:2}},{_id:0})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### $regex</span><br><span class="line">找出指定正则的文档</span><br><span class="line"></span><br><span class="line">### 查找结果的操作函数</span><br><span class="line"></span><br><span class="line">#### distinct</span><br></pre></td></tr></table></figure>
+<p>db.collection.distinct(filed)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* 功能： 查看某个域的值范围</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>e.g.  获取某个域的值，去重<br>db.class0.distinct(‘age’)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### pretty()</span><br><span class="line">功能：格式化显示查询结果</span><br></pre></td></tr></table></figure>
+<p>e.g.<br>db.class0.find().pretty()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### limit(n)</span><br><span class="line">功能：显示前n条结果</span><br></pre></td></tr></table></figure>
+<p>e.g. 显示查询结果前三条<br>db.class0.find({},{_id:0}).limit(3)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### skip(n)</span><br><span class="line">功能： 跳过前n条显示后面的查询结构</span><br></pre></td></tr></table></figure>
+<p>e.g. ： 跳过前5条文档，显示后面的查询结果<br>db.class0.find({},{_id:0}).skip(5)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### count()</span><br><span class="line">功能 ： 统计查询结果数量</span><br><span class="line"></span><br><span class="line">&gt; 在统计数量时要给出一定query条件</span><br></pre></td></tr></table></figure>
+<p>e.g.  统计性别为w的文档个数<br>db.class0.find({sex:’w’},{_id:0}).count()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### sort(&#123;field: 1&#x2F;-1&#125;)</span><br><span class="line">功能： 对查找结果排序</span><br><span class="line">参数： 以键值对表示按照哪个field排序</span><br><span class="line">       1 表示升序，-1表示降序</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>e.g.  查找结果按照降序排序<br>db.class0.find({},{_id:0}).sort({age:-1})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 复合排序</span><br></pre></td></tr></table></figure>
+<p>e.g. 按照年龄升序排序，年龄相同时按照姓名降序<br>db.class0.find({},{_id:0}).sort({age:1,name:-1})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">函数的连续调用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>e.g.<br>db.class0.find({},{_id:0}).sort({age:1}).limit(3)</p>
+<pre><code>
+练习：
+
+1. 创建数据 名称 grade
+   use  grade
+ 
+2. 创建集合 名称 class   
+
+3. 集合中插入若干（5-8条即可）文档 文档格式
+&#123;name:&#39;zhangsan&#39;,age:10,sex:&#39;m&#39;,hobby:[&#39;a&#39;,&#39;b&#39;]&#125;
+ 年龄范围 6-15
+ 爱好选择：draw  sing  dance  basketball  football  pingpong  computer 每个同学选择2-5项
+
+   db.class.insert(&#123;name:&#39;zhangsan&#39;,age:10,sex:&#39;m&#39;,hobby:[&#39;draw&#39;,&#39;sing&#39;]&#125;)
+
+4. 查找练习
+ 查看班级所有学生信息
+   find()
+
+ 查看班级中年龄为8岁的学生信息
+   find(&#123;age:8&#125;)
+
+ 查看班级中年龄大于10岁学生信息
+   find(&#123;age:&#123;$gt:10&#125;&#125;)
+
+ 查看班级中年龄在8-11岁之间的学生信息
+   find(&#123;age:&#123;$gte:8,$lte:11&#125;&#125;)
+
+ 查看班级中年龄10岁且为男生的学生信息
+   find(&#123;age:10,sex:&#39;m&#39;&#125;)
+
+ 查看班级中小于7岁或者大于14岁的学生
+   find(&#123;$or:[&#123;age:&#123;$lt:7&#125;&#125;,&#123;age:&#123;$gt:14&#125;&#125;]&#125;)
+
+ 查看班级中年龄为8岁或者11岁的学生
+   find(&#123;age:&#123;$in:[8,11]&#125;&#125;)
+
+ 找到有2项兴趣爱好的学生
+   find(&#123;hobby:&#123;$size:2&#125;&#125;)
+
+ 找到兴趣中 有draw的学生
+   find(&#123;hobby:&#39;draw&#39;&#125;)
+
+ 找到既喜欢画画又喜欢跳舞的学生
+   find(&#123;hobby:&#123;$all:[&#39;draw&#39;,&#39;dance&#39;]&#125;&#125;)
+
+ 统计兴趣有4项的学生人数
+   find(&#123;hobby:&#123;$size:4&#125;&#125;).count()
+
+ 找出本班年龄第二大的学生
+   find().sort(&#123;age:-1&#125;).skip(1).limit(1)
+ 
+ 查看本班学生兴趣爱好涵盖哪些方面
+   db.class.distinct(&#39;hobby&#39;)
+
+ 找到年龄最大的三个学生
+   find().sort(&#123;age:-1&#125;).limit(3)
+
+ 删除所有年龄大于16或者小于7岁的学生除非他的爱好有三项以上
+   remove(&#123;$or:[&#123;age:&#123;$gt:16&#125;&#125;,&#123;age:&#123;$lt:7&#125;&#125;],&#123;hobby:&#123;$size:2&#125;&#125;&#125;)
+  
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+              <a href="/tags/MongoDB/" rel="tag"><i class="fa fa-tag"></i> MongoDB</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/11/mongodb/%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/" rel="prev" title="MongoDB-文档操作">
+                  <i class="fa fa-chevron-left"></i> MongoDB-文档操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/12/mongodb/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="next" title="MongoDB-数据类型">
+                  MongoDB-数据类型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

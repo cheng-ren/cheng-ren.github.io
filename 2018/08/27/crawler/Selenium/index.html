@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Selenium+Browser强大的组合拳去攻破反爬机制;Selenium是自动化测试的主流框架Selenium-IDE可以实现QTP的操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫-Selenium">
+<meta property="og:url" content="https://rencheng.cc/2018/08/27/crawler/Selenium/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="Selenium+Browser强大的组合拳去攻破反爬机制;Selenium是自动化测试的主流框架Selenium-IDE可以实现QTP的操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-27T03:54:40.000Z">
+<meta property="article:modified_time" content="2018-08-27T03:54:40.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/08/27/crawler/Selenium/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>爬虫-Selenium | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Browser-Driver"><span class="nav-number">1.</span> <span class="nav-text">Browser Driver</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#phantomjs"><span class="nav-number">1.1.</span> <span class="nav-text">phantomjs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selenium"><span class="nav-number">2.</span> <span class="nav-text">Selenium</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1-browser-%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">浏览器对象(browser)方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E8%8A%82%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">定位节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E7%B4%A0%E6%9F%A5%E6%89%BE-1%E4%B8%AA%E8%8A%82%E7%82%B9%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.2.1.</span> <span class="nav-text">单元素查找(1个节点对象)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E7%B4%A0%E6%9F%A5%E6%89%BE-%E8%8A%82%E7%82%B9%E5%AF%B9%E8%B1%A1%E5%88%97%E8%A1%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">多元素查找([节点对象列表])</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%AF%B9%E8%B1%A1%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.3.</span> <span class="nav-text">节点对象操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">输入设备操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.1.</span> <span class="nav-text">键盘操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.2.</span> <span class="nav-text">鼠标操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chromedriver%E8%AE%BE%E7%BD%AE%E6%97%A0%E7%95%8C%E9%9D%A2%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.4.</span> <span class="nav-text">chromedriver设置无界面模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">3.5.</span> <span class="nav-text">简易效果展示</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/08/27/crawler/Selenium/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          爬虫-Selenium
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-27 11:54:40" itemprop="dateCreated datePublished" datetime="2018-08-27T11:54:40+08:00">2018-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.1k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Selenium+Browser强大的组合拳去攻破反爬机制;<br>Selenium是自动化测试的主流框架<br>Selenium-IDE可以实现QTP的操作</p>
+<span id="more"></span>
+
+<h2 id="Browser-Driver"><a href="#Browser-Driver" class="headerlink" title="Browser Driver"></a>Browser Driver</h2><p>浏览器的驱动程序，用于驱动浏览器响应程序代码<br>驱动下载</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://chromedriver.chromium.org/downloads">谷歌 - googledriver</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mozilla/geckodriver/releases">火狐 - geckodriver</a></li>
+</ul>
+<blockquote>
+<p>Safari - 不需要装驱动，只需要在菜单栏中<code>开发</code>选项中打开<code>允许远程自动化</code>即可。</p>
+</blockquote>
+<h3 id="phantomjs"><a href="#phantomjs" class="headerlink" title="phantomjs"></a><del><a target="_blank" rel="noopener" href="http://phantomjs.org/">phantomjs</a></del></h3><ol>
+<li><del>定义 ：无界面浏览器(无头浏览器)</del></li>
+<li><del>特点</del></li>
+</ol>
+<ul>
+<li><del>把网站加载到内存执行，运行高效</del>0</li>
+</ul>
+<blockquote>
+<p>Phantomjs 已经被<code>Selenium</code>废弃。请使用无头浏览器替代，详见下面的<a href="###chromedriver%E8%AE%BE%E7%BD%AE%E6%97%A0%E7%95%8C%E9%9D%A2%E6%A8%A1%E5%BC%8F">chromedriver 设置无界面模式</a><br>Selenium support for PhantomJS has been deprecated, please use headless </p>
+</blockquote>
+<h2 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a><a target="_blank" rel="noopener" href="http://www.seleniumhq.org/">Selenium</a></h2><ol>
+<li>定义 ：Web自动化测试工具,应用于Web自动化测试</li>
+<li>特点<ol>
+<li>根据指定命令操作浏览器,让浏览器自动加载页面</li>
+<li>只是工具,不支持浏览器功能,只能与第三方浏览器结合使用</li>
+</ol>
+</li>
+<li>安装 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Windows cmd ：python -m pip install selenium</span><br><span class="line">Anconda prompt : conda install selenium</span><br><span class="line">Ubuntu : sudo pip3 install selenium</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="浏览器对象-browser-方法"><a href="#浏览器对象-browser-方法" class="headerlink" title="浏览器对象(browser)方法"></a>浏览器对象(browser)方法</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建浏览器对象</span></span><br><span class="line">browser = webdriver.Chrome(executable_path=<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="comment"># 访问网站</span></span><br><span class="line">browser.get(url)</span><br><span class="line"><span class="comment"># 查看响应内容</span></span><br><span class="line">browser.page_source </span><br><span class="line"><span class="comment"># 从html源码中搜索指定字符串,没有找到返回：-1</span></span><br><span class="line">browser.page_source.find(<span class="string">&#x27;字符串&#x27;</span>)</span><br><span class="line"><span class="comment"># 关闭浏览器</span></span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+
+<h3 id="定位节点"><a href="#定位节点" class="headerlink" title="定位节点"></a>定位节点</h3><h4 id="单元素查找-1个节点对象"><a href="#单元素查找-1个节点对象" class="headerlink" title="单元素查找(1个节点对象)"></a>单元素查找(1个节点对象)</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">browser.find_element_by_id(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_element_by_name(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_element_by_class_name(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_element_by_xpath(<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="多元素查找-节点对象列表"><a href="#多元素查找-节点对象列表" class="headerlink" title="多元素查找([节点对象列表])"></a>多元素查找([节点对象列表])</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">browser.find_elements_by_id(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_elements_by_name(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_elements_by_class_name(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">browser.find_elements_by_xpath(<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="节点对象操作"><a href="#节点对象操作" class="headerlink" title="节点对象操作"></a>节点对象操作</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索框发送内容</span></span><br><span class="line">ele.send_keys(<span class="string">&#x27;&#x27;</span>) </span><br><span class="line"><span class="comment"># 模拟点击</span></span><br><span class="line">ele.click()</span><br><span class="line"><span class="comment"># 获取文本内容</span></span><br><span class="line">ele.text          </span><br><span class="line"><span class="comment"># 获取属性值</span></span><br><span class="line">ele.get_attribute(<span class="string">&#x27;src&#x27;</span>) </span><br></pre></td></tr></table></figure>
+
+<h3 id="输入设备操作"><a href="#输入设备操作" class="headerlink" title="输入设备操作"></a>输入设备操作</h3><h4 id="键盘操作"><a href="#键盘操作" class="headerlink" title="键盘操作"></a>键盘操作</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line"><span class="comment"># 1、在搜索框中输入&quot;selenium&quot;</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(<span class="string">&#x27;selenium&#x27;</span>)</span><br><span class="line"><span class="comment"># 2、输入空格</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(Keys.SPACE)</span><br><span class="line"><span class="comment"># 3、Ctrl+a 模拟全选</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(Keys.CONTROL, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="comment"># 4、Ctrl+c 模拟复制</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(Keys.CONTROL, <span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"><span class="comment"># 5、Ctrl+v 模拟粘贴</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(Keys.CONTROL, <span class="string">&#x27;v&#x27;</span>)</span><br><span class="line"><span class="comment"># 6、输入回车,代替 搜索 按钮</span></span><br><span class="line">browser.find_element_by_id(<span class="string">&#x27;kw&#x27;</span>).send_keys(Keys.ENTER)</span><br></pre></td></tr></table></figure>
+
+<h4 id="鼠标操作"><a href="#鼠标操作" class="headerlink" title="鼠标操作"></a>鼠标操作</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入鼠标事件类</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到设置节点</span></span><br><span class="line">element = browser.find_element_by_xpath(<span class="string">&#x27;//*[@id=&quot;u1&quot;]/a[8]&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把鼠标移动到 设置 节点,move_to_element()</span></span><br><span class="line">actions = ActionChains(browser)</span><br><span class="line">actions.move_to_element(element)</span><br><span class="line">actions.perform()</span><br><span class="line"></span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到高级设置节点,并点击</span></span><br><span class="line">browser.find_element_by_link_text(<span class="string">&#x27;高级搜索&#x27;</span>).click()</span><br></pre></td></tr></table></figure>
+
+<h3 id="chromedriver设置无界面模式"><a href="#chromedriver设置无界面模式" class="headerlink" title="chromedriver设置无界面模式"></a>chromedriver设置无界面模式</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">options = webdriver.ChromeOptions()</span><br><span class="line"><span class="comment"># 添加无界面参数</span></span><br><span class="line">options.headless = <span class="literal">True</span></span><br><span class="line">browser = webdriver.Chrome(options=options)</span><br><span class="line">browser.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line">browser.save_screenshot(<span class="string">&#x27;baidu.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="简易效果展示"><a href="#简易效果展示" class="headerlink" title="简易效果展示"></a>简易效果展示</h3><p><strong>使用 <code>Selenium</code> + <code>浏览器</code> ; 打开百度搜索<code>Python</code></strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向搜索框(id kw)输入 Python</span></span><br><span class="line">ele = browser.find_element_by_xpath(<span class="string">&#x27;//*[@id=&quot;kw&quot;]&#x27;</span>)</span><br><span class="line">ele.send_keys(<span class="string">&#x27;Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 点击 百度一下 按钮(id su)</span></span><br><span class="line">su = browser.find_element_by_xpath(<span class="string">&#x27;//*[@id=&quot;su&quot;]&#x27;</span>)</span><br><span class="line">su.click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 截图</span></span><br><span class="line">browser.save_screenshot(<span class="string">&#x27;Python.png&#x27;</span>)</span><br><span class="line"><span class="comment"># 关闭浏览器</span></span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/26/crawler/%E5%B7%A5%E5%85%B7%E9%9B%86/" rel="prev" title="爬虫-工具集">
+                  <i class="fa fa-chevron-left"></i> 爬虫-工具集
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/30/crawler/Scrapy%E6%A1%86%E6%9E%B6/" rel="next" title="爬虫-Scrapy框架">
+                  爬虫-Scrapy框架 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

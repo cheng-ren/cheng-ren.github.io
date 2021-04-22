@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="即文本的高级匹配模式，提供搜索，替代等功能。其本质是一系列由特殊符号组成的字串，这个字串即正则表达式。由普通字符和特殊符号组成字符串，通过描述字符的重复和位置等行为，达到匹配某一类字符串的目的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python-正则（regex）">
+<meta property="og:url" content="https://rencheng.cc/2019/08/12/python/%E6%AD%A3%E5%88%99/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="即文本的高级匹配模式，提供搜索，替代等功能。其本质是一系列由特殊符号组成的字串，这个字串即正则表达式。由普通字符和特殊符号组成字符串，通过描述字符的重复和位置等行为，达到匹配某一类字符串的目的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-12T01:53:18.000Z">
+<meta property="article:modified_time" content="2019-08-12T01:53:18.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="正则">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/08/12/python/%E6%AD%A3%E5%88%99/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Python-正则（regex） | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">匹配原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">1.4.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%AE%9E%E8%B7%B5"><span class="nav-number">2.</span> <span class="nav-text">基础实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#re%E6%A8%A1%E5%9D%97%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">re模块简单实用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text">元字符的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.1.</span> <span class="nav-text">普通字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%96"><span class="nav-number">2.2.2.</span> <span class="nav-text">或</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%8D%95%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.3.</span> <span class="nav-text">匹配单个字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%BC%80%E5%A7%8B%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.2.4.</span> <span class="nav-text">匹配开始位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%BB%93%E6%9D%9F%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.2.5.</span> <span class="nav-text">匹配结束位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%87%8D%E5%A4%8D"><span class="nav-number">2.2.6.</span> <span class="nav-text">匹配重复 *</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%87%8D%E5%A4%8D-1"><span class="nav-number">2.2.7.</span> <span class="nav-text">匹配重复 +</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%87%8D%E5%A4%8D-%EF%BC%9F"><span class="nav-number">2.2.8.</span> <span class="nav-text">匹配重复 ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%87%8D%E5%A4%8D-n"><span class="nav-number">2.2.9.</span> <span class="nav-text">匹配重复 {n}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%87%8D%E5%A4%8D-m-n"><span class="nav-number">2.2.10.</span> <span class="nav-text">匹配重复 {m,n}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E9%9B%86%E5%90%88"><span class="nav-number">2.2.11.</span> <span class="nav-text">匹配字符集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="nav-number">2.2.12.</span> <span class="nav-text">匹配字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%BB%BB%E6%84%8F%EF%BC%88%E9%9D%9E%EF%BC%89%E6%95%B0%E5%AD%97%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.13.</span> <span class="nav-text">匹配任意（非）数字字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%BB%BB%E6%84%8F%EF%BC%88%E9%9D%9E%EF%BC%89%E6%99%AE%E9%80%9A%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.14.</span> <span class="nav-text">匹配任意（非）普通字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%BB%BB%E6%84%8F%EF%BC%88%E9%9D%9E%EF%BC%89%E7%A9%BA%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.15.</span> <span class="nav-text">匹配任意（非）空字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.2.16.</span> <span class="nav-text">匹配字符串位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%EF%BC%88%E9%9D%9E%EF%BC%89%E5%8D%95%E8%AF%8D%E8%BE%B9%E7%95%8C"><span class="nav-number">2.2.17.</span> <span class="nav-text">匹配（非）单词边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E6%80%BB%E7%BB%93"><span class="nav-number">2.2.18.</span> <span class="nav-text">元字符总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%AA%E5%A9%AA%E4%B8%8E%E9%9D%9E%E8%B4%AA%E5%A9%AA"><span class="nav-number">2.3.</span> <span class="nav-text">贪婪与非贪婪</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%AD%90%E7%BB%84"><span class="nav-number">2.3.1.</span> <span class="nav-text">正则表达式的子组</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90%E7%BB%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">子组使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90%E7%BB%84%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">子组使用注意事项</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E7%BB%84-%E5%92%8C-%E9%9D%9E%E6%8D%95%E8%8E%B7%E7%BB%84"><span class="nav-number">2.3.2.</span> <span class="nav-text">捕获组 和 非捕获组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">2.4.</span> <span class="nav-text">正则表达式设计原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re%E6%A8%A1%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">re模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#compile"><span class="nav-number">3.1.</span> <span class="nav-text">compile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#findall"><span class="nav-number">3.2.</span> <span class="nav-text">findall</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#re%E6%A8%A1%E5%9D%97%E8%B0%83%E7%94%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">re模块调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%AF%B9%E8%B1%A1%E8%B0%83%E7%94%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">正则对象调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#split"><span class="nav-number">3.3.</span> <span class="nav-text">split</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sub"><span class="nav-number">3.4.</span> <span class="nav-text">sub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subn"><span class="nav-number">3.5.</span> <span class="nav-text">subn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finditer"><span class="nav-number">3.6.</span> <span class="nav-text">finditer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fullmatch"><span class="nav-number">3.7.</span> <span class="nav-text">fullmatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#match"><span class="nav-number">3.8.</span> <span class="nav-text">match</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#search"><span class="nav-number">3.9.</span> <span class="nav-text">search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#match%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="nav-number">3.10.</span> <span class="nav-text">match对象属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E5%8F%98%E9%87%8F"><span class="nav-number">3.10.1.</span> <span class="nav-text">属性变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E6%96%B9%E6%B3%95"><span class="nav-number">3.10.2.</span> <span class="nav-text">属性方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flags-%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.11.</span> <span class="nav-text">flags  参数的使用</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/08/12/python/%E6%AD%A3%E5%88%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python-正则（regex）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-12 09:53:18" itemprop="dateCreated datePublished" datetime="2019-08-12T09:53:18+08:00">2019-08-12</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.5k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>即文本的高级匹配模式，提供搜索，替代等功能。其本质是一系列由特殊符号组成的字串，这个字串即正则表达式。<br>由普通字符和特殊符号组成字符串，通过描述字符的重复和位置等行为，达到匹配某一类字符串的目的</p>
+<span id="more"></span>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><ol>
+<li>文本处理已经成为计算机的常见工作之一</li>
+<li>对文本内容的搜索，定位，提取是逻辑比较复杂的工作</li>
+<li>为了快速解决上述问题，产生了正则表达式技术</li>
+</ol>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>即文本的高级匹配模式，提供搜索，替代等功能。其本质是一系列由特殊符号组成的字串，这个字串即正则表达式。</p>
+<h3 id="匹配原理"><a href="#匹配原理" class="headerlink" title="匹配原理"></a>匹配原理</h3><p>由普通字符和特殊符号组成字符串，通过描述字符的重复和位置等行为，达到匹配某一类字符串的目的</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>熟练掌握正则表达式符号</li>
+<li>实现基本的文本搜索，定位，提取，理解正则用法</li>
+<li>能够适用re模块操作正则表达式</li>
+</ol>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>方便文本处理</li>
+<li>支持语言众多</li>
+<li>使用灵活多样</li>
+</ul>
+<h2 id="基础实践"><a href="#基础实践" class="headerlink" title="基础实践"></a>基础实践</h2><h3 id="re模块简单实用"><a href="#re模块简单实用" class="headerlink" title="re模块简单实用"></a>re模块简单实用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.findall(pattern, string)</span><br></pre></td></tr></table></figure>
+<p>功能: 使用正则表达式匹配目标字符串内容<br>参数</p>
+<ul>
+<li>pattern  正则表达式</li>
+<li>string   目标字符串<br>返回值： 列表，列表中为匹配到的内容</li>
+</ul>
+<h3 id="元字符的使用"><a href="#元字符的使用" class="headerlink" title="元字符的使用"></a>元字符的使用</h3><h4 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h4><p><strong>元字符</strong> ： <code>a</code>  <code>b</code>   <code>c</code><br><strong>匹配规则</strong>： 每个字符匹配对应的字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;hello&quot;,&quot;hello world&quot;)</span><br><span class="line">[&#39;hello&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;你好&quot;,&quot;你好北京&quot;)</span><br><span class="line">[&#39;你好&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="或"><a href="#或" class="headerlink" title="或"></a>或</h4><p><strong>元字符</strong>：  <code>|</code><br><strong>匹配规则</strong>： 匹配 | 两边任意一个正则表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;ab|cd&quot;,&quot;abcdefghialkjasbab&quot;)</span><br><span class="line">[&#39;ab&#39;, &#39;cd&#39;, &#39;ab&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配单个字符"><a href="#匹配单个字符" class="headerlink" title="匹配单个字符"></a>匹配单个字符</h4><p><strong>元字符</strong>：  <code>.</code><br><strong>匹配规则</strong>： 匹配除换行外的任意字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f.o --&gt; foo  fao  f@o  f o</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;f.o&quot;,&quot;foo is not fao&quot;)</span><br><span class="line">[&#39;foo&#39;, &#39;fao&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配开始位置"><a href="#匹配开始位置" class="headerlink" title="匹配开始位置"></a>匹配开始位置</h4><p><strong>元字符</strong> ： <code>^</code><br><strong>匹配规则</strong>：匹配目标字符串的开头位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;^Tom&quot;,&quot;Tom is a boy&quot;)</span><br><span class="line">[&#39;Tom&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配结束位置"><a href="#匹配结束位置" class="headerlink" title="匹配结束位置"></a>匹配结束位置</h4><p><strong>元字符</strong> ： <code>$</code><br><strong>匹配规则</strong> ： 匹配字符串的结束位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;Tom$&quot;,&quot;hi Tom&quot;)</span><br><span class="line">[&#39;Tom&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配重复"><a href="#匹配重复" class="headerlink" title="匹配重复 *"></a>匹配重复 *</h4><p><strong>元字符</strong> ： <code>*</code><br><strong>匹配规则</strong>： 匹配前面的字符出现0次或多次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fo*  --&gt; fooooooooo  f  fo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;fo*&quot;,&quot;fadsfafoooafo&quot;)</span><br><span class="line">[&#39;f&#39;, &#39;f&#39;, &#39;fooo&#39;, &#39;fo&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配重复-1"><a href="#匹配重复-1" class="headerlink" title="匹配重复 +"></a>匹配重复 +</h4><p><strong>元字符</strong> ： <code>+</code><br><strong>匹配规则</strong>： 匹配前面的字符出现1次或多次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fo+  --&gt; fo   fooooo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;fo+&quot;,&quot;fadsfafoooafo&quot;)</span><br><span class="line">[&#39;fooo&#39;, &#39;fo&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配重复-？"><a href="#匹配重复-？" class="headerlink" title="匹配重复 ？"></a>匹配重复 ？</h4><p><strong>元字符</strong> ： <code>?</code><br><strong>匹配规则</strong>： 匹配前面的字符出现0次或1次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fo? --&gt;  f   fo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;fo?&quot;,&quot;fasdffoafooooo&quot;)</span><br><span class="line">[&#39;f&#39;, &#39;f&#39;, &#39;fo&#39;, &#39;fo&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配重复-n"><a href="#匹配重复-n" class="headerlink" title="匹配重复 {n}"></a>匹配重复 {n}</h4><p><strong>元字符</strong> ： <code>&#123;n&#125;</code><br><strong>匹配规则</strong>： 匹配指定的重复次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fo&#123;3&#125;  --&gt; fooo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;fo&#123;2&#125;&quot;,&quot;fasdffoafooooo&quot;)</span><br><span class="line">[&#39;foo&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配重复-m-n"><a href="#匹配重复-m-n" class="headerlink" title="匹配重复 {m,n}"></a>匹配重复 {m,n}</h4><p><strong>元字符</strong> ： <code>&#123;m,n&#125;</code><br><strong>匹配规则</strong> ： 匹配前面的正则表达式 m–n次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fo&#123;2,4&#125; --&gt; foo  fooo  foooo</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;fo&#123;2,4&#125;&quot;,&quot;fasdfofoooafooooo&quot;)</span><br><span class="line">[&#39;fooo&#39;, &#39;foooo&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配字符集合"><a href="#匹配字符集合" class="headerlink" title="匹配字符集合"></a>匹配字符集合</h4><p><strong>元字符</strong>： <code>[字符集]</code><br><strong>匹配规则</strong> ： 匹配任意一个字符集中的字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[abc123]   a  b  c  1  2  3 </span><br><span class="line">[a-z]  </span><br><span class="line">[A-Z]</span><br><span class="line">[0-9]</span><br><span class="line">[_123a-z]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;^[A-Z][a-z]*&quot;,&quot;Boy&quot;)</span><br><span class="line">[&#39;Boy&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配字符集"><a href="#匹配字符集" class="headerlink" title="匹配字符集"></a>匹配字符集</h4><p><strong>元字符</strong> ： <code>[^...]</code><br><strong>匹配规则</strong> ：字符集取非，除列出的字符之外任意一个字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[^abc] --&gt; 除a b c之外任意字符</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;[^ ]+&quot;,&quot;a little boy&quot;)</span><br><span class="line">[&#39;a&#39;, &#39;little&#39;, &#39;boy&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配任意（非）数字字符"><a href="#匹配任意（非）数字字符" class="headerlink" title="匹配任意（非）数字字符"></a>匹配任意（非）数字字符</h4><p><strong>元字符</strong> ： <code>\d</code>  <code>\D</code><br><strong>匹配规则</strong>：</p>
+<ul>
+<li><code>\d</code> 匹配任意数字字符     <code>[0-9]</code></li>
+<li><code>\D</code> 匹配任意非数字字符   <code>[^0-9]</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;1\d&#123;10&#125;&quot;,&quot;18888886666&quot;)</span><br><span class="line">[&#39;18888886666&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配任意（非）普通字符"><a href="#匹配任意（非）普通字符" class="headerlink" title="匹配任意（非）普通字符"></a>匹配任意（非）普通字符</h4><p><strong>元字符</strong> ： <code>\w</code>   <code>\W</code><br><strong>匹配规则</strong>: </p>
+<ul>
+<li><code>\w</code> 普通字符  <code>[_0-9a-zA-Z]</code> 也能匹配普通汉字</li>
+<li><code>\W</code> 非普通字符</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;\w+&quot;,&quot;hello#nihao%asdf@adsgdfg!df&amp;&quot;)</span><br><span class="line">[&#39;hello&#39;, &#39;nihao&#39;, &#39;asdf&#39;, &#39;adsgdfg&#39;, &#39;df&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;\W+&quot;,&quot;hello#nihao%asdf@adsgdfg!df&amp;&quot;)</span><br><span class="line">[&#39;#&#39;, &#39;%&#39;, &#39;@&#39;, &#39;!&#39;, &#39;&amp;&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配任意（非）空字符"><a href="#匹配任意（非）空字符" class="headerlink" title="匹配任意（非）空字符"></a>匹配任意（非）空字符</h4><p><strong>元字符</strong> ： </p>
+<ul>
+<li><code>\s</code>  匹配任意空字符  <code>[ \r\t\n\v\f]</code></li>
+<li><code>\S</code>  匹配任意非空字符</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;\w+\s+\w+&quot;,&quot;hello   world&quot;)</span><br><span class="line">[&#39;hello   world&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;\S+&quot;,&quot;hello this is tom&quot;)</span><br><span class="line">[&#39;hello&#39;, &#39;this&#39;, &#39;is&#39;, &#39;tom&#39;]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>空格也属于空字符</p>
+</blockquote>
+<h4 id="匹配字符串位置"><a href="#匹配字符串位置" class="headerlink" title="匹配字符串位置"></a>匹配字符串位置</h4><p><strong>元字符</strong> ： <code>\A</code>   <code>\Z</code><br><strong>匹配规则</strong>：  </p>
+<ul>
+<li><code>\A</code> 匹配字符串开头位置  <code>^</code></li>
+<li><code>\Z</code> 匹配字符串结尾位置  <code>$</code> </li>
+</ul>
+<p>绝对匹配 ： 正则表达式要完全匹配目标字符串内容</p>
+<p>在正则表达式开始和结束位置加上<code>^</code> <code>$</code> (或者<code>\A</code> <code>\Z</code>)。这样正则表达式必须匹配整个目标字符串才会有结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(&quot;\A\d+\Z&quot;,&quot;123445&quot;)</span><br><span class="line">[&#39;123445&#39;]</span><br></pre></td></tr></table></figure>
+<h4 id="匹配（非）单词边界"><a href="#匹配（非）单词边界" class="headerlink" title="匹配（非）单词边界"></a>匹配（非）单词边界</h4><p><strong>元字符</strong> ： <code>\b</code>   <code>\B</code><br><strong>匹配规则</strong> ： </p>
+<ul>
+<li><code>\b</code> 匹配单词边界位置 普通字符和非普通字符交界认为是单词边界</li>
+<li><code>\B</code> 匹配非单词边界位置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(r&quot;num\b&quot;,&quot;num#asdf#&quot;)</span><br><span class="line">[&#39;num&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(r&quot;num\b&quot;,&quot;numasdf#&quot;)</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+<h4 id="元字符总结"><a href="#元字符总结" class="headerlink" title="元字符总结"></a>元字符总结</h4><p>匹配单个字符 ： <code>a</code>   <code>.</code>   <code>\d</code>  <code>\D</code>  <code>\w</code>  <code>\W</code>  <code>\s</code>  <code>\S</code> <code>[...]</code>  <code>[^...]</code></p>
+<p>匹配重复 ： <code>*</code>   <code>+</code> <code>?</code>  <code>&#123;n&#125;</code>  <code>&#123;m,n&#125;</code></p>
+<p>匹配位置 ： <code>^</code>  <code>$</code>  <code>\A</code>  <code>\Z</code>  <code>\b</code>  <code>\B</code> </p>
+<p>其他 ： <code>|</code>  <code>()</code>  <code>\</code></p>
+<p>正则表达式转义</p>
+<p>正则中的特殊符号：</p>
+<p><code>.</code>  <code>*</code>  <code>+</code>  <code>?</code>  <code>^</code>  <code>$</code>  <code>[]</code>  <code>&#123;&#125;</code> <code>()</code>  <code>|</code> <code>\</code></p>
+<p>正则表达式如果匹配特殊字符需要加 <code>\</code> 表达转义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">	 正则          目标字符串</span><br><span class="line">e.g.    \$\d+  ----&gt;    $10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">         pattern        string</span><br><span class="line">python  &quot;\\$\\d+&quot;       &quot;$10&quot; </span><br><span class="line"></span><br><span class="line">raw     r&quot;\$\d+&quot;       &quot;$10&quot; </span><br></pre></td></tr></table></figure>
+<p>raw字串 ： 原始字符串对内容不解释转义，就表达内容原            本意义</p>
+<h3 id="贪婪与非贪婪"><a href="#贪婪与非贪婪" class="headerlink" title="贪婪与非贪婪"></a>贪婪与非贪婪</h3><p><strong>贪婪模式</strong> ： 正则表达式的重复匹配总是尽可能多的向后匹配更多内容</p>
+<p><code>*</code>   <code>+</code>   <code>?</code>  <code>&#123;m,n&#125;</code></p>
+<p><strong>非贪婪（懒惰模式）</strong> ： 尽可能少的匹配内容</p>
+<p>贪婪 —&gt; 非贪婪  <code>*?</code>  <code>+?</code>  <code>??</code>  <code>&#123;m,n&#125;?</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(r&quot;ab+?&quot;,&quot;abbbbbbbb&quot;)</span><br><span class="line">[&#39;ab&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.findall(r&quot;ab??&quot;,&quot;abbbbbbbb&quot;)</span><br><span class="line">[&#39;a&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="正则表达式的子组"><a href="#正则表达式的子组" class="headerlink" title="正则表达式的子组"></a>正则表达式的子组</h4><p>可以使用<code>()</code>为正则表达式建立子组，子组可以看做是正则表达式内部操作的一个整体</p>
+<blockquote>
+<p>子组是在正则表达式整体匹配到内容的前提下才会发挥作用，它不影响正则表达式整体去匹配目标内容这一原则</p>
+</blockquote>
+<h5 id="子组使用"><a href="#子组使用" class="headerlink" title="子组使用"></a>子组使用</h5><ol>
+<li>作为内部整体可以改变某些元字符的行为</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.search(<span class="string">r&quot;(ab)+\d+&quot;</span>,<span class="string">&quot;ababab1234&quot;</span>).group()</span><br><span class="line"><span class="string">&#x27;ababab1234&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.search(<span class="string">r&quot;\w+@\w+\.(com|cn)&quot;</span>,<span class="string">&quot;abc@123.com&quot;</span>).group()</span><br><span class="line"><span class="string">&#x27;abc@123.com&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>子组在某些操作中可以单独提取出匹配内容</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.search(<span class="string">r&quot;(https|http|ftp)://\S+&quot;</span>,<span class="string">&quot;https://www.baidu.com&quot;</span>).group(<span class="number">1</span>)</span><br><span class="line"><span class="string">&#x27;https&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="子组使用注意事项"><a href="#子组使用注意事项" class="headerlink" title="子组使用注意事项"></a>子组使用注意事项</h5><ul>
+<li>一个正则表达式中可以有多个子组</li>
+<li>子组一般由外到内，由左到右称之为第一，第二 第三。。。。子组</li>
+<li>子组不能重叠，嵌套也不宜很多</li>
+</ul>
+<blockquote>
+<p>search 只能匹配一个结果</p>
+</blockquote>
+<h4 id="捕获组-和-非捕获组"><a href="#捕获组-和-非捕获组" class="headerlink" title="捕获组 和 非捕获组"></a>捕获组 和 非捕获组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">格式 ： （?P&lt;name&gt;pattern）</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">re.search(<span class="string">r&quot;(?P&lt;dog&gt;ab)cdef&quot;</span>,<span class="string">&#x27;abcdefghti&#x27;</span>).group(<span class="string">&#x27;dog&#x27;</span>)</span><br><span class="line">Out[<span class="number">130</span>]: <span class="string">&#x27;ab&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>作用 ： 可以通过组名更方便获取某组内容</p>
+<h3 id="正则表达式设计原则"><a href="#正则表达式设计原则" class="headerlink" title="正则表达式设计原则"></a>正则表达式设计原则</h3><ol>
+<li>正确性 ，能正确匹配到目标内容</li>
+<li>排他性 ，除了要匹配的内容，尽可能不会匹配与到其他内容</li>
+<li>全面性 ，需要对目标的各种情况进行考虑，做到不遗漏</li>
+</ol>
+<h2 id="re模块"><a href="#re模块" class="headerlink" title="re模块"></a>re模块</h2><h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>用来生成正则表达式对象</p>
+<p><strong>regex = compile(pattern,flags=0)</strong></p>
+<ul>
+<li>功能 ： 生成正则表达式对象</li>
+<li>参数 ： <ul>
+<li>pattern  正则表达式</li>
+<li>flags  功能标志位，丰富正则表达式的匹配功能</li>
+</ul>
+</li>
+<li>返回值 : 返回正则表达式对象</li>
+</ul>
+<h3 id="findall"><a href="#findall" class="headerlink" title="findall"></a>findall</h3><h4 id="re模块调用"><a href="#re模块调用" class="headerlink" title="re模块调用"></a>re模块调用</h4><p><strong>re.findall(pattern,string,flags)</strong></p>
+<ul>
+<li>功能 ：从目标字符串查找正则匹配内容</li>
+<li>参数 ： <ul>
+<li>pattern  正则表达式</li>
+<li>string  目标字符串</li>
+<li>flags  标志位</li>
+</ul>
+</li>
+<li>返回值 ： 返回匹配到的内容 如果正则有子组则只返回子组对应内容</li>
+</ul>
+<h4 id="正则对象调用"><a href="#正则对象调用" class="headerlink" title="正则对象调用"></a>正则对象调用</h4><p><strong>regex.findall(string,pos,endpos)</strong></p>
+<ul>
+<li>功能 ：从目标字符串查找正则匹配内容</li>
+<li>参数 ： <ul>
+<li>string  目标字符串</li>
+<li>pos  匹配目标的起始位置</li>
+<li>endpos  匹配目标的终止位置</li>
+</ul>
+</li>
+<li>返回值 ： 返回匹配到的内容 如果正则有子组则只返回子组对应内容</li>
+</ul>
+<h3 id="split"><a href="#split" class="headerlink" title="split"></a>split</h3><p>正则表达式所匹配的内容，做字符串的切割<br><strong>re.split(pattern,string,flags = 0)</strong></p>
+<ul>
+<li>功能：根据正则匹配内容切割字符串</li>
+<li>参数： pattern  string  flags</li>
+<li>返回值： 返回列表，列表中为切割的内容</li>
+</ul>
+<h3 id="sub"><a href="#sub" class="headerlink" title="sub"></a>sub</h3><p>使用一个字符串去替换目标字符串被正则表达式匹配到的内容<br><strong>re.sub(pattern,replaceStr,string,max,flags)</strong></p>
+<ul>
+<li>功能： 替换正则匹配到的目标子串部分</li>
+<li>参数： <ul>
+<li>pattern</li>
+<li>replaceStr ： 要替换的内容</li>
+<li>string </li>
+<li>max   最多替换几处 默认全部替换</li>
+<li>flags</li>
+</ul>
+</li>
+<li>返回值 ： 返回替换后的字符串</li>
+</ul>
+<h3 id="subn"><a href="#subn" class="headerlink" title="subn"></a>subn</h3><p>使用一个字符串去替换目标字符串被正则表达式匹配到的内容<br><strong>re.subn(pattern,replaceStr,string,max,flags)</strong></p>
+<ul>
+<li>功能： 替换正则匹配到的目标子串部分</li>
+<li>参数： <ul>
+<li>pattern</li>
+<li>replaceStr ： 要替换的内容</li>
+<li>string </li>
+<li>max   最多替换几处 默认全部替换</li>
+<li>flags</li>
+</ul>
+</li>
+<li>返回值 ： 返回一个元组，为实际替换了几处和替换后的字符串</li>
+</ul>
+<blockquote>
+<p>sub 和 subn区别</p>
+<ul>
+<li>sub返回替换后的字符串</li>
+<li>subn返回替换了几处</li>
+</ul>
+</blockquote>
+<h3 id="finditer"><a href="#finditer" class="headerlink" title="finditer"></a>finditer</h3><p>相比findall返回一个迭代对象<br><strong>re.finditer(pattern,string,flags)</strong></p>
+<ul>
+<li>功能： 使用正则表达式匹配目标字符串</li>
+<li>参数： pattern  string flags</li>
+<li>返回值： 返回一个迭代对象，迭代到的内容是一个<em>match</em>对象</li>
+</ul>
+<h3 id="fullmatch"><a href="#fullmatch" class="headerlink" title="fullmatch"></a>fullmatch</h3><p>相当于在最前面写一个<code>^</code>，最后面写一个<code>$</code>， 只匹配到一处，返回一个match对象<br><strong>fullmatch(pattern,string,flags)</strong></p>
+<ul>
+<li>功能： 完全匹配目标字符串</li>
+<li>参数： pattern,string,flags</li>
+<li>返回值：返回匹配到的match对象 如果没匹配成功返回None</li>
+</ul>
+<h3 id="match"><a href="#match" class="headerlink" title="match"></a>match</h3><p>相当于只匹配到开头，返回一个match对象<br><strong>match(pattern,string,flags)</strong></p>
+<ul>
+<li>功能： 从开头位置匹配目标字符串</li>
+<li>参数： pattern,string,flags</li>
+<li>返回值：返回匹配到的match对象 如果没匹配成功返回None</li>
+</ul>
+<h3 id="search"><a href="#search" class="headerlink" title="search"></a>search</h3><p><strong>search(pattern,string,flags)</strong></p>
+<ul>
+<li>功能： 正则表达式匹配目标字符串，<strong>只匹配第一处</strong></li>
+<li>参数： pattern,string,flags</li>
+<li>返回值：返回匹配到的match对象 如果没匹配成功返回None</li>
+</ul>
+<p>compile对象属性：</p>
+<p>flags  ： 标志位<br>pattern ： 正则表达式<br>groups： 有多少子组<br>groupindex ： 捕获组形成组名和序列号的字典<br>              组名为键，第几组为值</p>
+<h3 id="match对象属性"><a href="#match对象属性" class="headerlink" title="match对象属性"></a>match对象属性</h3><h4 id="属性变量"><a href="#属性变量" class="headerlink" title="属性变量"></a>属性变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pos     匹配目标字符串的开始位置</span><br><span class="line">endpos  匹配目标字符串的结束位置</span><br><span class="line">re      正则表达式</span><br><span class="line">string  目标字符串</span><br><span class="line">lastgroup  最后一组的组名</span><br><span class="line">lastindex  最后一组是第几组</span><br></pre></td></tr></table></figure>
+
+<h4 id="属性方法"><a href="#属性方法" class="headerlink" title="属性方法"></a>属性方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">span()  匹配内容的开始位置</span><br><span class="line">start() 匹配内容的结束位置</span><br><span class="line">end()   匹配内容的起止位置</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">group()</span><br><span class="line">功能 ： 获取match对象对应的内容</span><br><span class="line">参数 ： 默认为0 表示获取整个正则匹配的内容</span><br><span class="line">        如果为序列号或者子组名则为获取某个子组匹配的对应内容</span><br><span class="line">返回值：返回得到的子串</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">groupdict()  获取捕获组名作为键，对应内容作为值的字典</span><br><span class="line">groups()   获取每个子组匹配内容</span><br></pre></td></tr></table></figure>
+
+<h3 id="flags-参数的使用"><a href="#flags-参数的使用" class="headerlink" title="flags  参数的使用"></a>flags  参数的使用</h3><p>re.compile  re.findall  re.search  re.match<br>re.finditer  re.fullmatch  re.sub  re.subn  re.split<br>上面这些方法都有flags参数<br>作用： 辅助正则表达式，丰富匹配结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">I &#x3D;&#x3D;  IGNORECASE  匹配时忽略字母的大小写</span><br><span class="line">S &#x3D;&#x3D;  DOTALL     作用于元字符 . 使其可以匹配换行 </span><br><span class="line">M &#x3D;&#x3D;  MULTILINE  作用于^  $  使其可以匹配每一行开头结尾位置</span><br><span class="line">X &#x3D;&#x3D;  VERBOSE    可以给正则添加注释</span><br></pre></td></tr></table></figure>
+<p>使用多个标志位使用按位或连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">flags &#x3D; re.X | re.I</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E6%AD%A3%E5%88%99/" rel="tag"><i class="fa fa-tag"></i> 正则</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/12/mongodb/%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/" rel="prev" title="MongoDB-聚合操作">
+                  <i class="fa fa-chevron-left"></i> MongoDB-聚合操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/22/python/tqdm/" rel="next" title="Python-tqdm">
+                  Python-tqdm <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

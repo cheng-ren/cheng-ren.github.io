@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="我们知道Dart语言的执行环境是”单线程”。也就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务。 为了解决这个问题，Dart语言将任务的执行模式分成两种：同步和异步。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter - Future与FutureBuilder实用技巧">
+<meta property="og:url" content="https://rencheng.cc/2020/02/24/flutter/Flutter%E5%BC%82%E6%AD%A5/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="我们知道Dart语言的执行环境是”单线程”。也就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务。 为了解决这个问题，Dart语言将任务的执行模式分成两种：同步和异步。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-24T12:46:16.000Z">
+<meta property="article:modified_time" content="2020-02-24T12:46:16.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/02/24/flutter/Flutter%E5%BC%82%E6%AD%A5/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Flutter - Future与FutureBuilder实用技巧 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%EF%BC%9AFuture%E4%B8%8EFutureBuilder%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">异步：Future与FutureBuilder实用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFFuture%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Future？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">Future的常见用法？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8future-then%E8%8E%B7%E5%8F%96future%E7%9A%84%E5%80%BC%E4%B8%8E%E6%8D%95%E8%8E%B7future%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用future.then获取future的值与捕获future的异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E5%90%88async-await"><span class="nav-number">1.2.2.</span> <span class="nav-text">结合async await</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#future-whenComplete"><span class="nav-number">1.2.3.</span> <span class="nav-text">future.whenComplete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#future-timeout"><span class="nav-number">1.2.4.</span> <span class="nav-text">future.timeout</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFFutureBuilder%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是FutureBuilder？</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/02/24/flutter/Flutter%E5%BC%82%E6%AD%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter - Future与FutureBuilder实用技巧
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-24 20:46:16" itemprop="dateCreated datePublished" datetime="2020-02-24T20:46:16+08:00">2020-02-24</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>我们知道Dart语言的执行环境是”单线程”。也就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务。</p>
+<p>为了解决这个问题，Dart语言将任务的执行模式分成两种：同步和异步。</p>
+<span id="more"></span>    
+
+<h1 id="异步：Future与FutureBuilder实用技巧"><a href="#异步：Future与FutureBuilder实用技巧" class="headerlink" title="异步：Future与FutureBuilder实用技巧"></a>异步：Future与FutureBuilder实用技巧</h1><ul>
+<li>什么是Future？</li>
+<li>Future的常见用法？<ul>
+<li>获取Future的结果？</li>
+<li>捕获Future的异常？</li>
+<li>结合async，await？</li>
+<li>future.whenComplete？</li>
+<li>future.timeout？</li>
+</ul>
+</li>
+<li>什么是FutureBuilder？</li>
+<li>FutureBuilder常见的用法？</li>
+</ul>
+<h2 id="什么是Future？"><a href="#什么是Future？" class="headerlink" title="什么是Future？"></a>什么是Future？</h2><p><code>Future</code>表示在接下来的某个时间的值或错误，借助<code>Future</code>我们可以在Flutter实现异步操作。</p>
+<blockquote>
+<p>它类似于ES6中的Promise，提供<code>then</code>和<code>catchError</code>的链式调用；</p>
+</blockquote>
+<p><code>Future</code>是<code>dart:async</code>包中的一个类，使用它时需要导入<code>dart:async</code>包，Future有两种状态：</p>
+<ul>
+<li>pending - 执行中；</li>
+<li>completed - 执行结束，分两种情况要么成功要么失败；</li>
+</ul>
+<h2 id="Future的常见用法？"><a href="#Future的常见用法？" class="headerlink" title="Future的常见用法？"></a>Future的常见用法？</h2><ul>
+<li>使用<code>future.then</code>获取future的值与捕获future的异常</li>
+<li>结合<code>async</code>,<code>await</code></li>
+<li><code>future.whenComplete</code></li>
+<li><code>future.timeout</code></li>
+</ul>
+<h3 id="使用future-then获取future的值与捕获future的异常"><a href="#使用future-then获取future的值与捕获future的异常" class="headerlink" title="使用future.then获取future的值与捕获future的异常"></a>使用<code>future.then</code>获取future的值与捕获future的异常</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:async&#x27;</span>;</span><br><span class="line"></span><br><span class="line">Future&lt;<span class="built_in">String</span>&gt; testFuture() &#123;</span><br><span class="line"><span class="comment">//   throw new Error();</span></span><br><span class="line">  <span class="keyword">return</span> Future.value(<span class="string">&#x27;success&#x27;</span>);</span><br><span class="line"><span class="comment">//   return Future.error(&#x27;error&#x27;);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main() &#123;</span><br><span class="line">  testFuture().then((s) &#123;</span><br><span class="line">    <span class="built_in">print</span>(s);</span><br><span class="line">  &#125;, onError: (e) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;onError:&#x27;</span>);</span><br><span class="line">    <span class="built_in">print</span>(e);</span><br><span class="line">  &#125;).catchError((e) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;catchError:&#x27;</span>);</span><br><span class="line">    <span class="built_in">print</span>(e);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果catchError与onError同时存在，则会只调用onError；</p>
+</blockquote>
+<p><strong><code>Future</code>的then`的原型：</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;R&gt; then&lt;R&gt;(FutureOr&lt;R&gt; onValue(T value), &#123;<span class="built_in">Function</span> onError&#125;);</span><br></pre></td></tr></table></figure>
+<p>第一个参数会成功的结果回调，第二个参数onError可选表示执行出现异常。</p>
+<h3 id="结合async-await"><a href="#结合async-await" class="headerlink" title="结合async await"></a>结合async await</h3><p><code>Future</code>是异步的，如果我们要将异步转同步，那么可以借助<code>async await</code>来完成。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:async&#x27;</span>;</span><br><span class="line"></span><br><span class="line">test() <span class="keyword">async</span> &#123;</span><br><span class="line">  <span class="built_in">int</span> result = <span class="keyword">await</span> Future.delayed(<span class="built_in">Duration</span>(milliseconds: <span class="number">2000</span>), () &#123;</span><br><span class="line">    <span class="keyword">return</span> Future.value(<span class="number">123</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;t3:&#x27;</span> + <span class="built_in">DateTime</span>.now().toString());</span><br><span class="line">  <span class="built_in">print</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main() &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;t1:&#x27;</span> + <span class="built_in">DateTime</span>.now().toString());</span><br><span class="line">  test();</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;t2:&#x27;</span> + <span class="built_in">DateTime</span>.now().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="future-whenComplete"><a href="#future-whenComplete" class="headerlink" title="future.whenComplete"></a>future.whenComplete</h3><p>有时候我们需要在<code>Future</code>结束的时候做些事情，我们知道<code>then().catchError()</code>的模式类似于<code>try-catch</code>，<code>try-catch</code>有个<code>finally</code>代码块，而<code>future.whenComplete</code>就是<code>Future</code>的finally。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:async&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:math&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  <span class="keyword">var</span> random = Random();</span><br><span class="line">  Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">3</span>), () &#123;</span><br><span class="line">    <span class="keyword">if</span> (random.nextBool()) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="string">&#x27;boom!&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).then(<span class="built_in">print</span>).catchError(<span class="built_in">print</span>).whenComplete(() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;done!&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="future-timeout"><a href="#future-timeout" class="headerlink" title="future.timeout"></a>future.timeout</h3><p>完成一个异步操作可能需要很长的时间，比如：网络请求，但有时我们需要为异步操作设置一个超时时间，那么，如何为<code>Future</code>设置超时时间呢？</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:async&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  <span class="keyword">new</span> Future.delayed(<span class="keyword">new</span> <span class="built_in">Duration</span>(seconds: <span class="number">3</span>), () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;).timeout(<span class="keyword">new</span> <span class="built_in">Duration</span>(seconds: <span class="number">2</span>)).then(<span class="built_in">print</span>).catchError(<span class="built_in">print</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上述代码会看到：<code>TimeoutException after 0:00:02.000000: Future not completed</code>。</p>
+<h2 id="什么是FutureBuilder？"><a href="#什么是FutureBuilder？" class="headerlink" title="什么是FutureBuilder？"></a>什么是FutureBuilder？</h2><p><code>FutureBuilder</code>是一个将异步操作和异步UI更新结合在一起的类，通过它我们可以将网络请求，数据库读取等的结果更新的页面上。</p>
+<p><strong>FutureBuilder的构造方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FutureBuilder(&#123;Key key, Future&lt;T&gt; future, T initialData, @required AsyncWidgetBuilder&lt;T&gt; builder &#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>future： Future对象表示此构建器当前连接的异步计算；</li>
+<li>initialData： 表示一个非空的Future完成前的初始化数据；</li>
+<li>builder： AsyncWidgetBuilder类型的回到函数，是一个基于异步交互构建widget的函数；</li>
+</ul>
+<p>这个builder函数接受两个参数BuildContext context 与 AsyncSnapshot<T> snapshot，它返回一个widget。AsyncSnapshot包含异步计算的信息，它具有以下属性：</p>
+<ul>
+<li>connectionState - 枚举ConnectionState的值，表示与异步计算的连接状态，ConnectionState有四个值：none，waiting，active和done；</li>
+<li>data - 异步计算接收的最新数据；</li>
+<li>error - 异步计算接收的最新错误对象；</li>
+</ul>
+<p>AsyncSnapshot还具有hasData和hasError属性，以分别检查它是否包含非空数据值或错误值。</p>
+<p>现在我们可以看到使用FutureBuilder的基本模式。 在创建新的FutureBuilder对象时，我们将Future对象作为要处理的异步计算传递。 在构建器函数中，我们检查connectionState的值，并使用AsyncSnapshot中的数据或错误返回不同的窗口小部件。</p>
+<p><a target="_blank" rel="noopener" href="https://flutter-academy.com/async-in-flutter-futurebuilder/">https://flutter-academy.com/async-in-flutter-futurebuilder/</a><br>FutureBuilder的使用？</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:convert&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:http/http.dart&#x27;</span> <span class="keyword">as</span> http;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() =&gt; runApp(<span class="keyword">new</span> MyApp());</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  State&lt;StatefulWidget&gt; createState() =&gt; _MyAppState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyAppState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyApp</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">String</span> showResult = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  Future&lt;CommonModel&gt; fetchPost() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> response = <span class="keyword">await</span> http</span><br><span class="line">        .<span class="keyword">get</span>(<span class="string">&#x27;http://www.devio.org/io/flutter_app/json/test_common_model.json&#x27;</span>);</span><br><span class="line">    Utf8Decoder utf8decoder = Utf8Decoder(); <span class="comment">//fix 中文乱码</span></span><br><span class="line">    <span class="keyword">var</span> result = json.decode(utf8decoder.convert(response.bodyBytes));</span><br><span class="line">    <span class="keyword">return</span> CommonModel.fromJson(result);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      home: Scaffold(</span><br><span class="line">        appBar: AppBar(</span><br><span class="line">          title: Text(<span class="string">&#x27;Future与FutureBuilder实用技巧&#x27;</span>),</span><br><span class="line">        ),</span><br><span class="line">        body: FutureBuilder&lt;CommonModel&gt;(</span><br><span class="line">            future: fetchPost(),</span><br><span class="line">            builder:</span><br><span class="line">                (BuildContext context, AsyncSnapshot&lt;CommonModel&gt; snapshot) &#123;</span><br><span class="line">              <span class="keyword">switch</span> (snapshot.connectionState) &#123;</span><br><span class="line">                <span class="keyword">case</span> ConnectionState.none:</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">new</span> Text(<span class="string">&#x27;Input a URL to start&#x27;</span>);</span><br><span class="line">                <span class="keyword">case</span> ConnectionState.waiting:</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">new</span> Center(child: <span class="keyword">new</span> CircularProgressIndicator());</span><br><span class="line">                <span class="keyword">case</span> ConnectionState.active:</span><br><span class="line">                  <span class="keyword">return</span> <span class="keyword">new</span> Text(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">                <span class="keyword">case</span> ConnectionState.done:</span><br><span class="line">                  <span class="keyword">if</span> (snapshot.hasError) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> Text(</span><br><span class="line">                      <span class="string">&#x27;<span class="subst">$&#123;snapshot.error&#125;</span>&#x27;</span>,</span><br><span class="line">                      style: TextStyle(color: Colors.red),</span><br><span class="line">                    );</span><br><span class="line">                  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> Column(children: &lt;Widget&gt;[</span><br><span class="line">                      Text(<span class="string">&#x27;icon:<span class="subst">$&#123;snapshot.data.icon&#125;</span>&#x27;</span>),</span><br><span class="line">                      Text(<span class="string">&#x27;statusBarColor:<span class="subst">$&#123;snapshot.data.statusBarColor&#125;</span>&#x27;</span>),</span><br><span class="line">                      Text(<span class="string">&#x27;title:<span class="subst">$&#123;snapshot.data.title&#125;</span>&#x27;</span>),</span><br><span class="line">                      Text(<span class="string">&#x27;url:<span class="subst">$&#123;snapshot.data.url&#125;</span>&#x27;</span>)</span><br><span class="line">                    ]);</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommonModel</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> icon;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> title;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> url;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> statusBarColor;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">bool</span> hideAppBar;</span><br><span class="line"></span><br><span class="line">  CommonModel(</span><br><span class="line">      &#123;<span class="keyword">this</span>.icon, <span class="keyword">this</span>.title, <span class="keyword">this</span>.url, <span class="keyword">this</span>.statusBarColor, <span class="keyword">this</span>.hideAppBar&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">factory</span> CommonModel.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">dynamic</span>&gt; json) &#123;</span><br><span class="line">    <span class="keyword">return</span> CommonModel(</span><br><span class="line">      icon: json[<span class="string">&#x27;icon&#x27;</span>],</span><br><span class="line">      title: json[<span class="string">&#x27;title&#x27;</span>],</span><br><span class="line">      url: json[<span class="string">&#x27;url&#x27;</span>],</span><br><span class="line">      statusBarColor: json[<span class="string">&#x27;statusBarColor&#x27;</span>],</span><br><span class="line">      hideAppBar: json[<span class="string">&#x27;hideAppBar&#x27;</span>],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://flutter-academy.com/async-in-flutter-futurebuilder/">https://flutter-academy.com/async-in-flutter-futurebuilder/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Flutter/" rel="tag"><i class="fa fa-tag"></i> Flutter</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/20/flutter/Flutter%E8%AF%B7%E6%B1%82%E5%BA%93Http/" rel="prev" title="Flutter - Http库">
+                  <i class="fa fa-chevron-left"></i> Flutter - Http库
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/25/flutter/Flutter%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" rel="next" title="Flutter - 异步编程">
+                  Flutter - 异步编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

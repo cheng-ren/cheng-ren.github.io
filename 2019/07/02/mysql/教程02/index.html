@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="数据库软件：一个软件,看的见,可操作,实现数据库的逻辑功能数据库：是一种逻辑概念,用来存放数据的仓库,侧重存储数据仓库：从数据量上来说,比数据库庞大的多,主要用于数据分析和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql-教程02">
+<meta property="og:url" content="https://rencheng.cc/2019/07/02/mysql/%E6%95%99%E7%A8%8B02/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="数据库软件：一个软件,看的见,可操作,实现数据库的逻辑功能数据库：是一种逻辑概念,用来存放数据的仓库,侧重存储数据仓库：从数据量上来说,比数据库庞大的多,主要用于数据分析和">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-02T12:02:43.000Z">
+<meta property="article:modified_time" content="2019-07-02T12:02:43.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/02/mysql/%E6%95%99%E7%A8%8B02/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Mysql-教程02 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E5%AD%97%E6%AE%B5%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">表字段的操作</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/02/mysql/%E6%95%99%E7%A8%8B02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mysql-教程02
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-02 20:02:43" itemprop="dateCreated datePublished" datetime="2019-07-02T20:02:43+08:00">2019-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>数据库软件：一个软件,看的见,可操作,实现数据库的逻辑功能<br>数据库：是一种逻辑概念,用来存放数据的仓库,侧重存储<br>数据仓库：从数据量上来说,比数据库庞大的多,主要用于数据分析和</p>
+<span id="more"></span>
+
+<h2 id="表字段的操作"><a href="#表字段的操作" class="headerlink" title="表字段的操作"></a>表字段的操作</h2><p>1、语法 ：alter table 表名 执行动作;<br>2、添加字段(add)<br>    alter table 表名 add 字段名 数据类型;<br>    alter table 表名 add 字段名 数据类型 first;<br>    alter table 表名 add 字段名 数据类型 after 字段名;<br>  3、删除字段(drop)<br>    alter table 表名 drop 字段名;<br>  4、修改数据类型(modify)<br>    alter table 表名 modify 字段名 新数据类型;<br>  5、表重命名(rename)<br>    alter table 表名 rename 新表名;<br>  6、练习<br>    1、创建库 studb2<br>    2、在库中创建表 t1 ,字段有3个：name、age、phnumber<br>      use studb2;<br>      create table t1(<br>      name char(20),<br>      age tinyint unsigned,<br>      phnumber char(11)<br>      );<br>    3、查看表结构<br>      desc t1;<br>    4、在表中第一列添加一个 id 字段<br>      alter table t1 add id int first;<br>    5、把 phnumber 的数据类型改为 bigint<br>      alter table t1 modify phnumber bigint;<br>    6、在表中最后一列添加一个字段 address<br>      alter table t1 add address varchar(50);<br>    7、删除表中的 age 字段<br>      alter table t1 drop age;<br>    8、查看表结构<br>      desc t1;</p>
+<p>5、表记录管理<br>  1、删除表记录<br>    1、delete from 表名 where 条件;<br>    2、注意<br>      delete语句后如果不加where条件,所有记录全部清空<br>  2、更新表记录<br>    1、update 表名 set 字段1=值1,字段2=值2,… where 条件;<br>    2、注意<br>      必须加where条件<br>  3、练习(表hero)<br>    1、查找所有蜀国人的信息<br>      select * from hero where country=”蜀国”;<br>    2、查找所有女英雄的姓名、性别和国家<br>      select name,sex,country from hero<br>      where sex=”女”;<br>    3、把id为2的记录改为典韦,性别男,国家魏国<br>      update hero set name=”典韦”,sex=”男”,country=”魏国” where id=2;<br>    4、删除所有蜀国英雄<br>      delete from hero where country=”蜀国”;<br>    5、把貂蝉的国籍改为魏国<br>      update hero set country=”魏国”<br>      where name=”貂蝉”;<br>    6、删除所有表记录<br>      delete from hero;<br>4、运算符操作<br>  1、数值比较/字符比较<br>    1、数值比较 ：= != &gt; &gt;= &lt; &lt;=<br>    2、字符比较 ：= !=<br>    3、练习<br>      1、查找攻击力高于150的英雄的名字和攻击值<br>        select name,gongji from sanguo where gongji&gt;150;<br>      2、将赵云的攻击力设置为360,防御力设置为68<br>        update sanguo set gongji=360,fangyu=68<br>        where name=”赵云”;<br>  2、逻辑比较<br>    1、and (两个或多个条件同时成立)<br>    2、or (任意一个条件成立即可)<br>    3、练习<br>      1、找出攻击值高于200的蜀国英雄的名字、攻击力<br>        select name as n,gongji as g from sanguo<br>    where gongji&gt;200 and country=”蜀国”;<br>      2、将吴国英雄中攻击值为110的英雄的攻击值改为100,防御力改为60<br>        update sanguo set gongji=100,fangyu=60<br>    where country=”吴国” and gongji=110;<br>      3、查找蜀国和魏国的英雄信息<br>        select * from sanguo<br>    where country=”蜀国” or country=”魏国”;<br>  3、范围内比较<br>    1、between 值1 and 值2<br>    2、where 字段名 in(值1,值2,…)<br>    3、where 字段名 not in(值1,值2,…)<br>    4、练习<br>      1、查找攻击值100-200的蜀国英雄信息<br>        select * from sanguo<br>    where gongji between 100 and 200 and<br>    country=”蜀国”;<br>      2、找到蜀国和吴国以外的国家的女英雄信息<br>        select * from sanguo<br>    where country not in(“蜀国”,”吴国”)<br>    and sex=”女”;<br>      3、找到id为1、3或5的蜀国英雄 和 貂蝉的信息<br>        select * from sanguo<br>    where<br>    (id in(1,3,5) and country=”蜀国”) or name=”貂蝉”;<br>  4、匹配空、非空<br>    1、空 ：where name is null<br>    2、非空:where name is not null<br>    3、示例<br>      1、姓名为NULL值的蜀国女英雄信息<br>        select * from sanguo<br>        where<br>        name is null and country=”蜀国” and sex=”女”;<br>      2、姓名为 “” 的英雄信息<br>        select * from sanguo where name=””;<br>    4、注意<br>      1、NULL ：空值,只能用 is 或者 is not 去匹配<br>      2、””   ：空字符串,用 = 或者 != 去匹配<br>  5、模糊比较<br>    1、where 字段名 like 表达式<br>    2、表达式<br>      1、_ : 匹配单个字符<br>      2、% : 匹配0到多个字符<br>    3、示例<br>      select name from sanguo where name like “<em>%</em>“;<br>      select name from sanguo where name like “%”;<br>        ## NULL不会被统计,只能用is、is not去匹配<br>      select name from sanguo where name like “___”;<br>      select name from sanguo where name like “赵%”;<br>5、SQL查询<br>  1、总结<br>    3、select …聚合函数 from 表名<br>    1、where …<br>    2、group by …<br>    4、having …<br>    5、order by …<br>    6、limit …;<br>  2、order by<br>    1、给查询结果进行排序<br>    2、… order by 字段名 ASC/DESC<br>    3、升序：ASC(默认)<br>       降序：DESC<br>    4、示例<br>      1、将英雄按防御值从高到低排序</p>
+<pre><code>  2、将蜀国英雄按攻击值从高到低排序
+
+  3、将魏蜀两国英雄中名字为三个字的按防御值升序排列
+    select * from sanguo 
+    where
+    country in(&quot;蜀国&quot;,&quot;魏国&quot;) and name like &quot;___&quot;
+    order by fangyu ASC;
+
+select * from sanguo
+    where
+    (country=&quot;魏国&quot; or country=&quot;蜀国&quot;) and name like &quot;___&quot;
+    order by fangyu;
+</code></pre>
+<p>  3、limit (永远放在SQL语句的最后写)<br>    1、作用 ：限制显示查询记录的个数<br>    2、用法<br>      1、limit n  -&gt; 显示 n 条记录<br>      2、limit m,n<br>        m 表示 从第m+1条记录开始显示,显示 n 条<br>        limit 2,3  : 第 3、4、5 三条记录<br>    3、示例<br>      1、在蜀国英雄中,查找防御值倒数第二名至倒数第四名的英雄的记录<br>        select * from sanguo<br>        where country=”蜀国”<br>        order by fangyu asc<br>        limit 1,3;<br>      2、在蜀国英雄中,查找攻击值前3名且名字不为 NULL 的英雄的姓名、攻击值和国家<br>        select name,gongji,country from sanguo<br>        where<br>        country=”蜀国” and name is not NULL<br>        order by gongji DESC<br>        limit 3;<br>    4、分页<br>      每页显示5条记录,显示第4页的内容</p>
+<pre><code>  第1页 ：limit 0,5        # 1 2 3 4 5 
+  第2页 ：limit (2-1)*5,5  # 6 7 8 9 10
+  第3页 ：limit (3-1)*5,5  # 11 12 13 14 15
+  第4页 ：limit (4-1)*5,5  # 16 17 18 19 20
+
+  每页显示n条记录,显示第m页 ：limit (m-1)*n,n
+</code></pre>
+<p>  4、聚合函数<br>    1、分类<br>      avg(字段名) : 求该字段平均值<br>      sum(字段名) : 求和<br>      max(字段名) : 最大值<br>      min(字段名) : 最小值<br>      count(字段名) : 统计该字段记录的个数<br>    2、示例<br>      1、攻击力最强值是多少<br>        select max(gongji) from MOSHOU.sanguo;<br>      2、统计id 、name 两个字段分别有几条记录<br>        select count(id),count(name) from sanguo;<br>    ## 空值 NULL 不会被统计,””会被统计</p>
+<pre><code>  3、计算蜀国英雄的总攻击力
+    select sum(gongji) from MOSHOU.sanguo
+where country=&quot;蜀国&quot;;
+  4、统计蜀国英雄中攻击值大于200的英雄的数量
+    select count(*) from MOSHOU.sanguo
+where gongji&gt;200 and country=&quot;蜀国&quot;;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"><i class="fa fa-tag"></i> MySQL</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/02/ml/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" rel="prev" title="机器学习-数学基础">
+                  <i class="fa fa-chevron-left"></i> 机器学习-数学基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/02/mysql/%E6%95%99%E7%A8%8B01/" rel="next" title="Mysql-教程01">
+                  Mysql-教程01 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

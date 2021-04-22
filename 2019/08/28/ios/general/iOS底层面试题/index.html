@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="底层面试概要   Runtime  RunLoop  多线程  内存管理  性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS底层面试题">
+<meta property="og:url" content="https://rencheng.cc/2019/08/28/ios/general/iOS%E5%BA%95%E5%B1%82%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="底层面试概要   Runtime  RunLoop  多线程  内存管理  性能优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-28T01:55:40.000Z">
+<meta property="article:modified_time" content="2019-08-28T01:55:40.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/08/28/ios/general/iOS%E5%BA%95%E5%B1%82%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>iOS底层面试题 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime"><span class="nav-number">1.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop"><span class="nav-number">2.</span> <span class="nav-text">RunLoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">内存管理</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/08/28/ios/general/iOS%E5%BA%95%E5%B1%82%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS底层面试题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-28 09:55:40" itemprop="dateCreated datePublished" datetime="2019-08-28T09:55:40+08:00">2019-08-28</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>底层面试概要</p>
+<ul>
+<li><input disabled="" type="checkbox"> Runtime</li>
+<li><input checked="" disabled="" type="checkbox"> RunLoop</li>
+<li><input checked="" disabled="" type="checkbox"> 多线程</li>
+<li><input checked="" disabled="" type="checkbox"> 内存管理</li>
+<li><input disabled="" type="checkbox"> 性能优化<span id="more"></span></li>
+</ul>
+<h2 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h2><ol>
+<li>如果需要交换UIControl的didMoveToSuperview方法，用于捕获控件的点击事件，需要的注意点是什么？<br> 答：由于didMoveToSuperview方法是UIView的方法，UIControl继承自UIView，所以在方法交换之后，UIView及继承UIView的子类，都需要增加交换的方法，否则会因为找不到方法而崩溃</li>
+<li>打点</li>
+</ol>
+<h2 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h2><ol>
+<li><p>讲讲 RunLoop，项目中有用到吗？</p>
+<ul>
+<li>定时器（Timer）、PerformSelector</li>
+<li>GCD Async Main Queue</li>
+<li>事件响应、手势识别、界面刷新</li>
+<li>网络请求</li>
+<li>AutoreleasePool</li>
+</ul>
+</li>
+<li><p>RunLoop的基本作用</p>
+<ul>
+<li>保持程序的持续运行</li>
+<li>处理App中的各种事件（比如触摸事件、定时器事件等）</li>
+<li>节省CPU资源，提高程序性能：该做事时做事，该休息时休息</li>
+</ul>
+</li>
+<li><p>Runloop内部实现逻辑？</p>
+<ol>
+<li>通知Observers：进入Loop</li>
+<li>通知Observers：即将处理Timers</li>
+<li>通知Observers：即将处理Sources</li>
+<li>处理Blocks</li>
+<li>处理Source0（可能会再次处理Blocks）</li>
+<li>如果存在Source1，就跳转到第8步</li>
+<li>通知Observers：开始休眠（等待消息唤醒）</li>
+<li>通知Observers：结束休眠（被某个消息唤醒）<ol>
+<li>处理Timer</li>
+<li>处理GCD Async To Main Queue</li>
+<li>处理Source1</li>
+</ol>
+</li>
+<li>处理Blocks</li>
+<li>根据前面的执行结果，决定如何操作<ol>
+<li>回到第02步</li>
+<li>退出Loop</li>
+</ol>
+</li>
+<li>通知Observers：退出Loop</li>
+</ol>
+</li>
+<li><p>Runloop和线程的关系？</p>
+<ul>
+<li>每条线程都有唯一的一个与之对应的RunLoop对象</li>
+<li><code>RunLoop</code>保存在一个全局的Dictionary里，线程作为key，<code>RunLoop</code>作为value;{thread: Runloop}</li>
+<li>线程刚创建时并没有RunLoop对象，RunLoop会在第一次获取它时创建</li>
+<li><code>RunLoop</code>会在线程结束时销毁</li>
+<li>主线程的<code>RunLoop</code>已经自动获取（创建），子线程默认没有开启<code>RunLoop</code></li>
+</ul>
+</li>
+<li><p>Timer 与 Runloop 的关系？</p>
+<ul>
+<li>结构上来说：Timer里面有模式，模式里面有Timer</li>
+<li>流程上来说：Timer是在Runloop运行流程中工作的</li>
+</ul>
+</li>
+<li><p>程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？</p>
+<ul>
+<li>将Timer添加到Runloop的CommonMode里</li>
+</ul>
+</li>
+<li><p>runloop 是怎么响应用户操作的， 具体流程是什么样的？</p>
+<ol>
+<li>Source1来捕获系统事件</li>
+<li>Source1把事件包装成事件队列（EventQueue）</li>
+<li>Source0处理事件队列</li>
+</ol>
+</li>
+<li><p>说说runLoop的几种状态</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Run Loop Observer Activities */</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">CF_OPTIONS</span><span class="params">(CFOptionFlags, CFRunLoopActivity)</span> </span>&#123;</span><br><span class="line">    kCFRunLoopEntry = (<span class="number">1UL</span> &lt;&lt; <span class="number">0</span>),           <span class="comment">// 即将进入Loop</span></span><br><span class="line">    kCFRunLoopBeforeTimers = (<span class="number">1UL</span> &lt;&lt; <span class="number">1</span>),    <span class="comment">// 即将处理Timer</span></span><br><span class="line">    kCFRunLoopBeforeSources = (<span class="number">1UL</span> &lt;&lt; <span class="number">2</span>),   <span class="comment">// 即将处理Source</span></span><br><span class="line">    kCFRunLoopBeforeWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">5</span>),   <span class="comment">// 即将进入休眠</span></span><br><span class="line">    kCFRunLoopAfterWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">6</span>),    <span class="comment">// 刚从休眠中唤醒</span></span><br><span class="line">    kCFRunLoopExit = (<span class="number">1UL</span> &lt;&lt; <span class="number">7</span>),            <span class="comment">// 即将推出Loop</span></span><br><span class="line">    kCFRunLoopAllActivities = <span class="number">0x0FFFFFFF</span>U</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>runloop的mode作用是什么？</p>
+<ul>
+<li>kCFRunLoopDefaultMode（NSDefaultRunLoopMode）：App的默认Mode，通常主线程是在这个Mode下运行</li>
+<li>UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><ol>
+<li><p>你理解的多线程？</p>
+</li>
+<li><p>iOS的多线程方案有哪几种？你更倾向于哪一种？<br> <code>pthread</code>    <code>NSThread</code> <code>GCD</code> <code>NSOperation</code><br> 更倾向于GCD；但是也要看场景</p>
+</li>
+<li><p>GCD 的队列类型<br> <code>同步队列``并发队列</code></p>
+</li>
+<li><p>说一下 OperationQueue 和 GCD 的区别，以及各自的优势<br> <code>Operation Queue</code> 是基于<code>GCD</code>封装的抽象类，目的是为了提高灵活度，以满足多线程操作频繁、灵活度要求高的复杂场景。</p>
+</li>
+<li><p>线程安全的处理手段有哪些？<br> <code>加锁</code>，<code>GCD同步队列</code>，<code>信号量</code>等</p>
+</li>
+<li><p>OC你了解的锁有哪些？在你回答基础上进行二次提问；自旋和互斥对比？使用以上锁需要注意哪些？<br> <a href="https://rencheng.cc/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/#%E9%94%81">路由地址</a></p>
+</li>
+<li><p>以下代码是在主线程执行的，会不会产生死锁？</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    [<span class="keyword">self</span> test];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;执行任务1&quot;</span>);</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_main_queue();</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;执行任务2&quot;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;执行任务3&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p> 答：会产生死锁，因为<code>viewDidLoad</code>方法就是在主线程(主队列)中进行的，而<code>line-9</code>仍然想让代码块 <strong>立即</strong> 在主线程(主队列)中同步执行。</p>
+</li>
+<li><p>问下面代码的打印结果是什么？</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;1&quot;</span>);</span><br><span class="line">        [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(test) withObject:<span class="literal">nil</span> afterDelay:<span class="number">.0</span>];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;3&quot;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;2&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 答：打印结果是：1, 3。<br> 原因：<code>performSelector:withObject:afterDelay:</code>的本质是往Runloop中添加定时器，子线程默认没有启动<code>Runloop</code>。解决方法：在<code>line-8</code>后插入</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//[[NSRunLoop currentRunLoop] addPort:[NSPort new] forMode:NSDefaultRunLoopMode];</span></span><br><span class="line">[[<span class="built_in">NSRunLoop</span> currentRunLoop] runMode:<span class="built_in">NSDefaultRunLoopMode</span> beforeDate:[<span class="built_in">NSDate</span> distantFuture]];</span><br></pre></td></tr></table></figure></li>
+<li><p>请问下面代码的打印结果是什么？</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc] initWithBlock:^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;1&quot;</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    [thread start];</span><br><span class="line">    [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(test) onThread:thread withObject:<span class="literal">nil</span> waitUntilDone:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;2&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>答：只会打印1。因为在调用test的时候，线程已经销毁了。会报错<code>target thread exited while waiting for the perform</code></p>
+</li>
+</ol>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+<li><p>使用CADisplayLink、NSTimer有什么注意点？<br> <code>CADisplayLink</code>、<code>NSTimer</code>会对<code>target</code>产生强引用，如果<code>target</code>又对它们产生强引用，那么就会引发循环引用。解决方案：1：使用Block处理。2.使用代理对象<code>NSProxy</code></p>
+</li>
+<li><p>介绍下内存的几大区域</p>
+<ul>
+<li>代码段：编译之后的代码</li>
+<li>数据段<ul>
+<li>字符串常量：比如NSString *str = @”123”</li>
+<li>已初始化数据：已初始化的全局变量、静态变量等</li>
+<li>未初始化数据：未初始化的全局变量、静态变量等</li>
+</ul>
+</li>
+<li>栈：函数调用开销，比如局部变量。分配的内存空间地址越来越小</li>
+<li>堆：通过alloc、malloc、calloc等动态分配的空间，分配的内存空间地址越来越大</li>
+</ul>
+</li>
+<li><p>讲一下你对 iOS 内存管理的理解</p>
+</li>
+<li><p>ARC 都帮我们做了什么？<br> 答：LLVM+Runtime相互协作；ARC利用LLVM编译器，自动帮我们生成release，retain，autorelease代码。像弱引用会在运行时做操作。</p>
+</li>
+<li><p>weak指针的实现原理<br> 答：将弱引用存到哈希表里面，对象将要销毁的时候，取出弱引用表，将指向当前对象的弱指针置为nil。</p>
+</li>
+<li><p>autorelease对象在什么时机会被调用release</p>
+</li>
+<li><p>方法里有局部对象， 出了方法后会立即释放吗</p>
+</li>
+</ol>
+<ol>
+<li>一下两段代码能发生什么事？有什么区别？ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.name = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;abcdefghijklmn&quot;</span>];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.name = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;abc&quot;</span>];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 答：上面一段执行，会出现坏内存的崩溃。下面一段代码name变量存储的是<code>Tagged Pointer</code>，涉及不到对象的内存管理，而上面一段代码因为多线程操作一个对象，有可能会造成对象的过度释放，导致崩溃。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/26/recommend/window-%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90/" rel="prev" title="window-软件推荐">
+                  <i class="fa fa-chevron-left"></i> window-软件推荐
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/31/python/csv%E6%A8%A1%E5%9D%97/" rel="next" title="Python-csv模块">
+                  Python-csv模块 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

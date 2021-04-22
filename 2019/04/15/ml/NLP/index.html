@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="自然语言是人类智慧的结晶，自然语言处理是人工智能中最为困难的问题之一，而对自然语言处理的研究也是充满魅力和挑战的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-NLP">
+<meta property="og:url" content="https://rencheng.cc/2019/04/15/ml/NLP/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="自然语言是人类智慧的结晶，自然语言处理是人工智能中最为困难的问题之一，而对自然语言处理的研究也是充满魅力和挑战的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-15T08:34:11.000Z">
+<meta property="article:modified_time" content="2019-04-15T08:34:11.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="AI进阶">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/04/15/ml/NLP/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>机器学习-NLP | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NLP"><span class="nav-number">1.</span> <span class="nav-text">NLP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%AF%8D"><span class="nav-number">2.</span> <span class="nav-text">分词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96"><span class="nav-number">3.</span> <span class="nav-text">词干提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%9E%8B%E8%BF%98%E5%8E%9F"><span class="nav-number">4.</span> <span class="nav-text">词型还原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">词袋模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E9%A2%91"><span class="nav-number">6.</span> <span class="nav-text">词频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB"><span class="nav-number">7.</span> <span class="nav-text">文本分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%85%E6%84%9F%E5%88%86%E6%9E%90"><span class="nav-number">8.</span> <span class="nav-text">情感分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E6%8A%BD%E5%8F%96"><span class="nav-number">9.</span> <span class="nav-text">主题抽取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%B7%B4%E5%88%86%E8%AF%8D"><span class="nav-number">10.</span> <span class="nav-text">结巴分词</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/04/15/ml/NLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习-NLP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-15 16:34:11" itemprop="dateCreated datePublished" datetime="2019-04-15T16:34:11+08:00">2019-04-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>自然语言是人类智慧的结晶，自然语言处理是人工智能中最为困难的问题之一，而对自然语言处理的研究也是充满魅力和挑战的。</p>
+<span id="more"></span>
+
+<h2 id="NLP"><a href="#NLP" class="headerlink" title="NLP"></a>NLP</h2><p>文本-&gt;语义<br>分类器<br>文本-&gt;特征值<br>今天 中午 我要 吃 饺子<br>NLTK - 自然语言工具包</p>
+<h2 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h2><p>使用指南</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line">tk.sent_tokenize(段落) -&gt; 按句拆分</span><br><span class="line">首字母大写、句尾标点(.!?...)</span><br><span class="line">tk.word_tokenize(句子) -&gt; 按单词拆分</span><br><span class="line">n个连续&lt;空格&gt;、换行、标点</span><br><span class="line">分词器 = tk.WordPunctTokenizer()</span><br><span class="line">分词器.tokenize(句子)-&gt;按单词拆分</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line">doc = <span class="string">&quot;Are you curious about tokenization? &quot;</span> \</span><br><span class="line">      <span class="string">&quot;Let&#x27;s see how it works! &quot;</span> \</span><br><span class="line">      <span class="string">&quot;We need to analyze a couple of sentences &quot;</span> \</span><br><span class="line">      <span class="string">&quot;with punctuations to see it in action.&quot;</span></span><br><span class="line"><span class="built_in">print</span>(doc)</span><br><span class="line">tokens = tk.sent_tokenize(doc)</span><br><span class="line"><span class="keyword">for</span> i, token <span class="keyword">in</span> <span class="built_in">enumerate</span>(tokens):</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&#x27;%2d&#x27;</span> % (i + <span class="number">1</span>), token)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;-&#x27;</span> * <span class="number">15</span>)</span><br><span class="line">tokens = tk.word_tokenize(doc)</span><br><span class="line"><span class="keyword">for</span> i, token <span class="keyword">in</span> <span class="built_in">enumerate</span>(tokens):</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&#x27;%2d&#x27;</span> % (i + <span class="number">1</span>), token)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;-&#x27;</span> * <span class="number">15</span>)</span><br><span class="line">tokenizer = tk.WordPunctTokenizer()</span><br><span class="line">tokens = tokenizer.tokenize(doc)</span><br><span class="line"><span class="keyword">for</span> i, token <span class="keyword">in</span> <span class="built_in">enumerate</span>(tokens):</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&#x27;%2d&#x27;</span> % (i + <span class="number">1</span>), token)</span><br></pre></td></tr></table></figure>
+<h2 id="词干提取"><a href="#词干提取" class="headerlink" title="词干提取"></a>词干提取</h2><p>波特：偏宽松，保留更多的字母<br>兰卡斯特：偏严格，只保留较少的字母<br>思诺博：偏中庸，严格程度居于二者这间<br>词干!=词根!=原型<br>语义识别单位</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.stem.porter <span class="keyword">as</span> pt</span><br><span class="line"><span class="keyword">import</span> nltk.stem.lancaster <span class="keyword">as</span> lc</span><br><span class="line"><span class="keyword">import</span> nltk.stem.snowball <span class="keyword">as</span> sb</span><br><span class="line">words = [<span class="string">&#x27;table&#x27;</span>, <span class="string">&#x27;probably&#x27;</span>, <span class="string">&#x27;wolves&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;playing&#x27;</span>, <span class="string">&#x27;is&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;the&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;beaches&#x27;</span>, <span class="string">&#x27;grounded&#x27;</span>, <span class="string">&#x27;dreamt&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;envision&#x27;</span>]</span><br><span class="line">pt_stemmer = pt.PorterStemmer()</span><br><span class="line">lc_stemmer = lc.LancasterStemmer()</span><br><span class="line">sb_stemmer = sb.SnowballStemmer(<span class="string">&#x27;english&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">	pt_stem = pt_stemmer.stem(word)</span><br><span class="line">	lc_stem = lc_stemmer.stem(word)</span><br><span class="line">	sb_stem = sb_stemmer.stem(word)</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;%8s %8s %8s %8s&quot;</span> % (word, pt_stem,</span><br><span class="line">		lc_stem, sb_stem))</span><br></pre></td></tr></table></figure>
+<h2 id="词型还原"><a href="#词型还原" class="headerlink" title="词型还原"></a>词型还原</h2><p>名词：变成单数<br>动词：动词原型</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.stem <span class="keyword">as</span> ns</span><br><span class="line">words = [<span class="string">&#x27;table&#x27;</span>, <span class="string">&#x27;probably&#x27;</span>, <span class="string">&#x27;wolves&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;playing&#x27;</span>, <span class="string">&#x27;is&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;the&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;beaches&#x27;</span>, <span class="string">&#x27;grounded&#x27;</span>, <span class="string">&#x27;dreamt&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;envision&#x27;</span>]</span><br><span class="line">lemmatizer = ns.WordNetLemmatizer()</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">	n_lema = lemmatizer.lemmatize(word, pos=<span class="string">&#x27;n&#x27;</span>)</span><br><span class="line">	v_lema = lemmatizer.lemmatize(word, pos=<span class="string">&#x27;v&#x27;</span>)</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;%8s %8s %8s&quot;</span> % (word, n_lema, v_lema))</span><br></pre></td></tr></table></figure>
+<h2 id="词袋模型"><a href="#词袋模型" class="headerlink" title="词袋模型"></a>词袋模型</h2><p>词表：包含段落中不同单词的个数。<br>[1]The brown dog is running.<br>[2]The black dog is in the black room.<br>[3]Running in the room is forbidden.<br>the brown dog is running black in room forbidden<br>           black brown dog forbidden in is room running the<br>[1]         0         1         1           0         0  1    0           1         1<br>[2]         2         0         1           0         1  1    1           0         2<br>[3]         0         0         0           1         1  1    1           1         1 </p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line"><span class="keyword">import</span> sklearn.feature_extraction.text <span class="keyword">as</span> ft</span><br><span class="line">doc = <span class="string">&#x27;The brown dog is running. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;The black dog is in the black room. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;Running in the room is forbidden.&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(doc)</span><br><span class="line">setences = tk.sent_tokenize(doc)</span><br><span class="line"><span class="built_in">print</span>(setences)</span><br><span class="line"><span class="comment"># 计数矢量化器</span></span><br><span class="line">cv = ft.CountVectorizer()</span><br><span class="line">bow = cv.fit_transform(setences).toarray()</span><br><span class="line">words = cv.get_feature_names()</span><br><span class="line"><span class="built_in">print</span>(words)</span><br><span class="line"><span class="built_in">print</span>(bow)</span><br></pre></td></tr></table></figure>
+<h2 id="词频"><a href="#词频" class="headerlink" title="词频"></a>词频</h2><p>对词袋矩阵做归一化，用词表中的每个单词在每个样本中出现的频率，表示该单词对具体语句语义的价值。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line"><span class="keyword">import</span> sklearn.feature_extraction.text <span class="keyword">as</span> ft</span><br><span class="line"><span class="keyword">import</span> sklearn.preprocessing <span class="keyword">as</span> sp</span><br><span class="line">doc = <span class="string">&#x27;The brown dog is running. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;The black dog is in the black room. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;Running in the room is forbidden.&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(doc)</span><br><span class="line">setences = tk.sent_tokenize(doc)</span><br><span class="line"><span class="built_in">print</span>(setences)</span><br><span class="line"><span class="comment"># 计数矢量化器</span></span><br><span class="line">cv = ft.CountVectorizer()</span><br><span class="line">bow = cv.fit_transform(setences).toarray()</span><br><span class="line">words = cv.get_feature_names()</span><br><span class="line"><span class="built_in">print</span>(words)</span><br><span class="line"><span class="built_in">print</span>(bow)</span><br><span class="line">tf = sp.normalize(bow, norm=<span class="string">&#x27;l1&#x27;</span>);</span><br><span class="line"><span class="built_in">print</span>(tf)</span><br></pre></td></tr></table></figure>
+<p>$$逆文档频率 = \frac{样本总数}{包含某个特定单词的样本数}$$</p>
+<p>词频逆文档频率：TF-IDF，自然语言的数学模型</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line"><span class="keyword">import</span> sklearn.feature_extraction.text <span class="keyword">as</span> ft</span><br><span class="line">doc = <span class="string">&#x27;The brown dog is running. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;The black dog is in the black room. &#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;Running in the room is forbidden.&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(doc)</span><br><span class="line">setences = tk.sent_tokenize(doc)</span><br><span class="line"><span class="built_in">print</span>(setences)</span><br><span class="line"><span class="comment"># 计数矢量化器</span></span><br><span class="line">cv = ft.CountVectorizer()</span><br><span class="line">bow = cv.fit_transform(setences).toarray()</span><br><span class="line">words = cv.get_feature_names()</span><br><span class="line"><span class="built_in">print</span>(words)</span><br><span class="line"><span class="built_in">print</span>(bow)</span><br><span class="line"><span class="comment"># TF-IDF转换器</span></span><br><span class="line">tt = ft.TfidfTransformer()</span><br><span class="line">tfidf = tt.fit_transform(bow).toarray()</span><br><span class="line"><span class="built_in">print</span>(tfidf)</span><br></pre></td></tr></table></figure>
+<h2 id="文本分类"><a href="#文本分类" class="headerlink" title="文本分类"></a>文本分类</h2><p>1 2 3 4 5 6<br>2 3 0 0 4 1<br>0 8 0 0 0 2<br>…</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sklearn.datasets <span class="keyword">as</span> sd</span><br><span class="line"><span class="keyword">import</span> sklearn.feature_extraction.text <span class="keyword">as</span> ft</span><br><span class="line"><span class="keyword">import</span> sklearn.naive_bayes <span class="keyword">as</span> nb</span><br><span class="line">train = sd.load_files(<span class="string">&#x27;../data/20news&#x27;</span>,</span><br><span class="line">	encoding=<span class="string">&#x27;latin1&#x27;</span>, shuffle=<span class="literal">True</span>,</span><br><span class="line">	random_state=<span class="number">7</span>)</span><br><span class="line">train_data = train.data</span><br><span class="line">train_y = train.target</span><br><span class="line">categories = train.target_names</span><br><span class="line">cv = ft.CountVectorizer()</span><br><span class="line">train_bow = cv.fit_transform(train_data)</span><br><span class="line">tt = ft.TfidfTransformer()</span><br><span class="line"><span class="comment"># TF-IDF</span></span><br><span class="line">train_x = tt.fit_transform(train_bow);</span><br><span class="line"><span class="comment"># 基于多项分布的朴素贝叶斯分类器</span></span><br><span class="line">model = nb.MultinomialNB()</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">test_data = [</span><br><span class="line">	<span class="string">&#x27;The curveballs of right handed pitchers tend to curve to the left&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;Caesar cipher is an ancient form of encryption&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;This two-wheeler is realy good on slippery roads&#x27;</span>]</span><br><span class="line">test_bow = cv.transform(test_data)</span><br><span class="line">test_x = tt.transform(test_bow)</span><br><span class="line">pred_test_y = model.predict(test_x)</span><br><span class="line"><span class="keyword">for</span> sentence, index <span class="keyword">in</span> <span class="built_in">zip</span>(</span><br><span class="line">	test_data, pred_test_y):</span><br><span class="line">	<span class="built_in">print</span>(sentence, <span class="string">&#x27;-&gt;&#x27;</span>, categories[index])</span><br></pre></td></tr></table></figure>
+<h2 id="情感分析"><a href="#情感分析" class="headerlink" title="情感分析"></a>情感分析</h2><p>一个样本一个tuple: (dict: {特征名: 特征值}, 输出)<br>整个样本集就是一个tuple的list</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.corpus <span class="keyword">as</span> nc</span><br><span class="line"><span class="keyword">import</span> nltk.classify <span class="keyword">as</span> cf</span><br><span class="line"><span class="keyword">import</span> nltk.classify.util <span class="keyword">as</span> cu</span><br><span class="line">pdata = []</span><br><span class="line">fileids = nc.movie_reviews.fileids(<span class="string">&#x27;pos&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> fileid <span class="keyword">in</span> fileids:</span><br><span class="line">	feature = &#123;&#125;</span><br><span class="line">	words = nc.movie_reviews.words(fileid)</span><br><span class="line">	<span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">		feature[word] = <span class="literal">True</span>;</span><br><span class="line">	pdata.append((feature, <span class="string">&#x27;POSITIVE&#x27;</span>))</span><br><span class="line">ndata = []</span><br><span class="line">fileids = nc.movie_reviews.fileids(<span class="string">&#x27;neg&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> fileid <span class="keyword">in</span> fileids:</span><br><span class="line">	feature = &#123;&#125;</span><br><span class="line">	words = nc.movie_reviews.words(fileid)</span><br><span class="line">	<span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">		feature[word] = <span class="literal">True</span>;</span><br><span class="line">	ndata.append((feature, <span class="string">&#x27;NEGATIVE&#x27;</span>))</span><br><span class="line">pnumb, nnumb = <span class="built_in">int</span>(<span class="number">0.8</span> * <span class="built_in">len</span>(pdata)), \</span><br><span class="line">	<span class="built_in">int</span>(<span class="number">0.8</span> * <span class="built_in">len</span>(ndata))</span><br><span class="line">train_data = pdata[:pnumb] + ndata[:nnumb]</span><br><span class="line">test_data = pdata[pnumb:] + ndata[nnumb:]</span><br><span class="line">model = cf.NaiveBayesClassifier.train(</span><br><span class="line">	train_data)</span><br><span class="line">ac = cu.accuracy(model, test_data)</span><br><span class="line">reviews = [</span><br><span class="line">	<span class="string">&#x27;It is an amazing movie.&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;This is a dull movie. I would never recommend it to anyone.&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;The cinematography is pretty great in this movie.&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;The direction was terrible and the story was all over the place.&#x27;</span>]</span><br><span class="line">sents, probs = [], []</span><br><span class="line"><span class="keyword">for</span> review <span class="keyword">in</span> reviews:</span><br><span class="line">	feature = &#123;&#125;</span><br><span class="line">	words = review.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">	<span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">		feature[word] = <span class="literal">True</span></span><br><span class="line">	pcls = model.prob_classify(feature)</span><br><span class="line">	sent = pcls.<span class="built_in">max</span>()</span><br><span class="line">	prob = pcls.prob(sent)</span><br><span class="line">	sents.append(sent)</span><br><span class="line">	probs.append(prob)</span><br><span class="line"><span class="keyword">for</span> review, sent, prob <span class="keyword">in</span> <span class="built_in">zip</span>(</span><br><span class="line">	reviews, sents, probs):</span><br><span class="line">	<span class="built_in">print</span>(review, <span class="string">&#x27;-&gt;&#x27;</span>, sent, prob)</span><br></pre></td></tr></table></figure>
+<h2 id="主题抽取"><a href="#主题抽取" class="headerlink" title="主题抽取"></a>主题抽取</h2><p>基于LDA，隐狄利克雷分布</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(</span><br><span class="line">	<span class="string">&#x27;ignore&#x27;</span>, category=UserWarning)</span><br><span class="line"><span class="keyword">import</span> nltk.tokenize <span class="keyword">as</span> tk</span><br><span class="line"><span class="keyword">import</span> nltk.corpus <span class="keyword">as</span> nc</span><br><span class="line"><span class="keyword">import</span> nltk.stem.snowball <span class="keyword">as</span> sb</span><br><span class="line"><span class="keyword">import</span> gensim.models.ldamodel <span class="keyword">as</span> gm</span><br><span class="line"><span class="keyword">import</span> gensim.corpora <span class="keyword">as</span> gc</span><br><span class="line">doc = []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/topic.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">		doc.append(line[:-<span class="number">1</span>])</span><br><span class="line">tokenizer = tk.RegexpTokenizer(<span class="string">r&#x27;\w+&#x27;</span>)</span><br><span class="line">stopwords = nc.stopwords.words(<span class="string">&#x27;english&#x27;</span>)</span><br><span class="line">stemmer = sb.SnowballStemmer(<span class="string">&#x27;english&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="结巴分词"><a href="#结巴分词" class="headerlink" title="结巴分词"></a>结巴分词</h2><p><a target="_blank" rel="noopener" href="https://github.com/fxsjy/jieba">GitHub</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AI%E8%BF%9B%E9%98%B6/" rel="tag"><i class="fa fa-tag"></i> AI进阶</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/11/ml/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="prev" title="机器学习-推荐系统">
+                  <i class="fa fa-chevron-left"></i> 机器学习-推荐系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/04/20/ml/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="next" title="机器学习-语音识别">
+                  机器学习-语音识别 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

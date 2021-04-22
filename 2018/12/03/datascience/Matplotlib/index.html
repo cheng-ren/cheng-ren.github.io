@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Matplotlib 是 Python 的绘图库。 它可与 NumPy 一起使用，提供了一种有效的 MatLab 开源替代方案。使用它可以很方便的绘制出版质量级别的图形。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matplotlib">
+<meta property="og:url" content="https://rencheng.cc/2018/12/03/datascience/Matplotlib/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="Matplotlib 是 Python 的绘图库。 它可与 NumPy 一起使用，提供了一种有效的 MatLab 开源替代方案。使用它可以很方便的绘制出版质量级别的图形。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/h0wl9.png">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/ku31o.png">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/x8an5.gif">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/whkot.png">
+<meta property="og:image" content="https://cdn.renchengqi.com/blog/omq6w.png">
+<meta property="article:published_time" content="2018-12-03T13:58:11.000Z">
+<meta property="article:modified_time" content="2018-12-03T13:58:11.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="数据分析">
+<meta property="article:tag" content="AI进阶">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/h0wl9.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/12/03/datascience/Matplotlib/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Matplotlib | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#matplotlib%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">matplotlib基本功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%98%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">基本绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E6%B0%B4%E5%B9%B3%E7%BA%BF%E4%B8%8E%E5%9E%82%E7%9B%B4%E7%BA%BF%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">绘制水平线与垂直线：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E5%9E%8B%E3%80%81%E7%BA%BF%E5%AE%BD%E5%92%8C%E9%A2%9C%E8%89%B2"><span class="nav-number">2.2.</span> <span class="nav-text">线型、线宽和颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%9D%90%E6%A0%87%E8%BD%B4%E8%8C%83%E5%9B%B4"><span class="nav-number">2.3.</span> <span class="nav-text">设置坐标轴范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%9D%90%E6%A0%87%E5%88%BB%E5%BA%A6"><span class="nav-number">2.4.</span> <span class="nav-text">设置坐标刻度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%9D%90%E6%A0%87%E8%BD%B4"><span class="nav-number">2.5.</span> <span class="nav-text">设置坐标轴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E4%BE%8B"><span class="nav-number">2.6.</span> <span class="nav-text">图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%82%B9"><span class="nav-number">2.7.</span> <span class="nav-text">特殊点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E6%B3%A8"><span class="nav-number">2.8.</span> <span class="nav-text">备注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E5%AF%B9%E8%B1%A1%EF%BC%88%E5%9B%BE%E5%BD%A2%E7%AA%97%E5%8F%A3%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">图形对象（图形窗口）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">子图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%BB%E5%BA%A6%E5%AE%9A%E4%BD%8D%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">刻度定位器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%BB%E5%BA%A6%E7%BD%91%E6%A0%BC%E7%BA%BF"><span class="nav-number">3.3.</span> <span class="nav-text">刻度网格线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8A%E5%AF%B9%E6%95%B0%E5%9D%90%E6%A0%87"><span class="nav-number">3.4.</span> <span class="nav-text">半对数坐标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%A3%E7%82%B9%E5%9B%BE"><span class="nav-number">3.5.</span> <span class="nav-text">散点图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A1%AB%E5%85%85"><span class="nav-number">3.6.</span> <span class="nav-text">填充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E5%BD%A2%E5%9B%BE%EF%BC%88%E6%9F%B1%E7%8A%B6%E5%9B%BE%EF%BC%89"><span class="nav-number">3.7.</span> <span class="nav-text">条形图（柱状图）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A5%BC%E5%9B%BE"><span class="nav-number">3.8.</span> <span class="nav-text">饼图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E9%AB%98%E7%BA%BF%E5%9B%BE"><span class="nav-number">3.9.</span> <span class="nav-text">等高线图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%88%90%E5%83%8F%E5%9B%BE"><span class="nav-number">3.10.</span> <span class="nav-text">热成像图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-number">3.11.</span> <span class="nav-text">极坐标系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D%E5%9B%BE%E5%83%8F%E7%BB%98%E5%88%B6"><span class="nav-number">3.12.</span> <span class="nav-text">3D图像绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB"><span class="nav-number">3.13.</span> <span class="nav-text">简单动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96Python%E7%9A%84%E7%BB%98%E5%9B%BE%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">其他Python的绘图库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linestyle"><span class="nav-number">5.1.</span> <span class="nav-text">linestyle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linecolor"><span class="nav-number">5.2.</span> <span class="nav-text">linecolor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#laTex%E6%8E%92%E7%89%88%E8%AF%AD%E6%B3%95"><span class="nav-number">5.3.</span> <span class="nav-text">laTex排版语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmap%E9%A2%9C%E8%89%B2%E6%98%A0%E5%B0%84%E8%A1%A8"><span class="nav-number">5.4.</span> <span class="nav-text">cmap颜色映射表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#point%E6%A0%B7%E5%BC%8F"><span class="nav-number">5.5.</span> <span class="nav-text">point样式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/12/03/datascience/Matplotlib/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Matplotlib
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-03 21:58:11" itemprop="dateCreated datePublished" datetime="2018-12-03T21:58:11+08:00">2018-12-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>21k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Matplotlib 是 Python 的绘图库。 它可与 NumPy 一起使用，提供了一种有效的 MatLab 开源替代方案。使用它可以很方便的绘制出版质量级别的图形。</p>
+<span id="more"></span>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/">官网</a></p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/gallery/index.html">效果展示</a></p>
+<h3 id="matplotlib基本功能"><a href="#matplotlib基本功能" class="headerlink" title="matplotlib基本功能"></a>matplotlib基本功能</h3><ol>
+<li>基本绘图 （在二维平面坐标系中绘制连续的线）<ol>
+<li>设置线型、线宽和颜色  </li>
+<li>设置坐标轴范围</li>
+<li>设置坐标刻度</li>
+<li>设置坐标轴</li>
+<li>图例</li>
+<li>特殊点</li>
+<li>备注</li>
+</ol>
+</li>
+<li>图形对象(图形窗口)<ol>
+<li>子图</li>
+<li>刻度定位器</li>
+<li>刻度网格线</li>
+<li>半对数坐标</li>
+<li>散点图</li>
+<li>填充</li>
+<li>条形图（柱状图）</li>
+<li>饼图</li>
+<li>等高线图</li>
+<li>热成像图</li>
+<li>极坐标系</li>
+<li>三维曲面</li>
+<li>简单动画</li>
+</ol>
+</li>
+</ol>
+<h2 id="基本绘图"><a href="#基本绘图" class="headerlink" title="基本绘图"></a>基本绘图</h2><p>案例：绘制一条正弦曲线</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="comment"># xarray: &lt;序列&gt; 水平坐标序列</span></span><br><span class="line"><span class="comment"># yarray: &lt;序列&gt; 垂直坐标序列</span></span><br><span class="line">mp.plot(xarray, yarray)</span><br><span class="line"><span class="comment">#显示图表</span></span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="绘制水平线与垂直线："><a href="#绘制水平线与垂直线：" class="headerlink" title="绘制水平线与垂直线："></a>绘制水平线与垂直线：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="comment"># vertical 绘制垂直线</span></span><br><span class="line">mp.vlines(vval, ymin, ymax, ...)</span><br><span class="line"><span class="comment"># horizotal 绘制水平线</span></span><br><span class="line">mp.hlines(xval, xmin, xmax, ...)</span><br><span class="line"><span class="comment">#显示图表</span></span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="线型、线宽和颜色"><a href="#线型、线宽和颜色" class="headerlink" title="线型、线宽和颜色"></a>线型、线宽和颜色</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linestyle: &#x27;-&#x27; 实线  &#x27;--&#x27; 虚线  &#x27;:&#x27; 点线</span></span><br><span class="line"><span class="comment">#linewidth: 线宽</span></span><br><span class="line">	<span class="comment">#	数字</span></span><br><span class="line"><span class="comment">#color: &lt;关键字参数&gt; 颜色</span></span><br><span class="line">	<span class="comment">#	英文颜色单词 或 常见颜色英文单词首字母 或 #495434 或 (1,1,1) 或 (1,1,1,1)</span></span><br><span class="line"><span class="comment">#alpha: &lt;关键字参数&gt; 透明度</span></span><br><span class="line">	<span class="comment">#	浮点数值</span></span><br><span class="line">mp.plot(xarray, yarray, linestyle=<span class="string">&#x27;&#x27;</span>, linewidth=<span class="number">1</span>, color=<span class="string">&#x27;&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p>linestyle 见附录<br>linecolor 见附录</p>
+<h3 id="设置坐标轴范围"><a href="#设置坐标轴范围" class="headerlink" title="设置坐标轴范围"></a>设置坐标轴范围</h3><p>案例：把坐标轴范围设置为 -π ~ π</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#x_limt_min:	&lt;float&gt; x轴范围最小值</span></span><br><span class="line"><span class="comment">#x_limit_max:	&lt;float&gt; x轴范围最大值</span></span><br><span class="line">mp.xlim(x_limt_min, x_limit_max)</span><br><span class="line"><span class="comment">#y_limt_min:	&lt;float&gt; y轴范围最小值</span></span><br><span class="line"><span class="comment">#y_limit_max:	&lt;float&gt; y轴范围最大值</span></span><br><span class="line">mp.ylim(y_limt_min, y_limit_max)</span><br></pre></td></tr></table></figure>
+<p><strong>应用场景</strong><br>查看可视范围，例如只看第一象限；</p>
+<h3 id="设置坐标刻度"><a href="#设置坐标刻度" class="headerlink" title="设置坐标刻度"></a>设置坐标刻度</h3><p>案例：把横坐标的刻度显示为：0, π/2, π, 3π/2, 2π</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#x_val_list: 	x轴刻度值序列</span></span><br><span class="line"><span class="comment">#x_text_list:	x轴刻度标签文本序列 [可选]</span></span><br><span class="line">mp.xticks(x_val_list , x_text_list )</span><br><span class="line"><span class="comment">#y_val_list: 	y轴刻度值序列</span></span><br><span class="line"><span class="comment">#y_text_list:	y轴刻度标签文本序列 [可选]</span></span><br><span class="line">mp.yticks(y_val_list , y_text_list )</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>刻度文本的特殊语法</strong></em> – <em>LaTex排版语法字符串</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">r&#x27;$x^n+y^n=z^n$&#x27;</span>,   <span class="string">r&#x27;$\int\frac&#123;1&#125;&#123;x&#125; dx = \ln |x| + C$&#x27;</span>,     <span class="string">r&#x27;$-\frac&#123;\pi&#125;&#123;2&#125;$&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>$$<br>x^n+y^n=z^n,  \int\frac{1}{x} dx = \ln |x| + C,     -\frac{\pi}{2}<br>$$<br>具体见附录</p>
+<h3 id="设置坐标轴"><a href="#设置坐标轴" class="headerlink" title="设置坐标轴"></a>设置坐标轴</h3><p>坐标轴名：left / right / bottom / top</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前坐标轴对象，&#123;&#x27;left&#x27;:左轴,&#x27;right&#x27;:右轴,&#x27;bottom&#x27;:下轴,&#x27;top&#x27;:上轴 &#125;</span></span><br><span class="line">ax = mp.gca()</span><br><span class="line"><span class="comment"># 获取其中某个坐标轴</span></span><br><span class="line">axis = ax.spines[<span class="string">&#x27;坐标轴名&#x27;</span>]</span><br><span class="line"><span class="comment"># 设置坐标轴的位置。 该方法需要传入2个元素的元组作为参数</span></span><br><span class="line"><span class="comment"># type: &lt;<span class="built_in">str</span>&gt; 移动坐标轴的参照类型  一般为&#x27;data&#x27; (以数据的值作为移动参照值)</span></span><br><span class="line"><span class="comment"># val:  参照值</span></span><br><span class="line">axis.set_position((<span class="built_in">type</span>, val))</span><br><span class="line"><span class="comment"># 设置坐标轴的颜色</span></span><br><span class="line"><span class="comment"># color: &lt;str&gt; 颜色值字符串</span></span><br><span class="line">axis.set_color(color)</span><br></pre></td></tr></table></figure>
+
+<p>案例：设置坐标轴至中心。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置坐标轴</span></span><br><span class="line">ax = mp.gca()</span><br><span class="line">ax.spines[<span class="string">&#x27;top&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">ax.spines[<span class="string">&#x27;right&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">ax.spines[<span class="string">&#x27;left&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, <span class="number">0</span>))</span><br><span class="line">ax.spines[<span class="string">&#x27;bottom&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, <span class="number">0</span>))</span><br><span class="line">mp.yticks([-<span class="number">1</span>, -<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h3><blockquote>
+<p>图例就是标注哪条线是什么意思</p>
+</blockquote>
+<p>显示两条曲线的图例，并测试loc属性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 再绘制曲线时定义曲线的label</span></span><br><span class="line"><span class="comment"># label: &lt;关键字参数 str&gt; 支持LaTex排版语法字符串</span></span><br><span class="line">mp.plot(xarray, yarray ... label=<span class="string">&#x27;&#x27;</span>, ...)</span><br><span class="line"><span class="comment"># 设置图例的位置</span></span><br><span class="line"><span class="comment"># loc: &lt;关键字参数&gt; 制定图例的显示位置 (若不设置loc，则显示默认位置)</span></span><br><span class="line"><span class="comment">#	 ===============   =============</span></span><br><span class="line"><span class="comment">#    Location String   Location Code</span></span><br><span class="line"><span class="comment">#    ===============   =============</span></span><br><span class="line"><span class="comment">#    &#x27;best&#x27;            0</span></span><br><span class="line"><span class="comment">#    &#x27;upper right&#x27;     1</span></span><br><span class="line"><span class="comment">#    &#x27;upper left&#x27;      2</span></span><br><span class="line"><span class="comment">#    &#x27;lower left&#x27;      3</span></span><br><span class="line"><span class="comment">#    &#x27;lower right&#x27;     4</span></span><br><span class="line"><span class="comment">#    &#x27;right&#x27;           5</span></span><br><span class="line"><span class="comment">#    &#x27;center left&#x27;     6</span></span><br><span class="line"><span class="comment">#    &#x27;center right&#x27;    7</span></span><br><span class="line"><span class="comment">#    &#x27;lower center&#x27;    8</span></span><br><span class="line"><span class="comment">#    &#x27;upper center&#x27;    9</span></span><br><span class="line"><span class="comment">#    &#x27;center&#x27;          10</span></span><br><span class="line"><span class="comment">#    ===============   =============</span></span><br><span class="line">mp.legend(loc=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊点"><a href="#特殊点" class="headerlink" title="特殊点"></a>特殊点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xarray: &lt;序列&gt; 所有需要标注点的水平坐标组成的序列</span></span><br><span class="line"><span class="comment"># yarray: &lt;序列&gt; 所有需要标注点的垂直坐标组成的序列</span></span><br><span class="line">mp.scatter(xarray, yarray, </span><br><span class="line">           marker=<span class="string">&#x27;&#x27;</span>, 		<span class="comment">#点型 ~ matplotlib.markers</span></span><br><span class="line">           s=<span class="number">60</span>, 			<span class="comment">#大小</span></span><br><span class="line">           edgecolor=<span class="string">&#x27;&#x27;</span>, 	<span class="comment">#边缘色</span></span><br><span class="line">           facecolor=<span class="string">&#x27;&#x27;</span>,	<span class="comment">#填充色</span></span><br><span class="line">           zorder=<span class="number">3</span>			<span class="comment">#绘制图层编号 （编号越大，图层越靠上）</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><em>marker点型可参照：help(matplotlib.markers)</em></p>
+<p>也可参照附录：point样式</p>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>为在某条曲线上的点添加备注，指明函数方程与值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在图表中为某个点添加备注。包含备注文本，备注箭头等图像的设置。</span></span><br><span class="line">mp.annotate(</span><br><span class="line">    <span class="string">r&#x27;$\frac&#123;\pi&#125;&#123;2&#125;$&#x27;</span>, <span class="comment">#备注中显示的文本内容</span></span><br><span class="line">    xycoords=<span class="string">&#x27;data&#x27;</span>,    <span class="comment">#备注目标点所使用的坐标系（data表示数据坐标系）</span></span><br><span class="line">    xy=(x, y),          <span class="comment">#备注目标点的坐标</span></span><br><span class="line">    textcoords=<span class="string">&#x27;offset points&#x27;</span>, <span class="comment">#备注文本所使用的坐标系（offset points表示参照点的偏移坐标系）</span></span><br><span class="line">    xytext=(x, y),      <span class="comment">#备注文本的坐标</span></span><br><span class="line">    fontsize=<span class="number">14</span>,        <span class="comment">#备注文本的字体大小</span></span><br><span class="line">    arrowprops=<span class="built_in">dict</span>()   <span class="comment">#使用字典定义文本指向目标点的箭头样式</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>arrowprops参数使用字典定义指向目标点的箭头样式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#arrowprops字典参数的常用key</span></span><br><span class="line">arrowprops=<span class="built_in">dict</span>(</span><br><span class="line">    arrowstyle=<span class="string">&#x27;&#x27;</span>,		<span class="comment">#定义箭头样式</span></span><br><span class="line">    connectionstyle=<span class="string">&#x27;&#x27;</span>	<span class="comment">#定义连接线的样式</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>箭头样式（arrowstyle）字符串如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Name           Attrs</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  &#39;-&#39;          None</span><br><span class="line">  &#39;-&gt;&#39;         head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;-[&#39;         widthB&#x3D;1.0,lengthB&#x3D;0.2,angleB&#x3D;None</span><br><span class="line">  &#39;|-|&#39;        widthA&#x3D;1.0,widthB&#x3D;1.0</span><br><span class="line">  &#39;-|&gt;&#39;        head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;&lt;-&#39;         head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;&lt;-&gt;&#39;        head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;&lt;|-&#39;        head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;&lt;|-|&gt;&#39;      head_length&#x3D;0.4,head_width&#x3D;0.2</span><br><span class="line">  &#39;fancy&#39;      head_length&#x3D;0.4,head_width&#x3D;0.4,tail_width&#x3D;0.4</span><br><span class="line">  &#39;simple&#39;     head_length&#x3D;0.5,head_width&#x3D;0.5,tail_width&#x3D;0.2</span><br><span class="line">  &#39;wedge&#39;      tail_width&#x3D;0.3,shrink_factor&#x3D;0.5</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p><strong>连接线样式（connectionstyle）字符串如下</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Attrs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">‘angle’</td>
+<td align="left">angleA=90,angleB=0,rad=0.0</td>
+</tr>
+<tr>
+<td align="left">‘angle3’</td>
+<td align="left">angleA=90,angleB=0`</td>
+</tr>
+<tr>
+<td align="left">‘arc’</td>
+<td align="left">angleA=0,angleB=0,armA=None,armB=None,rad=0.0</td>
+</tr>
+<tr>
+<td align="left">‘arc3’</td>
+<td align="left">rad=0.0</td>
+</tr>
+<tr>
+<td align="left">‘bar’</td>
+<td align="left">armA=0.0,armB=0.0,fraction=0.3,angle=None</td>
+</tr>
+</tbody></table>
+<h2 id="图形对象（图形窗口）"><a href="#图形对象（图形窗口）" class="headerlink" title="图形对象（图形窗口）"></a>图形对象（图形窗口）</h2><p>绘制两个窗口，一起显示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手动构建 matplotlib 窗口</span></span><br><span class="line">mp.figure(</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>,            <span class="comment">#窗口标题栏文本 </span></span><br><span class="line">    facecolor=<span class="string">&#x27;&#x27;</span>		<span class="comment">#图表背景色</span></span><br><span class="line">)</span><br><span class="line">mp.figure(<span class="string">&#x27;B&#x27;</span>)</span><br><span class="line">mp.figure(<span class="string">&#x27;A&#x27;</span>)  <span class="comment"># 把A创建置为当前窗口</span></span><br><span class="line">mp.plot(....) <span class="comment"># 将会作用在A窗口中</span></span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>mp.figure方法不仅可以构建一个新窗口，如果已经构建过title=’xxx’的窗口，又使用figure方法构建了title=’xxx’ 的窗口的话，mp将不会创建新的窗口，而是把title=’xxx’的窗口置为当前操作窗口。</p>
+<p><strong>设置当前窗口的参数</strong></p>
+<p>案例：测试窗口相关参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置图表标题 显示在图表上方</span></span><br><span class="line">mp.title(title, fontsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment"># 设置水平轴的文本</span></span><br><span class="line">mp.xlabel(x_label_str, fontsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment"># 设置垂直轴的文本</span></span><br><span class="line">mp.ylabel(y_label_str, fontsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment"># 设置刻度参数   labelsize设置刻度字体大小</span></span><br><span class="line">mp.tick_params(labelsize=<span class="number">8</span>)</span><br><span class="line"><span class="comment"># 设置图表网格线  linestyle设置网格线的样式</span></span><br><span class="line">	<span class="comment">#	-  or solid 粗线</span></span><br><span class="line">	<span class="comment">#   -- or dashed 虚线</span></span><br><span class="line">	<span class="comment">#   -. or dashdot 点虚线</span></span><br><span class="line">	<span class="comment">#   :  or dotted 点线</span></span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="comment"># 设置紧凑布局，把图表相关参数都显示在窗口中</span></span><br><span class="line">mp.tight_layout() </span><br></pre></td></tr></table></figure>
+
+<h3 id="子图"><a href="#子图" class="headerlink" title="子图"></a>子图</h3><p><strong>矩阵式布局</strong></p>
+<p>绘制矩阵式子图布局相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Subplot Layout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"><span class="comment"># 拆分矩阵</span></span><br><span class="line">	<span class="comment"># rows:	行数</span></span><br><span class="line">    <span class="comment"># cols:	列数</span></span><br><span class="line">    <span class="comment"># num:	编号</span></span><br><span class="line">mp.subplot(rows, cols, num)</span><br><span class="line">	<span class="comment">#	1 2 3</span></span><br><span class="line">	<span class="comment">#	4 5 6</span></span><br><span class="line">	<span class="comment">#	7 8 9 </span></span><br><span class="line">mp.subplot(<span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>)		<span class="comment">#操作3*3的矩阵中编号为5的子图</span></span><br><span class="line">mp.plot()</span><br><span class="line">mp.subplot(<span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>)		<span class="comment">#操作3*3的矩阵中编号为1的子图</span></span><br><span class="line">mp.plot()</span><br><span class="line">mp.subplot(<span class="number">335</span>)			<span class="comment">#简写</span></span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制9宫格矩阵式子图，每个子图中写一个数字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Subplot Layout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>):</span><br><span class="line">	mp.subplot(<span class="number">3</span>, <span class="number">3</span>, i+<span class="number">1</span>)</span><br><span class="line">	mp.text(</span><br><span class="line">		<span class="number">0.5</span>, <span class="number">0.5</span>, i+<span class="number">1</span>, </span><br><span class="line">		ha=<span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">		va=<span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">		size=<span class="number">36</span>,</span><br><span class="line">		alpha=<span class="number">0.5</span></span><br><span class="line">	)</span><br><span class="line">	mp.xticks([])</span><br><span class="line">	mp.yticks([])</span><br><span class="line"></span><br><span class="line">mp.tight_layout()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p><strong>网格式布局</strong></p>
+<p>网格式布局支持单元格的合并。</p>
+<p>绘制网格式子图布局相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.gridspec <span class="keyword">as</span> mg</span><br><span class="line">mp.figure(<span class="string">&#x27;Grid Layout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"><span class="comment"># 调用GridSpec方法拆分网格式布局</span></span><br><span class="line"><span class="comment"># rows:	行数</span></span><br><span class="line"><span class="comment"># cols:	列数</span></span><br><span class="line"><span class="comment"># gs = mg.GridSpec(rows, cols)	拆分成3行3列</span></span><br><span class="line">gs = mg.GridSpec(<span class="number">3</span>, <span class="number">3</span>)	</span><br><span class="line"><span class="comment"># 合并0行与0、1列为一个子图表</span></span><br><span class="line">mp.subplot(gs[<span class="number">0</span>, :<span class="number">2</span>])</span><br><span class="line">mp.text(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="string">&#x27;1&#x27;</span>, ha=<span class="string">&#x27;center&#x27;</span>, va=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">36</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制一个自定义网格布局。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.gridspec <span class="keyword">as</span> mg</span><br><span class="line">mp.figure(<span class="string">&#x27;GridLayout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">gridsubs = mp.GridSpec(<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line"><span class="comment"># 合并0行、0/1列为一个子图</span></span><br><span class="line">mp.subplot(gridsubs[<span class="number">0</span>, :<span class="number">2</span>])</span><br><span class="line">mp.text(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1</span>, ha=<span class="string">&#x27;center&#x27;</span>, va=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">36</span>)</span><br><span class="line">mp.tight_layout()</span><br><span class="line">mp.xticks([])</span><br><span class="line">mp.yticks([])</span><br></pre></td></tr></table></figure>
+
+<p><strong>自由式布局</strong></p>
+<p>自由式布局相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Flow Layout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"><span class="comment"># 设置图标的位置，给出左下角点坐标与宽高即可</span></span><br><span class="line"><span class="comment"># left_bottom_x: 坐下角点x坐标</span></span><br><span class="line"><span class="comment"># left_bottom_x: 坐下角点y坐标</span></span><br><span class="line"><span class="comment"># width:		 宽度</span></span><br><span class="line"><span class="comment"># height:		 高度</span></span><br><span class="line"><span class="comment"># mp.axes([left_bottom_x, left_bottom_y, width, height])</span></span><br><span class="line">mp.axes([<span class="number">0.03</span>, <span class="number">0.03</span>, <span class="number">0.94</span>, <span class="number">0.94</span>])</span><br><span class="line">mp.text(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="string">&#x27;1&#x27;</span>, ha=<span class="string">&#x27;center&#x27;</span>, va=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">36</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>案例：测试自由式布局，定位子图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;FlowLayout&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"></span><br><span class="line">mp.axes([<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.5</span>, <span class="number">0.3</span>])</span><br><span class="line">mp.text(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="string">&#x27;1&#x27;</span>, ha=<span class="string">&#x27;center&#x27;</span>, va=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">36</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="刻度定位器"><a href="#刻度定位器" class="headerlink" title="刻度定位器"></a>刻度定位器</h3><p>刻度定位器相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前坐标轴</span></span><br><span class="line">ax = mp.gca()</span><br><span class="line"><span class="comment"># 设置水平坐标轴的主刻度定位器</span></span><br><span class="line">ax.xaxis.set_major_locator(mp.NullLocator())</span><br><span class="line"><span class="comment"># 设置水平坐标轴的次刻度定位器为多点定位器，间隔0.1</span></span><br><span class="line">ax.xaxis.set_minor_locator(mp.MultipleLocator(<span class="number">0.1</span>))</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制一个数轴。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Locators&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"><span class="comment"># 获取当前坐标轴</span></span><br><span class="line">ax = mp.gca()</span><br><span class="line"><span class="comment"># 隐藏除底轴以外的所有坐标轴</span></span><br><span class="line">ax.spines[<span class="string">&#x27;left&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">ax.spines[<span class="string">&#x27;top&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">ax.spines[<span class="string">&#x27;right&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line"><span class="comment"># 将底坐标轴调整到子图中心位置</span></span><br><span class="line">ax.spines[<span class="string">&#x27;bottom&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, <span class="number">0</span>))</span><br><span class="line"><span class="comment"># 设置水平坐标轴的主刻度定位器</span></span><br><span class="line">ax.xaxis.set_major_locator(mp.NullLocator())</span><br><span class="line"><span class="comment"># 设置水平坐标轴的次刻度定位器为多点定位器，间隔0.1</span></span><br><span class="line">ax.xaxis.set_minor_locator(mp.MultipleLocator(<span class="number">0.1</span>))</span><br><span class="line"><span class="comment"># 标记所用刻度定位器类名 </span></span><br><span class="line">mp.text(<span class="number">5</span>, <span class="number">0.3</span>, <span class="string">&#x27;NullLocator()&#x27;</span>, ha=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+<p>案例：使用for循环测试刻度器样式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">locators = [<span class="string">&#x27;mp.NullLocator()&#x27;</span>, <span class="string">&#x27;mp.MaxNLocator(nbins=4)&#x27;</span>]</span><br><span class="line">	</span><br><span class="line"><span class="keyword">for</span> i, locator <span class="keyword">in</span> <span class="built_in">enumerate</span>(locators):</span><br><span class="line">    mp.subplot(<span class="built_in">len</span>(locators), <span class="number">1</span>, i+<span class="number">1</span>)</span><br><span class="line">	mp.xlim(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">	mp.ylim(-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">	mp.yticks([])</span><br><span class="line">	<span class="comment"># 获取当前坐标轴</span></span><br><span class="line">	ax = mp.gca()</span><br><span class="line">	<span class="comment"># 隐藏除底轴以外的所有坐标轴</span></span><br><span class="line">	ax.spines[<span class="string">&#x27;left&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">	ax.spines[<span class="string">&#x27;top&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">	ax.spines[<span class="string">&#x27;right&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">	<span class="comment"># 将底坐标轴调整到子图中心位置</span></span><br><span class="line">	ax.spines[<span class="string">&#x27;bottom&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, <span class="number">0</span>))</span><br><span class="line">	<span class="comment"># 设置水平坐标轴的主刻度定位器</span></span><br><span class="line">	ax.xaxis.set_major_locator(<span class="built_in">eval</span>( ))</span><br><span class="line">	<span class="comment"># 设置水平坐标轴的次刻度定位器为多点定位器，间隔0.1</span></span><br><span class="line">	ax.xaxis.set_minor_locator(mp.MultipleLocator(<span class="number">0.1</span>))</span><br><span class="line">	mp.plot(np.arange(<span class="number">11</span>), np.zeros(<span class="number">11</span>), c=<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">	<span class="comment"># 标记所用刻度定位器类名</span></span><br><span class="line">	mp.text(<span class="number">5</span>, <span class="number">0.3</span>, locator, ha=<span class="string">&#x27;center&#x27;</span>, size=<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+<p>常用刻度器如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 空定位器：不绘制刻度</span></span><br><span class="line">mp.NullLocator()</span><br><span class="line"><span class="comment"># 最大值定位器：</span></span><br><span class="line"><span class="comment"># 最多绘制nbins+1个刻度</span></span><br><span class="line">mp.MaxNLocator(nbins=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 定点定位器：根据locs参数中的位置绘制刻度</span></span><br><span class="line">mp.FixedLocator(locs=[<span class="number">0</span>, <span class="number">2.5</span>, <span class="number">5</span>, <span class="number">7.5</span>, <span class="number">10</span>])</span><br><span class="line"><span class="comment"># 自动定位器：由系统自动选择刻度的绘制位置</span></span><br><span class="line">mp.AutoLocator()</span><br><span class="line"><span class="comment"># 索引定位器：由offset确定起始刻度，由base确定相邻刻度的间隔</span></span><br><span class="line">mp.IndexLocator(offset=<span class="number">0.5</span>, base=<span class="number">1.5</span>)</span><br><span class="line"><span class="comment"># 多点定位器：从0开始，按照参数指定的间隔(缺省1)绘制刻度</span></span><br><span class="line">mp.MultipleLocator()</span><br><span class="line"><span class="comment"># 线性定位器：等分numticks-1份，绘制numticks个刻度</span></span><br><span class="line">mp.LinearLocator(numticks=<span class="number">21</span>)</span><br><span class="line"><span class="comment"># 对数定位器：以base为底，绘制刻度</span></span><br><span class="line">mp.LogLocator(base=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="刻度网格线"><a href="#刻度网格线" class="headerlink" title="刻度网格线"></a>刻度网格线</h3><p>绘制刻度网格线的相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ax = mp.gca()</span><br><span class="line"><span class="comment">#绘制刻度网格线</span></span><br><span class="line">ax.grid(</span><br><span class="line">    which=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># &#x27;major&#x27;/&#x27;minor&#x27; &lt;-&gt; &#x27;主刻度&#x27;/&#x27;次刻度&#x27; </span></span><br><span class="line">    axis=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># &#x27;x&#x27;/&#x27;y&#x27;/&#x27;both&#x27; &lt;-&gt; 绘制x或y轴</span></span><br><span class="line">    linewidth=<span class="number">1</span>, 	<span class="comment"># 线宽</span></span><br><span class="line">    linestyle=<span class="string">&#x27;&#x27;</span>, 	<span class="comment"># 线型</span></span><br><span class="line">    color=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># 颜色</span></span><br><span class="line">    alpha=<span class="number">0.5</span>		<span class="comment"># 透明度</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制曲线 [1, 10, 100, 1000, 100, 10, 1]，然后设置刻度网格线，测试刻度网格线的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">y = np.array([<span class="number">1</span>, <span class="number">10</span>, <span class="number">100</span>, <span class="number">1000</span>, <span class="number">100</span>, <span class="number">10</span>, <span class="number">1</span>])</span><br><span class="line">mp.figure(<span class="string">&#x27;Normal &amp; Log&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.subplot(<span class="number">211</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Normal&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax = mp.gca()</span><br><span class="line">ax.xaxis.set_major_locator(mp.MultipleLocator(<span class="number">1.0</span>))</span><br><span class="line">ax.xaxis.set_minor_locator(mp.MultipleLocator(<span class="number">0.1</span>))</span><br><span class="line">ax.yaxis.set_major_locator(mp.MultipleLocator(<span class="number">250</span>))</span><br><span class="line">ax.yaxis.set_minor_locator(mp.MultipleLocator(<span class="number">50</span>))</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">ax.grid(which=<span class="string">&#x27;major&#x27;</span>, axis=<span class="string">&#x27;both&#x27;</span>, linewidth=<span class="number">0.75</span>,</span><br><span class="line">        linestyle=<span class="string">&#x27;-&#x27;</span>, color=<span class="string">&#x27;orange&#x27;</span>)</span><br><span class="line">ax.grid(which=<span class="string">&#x27;minor&#x27;</span>, axis=<span class="string">&#x27;both&#x27;</span>, linewidth=<span class="number">0.25</span>,</span><br><span class="line">        linestyle=<span class="string">&#x27;-&#x27;</span>, color=<span class="string">&#x27;orange&#x27;</span>)</span><br><span class="line">mp.plot(y, <span class="string">&#x27;o-&#x27;</span>, c=<span class="string">&#x27;dodgerblue&#x27;</span>, label=<span class="string">&#x27;plot&#x27;</span>)</span><br><span class="line">mp.legend()</span><br></pre></td></tr></table></figure>
+
+<h3 id="半对数坐标"><a href="#半对数坐标" class="headerlink" title="半对数坐标"></a>半对数坐标</h3><p>y轴将以指数方式递增。 基于半对数坐标绘制第二个子图，表示曲线：[1, 10, 100, 1000, 100, 10, 1]。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Grid&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">y = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">100</span>, <span class="number">1000</span>, <span class="number">100</span>, <span class="number">10</span>, <span class="number">1</span>]</span><br><span class="line">mp.semilogy(y)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h3><p>可以通过每个点的坐标、颜色、大小和形状表示不同的特征值。</p>
+<table>
+<thead>
+<tr>
+<th>身高</th>
+<th>体重</th>
+<th>性别</th>
+<th>年龄段</th>
+<th>种族</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>180</td>
+<td>80</td>
+<td>男</td>
+<td>中年</td>
+<td>亚洲</td>
+</tr>
+<tr>
+<td>160</td>
+<td>50</td>
+<td>女</td>
+<td>青少</td>
+<td>美洲</td>
+</tr>
+</tbody></table>
+<p>绘制散点图的相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mp.scatter(</span><br><span class="line">    x, 					<span class="comment"># x轴坐标数组</span></span><br><span class="line">    y,					<span class="comment"># y轴坐标数组</span></span><br><span class="line">    marker=<span class="string">&#x27;&#x27;</span>, 			<span class="comment"># 点型</span></span><br><span class="line">    s=<span class="number">10</span>,				<span class="comment"># 大小</span></span><br><span class="line">    color=<span class="string">&#x27;&#x27;</span>,			<span class="comment"># 颜色</span></span><br><span class="line">    edgecolor=<span class="string">&#x27;&#x27;</span>, 		<span class="comment"># 边缘颜色</span></span><br><span class="line">    facecolor=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># 填充色</span></span><br><span class="line">    zorder=<span class="string">&#x27;&#x27;</span>			<span class="comment"># 图层序号</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>numpy.random提供了normal函数用于产生符合 正态分布 的随机数 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">100</span></span><br><span class="line"><span class="comment"># 172:	期望值</span></span><br><span class="line"><span class="comment"># 10:	标准差</span></span><br><span class="line"><span class="comment"># n:	数字生成数量</span></span><br><span class="line">x = np.random.normal(<span class="number">172</span>, <span class="number">20</span>, n)</span><br><span class="line">y = np.random.normal(<span class="number">60</span>, <span class="number">10</span>, n)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制平面散点图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;scatter&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;scatter&#x27;</span>)</span><br><span class="line">mp.scatter(x, y)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>设置点的颜色</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mp.scatter(x, y, c=<span class="string">&#x27;red&#x27;</span>)	</span><br><span class="line"><span class="comment">#直接设置颜色</span></span><br><span class="line">d = (x-<span class="number">172</span>)**<span class="number">2</span> + (y-<span class="number">60</span>)**<span class="number">2</span></span><br><span class="line">mp.scatter(x, y, c=d, cmap=<span class="string">&#x27;jet&#x27;</span>)	<span class="comment">#以c作为参数，取cmap颜色映射表中的颜色值</span></span><br></pre></td></tr></table></figure>
+
+<p><em>cmap颜色映射表参附录cmap颜色映射表</em></p>
+<h3 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h3><p>以某种颜色自动填充两条曲线的闭合区域。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mp.fill_between(</span><br><span class="line">	x,				<span class="comment"># x轴的水平坐标</span></span><br><span class="line">    sin_x,			<span class="comment"># 下边界曲线上点的垂直坐标</span></span><br><span class="line">    cos_x,			<span class="comment"># 上边界曲线上点的垂直坐标</span></span><br><span class="line">    sin_x&lt;cos_x, 	<span class="comment"># 填充条件，为True时填充</span></span><br><span class="line">    color=<span class="string">&#x27;&#x27;</span>, 		<span class="comment"># 填充颜色</span></span><br><span class="line">    alpha=<span class="number">0.2</span>		<span class="comment"># 透明度</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制两条曲线： sin_x = sin(x)    cos_x = cos(x / 2) / 2    [0-8π]  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">1000</span></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">8</span> * np.pi, n)</span><br><span class="line">sin_y = np.sin(x)</span><br><span class="line">cos_y = np.cos(x / <span class="number">2</span>) / <span class="number">2</span></span><br><span class="line">mp.figure(<span class="string">&#x27;Fill&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Fill&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(x, sin_y, c=<span class="string">&#x27;dodgerblue&#x27;</span>,</span><br><span class="line">        label=<span class="string">r&#x27;$y=sin(x)$&#x27;</span>)</span><br><span class="line">mp.plot(x, cos_y, c=<span class="string">&#x27;orangered&#x27;</span>,</span><br><span class="line">        label=<span class="string">r&#x27;$y=\frac&#123;1&#125;&#123;2&#125;cos(\frac&#123;x&#125;&#123;2&#125;)$&#x27;</span>)</span><br><span class="line">mp.fill_between(x, cos_y, sin_y, cos_y &lt; sin_y,</span><br><span class="line">                color=<span class="string">&#x27;dodgerblue&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">mp.fill_between(x, cos_y, sin_y, cos_y &gt; sin_y,</span><br><span class="line">                color=<span class="string">&#x27;orangered&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="条形图（柱状图）"><a href="#条形图（柱状图）" class="headerlink" title="条形图（柱状图）"></a>条形图（柱状图）</h3><p>绘制柱状图的相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Bar&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.bar(</span><br><span class="line">	x,				<span class="comment"># 水平坐标数组</span></span><br><span class="line">    y,				<span class="comment"># 柱状图高度数组</span></span><br><span class="line">    width,			<span class="comment"># 柱子的宽度</span></span><br><span class="line">    color=<span class="string">&#x27;&#x27;</span>, 		<span class="comment"># 填充颜色</span></span><br><span class="line">    label=<span class="string">&#x27;&#x27;</span>,		<span class="comment">#</span></span><br><span class="line">    alpha=<span class="number">0.2</span>		<span class="comment">#</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：先以柱状图绘制苹果12个月的销量，然后再绘制橘子的销量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">apples = np.array([<span class="number">30</span>, <span class="number">25</span>, <span class="number">22</span>, <span class="number">36</span>, <span class="number">21</span>, <span class="number">29</span>, <span class="number">20</span>, <span class="number">24</span>, <span class="number">33</span>, <span class="number">19</span>, <span class="number">27</span>, <span class="number">15</span>])</span><br><span class="line">oranges = np.array([<span class="number">24</span>, <span class="number">33</span>, <span class="number">19</span>, <span class="number">27</span>, <span class="number">35</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">27</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">20</span>, <span class="number">22</span>])</span><br><span class="line">mp.figure(<span class="string">&#x27;Bar&#x27;</span>  , facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Bar&#x27;</span>, font size=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Month&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Price&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(axis=<span class="string">&#x27;y&#x27;</span>, linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.ylim((<span class="number">0</span>, <span class="number">40</span>))</span><br><span class="line">x = np.arange(<span class="built_in">len</span>(apples))</span><br><span class="line">mp.bar(x-<span class="number">0.2</span>, apples, <span class="number">0.4</span>, color=<span class="string">&#x27;dodgerblue&#x27;</span>,label=<span class="string">&#x27;Apple&#x27;</span>)</span><br><span class="line">mp.bar(x + <span class="number">0.2</span>, oranges, <span class="number">0.4</span>, color=<span class="string">&#x27;orangered&#x27;</span>,label=<span class="string">&#x27;Orange&#x27;</span>, alpha=<span class="number">0.75</span>)</span><br><span class="line">mp.xticks(x, [</span><br><span class="line">    <span class="string">&#x27;Jan&#x27;</span>, <span class="string">&#x27;Feb&#x27;</span>, <span class="string">&#x27;Mar&#x27;</span>, <span class="string">&#x27;Apr&#x27;</span>, <span class="string">&#x27;May&#x27;</span>, <span class="string">&#x27;Jun&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Jul&#x27;</span>, <span class="string">&#x27;Aug&#x27;</span>, <span class="string">&#x27;Sep&#x27;</span>, <span class="string">&#x27;Oct&#x27;</span>, <span class="string">&#x27;Nov&#x27;</span>, <span class="string">&#x27;Dec&#x27;</span>])</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h3><p>绘制饼状图的基本API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mp.pie(</span><br><span class="line">    values, 		<span class="comment"># 值列表		</span></span><br><span class="line">    spaces, 		<span class="comment"># 扇形之间的间距列表</span></span><br><span class="line">    labels, 		<span class="comment"># 标签列表</span></span><br><span class="line">    colors, 		<span class="comment"># 颜色列表</span></span><br><span class="line">    <span class="string">&#x27;%d%%&#x27;</span>,			<span class="comment"># 标签所占比例格式</span></span><br><span class="line">	shadow=<span class="literal">True</span>, 	<span class="comment"># 是否显示阴影</span></span><br><span class="line">    startangle=<span class="number">90</span>	<span class="comment"># 逆时针绘制饼状图时的起始角度</span></span><br><span class="line">    radius=<span class="number">1</span>		<span class="comment"># 半径</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制饼状图显示5门语言的流行程度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;pie&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"><span class="comment">#整理数据</span></span><br><span class="line">values = [<span class="number">26</span>, <span class="number">17</span>, <span class="number">21</span>, <span class="number">29</span>, <span class="number">11</span>]</span><br><span class="line">spaces = [<span class="number">0.05</span>, <span class="number">0.01</span>, <span class="number">0.01</span>, <span class="number">0.01</span>, <span class="number">0.01</span>]</span><br><span class="line">labels = [<span class="string">&#x27;Python&#x27;</span>, <span class="string">&#x27;JavaScript&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;C++&#x27;</span>, <span class="string">&#x27;Java&#x27;</span>, <span class="string">&#x27;PHP&#x27;</span>]</span><br><span class="line">colors = [<span class="string">&#x27;dodgerblue&#x27;</span>, <span class="string">&#x27;orangered&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;limegreen&#x27;</span>, <span class="string">&#x27;violet&#x27;</span>, <span class="string">&#x27;gold&#x27;</span>]</span><br><span class="line">mp.figure(<span class="string">&#x27;Pie&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Pie&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line"><span class="comment"># 等轴比例</span></span><br><span class="line">mp.axis(<span class="string">&#x27;equal&#x27;</span>)</span><br><span class="line">mp.pie(</span><br><span class="line">    values, 		<span class="comment"># 值列表		</span></span><br><span class="line">    spaces, 		<span class="comment"># 扇形之间的间距列表</span></span><br><span class="line">    labels, 		<span class="comment"># 标签列表</span></span><br><span class="line">    colors, 		<span class="comment"># 颜色列表</span></span><br><span class="line">    <span class="string">&#x27;%d%%&#x27;</span>,			<span class="comment"># 标签所占比例格式</span></span><br><span class="line">	shadow=<span class="literal">True</span>, 	<span class="comment"># 是否显示阴影</span></span><br><span class="line">    startanle=<span class="number">90</span>	<span class="comment"># 逆时针绘制饼状图时的起始角度</span></span><br><span class="line">    radius=<span class="number">1</span>		<span class="comment"># 半径</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="等高线图"><a href="#等高线图" class="headerlink" title="等高线图"></a>等高线图</h3><p>组成等高线需要网格点坐标矩阵，也需要每个点的高度。所以等高线属于3D数学模型范畴。</p>
+<p>绘制等高线的相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mp.contourf(x, y, z, <span class="number">8</span>, cmap=<span class="string">&#x27;jet&#x27;</span>)</span><br><span class="line">cntr = mp.contour(</span><br><span class="line">    x, 					<span class="comment"># 网格坐标矩阵的x坐标 （2维数组）</span></span><br><span class="line">    y, 					<span class="comment"># 网格坐标矩阵的y坐标 （2维数组）</span></span><br><span class="line">    z, 					<span class="comment"># 网格坐标矩阵的z坐标 （2维数组）</span></span><br><span class="line">    <span class="number">8</span>, 					<span class="comment"># 把等高线绘制成8部分</span></span><br><span class="line">    colors=<span class="string">&#x27;black&#x27;</span>,		<span class="comment"># 等高线的颜色</span></span><br><span class="line">	linewidths=<span class="number">0.5</span>		<span class="comment"># 线宽</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：生成网格坐标矩阵，并且绘制等高线：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">1000</span></span><br><span class="line"><span class="comment"># 生成网格化坐标矩阵</span></span><br><span class="line">x, y = np.meshgrid(np.linspace(-<span class="number">3</span>, <span class="number">3</span>, n),</span><br><span class="line">                   np.linspace(-<span class="number">3</span>, <span class="number">3</span>, n))</span><br><span class="line"><span class="comment"># 根据每个网格点坐标，通过某个公式计算z高度坐标</span></span><br><span class="line">z = (<span class="number">1</span> - x/<span class="number">2</span> + x**<span class="number">5</span> + y**<span class="number">3</span>) * np.exp(-x**<span class="number">2</span> - y**<span class="number">2</span>)</span><br><span class="line">mp.figure(<span class="string">&#x27;Contour&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Contour&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line"><span class="comment"># 绘制等高线图</span></span><br><span class="line">mp.contourf(x, y, z, <span class="number">8</span>, cmap=<span class="string">&#x27;jet&#x27;</span>)</span><br><span class="line">cntr = mp.contour(x, y, z, <span class="number">8</span>, colors=<span class="string">&#x27;black&#x27;</span>,</span><br><span class="line">                  linewidths=<span class="number">0.5</span>)</span><br><span class="line"><span class="comment"># 为等高线图添加高度标签</span></span><br><span class="line">mp.clabel(cntr, inline_spacing=<span class="number">1</span>, fmt=<span class="string">&#x27;%.1f&#x27;</span>,</span><br><span class="line">          fontsize=<span class="number">10</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="热成像图"><a href="#热成像图" class="headerlink" title="热成像图"></a>热成像图</h3><p>用图形的方式显示矩阵及矩阵中值的大小<br>1 2 3<br>4 5 6<br>7 8 9</p>
+<p>绘制热成像图的相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把矩阵z图形化，使用cmap表示矩阵中每个元素值的大小</span></span><br><span class="line"><span class="comment"># origin: 坐标轴方向</span></span><br><span class="line"><span class="comment">#    upper: 缺省值，原点在左上角</span></span><br><span class="line"><span class="comment">#    lower: 原点在左下角</span></span><br><span class="line">mp.imshow(z, cmap=<span class="string">&#x27;jet&#x27;</span>, origin=<span class="string">&#x27;low&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用颜色条显示热度值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mp.colorbar()</span><br></pre></td></tr></table></figure>
+
+<h3 id="极坐标系"><a href="#极坐标系" class="headerlink" title="极坐标系"></a>极坐标系</h3><p>与笛卡尔坐标系不同，某些情况下极坐标系适合显示与角度有关的图像。例如雷达等。极坐标系可以描述极径&rho;与极角&theta;的线性关系。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&quot;Polar&quot;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.gca(projection=<span class="string">&#x27;polar&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Porlar&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">r&#x27;$\theta$&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">r&#x27;$\rho$&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>在极坐标系中绘制曲线：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#准备数据</span></span><br><span class="line">t = np.linspace(<span class="number">0</span>, <span class="number">4</span>*np.pi, <span class="number">1000</span>)</span><br><span class="line">r = <span class="number">0.8</span> * t</span><br><span class="line">mp.plot(t, r)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>案例，在极坐标系中绘制正弦函数。 y=3 sin(6x)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">6</span>*np.pi, <span class="number">1000</span>)</span><br><span class="line">y = <span class="number">3</span>*np.sin(<span class="number">6</span>*x)</span><br><span class="line">mp.plot(x, y)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3D图像绘制"><a href="#3D图像绘制" class="headerlink" title="3D图像绘制"></a>3D图像绘制</h3><p> matplotlib支持绘制三维曲面。若希望绘制三维曲面，需要使用axes3d提供的3d坐标系。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> axes3d</span><br><span class="line">ax3d = mp.gca(projection=<span class="string">&#x27;3d&#x27;</span>)   <span class="comment"># class axes3d</span></span><br></pre></td></tr></table></figure>
+
+<p>matplotlib支持绘制三维点阵、三维曲面、三维线框图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ax3d.scatter(..)		<span class="comment"># 绘制三维点阵</span></span><br><span class="line">ax3d.plot_surface(..)	<span class="comment"># 绘制三维曲面</span></span><br><span class="line">ax3d.plot_wireframe(..)	<span class="comment"># 绘制三维线框图</span></span><br></pre></td></tr></table></figure>
+
+<p>3d散点图的绘制相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ax3d.scatter(</span><br><span class="line">    x, 				<span class="comment"># x轴坐标数组</span></span><br><span class="line">    y,				<span class="comment"># y轴坐标数组</span></span><br><span class="line">    marker=<span class="string">&#x27;&#x27;</span>, 		<span class="comment"># 点型</span></span><br><span class="line">    s=<span class="number">10</span>,			<span class="comment"># 大小</span></span><br><span class="line">    zorder=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># 图层序号</span></span><br><span class="line">    color=<span class="string">&#x27;&#x27;</span>,		<span class="comment"># 颜色</span></span><br><span class="line">    edgecolor=<span class="string">&#x27;&#x27;</span>, 	<span class="comment"># 边缘颜色</span></span><br><span class="line">    facecolor=<span class="string">&#x27;&#x27;</span>,	<span class="comment"># 填充色</span></span><br><span class="line">    c=v,			<span class="comment"># 颜色值 根据cmap映射应用相应颜色</span></span><br><span class="line">    cmap=<span class="string">&#x27;&#x27;</span>			<span class="comment"># </span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：随机生成3组坐标，程标准正态分布规则，并且绘制它们。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">1000</span></span><br><span class="line">x = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, n)</span><br><span class="line">y = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, n)</span><br><span class="line">z = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, n)</span><br><span class="line">d = np.sqrt(x ** <span class="number">2</span> + y ** <span class="number">2</span> + z ** <span class="number">2</span>)</span><br><span class="line">mp.figure(<span class="string">&#x27;3D Scatter&#x27;</span>)</span><br><span class="line">ax = mp.gca(projection=<span class="string">&#x27;3d&#x27;</span>)  <span class="comment"># 创建三维坐标系</span></span><br><span class="line">mp.title(<span class="string">&#x27;3D Scatter&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">&#x27;z&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">ax.scatter(x, y, z, s=<span class="number">60</span>, c=d, cmap=<span class="string">&#x27;jet_r&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>3d平面图的绘制相关API：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ax3d.plot_surface(</span><br><span class="line">    x, 					<span class="comment"># 网格坐标矩阵的x坐标 （2维数组）</span></span><br><span class="line">    y, 					<span class="comment"># 网格坐标矩阵的y坐标 （2维数组）</span></span><br><span class="line">    z, 					<span class="comment"># 网格坐标矩阵的z坐标 （2维数组）</span></span><br><span class="line">    rstride=<span class="number">30</span>,			<span class="comment"># 行跨距</span></span><br><span class="line">    cstride=<span class="number">30</span>, 		<span class="comment"># 列跨距</span></span><br><span class="line">    cmap=<span class="string">&#x27;jet&#x27;</span>			<span class="comment"># 颜色映射</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制3d平面图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">1000</span></span><br><span class="line"><span class="comment"># 生成网格化坐标矩阵</span></span><br><span class="line">x, y = np.meshgrid(np.linspace(-<span class="number">3</span>, <span class="number">3</span>, n),</span><br><span class="line">                   np.linspace(-<span class="number">3</span>, <span class="number">3</span>, n))</span><br><span class="line"><span class="comment"># 根据每个网格点坐标，通过某个公式计算z高度坐标</span></span><br><span class="line">z = (<span class="number">1</span> - x/<span class="number">2</span> + x**<span class="number">5</span> + y**<span class="number">3</span>) * np.exp(-x**<span class="number">2</span> - y**<span class="number">2</span>)</span><br><span class="line">mp.figure(<span class="string">&#x27;3D&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ax3d = mp.gca(projection=<span class="string">&#x27;3d&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;3D&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">ax3d.set_xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax3d.set_ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax3d.set_zlabel(<span class="string">&#x27;z&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line"><span class="comment"># 绘制3D平面图</span></span><br><span class="line"><span class="comment"># rstride: 行跨距</span></span><br><span class="line"><span class="comment"># cstride: 列跨距 </span></span><br><span class="line">ax3d.plot_surface(x,y,z,rstride=<span class="number">30</span>,cstride=<span class="number">30</span>, cmap=<span class="string">&#x27;jet&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>案例：3d线框图的绘制</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制3D平面图 </span></span><br><span class="line"><span class="comment"># rstride: 行跨距</span></span><br><span class="line"><span class="comment"># cstride: 列跨距 </span></span><br><span class="line">ax3d.plot_wireframe(x,y,z,rstride=<span class="number">30</span>,cstride=<span class="number">30</span>, </span><br><span class="line">	linewidth=<span class="number">1</span>, color=<span class="string">&#x27;dodgerblue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="简单动画"><a href="#简单动画" class="headerlink" title="简单动画"></a>简单动画</h3><p>动画即是在一段时间内快速连续的重新绘制图像的过程。</p>
+<p>matplotlib提供了方法用于处理简单动画的绘制。定义update函数用于即时更新图像。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.animation <span class="keyword">as</span> ma</span><br><span class="line"><span class="comment">#定义更新函数行为</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">number</span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 每隔10毫秒执行一次update更新函数，作用于mp.gcf()当前窗口对象</span></span><br><span class="line"><span class="comment"># mp.gcf()：	获取当前窗口</span></span><br><span class="line"><span class="comment"># update：	更新函数</span></span><br><span class="line"><span class="comment"># interval：	间隔时间（单位：毫秒）</span></span><br><span class="line">anim = ma.FuncAnimation(mp.gcf(), update, interval=<span class="number">10</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>案例：随机生成各种颜色的100个气泡。让他们不断的增大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#自定义一种可以存放在ndarray里的类型，用于保存一个球</span></span><br><span class="line">ball_type = np.dtype([</span><br><span class="line">	(<span class="string">&#x27;position&#x27;</span>, <span class="built_in">float</span>, <span class="number">2</span>),  <span class="comment"># 位置(水平和垂直坐标)</span></span><br><span class="line">    (<span class="string">&#x27;size&#x27;</span>, <span class="built_in">float</span>, <span class="number">1</span>),      <span class="comment"># 大小</span></span><br><span class="line">    (<span class="string">&#x27;growth&#x27;</span>, <span class="built_in">float</span>, <span class="number">1</span>),    <span class="comment"># 生长速度</span></span><br><span class="line">    (<span class="string">&#x27;color&#x27;</span>, <span class="built_in">float</span>, <span class="number">4</span>)])    <span class="comment"># 颜色(红、绿、蓝和透明度)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#随机生成100个点对象</span></span><br><span class="line">n = <span class="number">100</span></span><br><span class="line">balls = np.zeros(<span class="number">100</span>, dtype=ball_type)</span><br><span class="line">balls[<span class="string">&#x27;position&#x27;</span>]=np.random.uniform(<span class="number">0</span>, <span class="number">1</span>, (n, <span class="number">2</span>))</span><br><span class="line">balls[<span class="string">&#x27;size&#x27;</span>]=np.random.uniform(<span class="number">40</span>, <span class="number">70</span>, n)</span><br><span class="line">balls[<span class="string">&#x27;growth&#x27;</span>]=np.random.uniform(<span class="number">10</span>, <span class="number">20</span>, n)</span><br><span class="line">balls[<span class="string">&#x27;color&#x27;</span>]=np.random.uniform(<span class="number">0</span>, <span class="number">1</span>, (n, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">mp.figure(<span class="string">&quot;Animation&quot;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&quot;Animation&quot;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.xticks </span><br><span class="line">mp.yticks(())</span><br><span class="line"></span><br><span class="line">sc = mp.scatter(</span><br><span class="line">	balls[<span class="string">&#x27;position&#x27;</span>][:, <span class="number">0</span>], </span><br><span class="line">	balls[<span class="string">&#x27;position&#x27;</span>][:, <span class="number">1</span>], </span><br><span class="line">	balls[<span class="string">&#x27;size&#x27;</span>], </span><br><span class="line">	color=balls[<span class="string">&#x27;color&#x27;</span>], alpha=<span class="number">0.5</span>)</span><br><span class="line">	</span><br><span class="line"><span class="comment">#定义更新函数行为</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">number</span>):</span></span><br><span class="line">	balls[<span class="string">&#x27;size&#x27;</span>] += balls[<span class="string">&#x27;growth&#x27;</span>]</span><br><span class="line">	<span class="comment">#每次让一个气泡破裂，随机生成一个新的</span></span><br><span class="line">	boom_ind = number % n</span><br><span class="line">	balls[boom_ind][<span class="string">&#x27;size&#x27;</span>]=np.random.uniform(<span class="number">40</span>, <span class="number">70</span>, <span class="number">1</span>)</span><br><span class="line">	balls[boom_ind][<span class="string">&#x27;position&#x27;</span>]=np.random.uniform(<span class="number">0</span>, <span class="number">1</span>, (<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">	<span class="comment"># 重新设置属性</span></span><br><span class="line">	sc.set_sizes(balls[<span class="string">&#x27;size&#x27;</span>])</span><br><span class="line">	sc.set_offsets(balls[<span class="string">&#x27;position&#x27;</span>])</span><br><span class="line">	</span><br><span class="line"><span class="comment"># 每隔30毫秒执行一次update更新函数，作用于mp.gcf()当前窗口对象</span></span><br><span class="line"><span class="comment"># mp.gcf()：	获取当前窗口</span></span><br><span class="line"><span class="comment"># update：		更新函数</span></span><br><span class="line"><span class="comment"># interval：	间隔时间（单位：毫秒）</span></span><br><span class="line">anim = ma.FuncAnimation(mp.gcf(), update, interval=<span class="number">30</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<p>使用生成器函数提供数据，实现动画绘制</p>
+<p>在很多情况下，绘制动画的参数是动态获取的，matplotlib支持定义generator生成器函数，用于生成数据，把生成的数据交给update函数更新图像：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.animation <span class="keyword">as</span> ma</span><br><span class="line"><span class="comment">#定义更新函数行为</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">data</span>):</span></span><br><span class="line">    t, v = data</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span>():</span></span><br><span class="line">	<span class="keyword">yield</span> t, v</span><br><span class="line">        </span><br><span class="line"><span class="comment"># 每隔10毫秒将会先调用生成器，获取生成器返回的数据，</span></span><br><span class="line"><span class="comment"># 把生成器返回的数据交给并且调用update函数，执行更新图像函数</span></span><br><span class="line">anim = ma.FuncAnimation(mp.gcf(), update, generator,interval=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>案例：绘制信号曲线：y=sin(2 * π * t) * exp(sin(0.2 * π * t))，数据通过生成器函数生成，在update函数中绘制曲线。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&quot;Signal&quot;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&quot;Signal&quot;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.xlim(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">mp.ylim(-<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;--&#x27;</span>, color=<span class="string">&#x27;lightgray&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">pl = mp.plot([], [], color=<span class="string">&#x27;dodgerblue&#x27;</span>, label=<span class="string">&#x27;Signal&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">pl.set_data([],[])</span><br><span class="line"></span><br><span class="line">x = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">data</span>):</span></span><br><span class="line">	t, v = data</span><br><span class="line">	x, y = pl.get_data()</span><br><span class="line">	x.append(t)</span><br><span class="line">	y.append(v)</span><br><span class="line">	<span class="comment">#重新设置数据源</span></span><br><span class="line">	pl.set_data(x, y)</span><br><span class="line">	<span class="comment">#移动坐标轴</span></span><br><span class="line">	<span class="keyword">if</span>(x[-<span class="number">1</span>]&gt;<span class="number">10</span>):</span><br><span class="line">		mp.xlim(x[-<span class="number">1</span>]-<span class="number">10</span>, x[-<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">y_generator</span>():</span></span><br><span class="line">	<span class="keyword">global</span> x</span><br><span class="line">	y = np.sin(<span class="number">2</span> * np.pi * x) * np.exp(np.sin(<span class="number">0.2</span> * np.pi * x))</span><br><span class="line">	<span class="keyword">yield</span> (x, y)</span><br><span class="line">	x += <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">anim = ma.FuncAnimation(mp.gcf(), update, y_generator, interval=<span class="number">20</span>)</span><br><span class="line">mp.tight_layout()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="其他Python的绘图库"><a href="#其他Python的绘图库" class="headerlink" title="其他Python的绘图库"></a>其他Python的绘图库</h2><p><a target="_blank" rel="noopener" href="http://pyecharts.herokuapp.com/">pyecharts</a></p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="linestyle"><a href="#linestyle" class="headerlink" title="linestyle"></a>linestyle</h3><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">‘-‘</td>
+<td align="left">实线样式</td>
+</tr>
+<tr>
+<td align="left">‘–’</td>
+<td align="left">短横线样式</td>
+</tr>
+<tr>
+<td align="left">‘-.’</td>
+<td align="left">点划线样式</td>
+</tr>
+<tr>
+<td align="left">‘:’</td>
+<td align="left">虚线样式</td>
+</tr>
+<tr>
+<td align="left">‘.’</td>
+<td align="left">点标记</td>
+</tr>
+<tr>
+<td align="left">‘,’</td>
+<td align="left">像素标记</td>
+</tr>
+<tr>
+<td align="left">‘o’</td>
+<td align="left">圆标记</td>
+</tr>
+<tr>
+<td align="left">‘v’</td>
+<td align="left">倒三角标记</td>
+</tr>
+<tr>
+<td align="left">‘^’</td>
+<td align="left">正三角标记</td>
+</tr>
+<tr>
+<td align="left">‘&lt;’</td>
+<td align="left">左三角标记</td>
+</tr>
+<tr>
+<td align="left">‘&gt;’</td>
+<td align="left">右三角标记</td>
+</tr>
+<tr>
+<td align="left">‘1’</td>
+<td align="left">下箭头标记</td>
+</tr>
+<tr>
+<td align="left">‘2’</td>
+<td align="left">上箭头标记</td>
+</tr>
+<tr>
+<td align="left">‘3’</td>
+<td align="left">左箭头标记</td>
+</tr>
+<tr>
+<td align="left">‘4’</td>
+<td align="left">右箭头标记</td>
+</tr>
+<tr>
+<td align="left">‘s’</td>
+<td align="left">正方形标记</td>
+</tr>
+<tr>
+<td align="left">‘p’</td>
+<td align="left">五边形标记</td>
+</tr>
+<tr>
+<td align="left">‘*’</td>
+<td align="left">星形标记</td>
+</tr>
+<tr>
+<td align="left">‘h’</td>
+<td align="left">六边形标记 1</td>
+</tr>
+<tr>
+<td align="left">‘H’</td>
+<td align="left">六边形标记 2</td>
+</tr>
+<tr>
+<td align="left">‘+’</td>
+<td align="left">加号标记</td>
+</tr>
+<tr>
+<td align="left">‘x’</td>
+<td align="left">X 标记</td>
+</tr>
+<tr>
+<td align="left">‘D’</td>
+<td align="left">菱形标记</td>
+</tr>
+<tr>
+<td align="left">‘d’</td>
+<td align="left">窄菱形标记</td>
+</tr>
+<tr>
+<td align="left">‘&#124;’</td>
+<td align="left">竖直线标记</td>
+</tr>
+<tr>
+<td align="left">‘_’</td>
+<td align="left">水平线标记</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>上面是网上找的，但是实际测试中只有’-‘, ‘–’, ‘-.’, ‘:’, ‘None’, ‘ ‘, ‘’, ‘solid’, ‘dashed’, ‘dashdot’, ‘dotted’可以用</p>
+</blockquote>
+<h3 id="linecolor"><a href="#linecolor" class="headerlink" title="linecolor"></a>linecolor</h3><p><img src="https://cdn.renchengqi.com/blog/h0wl9.png"></p>
+<h3 id="laTex排版语法"><a href="#laTex排版语法" class="headerlink" title="laTex排版语法"></a>laTex排版语法</h3><p>laTeX语法表示数学符号示例<br><img src="https://cdn.renchengqi.com/blog/ku31o.png"><br>LaTeX语法集合<br><img src="https://cdn.renchengqi.com/blog/x8an5.gif"></p>
+<h3 id="cmap颜色映射表"><a href="#cmap颜色映射表" class="headerlink" title="cmap颜色映射表"></a>cmap颜色映射表</h3><p><img src="https://cdn.renchengqi.com/blog/whkot.png"></p>
+<h3 id="point样式"><a href="#point样式" class="headerlink" title="point样式"></a>point样式</h3><p><img src="https://cdn.renchengqi.com/blog/omq6w.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tag"></i> 数据分析</a>
+              <a href="/tags/AI%E8%BF%9B%E9%98%B6/" rel="tag"><i class="fa fa-tag"></i> AI进阶</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/30/datascience/Numpy/" rel="prev" title="Numpy">
+                  <i class="fa fa-chevron-left"></i> Numpy
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/12/10/ios/general/%E8%B6%8A%E7%8B%B1%E6%8C%87%E5%8D%97/" rel="next" title="越狱指南">
+                  越狱指南 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

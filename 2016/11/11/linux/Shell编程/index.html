@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="用Shell改变Tina地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell编程">
+<meta property="og:url" content="https://rencheng.cc/2016/11/11/linux/Shell%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="用Shell改变Tina地">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-11-11T12:44:34.000Z">
+<meta property="article:modified_time" content="2016-11-11T12:44:34.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="运维">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2016/11/11/linux/Shell%E7%BC%96%E7%A8%8B/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Shell编程 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shell%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Shell格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">shell执行方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">4.</span> <span class="nav-text">shell - 算术运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">5.</span> <span class="nav-text">shell - 比较运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-if%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="nav-number">6.</span> <span class="nav-text">shell - if分支结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-for%E5%BE%AA%E7%8E%AF"><span class="nav-number">7.</span> <span class="nav-text">shell - for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-while%E5%BE%AA%E7%8E%AF"><span class="nav-number">8.</span> <span class="nav-text">shell - while循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-case%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="nav-number">9.</span> <span class="nav-text">shell - case分支结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E5%AE%9E%E6%88%98"><span class="nav-number">10.</span> <span class="nav-text">shell实战</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2016/11/11/linux/Shell%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shell编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-11-11 20:44:34" itemprop="dateCreated datePublished" datetime="2016-11-11T20:44:34+08:00">2016-11-11</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>用Shell改变Tina地</p>
+<span id="more"></span>
+
+
+
+
+<h2 id="Shell格式"><a href="#Shell格式" class="headerlink" title="Shell格式"></a>Shell格式</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、扩展名: xxx.sh</span><br><span class="line">2、正文第一行必须指定解释器: #!/bin/bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell执行方式"><a href="#shell执行方式" class="headerlink" title="shell执行方式"></a>shell执行方式</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 方式一: 加权限,  ./xxx.sh 执行</span></span><br><span class="line">1、chmod +x  xxx.sh</span><br><span class="line">2、./xxx.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 方式二: 手动指定解释器</span></span><br><span class="line">bash xxx.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li><strong>自定义变量</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1. 定义变量</span></span><br><span class="line">变量名=值    ----&gt;  注意: =两侧绝对不能有空格</span><br><span class="line">eg1: name=&quot;take me to your heart&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 调用变量的格式</span></span><br><span class="line">echo $变量名</span><br><span class="line">     </span><br><span class="line"><span class="meta">#</span><span class="bash"> 3. 小细节: 单引号和双引号的区别</span></span><br><span class="line">单引号: 无法获取变量的值</span><br><span class="line">双引号: 可以获取变量的值</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>环境变量+位置变量+预设变量</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 环境变量</span></span><br><span class="line">echo $USER   --  当前用户</span><br><span class="line">echo $UID    --  当前用户的UID号</span><br><span class="line">echo $PWD    --  当前路径</span><br><span class="line">echo $PATH   --  命令搜索路径</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 位置变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash">1 <span class="variable">$2</span> <span class="variable">$3</span> ... ... shell的位置变量</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 预定义变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"><span class="comment"># $* $?</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> $? : 返回上一条命令执行的状态(0代表正确,非0代表失败)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出$1+$2,例如输出结果: 3+5</span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo $1 + $2 = `expr $1 + $2`</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>变量赋值 - 接收用户从终端输入的值</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 语法格式</span></span><br><span class="line">read -p 提示信息 变量名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 示例</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">read -p 请输入姓名: name</span><br><span class="line">echo &quot;您输入的姓名是:$name&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定超时时间</span></span><br><span class="line">read -p 提示信息 变量名</span><br><span class="line">read -t n -p 提示信息 变量名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 示例</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">read -t 3 -p 请输入用户名: username</span><br></pre></td></tr></table></figure>
+
+<p>**</p>
+<h2 id="shell-算术运算符"><a href="#shell-算术运算符" class="headerlink" title="shell - 算术运算符"></a><strong>shell - 算术运算符</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 运算符</span></span><br><span class="line">1、+ - * / % </span><br><span class="line">2、++ : 自加1运算,类似于python中 i++  等同于 i+=1</span><br><span class="line">3、-- : 同++</span><br><span class="line">			</span><br><span class="line"><span class="meta">#</span><span class="bash"> 运算命令</span></span><br><span class="line">1、let 运算表达式</span><br><span class="line">	i=1</span><br><span class="line">	let i++</span><br><span class="line">	echo $i</span><br><span class="line">2、expr 运算表达式</span><br><span class="line">	i=1</span><br><span class="line">	sum=`expr $i + 5` # +两侧要有空格</span><br><span class="line">	echo $sum</span><br><span class="line">3、$[]</span><br><span class="line">	echo $[1+1]</span><br><span class="line">	echo $[1-1]</span><br><span class="line">	echo $[a+a] # 调用变量不用多次添加$符号</span><br><span class="line">	echo $[1*1] # 乘法无需转义</span><br></pre></td></tr></table></figure>
+
+<p><strong>练习</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用 位置变量+以上方法一、二中任何一种,实现2个数字的相加</span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo $[$1+$2]</span><br><span class="line">echo `expr $1 + $2`</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-比较运算符"><a href="#shell-比较运算符" class="headerlink" title="shell - 比较运算符"></a><strong>shell - 比较运算符</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 语法格式</span></span><br><span class="line">	[  判断语句  ]	# 注意括号必须有空格</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1、字符比较</span></span><br><span class="line">	[ A == A ]	#相等(等号两边需要有空格)</span><br><span class="line">	[ A != B ]	#不相等</span><br><span class="line">	[ -z $变量 ]	#判断是否为空</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、数字比较</span></span><br><span class="line">	-eq	等于(equal)</span><br><span class="line">	-ne	不等于(not equal)</span><br><span class="line">	-gt	大于(greater than)</span><br><span class="line">	-ge	大于等于(great or equal)</span><br><span class="line">	-lt	小于(less than)</span><br><span class="line">	-le	小于等于(less or equal)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3、文件|目录比较</span></span><br><span class="line">   [ -e 文件或目录 ]    #是否存在exist</span><br><span class="line">   [ -f  文件      ]    #存在且为文件file</span><br><span class="line">   [ -d  目录      ]    #存在且为目录directory</span><br><span class="line">   [ -r 文件或目录 ]    #判断是否可读read</span><br><span class="line">   [ -w 文件或目录 ]    #判断是否可写write</span><br><span class="line">   [ -x 文件或目录 ]    #判断是否可执行</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-if分支结构"><a href="#shell-if分支结构" class="headerlink" title="shell - if分支结构"></a><strong>shell - if分支结构</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、单分支语法格式</span></span><br><span class="line">     if 判断 ;then</span><br><span class="line">        命令</span><br><span class="line">        命令</span><br><span class="line">     fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、双分支语法格式</span></span><br><span class="line">	if 判断 ;then</span><br><span class="line">		命令1</span><br><span class="line">	else</span><br><span class="line">		命令2</span><br><span class="line">	fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 3、多分支语法格式</span></span><br><span class="line">  if 判断;then</span><br><span class="line">    命令1</span><br><span class="line">  elif 判断 ;then</span><br><span class="line">    命令2</span><br><span class="line">  else</span><br><span class="line">    命令3</span><br><span class="line">  fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 示例</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">if [ $USER == tarena ];then</span><br><span class="line">	echo &quot;Yes,You are Tarena.&quot;</span><br><span class="line">else</span><br><span class="line">	echo &quot;You are other man.&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p><strong>练习:使用shell编写猜数字游戏,无须循环</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">num=$RANDOM</span><br><span class="line">read -p &quot;我有一个随机数,你猜:&quot;  guess</span><br><span class="line">if [ $guess -eq $num ];then</span><br><span class="line">	echo &quot;恭喜,猜对了.&quot;</span><br><span class="line">elif [ $guess -gt $num ];then</span><br><span class="line">	echo &quot;你猜大了&quot;</span><br><span class="line">else</span><br><span class="line">	echo &quot;你猜小了&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-for循环"><a href="#shell-for循环" class="headerlink" title="shell - for循环"></a><strong>shell - for循环</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 语法格式</span></span><br><span class="line">for 变量 in 值序列</span><br><span class="line">do</span><br><span class="line">	命令</span><br><span class="line">done</span><br><span class="line"><span class="meta">#</span><span class="bash"> 示例</span></span><br><span class="line">for i in 1 2 3 4 5</span><br><span class="line">do</span><br><span class="line">	echo &quot;hello world&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>练习:判断指定网段的IP地址哪些可以用,哪些不能用？</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">for i in &#123;1..254&#125;</span><br><span class="line">do</span><br><span class="line"><span class="meta">   #</span><span class="bash"> /dev/null为黑洞,不想要的输出放到里面</span></span><br><span class="line">   ping -c 2 172.40.91.$i &amp;&gt;/dev/null</span><br><span class="line"><span class="meta">   #</span><span class="bash"> $?是返回上一条命令的执行状态</span></span><br><span class="line">   if [ $? -eq 0 ];then</span><br><span class="line">		echo &quot;172.40.91.$i is up.&quot;</span><br><span class="line">   else</span><br><span class="line">		echo &quot;172.40.91.$i is down&quot;</span><br><span class="line">   fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-while循环"><a href="#shell-while循环" class="headerlink" title="shell - while循环"></a><strong>shell - while循环</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法格式</span></span><br><span class="line"><span class="keyword">while</span> 条件判断</span><br><span class="line">do</span><br><span class="line">	命令</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line">i=<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> [ $i -lt <span class="number">5</span> ]</span><br><span class="line">do</span><br><span class="line">   echo baby</span><br><span class="line">   let i++</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>while补充</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1、死循环</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">	循环体</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">2、vim批量缩进</span><br><span class="line">显示行号: set nu </span><br><span class="line">命令行模式下输入:</span><br><span class="line">1,3&gt; 敲Enter  - 向右缩进</span><br><span class="line">3,8&lt; 敲Enter  - 向左缩进</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-case分支结构"><a href="#shell-case分支结构" class="headerlink" title="shell - case分支结构"></a><strong>shell - case分支结构</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、特点</span></span><br><span class="line">根据变量值的不同,执行不同的操作</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、语法格式</span></span><br><span class="line">case $变量名 in</span><br><span class="line">模式1)</span><br><span class="line">	代码块</span><br><span class="line">	;;</span><br><span class="line">模式2)</span><br><span class="line">	代码块</span><br><span class="line">	;;</span><br><span class="line">*)</span><br><span class="line">	代码块</span><br><span class="line">	;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 - 输入1个字符,判断为数字、字母还是其他字符</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">echo &quot;+------------------------+&quot;</span><br><span class="line">echo &quot;|  Welcome(q to quit)    |&quot;</span><br><span class="line">echo &quot;+------------------------+&quot;</span><br><span class="line"></span><br><span class="line">read -p &quot;请输入1个字符:&quot; char</span><br><span class="line">if [ $&#123;#char&#125; -ne 1 ];then</span><br><span class="line">    echo &quot;$char不是1个字符!!&quot;</span><br><span class="line">    exit</span><br><span class="line">elif [ $char == &quot;q&quot; ];then</span><br><span class="line">    echo &quot;程序退出&quot;</span><br><span class="line">    exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">case $char in </span><br><span class="line">[a-z]|[A-Z])</span><br><span class="line">    echo &quot;字母&quot;</span><br><span class="line">    ;;</span><br><span class="line">[0-9])</span><br><span class="line">    echo &quot;数字&quot;</span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    echo &quot;其他字符&quot;</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p><strong>练习:编写1个nginx的启动脚本，包含: start stop restart</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">read -p &quot;操作(start|stop|restart):&quot; op</span><br><span class="line">case $op in</span><br><span class="line">&quot;start&quot;)</span><br><span class="line">	sudo /etc/init.d/nginx restart</span><br><span class="line">	;;</span><br><span class="line">&quot;stop&quot;)</span><br><span class="line">	sudo /etc/init.d/nginx stop</span><br><span class="line">	;;</span><br><span class="line">&quot;restart&quot;)</span><br><span class="line">	sudo /etc/init.d/nginx restart</span><br><span class="line">	;;</span><br><span class="line">*)</span><br><span class="line">	echo &quot;Please choice in start|stop|restart&quot;</span><br><span class="line">	;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p><strong>知识点总结</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、获取字符串长度</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;<span class="comment">#变量名&#125;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2、字符串索引及切片</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;string:index:number&#125;</span></span><br><span class="line">key=&#x27;ABCDE&#x27;</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;key:0:1&#125; <span class="comment"># A 获取下表索引为0的元素</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;key:1:2&#125; <span class="comment"># BC</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3、vim批量缩进</span></span><br><span class="line">1、进入命令行模式 : shift + :</span><br><span class="line">2、1,3&gt; + Enter  : 1-3行缩进</span><br><span class="line">3、1,3&lt; + Enter  : 1-3行往回缩进</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell实战"><a href="#shell实战" class="headerlink" title="shell实战"></a><strong>shell实战</strong></h2><p><strong>1、每2秒中检测一次MySQL数据库的连接数量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mysqladmin命令</span></span><br><span class="line">mysql服务器管理任务的工具，它可以检查mysql服务器的配置和当前工作状态</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>代码实现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">每2秒检测一次MySQL并发连接数</span></span><br><span class="line"></span><br><span class="line">user=&quot;root&quot; </span><br><span class="line">passwd=&quot;123456&quot; </span><br><span class="line"></span><br><span class="line">while : </span><br><span class="line">do         </span><br><span class="line">	sleep 2         </span><br><span class="line">	count=`mysqladmin  -u&quot;$user&quot;  -p&quot;$passwd&quot; status |  awk &#x27;&#123;print $4&#125;&#x27;`</span><br><span class="line">	echo &quot;`date %F` 并发连接数为:$count&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、根据md5校验码，检测文件是否被修改</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1、生成md5的文件校验码</span></span><br><span class="line">md5sum nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>代码实现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">本示例脚本检测的是/etc 目录下所有的conf结尾的文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">本脚本在目标数据没有被修改时执行一次，当怀疑数据被人篡改，再执行一次</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">将两次执行的结果做对比，MD5码发生改变的文件，就是被人篡改的文件</span> </span><br><span class="line">for  i  in  $(ls /etc/*.conf) </span><br><span class="line">do  </span><br><span class="line">	md5sum &quot;$i&quot; &gt;&gt; /home/tarena/md5log.txt</span><br><span class="line">done </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如何查看两个文件不同</span></span><br><span class="line">diff 文件1 文件2</span><br><span class="line"><span class="meta">#</span><span class="bash"> 结果</span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 1. test.conf 发生了改变</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 第30行发生了变化(change)</span></span><br><span class="line">30c30</span><br><span class="line">d8dbe7e909b0b8ddfdfd  /etc/test.conf</span><br><span class="line">ad69e9d04d86ddf5d668  /etc/test.conf</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、备份MySQL数据库</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 备份MySQL数据库中的mysql库</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"> </span><br><span class="line">user=&quot;root&quot; </span><br><span class="line">passwd=&quot;123456&quot; </span><br><span class="line">dbname=&quot;mysql&quot;</span><br><span class="line">date=$(date +%Y%m%d) </span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">测试备份目录是否存在，不存在则自动创建该目录</span> </span><br><span class="line">if [  ! -d  /home/tarena/mysqlbackup ];then</span><br><span class="line">		mkdir  /home/tarena/mysqlbackup</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">使用mysqldump命令备份数据库</span> </span><br><span class="line">mysqldump -u&quot;$user&quot;  -p&quot;$passwd&quot; &quot;$dbname&quot; &gt; /home/tarena/mysqlbackup/&quot;$dbname&quot;-$&#123;date&#125;.sql </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>4、随机生成8为密码 - 数字、字母、下划线</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">设置变量key，存储密码的所有可能性（密码库），如果还需要其他字符请自行添加其他密码字符</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">使用<span class="variable">$#</span>统计密码库的长度</span> </span><br><span class="line"></span><br><span class="line">key=&quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot; </span><br><span class="line">num=$&#123;#key&#125; </span><br><span class="line"><span class="meta">#</span><span class="bash">设置初始密码为空</span> </span><br><span class="line">pass=&#x27;&#x27; </span><br><span class="line"><span class="meta">#</span><span class="bash">循环8次，生成 8为随机密码</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">每次都是随机数对密码库的长度取余，确保提取的密码字符不超过密码库的长度</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">每次循环提取一位随机密码，并将该随机密码追加到pass变量的最后</span> </span><br><span class="line">for i in &#123;1..8&#125; </span><br><span class="line">do   </span><br><span class="line">	index=$[RANDOM%num]  </span><br><span class="line">	pass=$pass$&#123;key:$index:1&#125; </span><br><span class="line">done </span><br><span class="line">echo $pass</span><br></pre></td></tr></table></figure>
+
+<p><strong>shell - 函数</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、语法格式</span><br><span class="line">函数名()&#123;</span><br><span class="line">   代码块</span><br><span class="line">&#125;</span><br><span class="line">2、调用</span><br><span class="line">函数名</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例代码</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">sumn()&#123;</span><br><span class="line">    echo $[n1+n2]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">subn()&#123;</span><br><span class="line">    echo $[n1-n2]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">read -p &quot;First:&quot; n1</span><br><span class="line">read -p &quot;Second:&quot; n2</span><br><span class="line">read -p &quot;Operation(+|-):&quot; op</span><br><span class="line"></span><br><span class="line">case $op in </span><br><span class="line">&quot;+&quot;)</span><br><span class="line">    sumn</span><br><span class="line">    ;;</span><br><span class="line">&quot;-&quot;)</span><br><span class="line">    subn</span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    echo &quot;Invalid&quot;</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag"><i class="fa fa-tag"></i> 运维</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/11/10/linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="Linux常用命令">
+                  <i class="fa fa-chevron-left"></i> Linux常用命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/12/01/ios/general/%E7%BB%9F%E8%AE%A1Xcode%E5%B7%A5%E7%A8%8B%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" rel="next" title="统计Xcode工程代码行数">
+                  统计Xcode工程代码行数 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="声音(.wav)-&gt;文本(字符串)文本(字符串)-&gt;声音">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-语音识别">
+<meta property="og:url" content="https://rencheng.cc/2019/04/20/ml/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="声音(.wav)-&gt;文本(字符串)文本(字符串)-&gt;声音">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-20T08:35:00.000Z">
+<meta property="article:modified_time" content="2019-04-20T08:35:00.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="AI进阶">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="语音识别">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/04/20/ml/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>机器学习-语音识别 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E8%AF%86%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">音频识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E7%9A%84%E6%97%B6%E5%9F%9F%E5%92%8C%E9%A2%91%E5%9F%9F%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">声音的时域和频域表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%85%E5%B0%94%E9%A2%91%E7%8E%87%E5%80%92%E8%B0%B1%E7%B3%BB%E6%95%B0-MFCC-%E7%9F%A9%E9%98%B5"><span class="nav-number">1.2.</span> <span class="nav-text">梅尔频率倒谱系数(MFCC)矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">语音识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E5%90%88%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">声音合成</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/04/20/ml/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习-语音识别
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-20 16:35:00" itemprop="dateCreated datePublished" datetime="2019-04-20T16:35:00+08:00">2019-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.5k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>声音(.wav)-&gt;文本(字符串)<br>文本(字符串)-&gt;声音</p>
+<span id="more"></span>
+
+<h2 id="音频识别"><a href="#音频识别" class="headerlink" title="音频识别"></a>音频识别</h2><h3 id="声音的时域和频域表示"><a href="#声音的时域和频域表示" class="headerlink" title="声音的时域和频域表示"></a>声音的时域和频域表示</h3><p>时域：位移=f(时间)<br>频域：(振幅, 相位)=f(频率)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> numpy.fft <span class="keyword">as</span> nf</span><br><span class="line"><span class="keyword">import</span> scipy.io.wavfile <span class="keyword">as</span> wf</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">sample_rate, sigs = wf.read(<span class="string">&#x27;../data/freq.wav&#x27;</span>)</span><br><span class="line">sigs = sigs / <span class="number">2</span> ** <span class="number">15</span></span><br><span class="line">times = np.arange(<span class="built_in">len</span>(sigs)) / sample_rate</span><br><span class="line">freqs = nf.fftfreq(sigs.size, <span class="number">1</span> / sample_rate)</span><br><span class="line">ffts = nf.fft(sigs)</span><br><span class="line">pows = np.<span class="built_in">abs</span>(ffts)</span><br><span class="line">mp.figure(<span class="string">&#x27;Time Domain&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Time Domain&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Time&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Signal&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(times, sigs, c=<span class="string">&#x27;dodgerblue&#x27;</span>,</span><br><span class="line">	label=<span class="string">&#x27;Signal=f(Time)&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.figure(<span class="string">&#x27;Frequency Domain&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Frequency Domain&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Frequency&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Power&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(freqs[freqs&gt;=<span class="number">0</span>], pows[freqs&gt;=<span class="number">0</span>],</span><br><span class="line">	c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;Power=F(Frequency)&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+<h3 id="梅尔频率倒谱系数-MFCC-矩阵"><a href="#梅尔频率倒谱系数-MFCC-矩阵" class="headerlink" title="梅尔频率倒谱系数(MFCC)矩阵"></a>梅尔频率倒谱系数(MFCC)矩阵</h3><p>将一段音频样本划分成若干片段，其中每一个片段对应MFCC矩阵中的一行，构成一个子样本。将每个子样本做傅里叶变换得到频率谱线，从中选择与音频内容关系最为紧密的13个特征频率，形成一个特征向量。将多个子样本的特征向量组合成矩阵，即MFCC矩阵。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io.wavfile <span class="keyword">as</span> wf</span><br><span class="line"><span class="keyword">import</span> python_speech_features <span class="keyword">as</span> sf</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">sample_rate, sigs = wf.read(</span><br><span class="line">	<span class="string">&#x27;D:/ML/data/speeches/training/banana/banana01.wav&#x27;</span>)</span><br><span class="line">mfcc = sf.mfcc(sigs, sample_rate)</span><br><span class="line">mp.matshow(mfcc.T, cmap=<span class="string">&#x27;gist_rainbow&#x27;</span>,</span><br><span class="line">	fignum=<span class="string">&#x27;MFCC&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;MFCC&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Sample&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Feature&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(which=<span class="string">&#x27;both&#x27;</span>, top=<span class="literal">False</span>,</span><br><span class="line">	labeltop=<span class="literal">False</span>, labelbottom=<span class="literal">True</span>,</span><br><span class="line">	labelsize=<span class="number">10</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io.wavfile <span class="keyword">as</span> wf</span><br><span class="line"><span class="keyword">import</span> python_speech_features <span class="keyword">as</span> sf</span><br><span class="line"><span class="keyword">import</span> hmmlearn.hmm <span class="keyword">as</span> hl</span><br><span class="line">warnings.filterwarnings(<span class="string">&#x27;ignore&#x27;</span>,</span><br><span class="line">	category=DeprecationWarning)</span><br><span class="line">np.seterr(<span class="built_in">all</span>=<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_speeches</span>(<span class="params">directory, speeches</span>):</span></span><br><span class="line">	directory = os.path.normpath(directory)</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(directory):</span><br><span class="line">		<span class="keyword">raise</span> IOError(<span class="string">&quot;The directory &#x27;&quot;</span> +</span><br><span class="line">			directory + <span class="string">&quot;&#x27; doesn&#x27;t exist!&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> entry <span class="keyword">in</span> os.listdir(directory):</span><br><span class="line">		label = directory[directory.rfind(</span><br><span class="line">			os.path.sep) + <span class="number">1</span>:]</span><br><span class="line">		path = os.path.join(directory, entry)</span><br><span class="line">		<span class="keyword">if</span> os.path.isdir(path):</span><br><span class="line">			search_speeches(path, speeches)</span><br><span class="line">		<span class="keyword">elif</span> os.path.isfile(path) <span class="keyword">and</span> \</span><br><span class="line">			path.endswith(<span class="string">&#x27;.wav&#x27;</span>):</span><br><span class="line">			<span class="keyword">if</span> label <span class="keyword">not</span> <span class="keyword">in</span> speeches:</span><br><span class="line">				speeches[label] = []</span><br><span class="line">			speeches[label].append(path)</span><br><span class="line">train_speeches = &#123;&#125;</span><br><span class="line">search_speeches(<span class="string">&#x27;../data/speeches/training&#x27;</span>,</span><br><span class="line">	train_speeches)</span><br><span class="line">train_x, train_y = [], []</span><br><span class="line"><span class="keyword">for</span> label, filenames <span class="keyword">in</span> train_speeches.items():</span><br><span class="line">	mfccs = np.array([])</span><br><span class="line">	<span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">		sample_rate, sigs = wf.read(filename)</span><br><span class="line">		mfcc = sf.mfcc(sigs, sample_rate)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(mfccs) == <span class="number">0</span>:</span><br><span class="line">			mfccs = mfcc</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			mfccs = np.append(</span><br><span class="line">				mfccs, mfcc, axis=<span class="number">0</span>)</span><br><span class="line">	train_x.append(mfccs)</span><br><span class="line">	train_y.append(label)</span><br><span class="line">modles = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> mfccs, label <span class="keyword">in</span> <span class="built_in">zip</span>(train_x, train_y):</span><br><span class="line">	model = hl.GaussianHMM(</span><br><span class="line">		n_components=<span class="number">4</span>, covariance_type=<span class="string">&#x27;diag&#x27;</span>,</span><br><span class="line">		n_iter=<span class="number">1000</span>)</span><br><span class="line">	modles[label] = model.fit(mfccs)</span><br><span class="line">test_speeches = &#123;&#125;</span><br><span class="line">search_speeches(<span class="string">&#x27;../data/speeches/testing&#x27;</span>,</span><br><span class="line">	test_speeches)</span><br><span class="line">test_x, test_y = [], []</span><br><span class="line"><span class="keyword">for</span> label, filenames <span class="keyword">in</span> test_speeches.items():</span><br><span class="line">	mfccs = np.array([])</span><br><span class="line">	<span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">		sample_rate, sigs = wf.read(filename)</span><br><span class="line">		mfcc = sf.mfcc(sigs, sample_rate)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(mfccs) == <span class="number">0</span>:</span><br><span class="line">			mfccs = mfcc</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			mfccs = np.append(mfccs, mfcc, axis=<span class="number">0</span>)</span><br><span class="line">	test_x.append(mfccs)</span><br><span class="line">	test_y.append(label)</span><br><span class="line">pred_test_y = []</span><br><span class="line"><span class="keyword">for</span> mfccs <span class="keyword">in</span> test_x:</span><br><span class="line">	best_score, best_label = <span class="literal">None</span>, <span class="literal">None</span></span><br><span class="line">	<span class="keyword">for</span> label, model <span class="keyword">in</span> modles.items():</span><br><span class="line">		score = model.score(mfccs)</span><br><span class="line">		<span class="keyword">if</span> (best_score <span class="keyword">is</span> <span class="literal">None</span>) <span class="keyword">or</span> \</span><br><span class="line">			(best_score &lt; score):</span><br><span class="line">			best_score, best_label = \</span><br><span class="line">				score, label</span><br><span class="line">	pred_test_y.append(best_label)</span><br><span class="line"><span class="built_in">print</span>(test_y)</span><br><span class="line"><span class="built_in">print</span>(pred_test_y)</span><br></pre></td></tr></table></figure>
+
+<h2 id="声音合成"><a href="#声音合成" class="headerlink" title="声音合成"></a>声音合成</h2><p>根据需求获取某个声音的模型频域数据，根据业务需要可以修改模型数据，逆向生成时域数据，完成声音的合成。</p>
+<p>案例：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io.wavfile <span class="keyword">as</span> wf</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/12.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    freqs = json.loads(f.read())</span><br><span class="line">tones = [</span><br><span class="line">    (<span class="string">&#x27;G5&#x27;</span>, <span class="number">1.5</span>),</span><br><span class="line">    (<span class="string">&#x27;A5&#x27;</span>, <span class="number">0.5</span>),</span><br><span class="line">    (<span class="string">&#x27;G5&#x27;</span>, <span class="number">1.5</span>),</span><br><span class="line">    (<span class="string">&#x27;E5&#x27;</span>, <span class="number">0.5</span>),</span><br><span class="line">    (<span class="string">&#x27;D5&#x27;</span>, <span class="number">0.5</span>),</span><br><span class="line">    (<span class="string">&#x27;E5&#x27;</span>, <span class="number">0.25</span>),</span><br><span class="line">    (<span class="string">&#x27;D5&#x27;</span>, <span class="number">0.25</span>),</span><br><span class="line">    (<span class="string">&#x27;C5&#x27;</span>, <span class="number">0.5</span>),</span><br><span class="line">    (<span class="string">&#x27;A4&#x27;</span>, <span class="number">0.5</span>),</span><br><span class="line">    (<span class="string">&#x27;C5&#x27;</span>, <span class="number">0.75</span>)]</span><br><span class="line">sample_rate = <span class="number">44100</span></span><br><span class="line">music = np.empty(shape=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> tone, duration <span class="keyword">in</span> tones:</span><br><span class="line">    times = np.linspace(<span class="number">0</span>, duration, duration * sample_rate)</span><br><span class="line">    sound = np.sin(<span class="number">2</span> * np.pi * freqs[tone] * times)</span><br><span class="line">    music = np.append(music, sound)</span><br><span class="line">music *= <span class="number">2</span> ** <span class="number">15</span></span><br><span class="line">music = music.astype(np.int16)</span><br><span class="line">wf.write(<span class="string">&#x27;../data/music.wav&#x27;</span>, sample_rate, music)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://t.me/rencheng11">
+          <span class="icon">
+            <i class="fab fa-telegram"></i>
+          </span>
+
+          <span class="label">Telegram</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/qrcode_for_gh.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AI%E8%BF%9B%E9%98%B6/" rel="tag"><i class="fa fa-tag"></i> AI进阶</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+              <a href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="tag"><i class="fa fa-tag"></i> 语音识别</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/15/ml/NLP/" rel="prev" title="机器学习-NLP">
+                  <i class="fa fa-chevron-left"></i> 机器学习-NLP
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/05/01/ml/%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB/" rel="next" title="机器学习-图像识别">
+                  机器学习-图像识别 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">533k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

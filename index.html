@@ -391,60 +391,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>最近在网上经常能看到源码编译的文章，整理一下关于源码编译的问题。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="硬件环境"><a href="#硬件环境" class="headerlink" title="硬件环境"></a>硬件环境</h3><ol>
-<li><code>Mac mini</code> M1 16G 512 </li>
-<li>磁盘空间**<code>60G</code>**</li>
-</ol>
-<h3 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h3><ol>
-<li>macOS Big Sur 11.2.3</li>
-<li>Xcode 12.4 (12D4e)</li>
-<li>Visual studio Code (1.55.2)</li>
-<li>Python 3.9.4</li>
-<li>cmake 3.20.1</li>
-<li>ninja 1.10.2</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install cmake ninja</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>macOS，Xcode，swift最好用对应的版本，以防等待半个小时失败后骂骂咧咧</p>
-</blockquote>
-<h2 id="编译步骤"><a href="#编译步骤" class="headerlink" title="编译步骤"></a>编译步骤</h2><h3 id="一、克隆-swift-源码"><a href="#一、克隆-swift-源码" class="headerlink" title="一、克隆 swift 源码"></a>一、克隆 swift 源码</h3><ol>
-<li><p>创建文件夹，并进入该文件夹</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir swift-source &amp;&amp; <span class="built_in">cd</span> swift-source</span><br></pre></td></tr></table></figure></li>
-<li><p>开始克隆代码 </p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --tag  swift-5.3.2-RELEASE git@github.com:apple/swift.git</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>5.3.2版本克隆下来800+M</p>
-</blockquote>
-</li>
-</ol>
-<h3 id="二、拉取编译需要的依赖-git-submodule"><a href="#二、拉取编译需要的依赖-git-submodule" class="headerlink" title="二、拉取编译需要的依赖(git submodule)"></a>二、拉取编译需要的依赖(git submodule)</h3><ol>
-<li>切换到swift-source文件夹（<strong>注意看</strong>） <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果在这个文件夹请忽略</span></span><br><span class="line"><span class="built_in">cd</span> swift-source</span><br></pre></td></tr></table></figure></li>
-<li>执行脚本 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/update-checkout --tag swift-5.3.2-RELEASE --<span class="built_in">clone</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<p><strong>执行结果</strong><br><img src="https://cdn.renchengqi.com/blog/2w1fe.png"></p>
-<blockquote>
-<ol>
-<li>如果出现Git错误请执行如下命令</li>
-</ol>
-</blockquote>
-<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000 &amp;&amp; git config --global http.sslVerify <span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
-</code></pre>
-<blockquote>
-<ol start="2">
-<li>文件大小大概3.67G左右(包含开始克隆的Swift源码)</li>
-</ol>
-</blockquote>
-<h3 id="三、编译"><a href="#三、编译" class="headerlink" title="三、编译"></a>三、编译</h3><p>编译的过程中可以使用<code>ninja</code>，也可以使用<code>Xcode</code>。由于<code>Xcode</code>需要和特定版本绑定，并且<code>Xcode</code>编译之后的支持性不是特别好。推荐使用<code>njnja</code>来作为编译工具。</p>
-<p>使用<code>ninja</code>编译（推荐）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/build-script -r --debug-swift-stdlib --lldb</span><br></pre></td></tr></table></figure>
-<p>使用<code>Xcode</code>编译</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/build-script -x -R --debug-swift</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>编译是挺耗时并且烧设备。我的M1温度到了65℃</p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/25/ios/swift/Swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

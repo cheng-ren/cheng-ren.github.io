@@ -23,10 +23,10 @@
     <published>2021-04-26T07:09:49.000Z</published>
     <updated>2021-04-26T07:09:49.000Z</updated>
     
-    <content type="html"><![CDATA[<p>在OC中，因其动态性我们经常会用到Runtime相关的API，探索一下Runtime在Swift中的底层实现机制</p><span id="more"></span><ul><li>对于<code>纯Swift</code>类来说，没有动态特性。方法和属性不加任何修饰符的情况下，这个时候其实已经不具备我们所谓的<code>Runtime</code>特性了，这和C++方法调度(V-Table调度) 是不谋而合的。</li><li>对于<code>纯Swift</code>类，方法和属性添加<code>@objc</code>标识的情况下，当前我们可以通过<code>Runtime API</code>拿到，但是在我们的OC中是没法进行调度的。</li><li>对于继承自<code>NSObject</code>的类，如果我们想要动态的获取当前的属性和方法，必须在其声明前添加<code>@objc</code>关键字（方法交换: dynamic的标识）。否则也是没有办法通过<code>Runtime</code> API 获取的。</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>在OC中，因其动态性我们经常会用到<a href="https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/">Runtime</a>相关的API，探索一下Runtime在Swift中的注意点</p><span id="more"></span><ul><li>对于<code>纯Swift</code>类来说，没有动态特性。方法和属性不加任何修饰符的情况下，这个时候其实已经不具备我们所谓的<code>Runtime</code>特性了，这和C++方法调度(V-Table调度) 是不谋而合的。</li><li>对于<code>纯Swift</code>类，方法和属性添加<code>@objc</code>标识的情况下，当前我们可以通过<code>Runtime API</code>拿到，但是在我们的OC中是没法进行调度的。</li><li>对于继承自<code>NSObject</code>的类，如果我们想要动态的获取当前的属性和方法，必须在其声明前添加<code>@objc</code>关键字。否则也是没有办法通过<code>Runtime</code> API 获取的。</li><li>如果想使用OC的动态转发机制，必须同时加<a href="(https://rencheng.cc/2021/02/15/ios/swift/Swift-%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/#objc-dynamic)"><code>@objc</code>和<code>dynamic</code></a>关键字</li></ul>]]></content>
     
     
-    <summary type="html">&lt;p&gt;在OC中，因其动态性我们经常会用到Runtime相关的API，探索一下Runtime在Swift中的底层实现机制&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;在OC中，因其动态性我们经常会用到&lt;a href=&quot;https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/&quot;&gt;Runtime&lt;/a&gt;相关的API，探索一下Runtime在Swift中的注意点&lt;/p&gt;</summary>
     
     
     
@@ -875,9 +875,9 @@
     
     
     
-    <category term="hexo" scheme="https://rencheng.cc/tags/hexo/"/>
-    
     <category term="教程" scheme="https://rencheng.cc/tags/%E6%95%99%E7%A8%8B/"/>
+    
+    <category term="hexo" scheme="https://rencheng.cc/tags/hexo/"/>
     
   </entry>
   
@@ -1537,9 +1537,9 @@
     
     
     
-    <category term="hexo" scheme="https://rencheng.cc/tags/hexo/"/>
-    
     <category term="教程" scheme="https://rencheng.cc/tags/%E6%95%99%E7%A8%8B/"/>
+    
+    <category term="hexo" scheme="https://rencheng.cc/tags/hexo/"/>
     
   </entry>
   

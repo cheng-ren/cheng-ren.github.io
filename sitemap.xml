@@ -30,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/index.html</loc>
+    <loc>https://rencheng.cc/categories/index.html</loc>
     
     <lastmod>2021-04-22</lastmod>
     
@@ -44,7 +44,7 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/categories/index.html</loc>
+    <loc>https://rencheng.cc/tags/index.html</loc>
     
     <lastmod>2021-04-22</lastmod>
     
@@ -1082,6 +1082,20 @@
   </url>
   
   <url>
+    <loc>https://rencheng.cc/tags/%E7%88%AC%E8%99%AB/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://rencheng.cc/tags/Android/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -1110,28 +1124,7 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://rencheng.cc/tags/docker/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/git/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1152,42 +1145,14 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/%E8%BF%90%E7%BB%B4/</loc>
+    <loc>https://rencheng.cc/tags/git/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/markdown/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/%E6%95%99%E8%82%B2/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/%E5%9B%A2%E9%98%9F%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/MongoDB/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>https://rencheng.cc/tags/%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1201,7 +1166,28 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://rencheng.cc/tags/%E6%95%99%E8%82%B2/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/%E8%BF%90%E7%BB%B4/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/%E5%9B%A2%E9%98%9F%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/markdown/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1264,21 +1250,14 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/%E6%8E%A8%E8%8D%90/</loc>
+    <loc>https://rencheng.cc/tags/MongoDB/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/%E6%8A%80%E6%9C%AF%E8%B0%83%E7%A0%94/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</loc>
+    <loc>https://rencheng.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1286,27 +1265,6 @@
   
   <url>
     <loc>https://rencheng.cc/tags/MySQL/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/web/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/vue/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://rencheng.cc/tags/Redis/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1341,7 +1299,42 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/tags/Objc/</loc>
+    <loc>https://rencheng.cc/tags/%E6%8E%A8%E8%8D%90/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/Redis/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/%E6%8A%80%E6%9C%AF%E8%B0%83%E7%A0%94/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/web/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/vue/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1356,6 +1349,13 @@
   
   <url>
     <loc>https://rencheng.cc/tags/%E6%8F%90%E5%AE%A1/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rencheng.cc/tags/Objc/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1399,7 +1399,7 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/categories/%E4%BA%8B%E6%95%85%E8%AE%B0%E5%BD%95/</loc>
+    <loc>https://rencheng.cc/categories/%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1413,7 +1413,7 @@
   </url>
   
   <url>
-    <loc>https://rencheng.cc/categories/%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://rencheng.cc/categories/%E4%BA%8B%E6%95%85%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

@@ -204,7 +204,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">146</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -264,6 +264,212 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/04/26/ios/swift/Swift-Runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/26/ios/swift/Swift-Runtime/" class="post-title-link" itemprop="url">Swift-Runtime</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-26 15:09:49" itemprop="dateCreated datePublished" datetime="2021-04-26T15:09:49+08:00">2021-04-26</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>309</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在OC中，因其动态性我们经常会用到Runtime相关的API，探索一下Runtime在Swift中的底层实现机制</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/26/ios/swift/Swift-Runtime/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/04/25/ios/swift/Swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/25/ios/swift/Swift%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="post-title-link" itemprop="url">Swift源码编译</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-25 20:18:04" itemprop="dateCreated datePublished" datetime="2021-04-25T20:18:04+08:00">2021-04-25</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>898</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近在网上经常能看到源码编译的文章，整理一下关于源码编译的问题。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="硬件环境"><a href="#硬件环境" class="headerlink" title="硬件环境"></a>硬件环境</h3><ol>
+<li><code>Mac mini</code> M1 16G 512 </li>
+<li>磁盘空间**<code>60G</code>**</li>
+</ol>
+<h3 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h3><ol>
+<li>macOS Big Sur 11.2.3</li>
+<li>Xcode 12.4 (12D4e)</li>
+<li>Visual studio Code (1.55.2)</li>
+<li>Python 3.9.4</li>
+<li>cmake 3.20.1</li>
+<li>ninja 1.10.2</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install cmake ninja</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>macOS，Xcode，swift最好用对应的版本，以防等待半个小时失败后骂骂咧咧</p>
+</blockquote>
+<h2 id="编译步骤"><a href="#编译步骤" class="headerlink" title="编译步骤"></a>编译步骤</h2><h3 id="一、克隆-swift-源码"><a href="#一、克隆-swift-源码" class="headerlink" title="一、克隆 swift 源码"></a>一、克隆 swift 源码</h3><ol>
+<li><p>创建文件夹，并进入该文件夹</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir swift-source &amp;&amp; <span class="built_in">cd</span> swift-source</span><br></pre></td></tr></table></figure></li>
+<li><p>开始克隆代码 </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --tag  swift-5.3.2-RELEASE git@github.com:apple/swift.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>5.3.2版本克隆下来800+M</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="二、拉取编译需要的依赖-git-submodule"><a href="#二、拉取编译需要的依赖-git-submodule" class="headerlink" title="二、拉取编译需要的依赖(git submodule)"></a>二、拉取编译需要的依赖(git submodule)</h3><ol>
+<li>切换到swift-source文件夹（<strong>注意看</strong>） <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果在这个文件夹请忽略</span></span><br><span class="line"><span class="built_in">cd</span> swift-source</span><br></pre></td></tr></table></figure></li>
+<li>执行脚本 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/update-checkout --tag swift-5.3.2-RELEASE --<span class="built_in">clone</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>执行结果</strong><br><img src="https://cdn.renchengqi.com/blog/2w1fe.png"></p>
+<blockquote>
+<ol>
+<li>如果出现Git错误请执行如下命令</li>
+</ol>
+</blockquote>
+<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000 &amp;&amp; git config --global http.sslVerify <span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<blockquote>
+<ol start="2">
+<li>文件大小大概3.67G左右(包含开始克隆的Swift源码)</li>
+</ol>
+</blockquote>
+<h3 id="三、编译"><a href="#三、编译" class="headerlink" title="三、编译"></a>三、编译</h3><p>编译的过程中可以使用<code>ninja</code>，也可以使用<code>Xcode</code>。由于<code>Xcode</code>需要和特定版本绑定，并且<code>Xcode</code>编译之后的支持性不是特别好。推荐使用<code>njnja</code>来作为编译工具。</p>
+<p>使用<code>ninja</code>编译（推荐）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/build-script -r --debug-swift-stdlib --lldb</span><br></pre></td></tr></table></figure>
+<p>使用<code>Xcode</code>编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./swift/utils/build-script -x -R --debug-swift</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编译是挺耗时并且烧设备。我的M1温度到了65℃</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/04/22/ios/swift/Dictionary%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -299,7 +505,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>14</span>
+      <span>418</span>
     </span>
 </div>
 
@@ -310,10 +516,90 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>探索Dictionary原理</p>
+          <p>字典这种数据结构在现代的开发语言中比较常见（PHP叫关联数组）<br>探索一下其底层原理。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/04/22/ios/swift/Dictionary%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/02/15/ios/swift/Swift-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/15/ios/swift/Swift-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">Swift-调用方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-15 16:01:58" itemprop="dateCreated datePublished" datetime="2021-02-15T16:01:58+08:00">2021-02-15</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>511</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Swift有三种调用方式，总结一下</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/15/ios/swift/Swift-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -835,254 +1121,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/10/09/ios/general/%E6%B7%B1%E7%A9%B6iOS%E5%90%AF%E5%8A%A8%E5%9B%BE%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
-      <meta itemprop="name" content="任成">
-      <meta itemprop="description" content="iOSer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="任成の博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/09/ios/general/%E6%B7%B1%E7%A9%B6iOS%E5%90%AF%E5%8A%A8%E5%9B%BE%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">深究iOS启动图问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-09 16:55:48" itemprop="dateCreated datePublished" datetime="2020-10-09T16:55:48+08:00">2020-10-09</time>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.8k</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在开发中遇见如下问题</p>
-<ul>
-<li>应用更新后，启动图没有更新</li>
-<li>启动图渲染失败</li>
-<li>实现动态更换启动图的需求</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/09/ios/general/%E6%B7%B1%E7%A9%B6iOS%E5%90%AF%E5%8A%A8%E5%9B%BE%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
-      <meta itemprop="name" content="任成">
-      <meta itemprop="description" content="iOSer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="任成の博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/" class="post-title-link" itemprop="url">iOS14和Xcode12踩坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-09-21 17:34:45" itemprop="dateCreated datePublished" datetime="2020-09-21T17:34:45+08:00">2020-09-21</time>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>6.7k</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>今年整体适配强度不大。<br><img src="https://object.renchengqi.com/blog/y3ady.jpg"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/09/14/ios/general/App%E7%98%A6%E8%BA%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
-      <meta itemprop="name" content="任成">
-      <meta itemprop="description" content="iOSer">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="任成の博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/09/14/ios/general/App%E7%98%A6%E8%BA%AB/" class="post-title-link" itemprop="url">iOS-App瘦身</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-09-14 17:13:50" itemprop="dateCreated datePublished" datetime="2020-09-14T17:13:50+08:00">2020-09-14</time>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>867</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>关于App瘦身的实践<br><strong>构成</strong></p>
-<ul>
-<li>可执行文件</li>
-<li>资源
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/14/ios/general/App%E7%98%A6%E8%BA%AB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1133,14 +1171,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">534k</span>
+    <span title="站点总字数">536k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:06</span>
+    <span title="站点阅读时长">8:08</span>
   </span>
 </div>
 

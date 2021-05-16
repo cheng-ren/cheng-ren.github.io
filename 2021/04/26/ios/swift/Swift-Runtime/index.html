@@ -179,7 +179,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -192,6 +192,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8%E5%92%8C%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">获取方法列表和属性列表</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -207,7 +208,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">146</span>
+          <span class="site-state-item-count">147</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -303,7 +304,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>325</span>
+      <span>1.3k</span>
     </span>
 </div>
 
@@ -324,7 +325,7 @@
 <li>对于继承自<code>NSObject</code>的类，如果我们想要动态的获取当前的属性和方法，必须在其声明前添加<code>@objc</code>关键字。否则也是没有办法通过<code>Runtime</code> API 获取的。</li>
 <li>如果想使用OC的动态转发机制，必须同时加<a href="(https://rencheng.cc/2021/02/15/ios/swift/Swift-%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/#objc-dynamic)"><code>@objc</code>和<code>dynamic</code></a>关键字</li>
 </ul>
-
+<h2 id="获取方法列表和属性列表"><a href="#获取方法列表和属性列表" class="headerlink" title="获取方法列表和属性列表"></a>获取方法列表和属性列表</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">teach</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你好啊&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">teac1</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你好啊&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">traversalMethod</span>()</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> methodCount: <span class="type">UInt32</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> methodList <span class="operator">=</span> class_copyMethodList(<span class="type">Teacher</span>.<span class="keyword">self</span>, <span class="operator">&amp;</span>methodCount)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="built_in">numericCast</span>(methodCount) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> method <span class="operator">=</span> methodList<span class="operator">?</span>[i] &#123;</span><br><span class="line">            <span class="keyword">let</span> methodName <span class="operator">=</span> method_getName(method)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;方法:<span class="subst">\(methodName)</span>&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;未找到方法&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">traversalProperty</span>()</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> propertyCount: <span class="type">UInt32</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> propertyList <span class="operator">=</span> class_copyPropertyList(<span class="type">Teacher</span>.<span class="keyword">self</span>, <span class="operator">&amp;</span>propertyCount)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="built_in">numericCast</span>(propertyCount) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> property <span class="operator">=</span> propertyList<span class="operator">?</span>[i] &#123;</span><br><span class="line">            <span class="keyword">let</span> propertyName <span class="operator">=</span> property_getName(property)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;属性:<span class="subst">\(String(utf8String: propertyName) <span class="operator">??</span> <span class="string">&quot;&quot;</span>)</span>&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;未找到属性&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">traversalMethod()</span><br><span class="line">traversalProperty()</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -440,14 +441,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">538k</span>
+    <span title="站点总字数">539k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:09</span>
+    <span title="站点阅读时长">8:10</span>
   </span>
 </div>
 

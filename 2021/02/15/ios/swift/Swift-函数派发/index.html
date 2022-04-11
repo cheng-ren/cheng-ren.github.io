@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Swift有三种函数派发方式，总结一下  静态派发 函数表派发 消息派发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift-函数派发">
+<meta property="og:url" content="https://rencheng.cc/2021/02/15/ios/swift/Swift-%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="Swift有三种函数派发方式，总结一下  静态派发 函数表派发 消息派发">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-15T08:01:58.000Z">
+<meta property="article:modified_time" content="2021-02-15T08:01:58.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2021/02/15/ios/swift/Swift-%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Swift-函数派发 | 任成の博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">任成の博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">派发方式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%B4%BE%E5%8F%91"><span class="nav-number">1.1.</span> <span class="nav-text">静态派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91"><span class="nav-number">1.2.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%B4%BE%E5%8F%91"><span class="nav-number">1.3.</span> <span class="nav-text">消息派发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%9A%84%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">Swift的派发机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B-amp-amp-%E5%A3%B0%E6%98%8E%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">数据类型 &amp;&amp; 声明位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">指定派发方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#final"><span class="nav-number">2.2.1.</span> <span class="nav-text">final</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dynamic"><span class="nav-number">2.2.2.</span> <span class="nav-text">dynamic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc"><span class="nav-number">2.2.3.</span> <span class="nav-text">@objc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc-dynamic"><span class="nav-number">2.2.4.</span> <span class="nav-text">@objc + dynamic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inline"><span class="nav-number">2.2.5.</span> <span class="nav-text">@inline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#static"><span class="nav-number">2.2.6.</span> <span class="nav-text">static</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E4%BC%98%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">编译器优化</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.renchengqi.com/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/02/15/ios/swift/Swift-%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift-函数派发
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-15 16:01:58" itemprop="dateCreated datePublished" datetime="2021-02-15T16:01:58+08:00">2021-02-15</time>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Swift有三种函数派发方式，总结一下</p>
+<ul>
+<li>静态派发</li>
+<li>函数表派发</li>
+<li>消息派发<span id="more"></span></li>
+</ul>
+<h2 id="派发方式概述"><a href="#派发方式概述" class="headerlink" title="派发方式概述"></a>派发方式概述</h2><h3 id="静态派发"><a href="#静态派发" class="headerlink" title="静态派发"></a>静态派发</h3><p><code>静态派发</code>是三种派发方式中最快的。<code>CPU</code>直接拿到函数地址并进行调用。编译器优化时，也常常将函数进行内联，将其转换为静态派发方式，提升执行速度。<br><code>C++</code>默认使用静态派发；在<code>Swift</code>中给函数加上<code>final</code>关键字，也会变成<code>静态派发</code>。</p>
+<p><strong>优点：</strong><br>使用最少的指令集，办最快的事情。</p>
+<p><strong>缺点：</strong><br>静态派发最大的弊病就是没有动态性，不支持继承。</p>
+<h3 id="函数表派发"><a href="#函数表派发" class="headerlink" title="函数表派发"></a>函数表派发</h3><p>编译型语言中最常见的派发方式，既保证了动态性也兼顾了执行效率。<br>函数所在的类会维护一个“函数表”(虚函数表)，存取了每个函数实现的指针。<br>每个类的 V-Table 在编译时就会被构建，所以与静态派发相比多出了两个读取的工作：</p>
+<ul>
+<li>读取该类的 V-Table</li>
+<li>读取函数的指针</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>查表是一种简单，易实现，而且性能可预知的方式。</li>
+<li>理论上说，函数表派发也是一种高效的方式。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>与静态派发相比，从字节码角度来看，多了两次读和一次跳转。</li>
+<li>与静态派发相比，编译器对某些含有副作用的函数无法优化。(过度拆解，无法内联)</li>
+<li><code>Swift</code>类扩展里面的函数无法动态加入该类的函数表中，只能使用静态派发的方式。</li>
+</ul>
+<h3 id="消息派发"><a href="#消息派发" class="headerlink" title="消息派发"></a>消息派发</h3><p>消息机制是调用函数最动态的方式。由于<code>Swfit</code>使用的依旧是<code>Objective-C</code>的运行时系统，消息派发其实也就是<code>Objective-C</code>的<code>Message Passing(消息传递)</code>。由于消息传递大家看的文章很多了，这里不做过多赘述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id returnValue &#x3D; [obj messageName:param];</span><br><span class="line">&#x2F;&#x2F; 底层代码</span><br><span class="line">id returnValue &#x3D; objc_msgSend(obj, @selector(messageName:), param);</span><br></pre></td></tr></table></figure>
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>动态性高</li>
+<li>Method Swizzling</li>
+<li>isa Swizzling</li>
+<li>…</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>执行效率是三种派发方式中最低的</li>
+</ul>
+<blockquote>
+<p>所幸的是<code>objc_msgSend</code>会将匹配的结果缓存到一个映射表中，每个类都有这样一块缓存。若是之后发送相同的消息，执行速率会很快。</p>
+</blockquote>
+<h2 id="Swift的派发机制"><a href="#Swift的派发机制" class="headerlink" title="Swift的派发机制"></a>Swift的派发机制</h2><p>Swift的派发机制受到4个因素的影响：</p>
+<ul>
+<li>数据类型</li>
+<li>函数声明的位置</li>
+<li>指定派发方式</li>
+<li>编译器优化</li>
+</ul>
+<h3 id="数据类型-amp-amp-声明位置"><a href="#数据类型-amp-amp-声明位置" class="headerlink" title="数据类型 &amp;&amp; 声明位置"></a>数据类型 &amp;&amp; 声明位置</h3><table>
+<thead>
+<tr>
+<th align="left">类型\位置</th>
+<th align="left">初始声明</th>
+<th align="left">扩展</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">值类型</td>
+<td align="left">静态派发</td>
+<td align="left">静态派发</td>
+</tr>
+<tr>
+<td align="left">协议</td>
+<td align="left">函数表派发</td>
+<td align="left">静态派发</td>
+</tr>
+<tr>
+<td align="left">类</td>
+<td align="left">函数表派发</td>
+<td align="left">静态派发</td>
+</tr>
+<tr>
+<td align="left">NSObject子类</td>
+<td align="left">函数表派发</td>
+<td align="left">静态派发</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>声明在 协议 或者 类 中的函数是使用函数表派发的<br>声明在 扩展 中的函数则是静态派发</p>
+</blockquote>
+<h3 id="指定派发方式"><a href="#指定派发方式" class="headerlink" title="指定派发方式"></a>指定派发方式</h3><p>给函数添加<strong>关键字</strong>的修饰也会改变其派发方式。</p>
+<h4 id="final"><a href="#final" class="headerlink" title="final"></a>final</h4><p>添加了<code>final</code>关键字的函数无法被重写，使用静态派发，不会在<code>vtable</code>中出现，且对<code>objc</code>运行时不可见。</p>
+<h4 id="dynamic"><a href="#dynamic" class="headerlink" title="dynamic"></a>dynamic</h4><p>函数均可添加<code>dynamic</code>关键字，为非objc类和值类型的函数赋予动态性，但派发方式还是函数表派发。</p>
+<h4 id="objc"><a href="#objc" class="headerlink" title="@objc"></a>@objc</h4><p>该关键字可以将Swift函数暴露给Objc运行时，但并不会改变其派发方式，依旧是函数表派发。</p>
+<h4 id="objc-dynamic"><a href="#objc-dynamic" class="headerlink" title="@objc + dynamic"></a>@objc + dynamic</h4><p>这两个关键字组合使用，将采用<code>消息派发</code>的方式</p>
+<h4 id="inline"><a href="#inline" class="headerlink" title="@inline"></a>@inline</h4><p>告诉编译器将此函数静态派发，但将其转换成SIL代码后，依旧是<code>函数表派发</code>。</p>
+<h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>static 关键字会将函数变为静态派发，不会在 vtable 中出现。</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">静态派发</th>
+<th align="left">函数表派发</th>
+<th align="left">消息派发</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">值类型</td>
+<td align="left">所有方法</td>
+<td align="left">-</td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left">协议</td>
+<td align="left">extension</td>
+<td align="left">主体创建</td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left">类</td>
+<td align="left">extension/final/static</td>
+<td align="left">主体创建</td>
+<td align="left">@objc + dynamic</td>
+</tr>
+<tr>
+<td align="left">NSObject子类</td>
+<td align="left">extension/final/static</td>
+<td align="left">主体创建</td>
+<td align="left">@objc + dynamic</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>除此之外，编译器可能将某些方法优化为静态派发。例如，私有函数。</p>
+</blockquote>
+<h3 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h3><p><code>Swift</code>会尽可能的去优化函数派发方式。当一个类声明了一个私有函数时，该函数很<em>可能</em>会被优化为静态派发。<br>这也就是为什么在<code>Swift</code>中使用<code>target-action</code>模式时，私有<code>selector</code>会报错的原因(<code>Objective-C</code>无法获取<code>#selector</code>指定的函数)。</p>
+<p>另一个需要注意的是，<code>NSObject子类</code>中的<code>属性</code>，如果没有使用<code>dynamic</code>修饰的话，这个优化会默认让<code>KVO</code>失效。因为，这个属性的<code>getter</code>和<code>setter</code>会被优化为静态派发。虽然，代码可以通过编译，不过动态生成的<code>KVO</code>函数就不会被触发。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Swift/" rel="tag"><i class="fa fa-tag"></i> Swift</a>
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/16/ios/swift/%E6%96%AD%E8%A8%80%E5%A4%84%E7%90%86/" rel="prev" title="Swift-断言">
+                  <i class="fa fa-chevron-left"></i> Swift-断言
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/16/ios/swift/self%E5%92%8CSelf/" rel="next" title="Swift-self与Self">
+                  Swift-self与Self <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
+      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">任成</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">603k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:08</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+<script data-pjax>
+var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+
+
+    <div class="pjax">
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

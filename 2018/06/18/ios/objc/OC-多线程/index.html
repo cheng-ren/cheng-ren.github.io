@@ -31,17 +31,17 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="多线程，充分利用设备多核的技术。应用非常广泛">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/opwkh.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/npkRzM.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/8kiyt.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ctbpw.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/opwkh.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/npkRzM.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/8kiyt.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ctbpw.jpg">
 <meta property="article:published_time" content="2018-06-18T08:19:02.000Z">
 <meta property="article:modified_time" content="2018-06-18T08:19:02.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="Objc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/opwkh.jpg">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/opwkh.jpg">
 
 
 <link rel="canonical" href="https://rencheng.cc/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
@@ -204,7 +204,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -213,7 +213,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -277,7 +277,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/06/18/ios/objc/OC-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -428,11 +428,11 @@
 <li><p>当多个线程访问同一块资源时，很容易引发数据错乱和数据安全问题</p>
 </li>
 </ul>
-<h3 id="经典示例：存钱取钱"><a href="#经典示例：存钱取钱" class="headerlink" title="经典示例：存钱取钱"></a>经典示例：存钱取钱</h3><p><img src="https://cdn.renchengqi.com/blog/opwkh.jpg"><br>蓝色操作队列代表甲用户拿卡存钱，绿色代表乙用户拿卡取钱。假如他们操作的是同一个账户；黄色代表账户余额。</p>
-<h3 id="经典示例：卖票"><a href="#经典示例：卖票" class="headerlink" title="经典示例：卖票"></a>经典示例：卖票</h3><p><img src="https://cdn.renchengqi.com/blog/npkRzM.jpg" alt="npkRzM"></p>
-<h3 id="分析与解决"><a href="#分析与解决" class="headerlink" title="分析与解决"></a>分析与解决</h3><p><img src="https://cdn.renchengqi.com/blog/8kiyt.jpg"></p>
+<h3 id="经典示例：存钱取钱"><a href="#经典示例：存钱取钱" class="headerlink" title="经典示例：存钱取钱"></a>经典示例：存钱取钱</h3><p><img src="https://cdn.rencheng.cc/blog/opwkh.jpg"><br>蓝色操作队列代表甲用户拿卡存钱，绿色代表乙用户拿卡取钱。假如他们操作的是同一个账户；黄色代表账户余额。</p>
+<h3 id="经典示例：卖票"><a href="#经典示例：卖票" class="headerlink" title="经典示例：卖票"></a>经典示例：卖票</h3><p><img src="https://cdn.rencheng.cc/blog/npkRzM.jpg" alt="npkRzM"></p>
+<h3 id="分析与解决"><a href="#分析与解决" class="headerlink" title="分析与解决"></a>分析与解决</h3><p><img src="https://cdn.rencheng.cc/blog/8kiyt.jpg"></p>
 <p><strong>解决方案</strong>：使用<code>线程同步</code>技术（同步，就是协同步调，按预定的先后次序进行）<br>常见的线程同步技术是：<code>加锁</code></p>
-<p><img src="https://cdn.renchengqi.com/blog/ctbpw.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/ctbpw.jpg"></p>
 <h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><p><strong>线程阻塞的方式</strong></p>
 <ul>
 <li>忙等：类似死循环（占用CPU资源）</li>
@@ -651,12 +651,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -668,14 +668,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

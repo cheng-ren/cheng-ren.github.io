@@ -31,20 +31,20 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="在做Flutter开发的时候通常离不了Flutter和Native之间的通信，比如：初始化Flutter时Native向Dart传递数据，Dart调用Native的相册选择图片，Dart调用Native的模块进行一些复杂的计算，Native将一些数据(GPS信息，陀螺仪，传感器等)主动传递给Dart等。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/0srxg.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/oz11b.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/fbsog.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ul5ry.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ictvj.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/uwndy.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/d1dv3.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/0srxg.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/oz11b.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/fbsog.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ul5ry.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ictvj.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/uwndy.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/d1dv3.gif">
 <meta property="article:published_time" content="2020-03-04T03:12:11.000Z">
 <meta property="article:modified_time" content="2020-03-04T03:12:11.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/0srxg.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/0srxg.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2020/03/04/flutter/Flutter%E4%B8%8EiOS%E9%80%9A%E4%BF%A1/">
@@ -207,7 +207,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -216,7 +216,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -280,7 +280,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/03/04/flutter/Flutter%E4%B8%8EiOS%E9%80%9A%E4%BF%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -334,10 +334,10 @@
 <li>  Dart发送数据给Native；</li>
 <li>  Dart发送数据给Native，然后Native回传数据给Dart；</li>
 </ul>
-<p><img src="https://cdn.renchengqi.com/blog/0srxg.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/0srxg.png"></p>
 <p>在讲解 <code>Flutter</code> 与 <code>Native</code> 之间是如何传递数据之前，我们先来了解下 <code>Flutter</code> 与 <code>Native</code> 的通信机制，<code>Flutter</code> 和 <code>Native</code> 的通信是通过Channel来完成的。</p>
 <p>消息使用Channel（平台通道）在客户端（UI）和主机（平台）之间传递，如下图所示：</p>
-<p><img src="https://cdn.renchengqi.com/blog/oz11b.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/oz11b.png"></p>
 <blockquote>
 <p>Flutter中消息的传递是完全异步的；</p>
 </blockquote>
@@ -514,7 +514,7 @@
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;<span class="built_in">dynamic</span>&gt; receiveBroadcastStream([ <span class="built_in">dynamic</span> arguments ]) </span><br><span class="line">```    </span><br><span class="line"></span><br><span class="line">*   `<span class="built_in">dynamic</span> arguments` - 监听事件时向Native传递的数据；</span><br><span class="line"></span><br><span class="line">初始化一个广播流用于从channel中接收数据，它返回一个Stream接下来需要调用Stream的`listen`方法来完成注册，另外需要在页面销毁时调用Stream的`cancel`方法来取消监听；</span><br><span class="line"></span><br><span class="line">``` dart</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/services.dart&#x27;</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> EventChannel _eventChannelPlugin =</span><br><span class="line">          EventChannel(<span class="string">&#x27;EventChannelPlugin&#x27;</span>);</span><br><span class="line">StreamSubscription _streamSubscription;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">  _streamSubscription=_eventChannelPlugin</span><br><span class="line">      .receiveBroadcastStream()</span><br><span class="line">      .listen(_onToDart, onError: _onToDartError);</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> dispose() &#123;</span><br><span class="line">  <span class="keyword">if</span> (_streamSubscription != <span class="keyword">null</span>) &#123;</span><br><span class="line">    _streamSubscription.cancel();</span><br><span class="line">    _streamSubscription = <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">super</span>.dispose();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> _onToDart(message) &#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    showMessage = message;</span><br><span class="line">  &#125;); </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> _onToDartError(error) &#123;</span><br><span class="line">  <span class="built_in">print</span>(error);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="1-初始化Flutter时Native向Dart传递数据"><a href="#1-初始化Flutter时Native向Dart传递数据" class="headerlink" title="1. 初始化Flutter时Native向Dart传递数据"></a>1. 初始化Flutter时Native向Dart传递数据</h2><p><img src="https://cdn.renchengqi.com/blog/fbsog.gif"></p>
+<h2 id="1-初始化Flutter时Native向Dart传递数据"><a href="#1-初始化Flutter时Native向Dart传递数据" class="headerlink" title="1. 初始化Flutter时Native向Dart传递数据"></a>1. 初始化Flutter时Native向Dart传递数据</h2><p><img src="https://cdn.rencheng.cc/blog/fbsog.gif"></p>
 <p>在Flutter的API中提供了Native在初始化Dart页面时传递数据给Dart的方式，这种传递数据的方式比下文中所讲的其他几种传递数据的方式发生的时机都早。</p>
 <p>因为很少有资料介绍这种方式，所以可能有很多同学还不知道这种方式，不过不要紧，接下来我就向大家介绍如何使用这种方式来传递数据给Dart。</p>
 <p>Android向Flutter传递初始化数据<code>initialRoute</code></p>
@@ -530,18 +530,18 @@ String initParams=window.defaultRouteName;
 </code></pre>
 <p>通过上述方案的讲解是不是给大家分享了一个新的思路呢。<br>接下来，我们先来看一下如何在<code>Android</code>上来传递这些初始化数据。</p>
 <h2 id="2-Native到Dart的通信-Native发送数据给Dart"><a href="#2-Native到Dart的通信-Native发送数据给Dart" class="headerlink" title="2. Native到Dart的通信(Native发送数据给Dart)"></a>2. Native到Dart的通信(Native发送数据给Dart)</h2><p>在Flutter 中Native向Dart传递消息可以通过<code>BasicMessageChannel</code>或<code>EventChannel</code>都可以实现：</p>
-<h3 id="通过BasicMessageChannel的方式"><a href="#通过BasicMessageChannel的方式" class="headerlink" title="通过BasicMessageChannel的方式"></a>通过<code>BasicMessageChannel</code>的方式</h3><p><img src="https://cdn.renchengqi.com/blog/ul5ry.gif"></p>
+<h3 id="通过BasicMessageChannel的方式"><a href="#通过BasicMessageChannel的方式" class="headerlink" title="通过BasicMessageChannel的方式"></a>通过<code>BasicMessageChannel</code>的方式</h3><p><img src="https://cdn.rencheng.cc/blog/ul5ry.gif"></p>
 <blockquote>
 <p>如何实现？</p>
 </blockquote>
-<h3 id="通过EventChannel的方式"><a href="#通过EventChannel的方式" class="headerlink" title="通过EventChannel的方式"></a>通过<code>EventChannel</code>的方式</h3><p><img src="https://cdn.renchengqi.com/blog/ictvj.gif"></p>
+<h3 id="通过EventChannel的方式"><a href="#通过EventChannel的方式" class="headerlink" title="通过EventChannel的方式"></a>通过<code>EventChannel</code>的方式</h3><p><img src="https://cdn.rencheng.cc/blog/ictvj.gif"></p>
 <blockquote>
 <p>如何实现？</p>
 </blockquote>
 <p>以上就是使用不同Channel实现Native到Dart通信的原理及方式，接下来我们来看一下实现Dart到Native之间通信的原理及方式。</p>
 <h2 id="3-Dart到Native的通信-Dart发送数据给Native"><a href="#3-Dart到Native的通信-Dart发送数据给Native" class="headerlink" title="3. Dart到Native的通信(Dart发送数据给Native)"></a>3. Dart到Native的通信(Dart发送数据给Native)</h2><p>在Flutter 中Dart向Native传递消息可以通过<code>BasicMessageChannel</code>或<code>MethodChannel</code>都可以实现：</p>
-<h3 id="通过BasicMessageChannel的方式-1"><a href="#通过BasicMessageChannel的方式-1" class="headerlink" title="通过BasicMessageChannel的方式"></a>通过<code>BasicMessageChannel</code>的方式</h3><p><img src="https://cdn.renchengqi.com/blog/uwndy.gif"></p>
-<h3 id="通过MethodChannel的方式"><a href="#通过MethodChannel的方式" class="headerlink" title="通过MethodChannel的方式"></a>通过<code>MethodChannel</code>的方式</h3><p><img src="https://cdn.renchengqi.com/blog/d1dv3.gif"></p>
+<h3 id="通过BasicMessageChannel的方式-1"><a href="#通过BasicMessageChannel的方式-1" class="headerlink" title="通过BasicMessageChannel的方式"></a>通过<code>BasicMessageChannel</code>的方式</h3><p><img src="https://cdn.rencheng.cc/blog/uwndy.gif"></p>
+<h3 id="通过MethodChannel的方式"><a href="#通过MethodChannel的方式" class="headerlink" title="通过MethodChannel的方式"></a>通过<code>MethodChannel</code>的方式</h3><p><img src="https://cdn.rencheng.cc/blog/d1dv3.gif"></p>
 
     </div>
 
@@ -624,12 +624,12 @@ String initParams=window.defaultRouteName;
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -641,14 +641,14 @@ String initParams=window.defaultRouteName;
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

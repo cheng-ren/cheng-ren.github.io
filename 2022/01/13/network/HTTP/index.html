@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="总结一下最近关于HTTP的理解  HTTP&#x2F;1.1 HTTP&#x2F;2 HTTP&#x2F;3">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/4ryrp.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/3tdd8.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/f515q.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/4ryrp.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/3tdd8.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/f515q.jpg">
 <meta property="article:published_time" content="2022-01-13T11:40:29.000Z">
 <meta property="article:modified_time" content="2022-01-13T11:40:29.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/4ryrp.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/4ryrp.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2022/01/13/network/HTTP/">
@@ -202,7 +202,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -211,7 +211,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -275,7 +275,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2022/01/13/network/HTTP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -365,7 +365,7 @@
 <p>在RFC 5234中表明：ABNF用作internet中通信协议的定义语言</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc7230">ABNF</a>是最严谨的HTTP报文格式描述形式</p>
-<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p><img src="https://cdn.renchengqi.com/blog/4ryrp.png"></p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p><img src="https://cdn.rencheng.cc/blog/4ryrp.png"></p>
 <h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><table>
 <thead>
 <tr>
@@ -579,7 +579,7 @@
 <li>并行交错地发送多个请求，请求之间互不影响</li>
 <li>并行交错地发送多个响应，响应之间互不干扰</li>
 </ul>
-<p><img src="https://cdn.renchengqi.com/blog/3tdd8.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/3tdd8.jpg"></p>
 <blockquote>
 <p>不必再为绕过 HTTP/1.1限制而做很多工作<br>比如image sprites、合并CSS\JS. 内嵌CSS\JS\Bas64图片，城名分片等</p>
 </blockquote>
@@ -593,7 +593,7 @@
 <h4 id="服务器推送"><a href="#服务器推送" class="headerlink" title="服务器推送"></a>服务器推送</h4><p>服务器可以对一个客户端请求发送多个响应，除了对最初请求的响应外，服务器还可以向客户端推送额外资源，而无需客户端额外明确地请求。</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="队头阻塞"><a href="#队头阻塞" class="headerlink" title="队头阻塞"></a>队头阻塞</h4><p><code>HTTP/2</code>是基于<code>TCP</code>协议的, 传输过程相当于队列，串行发送。如果第一个数据包丢失，为了保证有序性，后续数据要等到队头数据重传后才可继续。</p>
 <h4 id="握手延迟"><a href="#握手延迟" class="headerlink" title="握手延迟"></a>握手延迟</h4><p>由于<code>HTTP/2</code>的连接是基于TCP，并且前身SPDY的原因又做TLS/SSL安全套接层，所以握手时间太长。</p>
-<h2 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP/3"></a>HTTP/3</h2><p><img src="https://cdn.renchengqi.com/blog/f515q.jpg"></p>
+<h2 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP/3"></a>HTTP/3</h2><p><img src="https://cdn.rencheng.cc/blog/f515q.jpg"></p>
 <h3 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h3><h4 id="连接迁移"><a href="#连接迁移" class="headerlink" title="连接迁移"></a>连接迁移</h4><p>TCP基于4要素 （源1P、源端口、目标1P、目标端口）,切换网络时至少会有一个要素发生变化，导致连接发生变化。当连接发生变化时，如果还使用原来的TCP连接，则会导致连接失败，就得等原来的连接超时后重新建立连接，所以我们有时候发现切换到一个新网络时，即使新网络状況良好，但内容还是需要加载很久，如果实现得好，当检测到网络变化时立刻建立新的TCP连接，即使这样，建立新的连接还是需要几百毫秒的时间。</p>
 <p>QUIC的连接不受4要素的影响，当4要素发生变化时，原连接依然维持。QUIC连接不以4要素作为标识，而是使用一组Connection 1D（连接D）来标识一个连接。即使IP或者端口发生变化，只要Connection 1D没有变化，那么连接依然可以维持</p>
 <blockquote>
@@ -680,12 +680,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -697,14 +697,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

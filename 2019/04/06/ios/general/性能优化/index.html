@@ -31,17 +31,17 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="公司的项目已经上线运营有2年了，不管是启动速度，还是个别界面都有些卡顿">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ua7kk.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/g0xby.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/bdh1i.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/v1co6.jpg">
-<meta property="article:published_time" content="2019-04-06T11:17:54.000Z">
-<meta property="article:modified_time" content="2019-04-06T11:17:54.000Z">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ua7kk.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/g0xby.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/bdh1i.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/v1co6.jpg">
+<meta property="article:published_time" content="2019-04-06T09:17:54.000Z">
+<meta property="article:modified_time" content="2019-04-06T09:17:54.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="App优化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/ua7kk.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/ua7kk.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2019/04/06/ios/general/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
@@ -204,7 +204,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -213,7 +213,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -277,7 +277,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/04/06/ios/general/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -298,7 +298,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-04-06 19:17:54" itemprop="dateCreated datePublished" datetime="2019-04-06T19:17:54+08:00">2019-04-06</time>
+      <time title="创建时间：2019-04-06 17:17:54" itemprop="dateCreated datePublished" datetime="2019-04-06T17:17:54+08:00">2019-04-06</time>
     </span>
 
   
@@ -325,13 +325,13 @@
 
 <h2 id="CPU-和-GPU"><a href="#CPU-和-GPU" class="headerlink" title="CPU 和 GPU"></a>CPU 和 GPU</h2><p>在屏幕成像的过程中，CPU和GPU起着至关重要的作用<br><strong>CPU（Central Processing Unit，中央处理器）</strong><br>对象的创建和销毁、对象属性的调整、布局计算、文本的计算和排版、图片的格式转换和解码、图像的绘制（Core Graphics）</p>
 <p><strong>GPU（Graphics Processing Unit，图形处理器）</strong><br>纹理的渲染</p>
-<p><img src="https://cdn.renchengqi.com/blog/ua7kk.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/ua7kk.png"></p>
 <blockquote>
 <p>在iOS中是双缓冲机制，有前帧缓存、后帧缓存</p>
 </blockquote>
-<h2 id="屏幕成像原理"><a href="#屏幕成像原理" class="headerlink" title="屏幕成像原理"></a>屏幕成像原理</h2><p>每一帧渲染，都会先触发垂直同步，然后触发每一行的水平同步<br><img src="https://cdn.renchengqi.com/blog/g0xby.png"></p>
+<h2 id="屏幕成像原理"><a href="#屏幕成像原理" class="headerlink" title="屏幕成像原理"></a>屏幕成像原理</h2><p>每一帧渲染，都会先触发垂直同步，然后触发每一行的水平同步<br><img src="https://cdn.rencheng.cc/blog/g0xby.png"></p>
 <h2 id="卡顿"><a href="#卡顿" class="headerlink" title="卡顿"></a>卡顿</h2><p>“卡顿”主要是因为在主线程执行了比较耗时的操作</p>
-<h3 id="卡顿的原因"><a href="#卡顿的原因" class="headerlink" title="卡顿的原因"></a>卡顿的原因</h3><p><img src="https://cdn.renchengqi.com/blog/bdh1i.png"></p>
+<h3 id="卡顿的原因"><a href="#卡顿的原因" class="headerlink" title="卡顿的原因"></a>卡顿的原因</h3><p><img src="https://cdn.rencheng.cc/blog/bdh1i.png"></p>
 <h3 id="卡顿优化"><a href="#卡顿优化" class="headerlink" title="卡顿优化"></a>卡顿优化</h3><p>尽可能减少CPU、GPU资源消耗</p>
 <blockquote>
 <p>按照60FPS的刷帧率，每隔16ms就会有一次VSync信号</p>
@@ -410,7 +410,7 @@
 <h3 id="冷启动的三个阶段"><a href="#冷启动的三个阶段" class="headerlink" title="冷启动的三个阶段"></a>冷启动的三个阶段</h3><ul>
 <li>dyld</li>
 <li>runtime</li>
-<li>main<br><img src="https://cdn.renchengqi.com/blog/v1co6.jpg"></li>
+<li>main<br><img src="https://cdn.rencheng.cc/blog/v1co6.jpg"></li>
 </ul>
 <h4 id="dyld"><a href="#dyld" class="headerlink" title="dyld"></a>dyld</h4><p>dyld（dynamic link editor），Apple的动态链接器，可以用来装载Mach-O文件（可执行文件、动态库等）</p>
 <p>装载APP的可执行文件，同时会递归加载所有依赖的动态库，完成会通知Runtime进行下一步的处理</p>
@@ -519,12 +519,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -536,14 +536,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

@@ -31,18 +31,18 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="内存访问冲突产生条件  至少一个是写入操作 它们访问的是同一块内存 它们的访问时间重叠（比如在同一个函数内）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/3h9m8.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/0k2u1.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/i0x6v.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/7q2eg.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/2qlcg.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/3h9m8.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/0k2u1.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/i0x6v.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/7q2eg.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/2qlcg.png">
 <meta property="article:published_time" content="2021-03-17T06:43:19.000Z">
 <meta property="article:modified_time" content="2021-03-17T06:43:19.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="Swift">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/3h9m8.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/3h9m8.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2021/03/17/ios/swift/%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81/">
@@ -205,7 +205,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -278,7 +278,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2021/03/17/ios/swift/%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -333,12 +333,12 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">increment</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>)</span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    num <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> step <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">step <span class="operator">=</span> increment(<span class="operator">&amp;</span>step)</span><br></pre></td></tr></table></figure>
 <p><strong>存在访问冲突</strong></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> step <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">increment</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>)</span> &#123;</span><br><span class="line">    num <span class="operator">+=</span> step</span><br><span class="line">&#125;</span><br><span class="line">increment(<span class="operator">&amp;</span>step)</span><br></pre></td></tr></table></figure>
-<p>报错<br><img src="https://cdn.renchengqi.com/blog/3h9m8.png"><br>如何解决</p>
+<p>报错<br><img src="https://cdn.rencheng.cc/blog/3h9m8.png"><br>如何解决</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> step <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> copyOfStep <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">increment</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>)</span> &#123;</span><br><span class="line">    num <span class="operator">+=</span> step</span><br><span class="line">&#125;</span><br><span class="line">increment(<span class="operator">&amp;</span>copyOfStep)</span><br></pre></td></tr></table></figure>
 
-<h2 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h2><p><img src="https://cdn.renchengqi.com/blog/0k2u1.png"><br><img src="https://cdn.renchengqi.com/blog/i0x6v.png"></p>
-<h2 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h2><p>tulpe是一块结构体内存内存，所以修改内部的数据也会报错<br><img src="https://cdn.renchengqi.com/blog/7q2eg.png"></p>
-<p><img src="https://cdn.renchengqi.com/blog/2qlcg.png"></p>
+<h2 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h2><p><img src="https://cdn.rencheng.cc/blog/0k2u1.png"><br><img src="https://cdn.rencheng.cc/blog/i0x6v.png"></p>
+<h2 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h2><p>tulpe是一块结构体内存内存，所以修改内部的数据也会报错<br><img src="https://cdn.rencheng.cc/blog/7q2eg.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/2qlcg.png"></p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>如果下面的条件可以满足，就说明重叠访问结构体的属性是安全的</p>
 <ul>
 <li>你只访问实例存储属性 ，不是计算属性或者类属性</li>
@@ -427,12 +427,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -444,14 +444,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

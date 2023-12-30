@@ -31,23 +31,23 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="在Flutter的应用场景中，有时候一个APP只有部分页面是由Flutter实现的，比如：我们常用的闲鱼App，它宝贝详情页面是由Flutter实现的，这种开发模式被称为混合开发。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/oxz8q.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ve7f0.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/fw7be.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/mj1jq.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/1dl8f.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/arrk0.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/uzrrv.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/au9nm.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/sjte9.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/uyu3j.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/oxz8q.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ve7f0.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/fw7be.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/mj1jq.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1dl8f.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/arrk0.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/uzrrv.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/au9nm.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/sjte9.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/uyu3j.png">
 <meta property="article:published_time" content="2020-03-02T01:48:40.000Z">
 <meta property="article:modified_time" content="2020-03-02T01:48:40.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/oxz8q.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/oxz8q.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2020/03/02/flutter/Flutter%E4%B8%8EiOS%E9%9B%86%E6%88%90/">
@@ -210,7 +210,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -219,7 +219,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -283,7 +283,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/03/02/flutter/Flutter%E4%B8%8EiOS%E9%9B%86%E6%88%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -332,21 +332,21 @@
 <p><strong>混合开发的一些其他应用场景：</strong></p>
 <ul>
 <li><p>在原有项目中加入Flutter页面，在Flutter项目中加入原生页面</p>
-<p>  <img src="https://cdn.renchengqi.com/blog/oxz8q.png"></p>
+<p>  <img src="https://cdn.rencheng.cc/blog/oxz8q.png"></p>
 </li>
 <li><p>原生页面中嵌入Flutter模块</p>
-<p>  <img src="https://cdn.renchengqi.com/blog/ve7f0.png" alt="FlutterHybrid"></p>
+<p>  <img src="https://cdn.rencheng.cc/blog/ve7f0.png" alt="FlutterHybrid"></p>
 </li>
 </ul>
 <ul>
 <li><p>Flutter页面中嵌入原生模块</p>
-<p>  <img src="https://cdn.renchengqi.com/blog/fw7be.png"></p>
+<p>  <img src="https://cdn.rencheng.cc/blog/fw7be.png"></p>
 </li>
 </ul>
 <h2 id="Flutter-混编方案介绍"><a href="#Flutter-混编方案介绍" class="headerlink" title="Flutter 混编方案介绍"></a>Flutter 混编方案介绍</h2><p>如果你想要在已有的原生 App 里嵌入一些 Flutter 页面，有两个办法：</p>
 <ul>
 <li>将原生工程作为 Flutter 工程的子工程，由 Flutter 统一管理。这种模式，就是统一管理模式。</li>
-<li>将 Flutter 工程作为原生工程共用的子模块，维持原有的原生工程管理方式不变。这种模式，就是三端分离模式。<br><img src="https://cdn.renchengqi.com/blog/mj1jq.jpg"><br>由于 Flutter 早期提供的混编方式能力及相关资料有限，国内较早使用 Flutter 混合开发的团队大多使用的是统一管理模式。但是，随着功能迭代的深入，这种方案的弊端也随之显露，不仅三端（Android、iOS、Flutter）代码耦合严重，相关工具链耗时也随之大幅增长，导致开发效率降低。<br>所以，后续使用 Flutter 混合开发的团队陆续按照三端代码分离的模式来进行依赖治理，实现了 Flutter 工程的轻量级接入。<br>除了可以轻量级接入，<strong>三端代码分离模式</strong>把 Flutter 模块作为原生工程的子模块，还可以快速实现 Flutter 功能的“热插拔”，降低原生工程的改造成本。而 Flutter 工程通过 Android Studio 进行管理，无需打开原生工程，可直接进行 Dart 代码和原生代码的开发调试。<br>三端工程分离模式的关键是抽离 Flutter 工程，将不同平台的构建产物依照标准组件化的形式进行管理，即 Android 使用 aar、iOS 使用 pod。换句话说，接下来介绍的混编方案会将 Flutter 模块打包成 aar 和 pod，这样原生工程就可以像引用其他第三方原生组件库那样快速接入 Flutter 了。</li>
+<li>将 Flutter 工程作为原生工程共用的子模块，维持原有的原生工程管理方式不变。这种模式，就是三端分离模式。<br><img src="https://cdn.rencheng.cc/blog/mj1jq.jpg"><br>由于 Flutter 早期提供的混编方式能力及相关资料有限，国内较早使用 Flutter 混合开发的团队大多使用的是统一管理模式。但是，随着功能迭代的深入，这种方案的弊端也随之显露，不仅三端（Android、iOS、Flutter）代码耦合严重，相关工具链耗时也随之大幅增长，导致开发效率降低。<br>所以，后续使用 Flutter 混合开发的团队陆续按照三端代码分离的模式来进行依赖治理，实现了 Flutter 工程的轻量级接入。<br>除了可以轻量级接入，<strong>三端代码分离模式</strong>把 Flutter 模块作为原生工程的子模块，还可以快速实现 Flutter 功能的“热插拔”，降低原生工程的改造成本。而 Flutter 工程通过 Android Studio 进行管理，无需打开原生工程，可直接进行 Dart 代码和原生代码的开发调试。<br>三端工程分离模式的关键是抽离 Flutter 工程，将不同平台的构建产物依照标准组件化的形式进行管理，即 Android 使用 aar、iOS 使用 pod。换句话说，接下来介绍的混编方案会将 Flutter 模块打包成 aar 和 pod，这样原生工程就可以像引用其他第三方原生组件库那样快速接入 Flutter 了。</li>
 </ul>
 <p><strong>将Flutter集成到现有的iOS应用中需要如下几个主要步骤：</strong></p>
 <ul>
@@ -391,11 +391,11 @@
 </li>
 </ol>
 <p><strong>除此之外，老版本flutter还需要添加 build phase以构建Dart代码</strong></p>
-<p><img src="https://cdn.renchengqi.com/blog/1dl8f.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/1dl8f.png"></p>
 <p>根据上图的提示创建一个<code>build phase</code>，然后展开<code>Run Script</code>并添加下面配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;<span class="variable">$FLUTTER_ROOT</span>/packages/flutter_tools/bin/xcode_backend.sh&quot;</span> build</span><br><span class="line"><span class="string">&quot;<span class="variable">$FLUTTER_ROOT</span>/packages/flutter_tools/bin/xcode_backend.sh&quot;</span> embed</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.renchengqi.com/blog/arrk0.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/arrk0.png"></p>
 <p>最后记得根据上图的提示，将<code>Run Script</code>到<strong>紧挨着</strong><code>Target Dependencies phase</code>的下面，接下来就可以通过<code>⌘B</code>构建你的项目了。</p>
 <blockquote>
 <p>通过<code>flutter doctor</code>命令查看你的Flutter版本，不同Flutter版本需要添加的配置是不同的：</p>
@@ -417,7 +417,7 @@
 <p>然后在：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Build Settings-&gt;Build Options-&gt;Enable Bitcode</span><br></pre></td></tr></table></figure>
 <p>目录下中禁用Bitcode：</p>
-<p><img src="https://cdn.renchengqi.com/blog/uzrrv.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/uzrrv.png"></p>
 <blockquote>
 <p>如果在这个过程中遇到问题可以查看<a target="_blank" rel="noopener" href="https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps#under-the-hood">Under the hood</a>文档。</p>
 </blockquote>
@@ -483,13 +483,13 @@ Widget _widgetForRoute(String route) &#123;
 </blockquote>
 <h4 id="编写Dart代码"><a href="#编写Dart代码" class="headerlink" title="编写Dart代码"></a>编写Dart代码</h4><p>接下来就是在编写Flutter module中的lib下编写Dart带了，快去<code>Enjoy Coding</code>吧！！！</p>
 <h4 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h4><p>接下来，我们就可以运行它了，经过上述步骤，我们就可以以运行普通iOS项目的方式来通过XCode运行一个集成了Flutter的iOS项目了。</p>
-<p><img src="https://cdn.renchengqi.com/blog/au9nm.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/au9nm.png"></p>
 <h3 id="热重启-重新加载"><a href="#热重启-重新加载" class="headerlink" title="热重启/重新加载"></a>热重启/重新加载</h3><p>大家知道我们在做Flutter开发的时候，它带有热重启/重新加载的功能，但是你可能会发现，混合开发中在iOS项目中集成了Flutter项目，Flutter的热重启/重新加载功能好像失效了，那怎么启用混合开发汇总Flutter的热重启/重新加载呢：</p>
 <ul>
 <li>  打开一个模拟器，或连接一个设备到电脑上；</li>
 <li>  <strong>关闭我们的APP</strong>，然后运行<code>flutter attach</code>；</li>
 </ul>
-<p><img src="https://cdn.renchengqi.com/blog/sjte9.gif"></p>
+<p><img src="https://cdn.rencheng.cc/blog/sjte9.gif"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cd flutter_hybrid&#x2F;flutter_module</span><br><span class="line">$ flutter attach</span><br><span class="line"></span><br><span class="line">Checking for advertised Dart observatories...</span><br><span class="line">Waiting for a connection from Flutter on iPhone X...</span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 注意 </span><br><span class="line">如果，你同时有多个模拟器或连接的设备，运行&#96;flutter attach&#96;会提示你选择一个设备：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>Android SDK built for x86 • emulator-5554                        • android-x86 • Android 8.1.0 (API 27) (emulator)<br>iPhone X                  • 3E3FA943-715F-482F-B003-D46F5902C56C • ios         • iOS 12.1 (simulator)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">接下来我们需要&#96;flutter attach -d&#96;来指定一个设备：</span><br><span class="line">&#96;&#96;&#96; bash</span><br><span class="line">flutter attach -d &#39;emulator-5554&#39;</span><br></pre></td></tr></table></figure>
@@ -511,7 +511,7 @@ Widget _widgetForRoute(String route) &#123;
 <li><p>  点击AndroidStudio的<code>Flutter Attach</code>按钮(需要首先安装Flutter与Dart插件)</p>
 </li>
 <li><p>启动APP</p>
-<p>  <img src="https://cdn.renchengqi.com/blog/uyu3j.png"></p>
+<p>  <img src="https://cdn.rencheng.cc/blog/uyu3j.png"></p>
 </li>
 </ul>
 <p>接下来就可以像调试普通Flutter项目一样来调试混合开发的模式下的Dart代码了。</p>
@@ -610,12 +610,12 @@ Widget _widgetForRoute(String route) &#123;
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -627,14 +627,14 @@ Widget _widgetForRoute(String route) &#123;
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

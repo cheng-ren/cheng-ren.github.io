@@ -31,16 +31,16 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="随着项目的不断迭代，工程变得越来越庞大。大项目不仅面临着架构调整的问题，还要面对每次编译时长不断增加的问题。现在我们的项目全量编译要半个小时。 操作环境操作系统：MacOS 11开发工具：Xcode12CPU：i7 2.2GHz 4核8线程内存：16GB  业务驱动技术提升">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/rauk5.png-thumb100">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/uyj8k.png-thumb100">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/1yb0t.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/rauk5.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/uyj8k.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1yb0t.png-thumb100">
 <meta property="article:published_time" content="2020-11-29T14:05:46.000Z">
 <meta property="article:modified_time" content="2020-11-29T14:05:46.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="App优化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/rauk5.png-thumb100">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/rauk5.png-thumb100">
 
 
 <link rel="canonical" href="https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/">
@@ -203,7 +203,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -212,7 +212,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -276,7 +276,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -329,13 +329,13 @@
 <h2 id="查看编译时长"><a href="#查看编译时长" class="headerlink" title="查看编译时长"></a>查看编译时长</h2><h3 id="查看总时长"><a href="#查看总时长" class="headerlink" title="查看总时长"></a>查看总时长</h3><ol>
 <li>关闭Xcode</li>
 <li>执行如下命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES</span><br></pre></td></tr></table></figure></li>
-<li>启动Xcode<br><img src="https://cdn.renchengqi.com/blog/rauk5.png-thumb100"></li>
+<li>启动Xcode<br><img src="https://cdn.rencheng.cc/blog/rauk5.png-thumb100"></li>
 </ol>
 <h3 id="查看单个编译单元的时长"><a href="#查看单个编译单元的时长" class="headerlink" title="查看单个编译单元的时长"></a>查看单个编译单元的时长</h3><p><a target="_blank" rel="noopener" href="https://github.com/RobertGummesson/BuildTimeAnalyzer-for-Xcode">BuildTimeAnalyzer-for-Xcode</a></p>
 <blockquote>
 <p>该插件会罗列单个编译单元的时长</p>
 </blockquote>
-<p><img src="https://cdn.renchengqi.com/blog/uyj8k.png-thumb100"></p>
+<p><img src="https://cdn.rencheng.cc/blog/uyj8k.png-thumb100"></p>
 <blockquote>
 <p>首次启动该工程，根据配置指导走完后，需重新运行。</p>
 </blockquote>
@@ -357,7 +357,7 @@
 <blockquote>
 <p><code>Release</code>模式的值必须是<code>No</code>；虽说现在苹果全线都Arm架构了，但是仍然有arm64，armv7，armv7s等区分。</p>
 </blockquote>
-<h3 id="编译优化等级-Optimization-Level"><a href="#编译优化等级-Optimization-Level" class="headerlink" title="编译优化等级(Optimization Level)"></a>编译优化等级(Optimization Level)</h3><p><img src="https://cdn.renchengqi.com/blog/1yb0t.png-thumb100"></p>
+<h3 id="编译优化等级-Optimization-Level"><a href="#编译优化等级-Optimization-Level" class="headerlink" title="编译优化等级(Optimization Level)"></a>编译优化等级(Optimization Level)</h3><p><img src="https://cdn.rencheng.cc/blog/1yb0t.png-thumb100"></p>
 <blockquote>
 <p>在设置编译优化之后，Xcode断点和调试信息会不正常，所以一般静态库或者其他Target可以这样设置。</p>
 </blockquote>
@@ -453,12 +453,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -470,14 +470,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

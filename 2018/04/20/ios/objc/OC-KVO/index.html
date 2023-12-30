@@ -31,17 +31,17 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="KVO的全称是Key-Value Observing，俗称“键值监听”，可以用于监听某个对象属性值的改变">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/7pim8j.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/iWk7Oe.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/CBn72I.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/wTXdNN.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/7pim8j.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/iWk7Oe.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/CBn72I.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/wTXdNN.png">
 <meta property="article:published_time" content="2018-04-20T01:30:12.000Z">
 <meta property="article:modified_time" content="2018-04-20T01:30:12.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="Objc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/7pim8j.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/7pim8j.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2018/04/20/ios/objc/OC-KVO/">
@@ -204,7 +204,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -213,7 +213,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -277,7 +277,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/04/20/ios/objc/OC-KVO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -341,16 +341,16 @@
 </ol>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.person addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@&quot;age&quot;</span> options:(<span class="built_in">NSKeyValueObservingOptionOld</span> | <span class="built_in">NSKeyValueObservingOptionNew</span>) context:<span class="string">@&quot;123&quot;</span>];</span><br></pre></td></tr></table></figure>
 
-<img src='https://cdn.renchengqi.com/blog/7pim8j.png' alt='7pim8j'/>
+<img src='https://cdn.rencheng.cc/blog/7pim8j.png' alt='7pim8j'/>
 
-<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p><strong>内存结构：未使用KVO监听的对象</strong><br><img src='https://cdn.renchengqi.com/blog/iWk7Oe.png' alt='iWk7Oe'/><br><strong>内存结构：使用了KVO监听的对象</strong><br><img src='https://cdn.renchengqi.com/blog/CBn72I.png' alt='CBn72I'/></p>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p><strong>内存结构：未使用KVO监听的对象</strong><br><img src='https://cdn.rencheng.cc/blog/iWk7Oe.png' alt='iWk7Oe'/><br><strong>内存结构：使用了KVO监听的对象</strong><br><img src='https://cdn.rencheng.cc/blog/CBn72I.png' alt='CBn72I'/></p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ol>
 <li>利用<code>Runtime</code>API动态生成一个子类(NSKVONotifying_*)，并且让<code>instance对象</code>的isa指向这个全新的子类</li>
 <li>当修改<code>instance对象</code>的属性时，<strong>执行setter方法</strong>，会调用Foundation的<code>_NSSetXXXValueAndNotify</code>函数</li>
 </ol>
 <h3 id="NSSetXXXValueAndNotify内部实现-伪代码"><a href="#NSSetXXXValueAndNotify内部实现-伪代码" class="headerlink" title="_NSSetXXXValueAndNotify内部实现(伪代码)"></a>_NSSetXXXValueAndNotify内部实现(伪代码)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _NSSetXXXValueAndNotify() &#123;</span><br><span class="line">    willChangeValueForKey:</span><br><span class="line">    父类原来的setter</span><br><span class="line">    didChangeValueForKey:</span><br><span class="line">    内部会触发监听器（Oberser）的监听方法( observeValueForKeyPath:ofObject:change:context:）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><img src='https://cdn.renchengqi.com/blog/wTXdNN.png' alt='wTXdNN'/>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><img src='https://cdn.rencheng.cc/blog/wTXdNN.png' alt='wTXdNN'/>
 
 <h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>Q：如何手动触发KVO？<br>A：手动调用<code>willChangeValueForKey:</code>和<code>didChangeValueForKey:</code></p>
 <p>Q：直接修改成员变量会触发KVO么？<br>A：不会触发KVO。因为KVO监听，是通过setter方法触发的</p>
@@ -436,12 +436,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -453,14 +453,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

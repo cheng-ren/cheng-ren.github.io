@@ -31,18 +31,18 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="今年整体上问题不大，没有出现编译报错问题。 用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/g8big.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/ojqu0.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/mefgj.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/m2g0d.gif">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/kpbaf.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/i0378.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/g8big.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ojqu0.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/mefgj.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/m2g0d.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/kpbaf.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/i0378.jpg">
 <meta property="article:published_time" content="2019-07-24T06:41:04.000Z">
 <meta property="article:modified_time" content="2019-07-24T06:41:04.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/g8big.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/g8big.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/">
@@ -205,7 +205,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -278,7 +278,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -321,7 +321,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><img src="https://cdn.renchengqi.com/blog/g8big.png"></p>
+        <p><img src="https://cdn.rencheng.cc/blog/g8big.png"></p>
 <p>今年整体上问题不大，没有出现编译报错问题。</p>
 <p>用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美<br>用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了</p>
 <span id="more"></span>
@@ -335,7 +335,7 @@
 <li><code>控制器A</code> present <code>控制器B</code><br>  <code>控制器A</code> 不会调用 <code>viewWillDisappear</code> 以及 <code>viewDidDisappear</code></li>
 <li><code>控制器B</code> dismiss 时<br>  <code>控制器A</code> 不会调用 <code>viewWillAppear</code> 以及 <code>viewDidAppear</code></li>
 </ul>
-<p>那么如果有些业务逻辑会在<code>控制器A</code>的生命周期里做的话，就需要考虑其他方式实现，或者改回<code>UIModalPresentationFullScreen</code><br><img src="https://cdn.renchengqi.com/blog/ojqu0.gif"></p>
+<p>那么如果有些业务逻辑会在<code>控制器A</code>的生命周期里做的话，就需要考虑其他方式实现，或者改回<code>UIModalPresentationFullScreen</code><br><img src="https://cdn.rencheng.cc/blog/ojqu0.gif"></p>
 <p>如果需要改成原本全屏的样式，可以处理Controller:</p>
 <ul>
 <li>初始化时设置<code>modalPresentationStyle</code>值</li>
@@ -351,7 +351,7 @@
 
 <h2 id="textfield-leftview"><a href="#textfield-leftview" class="headerlink" title="textfield.leftview"></a>textfield.leftview</h2><p>如下方式，直接给<code>textfield.leftView</code>赋值一个<code>UILabel</code>对象，他的宽高会被 <code>sizeToFit</code>，而不是创建时的值。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// left view label</span></span><br><span class="line"><span class="built_in">UILabel</span> *phoneLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">63</span>, <span class="number">50</span>)];</span><br><span class="line">phoneLabel.text = <span class="string">@&quot;手机号&quot;</span>;</span><br><span class="line">phoneLabel.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>];</span><br><span class="line"><span class="comment">// set textfield left view</span></span><br><span class="line"><span class="keyword">self</span>.textfieldName.leftView = phoneLabel;</span><br></pre></td></tr></table></figure>
-<p>如所看到，实际leftview的width为59，height为19：<br><img src="https://cdn.renchengqi.com/blog/mefgj.png"><br>通过监听<code>leftView</code>的<code>frame</code>变化，发现是<code>layoutSubview</code>之后变化的。<br>最终还是给UILabel多套了一个UIView来解决</p>
+<p>如所看到，实际leftview的width为59，height为19：<br><img src="https://cdn.rencheng.cc/blog/mefgj.png"><br>通过监听<code>leftView</code>的<code>frame</code>变化，发现是<code>layoutSubview</code>之后变化的。<br>最终还是给UILabel多套了一个UIView来解决</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// label</span></span><br><span class="line"><span class="built_in">UILabel</span> *phoneLabel = [[<span class="built_in">UILabel</span> alloc] init];</span><br><span class="line">phoneLabel.text = <span class="string">@&quot;手机号&quot;</span>;</span><br><span class="line">phoneLabel.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>];</span><br><span class="line">[phoneLabel sizeToFit];</span><br><span class="line">phoneLabel.centerY = <span class="number">50</span>/<span class="number">2.</span>f;</span><br><span class="line"><span class="comment">// left view</span></span><br><span class="line"><span class="built_in">UIView</span> *leftView = [[<span class="built_in">UIView</span> alloc] initWithFrame:(<span class="built_in">CGRect</span>)&#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">63</span>, <span class="number">50</span>&#125;];</span><br><span class="line">[leftView addSubview:phoneLabel];</span><br><span class="line"><span class="comment">// set textfield left view</span></span><br><span class="line"><span class="keyword">self</span>.textfieldName.leftView = leftView;</span><br></pre></td></tr></table></figure>
 
 <h2 id="KVC访问私有属性Crash"><a href="#KVC访问私有属性Crash" class="headerlink" title="KVC访问私有属性Crash"></a>KVC访问私有属性Crash</h2><p>打开有<code>UISearchBar</code>的页面发现Crash了，看到控制台输出提示：</p>
@@ -366,12 +366,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Теrmіnаtіng арр due to uncaught exception&#39; NSInternalInconsistencyException&#39; , </span><br><span class="line">reason : &#39; Override of -navigationBar : shouldPopItem: returned YES after </span><br><span class="line">manually popping a view controller ( navigat ionController&#x3D;&lt;MHCRNavgationController : 0x106039400&gt;) &#39;</span><br></pre></td></tr></table></figure>
 <p>因为我们工程里，基本上所有的<code>Controller</code>是继承基类<code>BaseViewController</code>并实现<code>- (BOOL)naviBack:</code>方法，用于实现在用户点击返回和侧滑返回时，一些不能返回的特殊处理。<br>其根本原理是通过实现<code>UINavgationBar</code>的代理方法<code>- (BOOL)navigationBar:shouldPopItem:</code>来做的控制：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)navigationBar:(UINavigationBar *)navigationBar</span><br><span class="line">        shouldPopItem:(UINavigationItem *)item &#123;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 默认可以返回</span><br><span class="line">    BOOL canGoBack &#x3D; YES;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; BaseViewController定义协议方法判断能否能点击返回上一层</span><br><span class="line">    UIViewController *vc &#x3D; self.viewControllers.lastObject;</span><br><span class="line">    if ([vc isKindOfClass:BaseViewController.class]) &#123;</span><br><span class="line">        canGoBack &#x3D; [(BaseViewController *)vc naviBack:nil];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (canGoBack) &#123;</span><br><span class="line">        [self popViewControllerAnimated:YES];</span><br><span class="line">    &#125;</span><br><span class="line">    return canGoBack;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是我实现的时候有<code>Return YES</code>啊！想了想，试着<strong>注释</strong>了<code>[self popViewControllerAnimated:YES]</code>，发现没有崩溃了。<br>但是在iOS 12上，会发现控制器没有回到上一层，如图，只有navbar回到上一层了：<br><img src="https://cdn.renchengqi.com/blog/m2g0d.gif"><br>好吧，那只能判断一下版本解决这个问题了，修改方式：</p>
+<p>但是我实现的时候有<code>Return YES</code>啊！想了想，试着<strong>注释</strong>了<code>[self popViewControllerAnimated:YES]</code>，发现没有崩溃了。<br>但是在iOS 12上，会发现控制器没有回到上一层，如图，只有navbar回到上一层了：<br><img src="https://cdn.rencheng.cc/blog/m2g0d.gif"><br>好吧，那只能判断一下版本解决这个问题了，修改方式：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)navigationBar:(<span class="built_in">UINavigationBar</span> *)navigationBar</span><br><span class="line">        shouldPopItem:(<span class="built_in">UINavigationItem</span> *)item &#123;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 判断 iOS 版本低于13</span></span><br><span class="line">    <span class="built_in">BOOL</span> bellow13 = !@available(iOS <span class="number">13.0</span>, *);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 默认可以返回</span></span><br><span class="line">    <span class="built_in">BOOL</span> canGoBack = <span class="literal">YES</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// BaseViewController定义协议方法判断能否能点击返回上一层</span></span><br><span class="line">    <span class="built_in">UIViewController</span> *vc = <span class="keyword">self</span>.viewControllers.lastObject;</span><br><span class="line">    <span class="keyword">if</span> ([vc isKindOfClass:BaseViewController.class]) &#123;</span><br><span class="line">        canGoBack = [(BaseViewController *)vc naviBack:<span class="literal">nil</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (canGoBack &amp;&amp; bellow13) &#123;</span><br><span class="line">        <span class="comment">// 如果低于13且可以返回，就执行popViewController</span></span><br><span class="line">        [<span class="keyword">self</span> popViewControllerAnimated:<span class="literal">YES</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> canGoBack;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="夜间模式"><a href="#夜间模式" class="headerlink" title="夜间模式"></a>夜间模式</h2><p>WWDC 19 直播的时候看到夜间模式，老实说挺开心的，直到我用 Xcode 11 开始做适配，妈耶！x N</p>
 <p><strong>注意：使用 Xcode 10 编译的 App 依然是日间模式，不会产生效果！！！</strong></p>
-<p>初步扫了一下出现的问题如下图，大致情况是：没有设置背景色的系统控件会被设置成黑色，部分控件是tintColor没设置的话也会被改。<br><img src="https://cdn.renchengqi.com/blog/kpbaf.jpg"><br><img src="https://cdn.renchengqi.com/blog/i0378.jpg"></p>
+<p>初步扫了一下出现的问题如下图，大致情况是：没有设置背景色的系统控件会被设置成黑色，部分控件是tintColor没设置的话也会被改。<br><img src="https://cdn.rencheng.cc/blog/kpbaf.jpg"><br><img src="https://cdn.rencheng.cc/blog/i0378.jpg"></p>
 <p>由于Assets里的Color配置是<code>iOS 12</code>以上才能使用的，所以如果没有做全局主题色设计且需要支持iOS 12以下设备，改起来会比较恶心。</p>
 <p>对此现象，找设计师沟通。设计师表示，暂时没有精力做夜间模式规划。<br>设计师问：能否强制只日间模式？<br>答：能。配置方式有两种，<code>单页面配置</code> 和 <code>全局配置</code>。</p>
 <ul>
@@ -463,12 +463,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -480,14 +480,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

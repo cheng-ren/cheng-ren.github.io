@@ -31,17 +31,17 @@
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:description" content="梯度下降法（英语：Gradient descent）是一个一阶最优化算法，通常也称为最速下降法。 要使用梯度下降法找到一个函数的局部极小值，必须向函数上当前点对应梯度（或者是近似梯度）的反方向的规定步长距离点进行迭代搜索。如果相反地向梯度正方向迭代进行搜索，则会接近函数的局部极大值点；这个过程则被称为梯度上升法。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/a1q5t.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/nofpa.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/f172l.jpg">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/kg5du.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/a1q5t.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/nofpa.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/f172l.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/kg5du.jpg">
 <meta property="article:published_time" content="2019-02-12T02:10:21.000Z">
 <meta property="article:modified_time" content="2019-02-12T02:10:21.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="AI进阶">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/a1q5t.jpg">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/a1q5t.jpg">
 
 
 <link rel="canonical" href="https://rencheng.cc/2019/02/12/ml/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">
@@ -204,7 +204,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -213,7 +213,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -277,7 +277,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/02/12/ml/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -348,16 +348,16 @@ D --> B</pre>
 <p>所以损失函数就是总样本误差关于模型参数的函数，该函数属于三维数学模型，即需要找到一组 $w_0$, $w_1$ 使得 $loss$ 取极小值。</p>
 <h2 id="案例：画图模拟梯度下降的过程"><a href="#案例：画图模拟梯度下降的过程" class="headerlink" title="案例：画图模拟梯度下降的过程"></a>案例：画图模拟梯度下降的过程</h2><p><strong>整理训练集数据，自定义梯度下降算法规则，求出w<sub>0</sub> ， w<sub>1</sub> ，绘制回归线。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">train_x = np.array([<span class="number">0.5</span>, <span class="number">0.6</span>, <span class="number">0.8</span>, <span class="number">1.1</span>, <span class="number">1.4</span>])</span><br><span class="line">train_y = np.array([<span class="number">5.0</span>, <span class="number">5.5</span>, <span class="number">6.0</span>, <span class="number">6.8</span>, <span class="number">7.0</span>])</span><br><span class="line">test_x = np.array([<span class="number">0.45</span>, <span class="number">0.55</span>, <span class="number">1.0</span>, <span class="number">1.3</span>, <span class="number">1.5</span>])</span><br><span class="line">test_y = np.array([<span class="number">4.8</span>, <span class="number">5.3</span>, <span class="number">6.4</span>, <span class="number">6.9</span>, <span class="number">7.3</span>])</span><br><span class="line"></span><br><span class="line">times = <span class="number">1000</span>	<span class="comment"># 定义梯度下降次数</span></span><br><span class="line">lrate = <span class="number">0.01</span>	<span class="comment"># 记录每次梯度下降参数变化率</span></span><br><span class="line">epoches = []	<span class="comment"># 记录每次梯度下降的索引</span></span><br><span class="line">w0, w1, losses = [<span class="number">1</span>], [<span class="number">1</span>], []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, times + <span class="number">1</span>):</span><br><span class="line">    epoches.append(i)</span><br><span class="line">    loss = (((w0[-<span class="number">1</span>] + w1[-<span class="number">1</span>] * train_x) - train_y) ** <span class="number">2</span>).<span class="built_in">sum</span>() / <span class="number">2</span></span><br><span class="line">    losses.append(loss)</span><br><span class="line">    d0 = ((w0[-<span class="number">1</span>] + w1[-<span class="number">1</span>] * train_x) - train_y).<span class="built_in">sum</span>()</span><br><span class="line">    d1 = (((w0[-<span class="number">1</span>] + w1[-<span class="number">1</span>] * train_x) - train_y) * train_x).<span class="built_in">sum</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;&#123;:4&#125;&gt; w0=&#123;:.8f&#125;, w1=&#123;:.8f&#125;, loss=&#123;:.8f&#125;&#x27;</span>.<span class="built_in">format</span>(epoches[-<span class="number">1</span>], w0[-<span class="number">1</span>], w1[-<span class="number">1</span>], losses[-<span class="number">1</span>]))</span><br><span class="line">    w0.append(w0[-<span class="number">1</span>] - lrate * d0)</span><br><span class="line">    w1.append(w1[-<span class="number">1</span>] - lrate * d1)</span><br><span class="line"></span><br><span class="line">pred_test_y = w0[-<span class="number">1</span>] + w1[-<span class="number">1</span>] * test_x</span><br><span class="line">mp.figure(<span class="string">&#x27;Linear Regression&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Linear Regression&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.scatter(train_x, train_y, marker=<span class="string">&#x27;s&#x27;</span>, c=<span class="string">&#x27;dodgerblue&#x27;</span>, alpha=<span class="number">0.5</span>, s=<span class="number">80</span>, label=<span class="string">&#x27;Training&#x27;</span>)</span><br><span class="line">mp.scatter(test_x, test_y, marker=<span class="string">&#x27;D&#x27;</span>, c=<span class="string">&#x27;orangered&#x27;</span>, alpha=<span class="number">0.5</span>, s=<span class="number">60</span>, label=<span class="string">&#x27;Testing&#x27;</span>)</span><br><span class="line">mp.scatter(test_x, pred_test_y, c=<span class="string">&#x27;orangered&#x27;</span>, alpha=<span class="number">0.5</span>, s=<span class="number">80</span>, label=<span class="string">&#x27;Predicted&#x27;</span>)</span><br><span class="line">mp.plot(test_x, pred_test_y, <span class="string">&#x27;--&#x27;</span>, c=<span class="string">&#x27;limegreen&#x27;</span>, label=<span class="string">&#x27;Regression&#x27;</span>, linewidth=<span class="number">1</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.renchengqi.com/blog/a1q5t.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/a1q5t.jpg"></p>
 <p><strong>2. 绘制随着每次梯度下降，w<sub>0</sub>，w<sub>1</sub>，loss的变化曲线。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">w0 = w0[:-<span class="number">1</span>]</span><br><span class="line">w1 = w1[:-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">mp.figure(<span class="string">&#x27;Training Progress&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.subplot(<span class="number">311</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Training Progress&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;w0&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.gca().xaxis.set_major_locator(mp.MultipleLocator(<span class="number">100</span>))</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(epoches, w0, c=<span class="string">&#x27;dodgerblue&#x27;</span>, label=<span class="string">&#x27;w0&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.subplot(<span class="number">312</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;w1&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.gca().xaxis.set_major_locator(mp.MultipleLocator(<span class="number">100</span>))</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(epoches, w1, c=<span class="string">&#x27;limegreen&#x27;</span>, label=<span class="string">&#x27;w1&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line"></span><br><span class="line">mp.subplot(<span class="number">313</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;epoch&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;loss&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.gca().xaxis.set_major_locator(mp.MultipleLocator(<span class="number">100</span>))</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.plot(epoches, losses, c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;loss&#x27;</span>)</span><br><span class="line">mp.legend()</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.renchengqi.com/blog/nofpa.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/nofpa.jpg"></p>
 <p><strong>3. 基于三维曲面绘制梯度下降过程中的每一个点。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mpl_toolkits.mplot3d <span class="keyword">as</span> axes3d</span><br><span class="line"></span><br><span class="line">grid_w0, grid_w1 = np.meshgrid(</span><br><span class="line">    np.linspace(<span class="number">0</span>, <span class="number">9</span>, <span class="number">500</span>),</span><br><span class="line">    np.linspace(<span class="number">0</span>, <span class="number">3.5</span>, <span class="number">500</span>))</span><br><span class="line"></span><br><span class="line">grid_loss = np.zeros_like(grid_w0)</span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(train_x, train_y):</span><br><span class="line">    grid_loss += ((grid_w0 + x*grid_w1 - y) ** <span class="number">2</span>) / <span class="number">2</span></span><br><span class="line"></span><br><span class="line">mp.figure(<span class="string">&#x27;Loss Function&#x27;</span>)</span><br><span class="line">ax = mp.gca(projection=<span class="string">&#x27;3d&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Loss Function&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;w0&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;w1&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">&#x27;loss&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">ax.plot_surface(grid_w0, grid_w1, grid_loss, rstride=<span class="number">10</span>, cstride=<span class="number">10</span>, cmap=<span class="string">&#x27;jet&#x27;</span>)</span><br><span class="line">ax.plot(w0, w1, losses, <span class="string">&#x27;o-&#x27;</span>, c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;BGD&#x27;</span>)</span><br><span class="line">mp.legend()</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.renchengqi.com/blog/f172l.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/f172l.jpg"></p>
 <p><strong>4. 以等高线的方式绘制梯度下降的过程。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mp.figure(<span class="string">&#x27;Batch Gradient Descent&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Batch Gradient Descent&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.contourf(grid_w0, grid_w1, grid_loss, <span class="number">10</span>, cmap=<span class="string">&#x27;jet&#x27;</span>)</span><br><span class="line">cntr = mp.contour(grid_w0, grid_w1, grid_loss, <span class="number">10</span>,</span><br><span class="line">                  colors=<span class="string">&#x27;black&#x27;</span>, linewidths=<span class="number">0.5</span>)</span><br><span class="line">mp.clabel(cntr, inline_spacing=<span class="number">0.1</span>, fmt=<span class="string">&#x27;%.2f&#x27;</span>,</span><br><span class="line">          fontsize=<span class="number">8</span>)</span><br><span class="line">mp.plot(w0, w1, <span class="string">&#x27;o-&#x27;</span>, c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;BGD&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.renchengqi.com/blog/kg5du.jpg"></p>
+<p><img src="https://cdn.rencheng.cc/blog/kg5du.jpg"></p>
 
     </div>
 
@@ -440,12 +440,12 @@ D --> B</pre>
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -457,14 +457,14 @@ D --> B</pre>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

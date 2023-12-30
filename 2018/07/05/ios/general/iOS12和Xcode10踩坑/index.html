@@ -29,20 +29,20 @@
 <meta property="og:url" content="https://rencheng.cc/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/index.html">
 <meta property="og:site_name" content="任成の博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/tgezo.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/jde81.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/u4m2x.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/jhb6u.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/9kbxl.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/asl42.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/84eww.png">
-<meta property="og:image" content="https://cdn.renchengqi.com/blog/kocwh.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/tgezo.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/jde81.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/u4m2x.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/jhb6u.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/9kbxl.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/asl42.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/84eww.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/kocwh.jpg">
 <meta property="article:published_time" content="2018-07-05T06:28:20.000Z">
 <meta property="article:modified_time" content="2018-07-05T06:28:20.000Z">
 <meta property="article:author" content="任成">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.renchengqi.com/blog/tgezo.png">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/tgezo.png">
 
 
 <link rel="canonical" href="https://rencheng.cc/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/">
@@ -205,7 +205,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="任成"
-      src="https://object.renchengqi.com/image/avatar.jpg">
+      src="https://object.rencheng.cc/image/avatar.jpg">
   <p class="site-author-name" itemprop="name">任成</p>
   <div class="site-description" itemprop="description">iOSer</div>
 </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -278,7 +278,7 @@
     <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/07/05/ios/general/iOS12%E5%92%8CXcode10%E8%B8%A9%E5%9D%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://object.renchengqi.com/image/avatar.jpg">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
       <meta itemprop="name" content="任成">
       <meta itemprop="description" content="iOSer">
     </span>
@@ -321,21 +321,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><img src="https://cdn.renchengqi.com/blog/tgezo.png"></p>
+        <p><img src="https://cdn.rencheng.cc/blog/tgezo.png"></p>
 <span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>昨晚熬夜看完了<code>WWDC 2018</code>，睡前电脑挂着下载<code>xcode10</code>。手机装好了<code>iOS12</code>，体验了一番，感觉比iOS11快多了，看了一眼各家App和我司的App，松了一口气，初步看来今年应该不需要做太多的适配工作，然后就睡了。（然而，果然不能立flag！😂）</p>
 <p>早上晚到了一些，xcode10解压了一下，开始初步评估一下适配。emmmm，工程跑不起来了…好了果然不能低估，开干。</p>
-<h1 id="问题与解决"><a href="#问题与解决" class="headerlink" title="问题与解决"></a>问题与解决</h1><h2 id="重复文件报错"><a href="#重复文件报错" class="headerlink" title="重复文件报错"></a>重复文件报错</h2><p>一上来就是build没2秒就报错了，看报错的说法是有重复的info.plist。<br><img src="https://cdn.renchengqi.com/blog/jde81.png"><br>我们组件化后把一些三方库和封装方法打成了一个私有库。进去看了一下，我们使用了<code>阿里云统计 + 推送 + Alipay</code>，里面确实有好几个<code>info.plist</code>，删除了就好了</p>
-<h2 id="c-6-0-9消失了？"><a href="#c-6-0-9消失了？" class="headerlink" title="c++.6.0.9消失了？"></a>c++.6.0.9消失了？</h2><p>报错：<code>library not found for -lstdc++.6.0.9</code><br><img src="https://cdn.renchengqi.com/blog/u4m2x.png"></p>
-<p>第一反应是去<code>Build Phases</code>里的<code>Link Binary With Libraries</code>进行添加，然后发现选择<code>frameworks and libraries</code>里已经没有了这个库了😂，又回去看了一下Xcode9里是有的。<br><img src="https://cdn.renchengqi.com/blog/jhb6u.png"></p>
+<h1 id="问题与解决"><a href="#问题与解决" class="headerlink" title="问题与解决"></a>问题与解决</h1><h2 id="重复文件报错"><a href="#重复文件报错" class="headerlink" title="重复文件报错"></a>重复文件报错</h2><p>一上来就是build没2秒就报错了，看报错的说法是有重复的info.plist。<br><img src="https://cdn.rencheng.cc/blog/jde81.png"><br>我们组件化后把一些三方库和封装方法打成了一个私有库。进去看了一下，我们使用了<code>阿里云统计 + 推送 + Alipay</code>，里面确实有好几个<code>info.plist</code>，删除了就好了</p>
+<h2 id="c-6-0-9消失了？"><a href="#c-6-0-9消失了？" class="headerlink" title="c++.6.0.9消失了？"></a>c++.6.0.9消失了？</h2><p>报错：<code>library not found for -lstdc++.6.0.9</code><br><img src="https://cdn.rencheng.cc/blog/u4m2x.png"></p>
+<p>第一反应是去<code>Build Phases</code>里的<code>Link Binary With Libraries</code>进行添加，然后发现选择<code>frameworks and libraries</code>里已经没有了这个库了😂，又回去看了一下Xcode9里是有的。<br><img src="https://cdn.rencheng.cc/blog/jhb6u.png"></p>
 <p>但是因为之前在Xcode9上是正常跑的项目，而且我们组件化后，依赖是在私有库的podspec里定义的，全局搜了下所有的podspec并没有依赖过这个lib。</p>
-<p>想起来<code>pod isntall</code>后会有一个<code>Pods-xxxx.xcconfig</code>文件，果然找到了这个<code>-l stdc++.6.0.9</code>，但是这边是汇总了所有的依赖，无法找到源头。<br><img src="https://cdn.renchengqi.com/blog/9kbxl.png"></p>
-<p>那如果直接在这里删掉这个依赖呢？是不是会爆出更清晰的错？<br>答案是就如下图，因为删掉了这个依赖，那依赖这个lib的源码就出现了一些调用方法的报错，如下图，很明显的发现了这个叫<code>libQYSDK.a</code>的库。恩，就是三方库<code>七鱼客服</code>了😂，赶紧联系了一波工具提供方。<br><img src="https://cdn.renchengqi.com/blog/asl42.png"></p>
+<p>想起来<code>pod isntall</code>后会有一个<code>Pods-xxxx.xcconfig</code>文件，果然找到了这个<code>-l stdc++.6.0.9</code>，但是这边是汇总了所有的依赖，无法找到源头。<br><img src="https://cdn.rencheng.cc/blog/9kbxl.png"></p>
+<p>那如果直接在这里删掉这个依赖呢？是不是会爆出更清晰的错？<br>答案是就如下图，因为删掉了这个依赖，那依赖这个lib的源码就出现了一些调用方法的报错，如下图，很明显的发现了这个叫<code>libQYSDK.a</code>的库。恩，就是三方库<code>七鱼客服</code>了😂，赶紧联系了一波工具提供方。<br><img src="https://cdn.rencheng.cc/blog/asl42.png"></p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>将Xcode9的libstdc++6.0.9.tbd拷贝到28-xcode10中使用。</p>
 <h2 id="Copy-Pods-Resources失效"><a href="#Copy-Pods-Resources失效" class="headerlink" title="Copy Pods Resources失效"></a>Copy Pods Resources失效</h2><p>经过上面一波操作后，终于编译通过了，也跑起来，就在以为一切都正常起来的时候，突然 崩！溃！了！</p>
-<p>一看报错原因，是<code>Profile.StoryBoard</code>没有找到，我们做了组件化后很多资源文件是在各自的pod里的，理论上这个sb应该在执行<code>Copy Pods Resources</code>后被copy到在<code>*.app</code>的包里<br><img src="https://cdn.renchengqi.com/blog/84eww.png"><br>于是去查看了一下编译后生成的Product，所有组件库的资源文件 都！不！在！</p>
-<p>怀疑是这个指令没有执行，然后clear重新编译，盯着编译过程。果然，只执行了<code>Check Pods Manifest.lock</code>和<code>Embed Pods Frameworks</code>。<br><img src="https://cdn.renchengqi.com/blog/kocwh.jpg"></p>
+<p>一看报错原因，是<code>Profile.StoryBoard</code>没有找到，我们做了组件化后很多资源文件是在各自的pod里的，理论上这个sb应该在执行<code>Copy Pods Resources</code>后被copy到在<code>*.app</code>的包里<br><img src="https://cdn.rencheng.cc/blog/84eww.png"><br>于是去查看了一下编译后生成的Product，所有组件库的资源文件 都！不！在！</p>
+<p>怀疑是这个指令没有执行，然后clear重新编译，盯着编译过程。果然，只执行了<code>Check Pods Manifest.lock</code>和<code>Embed Pods Frameworks</code>。<br><img src="https://cdn.rencheng.cc/blog/kocwh.jpg"></p>
 <p>看了下<code>CocoaPods</code>的issues里没有人提到这些，估计新版是好的，赶紧装了<code>CocoaPods-1.5.3</code>再把Pods文件夹删了重新install一下，就好了。需要升级CocoaPods版本<code>&gt;=1.4.0</code>以上</p>
 
     </div>
@@ -418,12 +418,12 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备 18001214 号 </a>
-      <img src="https://cdn.renchengqi.com/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
+      <img src="https://cdn.rencheng.cc/blog/w1jtp.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502042491" rel="noopener" target="_blank">京公网安备 11010502042491 号 </a>
   </div>
 
 <div class="copyright">
   &copy; 2014 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -435,14 +435,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">603k</span>
+    <span title="站点总字数">607k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">9:08</span>
+    <span title="站点阅读时长">9:12</span>
   </span>
 </div>
 

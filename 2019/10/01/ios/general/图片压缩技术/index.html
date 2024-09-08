@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="移动端开发经常会遇到图片压缩的问题，场景有更新头像，发帖等。今天我们就了解一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-图片压缩">
+<meta property="og:url" content="https://rencheng.cc/2019/10/01/ios/general/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="移动端开发经常会遇到图片压缩的问题，场景有更新头像，发帖等。今天我们就了解一下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/f7jhz.jpg-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/lmr0l.jpg-thumb100">
+<meta property="article:published_time" content="2019-10-01T08:38:25.000Z">
+<meta property="article:modified_time" content="2019-10-01T08:38:25.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/f7jhz.jpg-thumb100">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/10/01/ios/general/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%8A%80%E6%9C%AF/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/10/01/ios/general/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%8A%80%E6%9C%AF/","path":"2019/10/01/ios/general/图片压缩技术/","title":"iOS-图片压缩"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS-图片压缩 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">图片格式基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2"><span class="nav-number">2.</span> <span class="nav-text">颜色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">移动端常用图片格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">静态图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%9B%BE"><span class="nav-number">3.2.</span> <span class="nav-text">动态图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E6%9E%B6%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">移动端系统图片处理架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-%E7%9A%84-ImageIO"><span class="nav-number">5.</span> <span class="nav-text">iOS 的 ImageIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text">编码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">压缩思路分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">7.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%A8%E9%87%8F%E5%8E%8B%E7%BC%A9"><span class="nav-number">8.</span> <span class="nav-text">质量压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BA%E5%AF%B8%E5%8E%8B%E7%BC%A9"><span class="nav-number">9.</span> <span class="nav-text">尺寸压缩</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/10/01/ios/general/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS-图片压缩 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS-图片压缩
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-01 16:38:25" itemprop="dateCreated datePublished" datetime="2019-10-01T16:38:25+08:00">2019-10-01</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>移动端开发经常会遇到图片压缩的问题，场景有更新头像，发帖等。今天我们就了解一下</p>
+<span id="more"></span>
+
+<h2 id="图片格式基础"><a href="#图片格式基础" class="headerlink" title="图片格式基础"></a>图片格式基础</h2><ul>
+<li>点阵图：也叫位图。用像素为单位，像素保存颜色信息，排列像素实现显示。</li>
+<li>矢量图：记录元素形状和颜色的算法，显示时展示算法运算的结果。</li>
+</ul>
+<h2 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h2><p>表示颜色时，有两种形式，一种为索引色（Index Color），一种为直接色（Direct Color）</p>
+<ul>
+<li>索引色：用一个数字索引代表一种颜色，在图像信息中存储数字到颜色的映射关系表（调色盘 Palette）。每个像素保存该像素颜色对应的数字索引。一般调色盘只能存储有限种类的颜色，通常为 256 种。所以每个像素的数字占用 1 字节（8 bit）大小。</li>
+<li>直接色：用四个数字来代表一种颜色，数字分别对应颜色中红色，绿色，蓝色，透明度（RGBA）。每个像素保存这四个纬度的信息来代表该像素的颜色。根据色彩深度（每个像素存储颜色信息的 bit 数不同），最多可以支持的颜色种类也不同，常见的有 8 位（R3+G3+B2）、16 位（R5+G6+B5）、24 位（R8+G8+B8）、32 位（A8+R8+G8+B8）。所以每个像素占用 1~4 字节大小。</li>
+</ul>
+<h2 id="移动端常用图片格式"><a href="#移动端常用图片格式" class="headerlink" title="移动端常用图片格式"></a>移动端常用图片格式</h2><p>图片格式中一般分为静态图和动态图</p>
+<h3 id="静态图"><a href="#静态图" class="headerlink" title="静态图"></a>静态图</h3><ul>
+<li><p>JPG：是支持 JPEG（ 一种有损压缩方法）标准中最常用的图片格式。采用点阵图。常见的是使用 24 位的颜色深度的直接色（不支持透明）。</p>
+</li>
+<li><p>PNG：是支持无损压缩的图片格式。采用点阵图。PNG 有 5 种颜色选项：索引色、灰度、灰度透明、真彩色（24 位直接色）、真彩色透明（32 位直接色）。</p>
+</li>
+<li><p>WebP：是同时支持有损压缩和无所压缩的的图片格式。采用点阵图。支持 32 位直接色。移动端支持情况如下：</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>原生</th>
+<th>WebView</th>
+<th>浏览器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS</td>
+<td>第三方库支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>4.3后支持完整功能</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<h3 id="动态图"><a href="#动态图" class="headerlink" title="动态图"></a>动态图</h3><ul>
+<li>GIF：是支持无损压缩的图片格式。采用点阵图。使用索引色，并有 1 位透明度通道（透明与否）。</li>
+<li>APNG：基于 PNG 格式扩展的格式，加入动态图支持。采用点阵图。使用 32 位直接色。但没有被官方 PNG 接纳。移动端支持情况如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>原生</th>
+<th>WebView</th>
+<th>浏览器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>第三方库支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Animated Webp：Webp 的动图形式，实际上是文件中打包了多个单帧 Webp，在 libwebp 0.4 后开始支持。移动端支持情况如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>原生</th>
+<th>WebView</th>
+<th>浏览器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS</td>
+<td>第三方库支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>第三方库支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>而由于一般项目需要兼容三端（iOS、Android、Web 的关系），最简单就是支持 JPG、PNG、GIF 这三种通用的格式。所以本文暂不讨论其余图片格式的压缩。</p>
+<h2 id="移动端系统图片处理架构"><a href="#移动端系统图片处理架构" class="headerlink" title="移动端系统图片处理架构"></a>移动端系统图片处理架构</h2><p>根据我的了解，画了一下 iOS&amp;Android 图片处理架构。iOS 这边，也是可以直接调用底层一点的框架的。</p>
+<p><img src="https://cdn.rencheng.cc/blog/f7jhz.jpg-thumb100"></p>
+<h2 id="iOS-的-ImageIO"><a href="#iOS-的-ImageIO" class="headerlink" title="iOS 的 ImageIO"></a>iOS 的 ImageIO</h2><p>本文 iOS 端处理图片主要用 ImageIO 框架，使用的原因主要是静态图动态图 API 调用保持一致，且不会因为 UIImage 转换时会丢失一部分数据的信息。</p>
+<p>ImageIO 主要提供了图片编解码功能，封装了一套 C 语言接口。在 Swift 中不需要对 C 对象进行内存管理，会比 Objective-C 中使用方便不少，但 api 结果返回都是 Optional（实际上非空），需要用 <code>guard/if</code>，或者 !进行转换。</p>
+<h3 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h3><p><strong>1. 创建 CGImageSource</strong><br><code>CGImageSource</code> 相当于 ImageIO 数据来源的抽象类。通用的使用方式 <code>CGImageSourceCreateWithDataProvider:</code> 需要提供一个 DataProvider，可以指定文件、URL、Data 等输入。也有通过传入 CFData 来进行创建的便捷方法 <code>CGImageSourceCreateWithData:</code>。方法的第二个参数 options 传入一个字典进行配置。根据 Apple 在 WWDC 2018 上的 <a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2018/219/">Image and Graphics Best Practices</a> 上的例子，当不需要解码仅需要创建 <code>CGImageSource</code> 的时候，应该将 <code>kCGImageSourceShouldCache</code> 设为 false。</p>
+<p><img src="https://cdn.rencheng.cc/blog/lmr0l.jpg-thumb100"></p>
+<p><strong>2. 解码得到 CGImage</strong><br>用 <code>CGImageSourceCreateImageAtIndex:</code> 或者 <code>CGImageSourceCreateThumbnailAtIndex:</code> 来获取生成的 <code>CGImage</code>，这里参数的 Index 就是第几帧图片，静态图传入 0 即可。</p>
+<h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><p><strong>1. 创建 CGImageDestination</strong><br><code>CGImageDestination</code> 相当于<code>ImageIO</code>数据输出的抽象类。通用的使用方式 <code>CGImageDestinationCreateWithDataConsumer: </code>需要提供一个 <code>DataConsumer</code>，可以置顶 URL、Data 等输入。也有通过传入 CFData 来进行创建的便捷方法 <code>CGImageDestinationCreateWithData:</code>，输出会写入到传入的<code>Data</code>中。方法还需要提供图片类型，图片帧数。</p>
+<p><strong>2. 添加 CGImage</strong><br>添加 <code>CGImage</code> 使用<code>CGImageDestinationAddImage:</code>方法，动图的话，按顺序多次调用就行了。</p>
+<p>而且还有一个特别的 <code>CGImageDestinationAddImageFromSource:</code> 方法，添加的其实是一个<code> CGImageSource</code>，有什么用呢，通过<code> options</code> 参数，达到改变图像设置的作用。比如改变 JPG 的压缩参数，用上这个功能后，就不需要转换成更顶层的对象（比如 <code>UIImage</code>），减少了转换时的编解码的损耗，达到性能更优的目的。</p>
+<p><strong>3. 进行编码</strong><br>调用 <code>CGImageDestinationFinalize: </code>，表示开始编码，完成后会返回一个<code>Bool</code>值，并将数据写入 <code>CGImageDestination</code> 提供的 DataConsumer 中。</p>
+<h2 id="压缩思路分析"><a href="#压缩思路分析" class="headerlink" title="压缩思路分析"></a>压缩思路分析</h2><p>位图占用的空间大小，其实就是像素数量 x 单像素占用空间 x 帧数。所以减小图片空间大小，其实就从这三个方向下手。其中单像素占用空间，在直接色的情况下，主要和色彩深度相关。在实际项目中，改变色彩深度会导致图片颜色和原图没有保持完全一致，笔者并不建议对色彩深度进行更改。而像素数量就是平时非常常用的图片分辨率缩放。除此之外，JPG 格式还有特有的通过指定压缩系数来进行有损压缩。</p>
+<p>JPG：压缩系数 + 分辨率缩放 + 色彩深度降低<br>PNG： 分辨率缩放 + 降低色彩深度<br>GIF：减少帧数 + 每帧分辨率缩放 + 减小调色盘</p>
+<p><a target="_blank" rel="noopener" href="https://nemocdz.github.io/post/%E6%B5%85%E8%B0%88%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/#%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80">https://nemocdz.github.io/post/%E6%B5%85%E8%B0%88%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/#%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80</a></p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>减少图片占用内存空间</p>
+<h2 id="质量压缩"><a href="#质量压缩" class="headerlink" title="质量压缩"></a>质量压缩</h2><p>图片的质量压缩 降低图片质量（大小）。<br><strong>原理</strong><br>通过算法扣掉（同化）了 图片中的一些某个点附近相近的像素，达到降低质量 减少 文件大小的目的。</p>
+<blockquote>
+<p>他其实只能 实现对 file 的影响，对加载这个图片出来的bitmap 内存是无法节省的 ，还是那么大。 因为 bitmap 在内存中的大小是按照 像素 计算的 ，也就是width * height ，对于质量压缩，并不会改变图片的真实的像素（像素大小不会变）。</p>
+</blockquote>
+<h2 id="尺寸压缩"><a href="#尺寸压缩" class="headerlink" title="尺寸压缩"></a>尺寸压缩</h2><p>就是按照一定的倍数对图片减少单位尺寸的像素值。<br><strong>原理</strong><br>通过减少单位尺寸的像素值，真正意义上的降低像素值。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/09/27/search/%E5%BE%AE%E4%BF%A1%E5%88%86%E4%BA%AB%E5%8D%A1%E7%89%87%E7%82%B9%E5%87%BB%E8%B7%B3%E8%BD%ACApp/" rel="prev" title="微信分享卡片点击跳转App">
+                  <i class="fa fa-angle-left"></i> 微信分享卡片点击跳转App
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/10/09/docker/Docker%E8%BF%90%E8%A1%8CNginx/" rel="next" title="Docker运行Nginx">
+                  Docker运行Nginx <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

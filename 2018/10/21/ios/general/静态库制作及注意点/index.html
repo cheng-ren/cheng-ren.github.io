@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="使用库无外乎就是两种情况：一种是将源码的实现细节隐藏，只给外部调用的接口集成特定的服务，如常见的百度&#x2F;谷歌地图等等第三方库；另一种就是防止公司的核心代码泄露，将核心功能的源码打成库文件集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="静态库制作及注意点">
+<meta property="og:url" content="https://rencheng.cc/2018/10/21/ios/general/%E9%9D%99%E6%80%81%E5%BA%93%E5%88%B6%E4%BD%9C%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="使用库无外乎就是两种情况：一种是将源码的实现细节隐藏，只给外部调用的接口集成特定的服务，如常见的百度&#x2F;谷歌地图等等第三方库；另一种就是防止公司的核心代码泄露，将核心功能的源码打成库文件集成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/644dr.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ncooc.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/q5ppk.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/tjs9o.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/14di5.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/z83r5.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/dh0ey.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/fliy0.png">
+<meta property="article:published_time" content="2018-10-21T12:54:30.000Z">
+<meta property="article:modified_time" content="2018-10-21T12:54:30.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/644dr.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/10/21/ios/general/%E9%9D%99%E6%80%81%E5%BA%93%E5%88%B6%E4%BD%9C%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/10/21/ios/general/%E9%9D%99%E6%80%81%E5%BA%93%E5%88%B6%E4%BD%9C%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/","path":"2018/10/21/ios/general/静态库制作及注意点/","title":"静态库制作及注意点"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>静态库制作及注意点 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">关于库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">动态库和静态库的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C-framework%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">.a静态库和.framework静态库区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">.a静态库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%93%E6%96%87%E4%BB%B6%E7%94%9F%E6%88%90"><span class="nav-number">2.1.</span> <span class="nav-text">库文件生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%B9%B3%E5%8F%B0%E5%A4%84%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">环境及平台处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%BA%93%E5%90%88%E5%B9%B6"><span class="nav-number">2.3.</span> <span class="nav-text">静态库合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8A%E6%9E%B6"><span class="nav-number">2.4.</span> <span class="nav-text">静态库上架</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#framework%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">.framework静态库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/10/21/ios/general/%E9%9D%99%E6%80%81%E5%BA%93%E5%88%B6%E4%BD%9C%E5%8F%8A%E6%B3%A8%E6%84%8F%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="静态库制作及注意点 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          静态库制作及注意点
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-21 20:54:30" itemprop="dateCreated datePublished" datetime="2018-10-21T20:54:30+08:00">2018-10-21</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>使用库无外乎就是两种情况：一种是将源码的实现细节隐藏，只给外部调用的接口集成特定的服务，如常见的百度/谷歌地图等等第三方库；另一种就是防止公司的核心代码泄露，将核心功能的源码打成库文件集成。</p>
+<span id="more"></span>
+
+<h2 id="关于库"><a href="#关于库" class="headerlink" title="关于库"></a>关于库</h2><p>库一般分为静态库和动态库两种，其本质上来说是可以被载入内存中执行的可执行代码的二进制格式。<br>iOS中的静态库有<code>.a</code>和<code>.framework</code>两种形式；动态库有<code>.dylib</code>和<code>.framework</code>形式，<code>.dylib</code>动态库从Xcode 8开始以<code>.tbd</code>的形式出现。</p>
+<h3 id="动态库和静态库的区别："><a href="#动态库和静态库的区别：" class="headerlink" title="动态库和静态库的区别："></a>动态库和静态库的区别：</h3><ul>
+<li>静态库在链接时会被完整的复制到可执行文件中，被多次使用就有多份冗余拷贝。</li>
+<li>动态库链接时不复制，程序运行时由系统动态的加载到内存供程序调用，系统只加载一次，多个程序共用，节省内存。</li>
+</ul>
+<h3 id="a静态库和-framework静态库区别"><a href="#a静态库和-framework静态库区别" class="headerlink" title=".a静态库和.framework静态库区别"></a><code>.a静态库</code>和<code>.framework</code>静态库区别</h3><ul>
+<li><code>.a</code>静态库是纯二进制文件，不能单独使用，一般需要配合头文件使用。</li>
+<li><code>.framework</code>静态库可以单独使用，并且可以集成资源文件，类似于<code>.a + .h + sourceFile = .framework</code>。</li>
+</ul>
+<h2 id="a静态库"><a href="#a静态库" class="headerlink" title=".a静态库"></a>.a静态库</h2><h3 id="库文件生成"><a href="#库文件生成" class="headerlink" title="库文件生成"></a>库文件生成</h3><ol>
+<li>新建项目，如图选择新建静态库：<br>静态库命名一般以lib开头，后面加上静态库的功能，如我这个静态库用于蓝牙加解密，所以命名为<code>libBLECrypto</code>。<br><img src="https://cdn.rencheng.cc/blog/644dr.png"></li>
+<li>完成之后会自动生成项目名称同名的<code>.h</code>和<code>.m</code>文件。</li>
+<li>我们根据需求实现功能及导入相关的文件，此时如果我们不编译，默认<code>Products目录</code>下会有一个红色的<code>lib+ 项目名称 + .a</code>的文件。<br><img src="https://cdn.rencheng.cc/blog/ncooc.png"></li>
+<li><code>Command + B</code>编译一下项目，此时该文件变为黑色。我们在该<code>.a</code>文件上右键<code>Show in Finder</code>，进入其所在位置，实质上项目中的<code>.m</code>文件已经生成<code>.a</code>文件了。但是此时别人是无法使用的，因为缺少对应的头文件，我们需要再如下位置配置需要暴露给外界的头文件信息：<br><img src="https://cdn.rencheng.cc/blog/q5ppk.png-thumb100"></li>
+<li>配置完成后重新<code>Command + B</code>编译后会发现在原来生成的.a文件的同级目录会生成一个<code>include目录</code>，里面就是需要一起提供给调用者的头文件信息。</li>
+<li>进行到这里是不是感觉.a静态库的制作很简单？不要闹，我们还有更重要的事情没有解决呢。</li>
+</ol>
+<h3 id="环境及平台处理"><a href="#环境及平台处理" class="headerlink" title="环境及平台处理"></a>环境及平台处理</h3><ol>
+<li><p>我们知道生成的静态库可能用于Debug模式，也可能用于Release模式；可能是在模拟器上面运行，也可能是在真机上运行，既然有这么多可变因素，那么我们就需要一一解决。</p>
+</li>
+<li><p>我们首先将不同的开发模式和不同的运行环境下生成对应的库文件（共4种）：</p>
+<ul>
+<li>模拟器 + Debug</li>
+<li>模拟器 + release：</li>
+<li>真机 + Debug</li>
+<li>真机 + release</li>
+</ul>
+<p> <img src="https://cdn.rencheng.cc/blog/tjs9o.png"></p>
+</li>
+<li><p>这里有一个注意点，需要将构建建构设置为<code>NO</code>，否则只支持选中的设备架构：<br> <img src="https://cdn.rencheng.cc/blog/14di5.png"></p>
+</li>
+<li><p>使用<code>lipo -info</code>命令查看静态库支持的CPU架构，如<br> <img src="https://cdn.rencheng.cc/blog/z83r5.png"></p>
+</li>
+<li><p>可以看出使用真机编译生成的静态库是支持armv7 arm64架构的，使用模拟器编译生成的静态库是支持i386 x86_64架构的（armv7是兼容armv7s的）。</p>
+</li>
+<li><p>关于设备的CPU架构(指令集)</p>
+<ul>
+<li>模拟器:<ul>
+<li>i386 : 32位架构 4S ~ 5</li>
+<li>x86_64 : 64位架构 5S ~ 现在的机型</li>
+</ul>
+</li>
+<li>真机(iOS设备):<ul>
+<li>armv7 : 32位架构 3GS ~ 4S</li>
+<li>armv7s: 特殊的架构 5 ~ 5C      </li>
+<li>amr64 : 64位架构 5S ~ now</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>根据使用者的需求，将对应的库文件及头文件提供给调用者即可，但是如果在模拟器和真机之间切换使用这样比较麻烦，所以需要将两个静态库合并为一个静态库供别人使用。</p>
+</li>
+</ol>
+<h3 id="静态库合并"><a href="#静态库合并" class="headerlink" title="静态库合并"></a>静态库合并</h3><ol>
+<li><p>将静态库合并也比较简单，只需要需要支持的架构的静态库合并即可，一般我们主要合并模拟器Release下的静态库和真机Release下的静态库，保证在模拟器和真机下都可以调试并且可以发布应用。合成指令如下：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -create 静态库1.a 静态库2.a -output 新静态库.a</span><br></pre></td></tr></table></figure></li>
+<li><p>合成完成会生成一个新的<code>.a</code>静态库，将该<code>.a</code>静态库和头文件一起提供给调用者即可。</p>
+</li>
+</ol>
+<h3 id="静态库上架"><a href="#静态库上架" class="headerlink" title="静态库上架"></a>静态库上架</h3><ol>
+<li><p>如果项目中导入了.a静态库且上架需要开启Bitcode选项，那么静态库就需要支持Bitcode才可以，否则打包上架会遇到如下问题：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld: bitcode bundle could not be generated because <span class="string">&#x27;xxx.a(xxx.o)&#x27;</span> was built without full bitcode.</span><br></pre></td></tr></table></figure></li>
+<li><p>让静态库支持，需要在编译生成静态库文件前进行下面两步配置</p>
+<ul>
+<li>需要在<code>Build Settings</code>中设置<code>Enable Bitcode</code>选项为<code>Yes</code>（默认是开启状态）。</li>
+<li>在<code>Build Settings</code>的<code>Other C Flags</code>添加<code>-fembed-bitcode</code>参数。<br><img src="https://cdn.rencheng.cc/blog/dh0ey.png"></li>
+<li>检查生成的静态库文件是否支持<code>Bitcode</code>，请使用如下指令：  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">otool -<span class="built_in">arch</span> armv7 -l libBLECrypto.a </span><br><span class="line">或者</span><br><span class="line">otool -<span class="built_in">arch</span> arm64 -l libBLECrypto.a</span><br></pre></td></tr></table></figure></li>
+<li><code>Command + F</code>搜索bitcode字段，如果存在<code>sectname</code>为bitcode的字段且对应的<code>size不是0x0000000000000001</code>，说明静态库支持<code>Bitcode</code>。<br><img src="https://cdn.rencheng.cc/blog/fliy0.png"></li>
+</ul>
+</li>
+</ol>
+<h2 id="framework静态库"><a href="#framework静态库" class="headerlink" title=".framework静态库"></a>.framework静态库</h2><p>可以采用cocoaPods的方式构建</p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>如果静态库中使用到分类，那么直接使用静态库会有找不到该方法的运行时错误（selector not recognized），解决办法是：在使用静态库的工程中配置<code>other linker flags</code>的添加<code>-ObjC</code>。<br>如果一个静态库很复杂，需要暴露的.h比较多的话，就可以在静态库的内部创建一个.h文件（一般这个.h文件的名字和静态库的名字相同），然后把所有需要暴露出来的.h文件都集中放在这个.h文件中，而那些原本需要暴露的.h都不需要再暴露了，只需要把.h暴露出来就可以了。<br>如果我们在同一电脑行生成静态库并配置到其他项目中，此时在项目中打断点是可以进入静态库的实现文件中的，不过不用担心，在其他电脑是以汇编形式显示的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/21/ios/general/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E7%BB%AD%E8%B4%B9%E6%8C%87%E5%8D%97/" rel="prev" title="苹果开发者续费指南">
+                  <i class="fa fa-angle-left"></i> 苹果开发者续费指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/11/18/ios/general/App%E5%88%86%E6%9E%90/" rel="next" title="App分析">
+                  App分析 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

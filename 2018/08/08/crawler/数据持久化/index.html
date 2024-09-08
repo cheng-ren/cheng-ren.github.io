@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这篇文章主要是将请求下来的数据，进行数据分析，并且进行存储">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫-数据持久化">
+<meta property="og:url" content="https://rencheng.cc/2018/08/08/crawler/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="这篇文章主要是将请求下来的数据，进行数据分析，并且进行存储">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-08T07:52:43.000Z">
+<meta property="article:modified_time" content="2018-08-08T07:52:43.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/08/08/crawler/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/08/08/crawler/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/","path":"2018/08/08/crawler/数据持久化/","title":"爬虫-数据持久化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>爬虫-数据持久化 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">数据解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">数据的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F-re"><span class="nav-number">1.2.</span> <span class="nav-text">正则表达式 re</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%AA%E5%A9%AA%E5%8C%B9%E9%85%8D%E5%92%8C%E9%9D%9E%E8%B4%AA%E5%A9%AA%E5%8C%B9%E9%85%8D"><span class="nav-number">1.2.4.</span> <span class="nav-text">贪婪匹配和非贪婪匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#findall%E7%9A%84%E5%88%86%E7%BB%84"><span class="nav-number">1.2.5.</span> <span class="nav-text">findall的分组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B1-%EF%BC%9A%E5%86%85%E6%B6%B5%E6%AE%B5%E5%AD%90%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF%E6%8A%93%E5%8F%96"><span class="nav-number">1.3.</span> <span class="nav-text">案例1 ：内涵段子脑筋急转弯抓取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.1.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#csv%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">csv模块的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B-1"><span class="nav-number">2.1.</span> <span class="nav-text">使用流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8C%AB%E7%9C%BC%E7%94%B5%E5%BD%B1top100%E5%AD%98%E5%85%A5csv%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">猫眼电影top100存入csv文件</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/08/08/crawler/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="爬虫-数据持久化 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          爬虫-数据持久化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-08 15:52:43" itemprop="dateCreated datePublished" datetime="2018-08-08T15:52:43+08:00">2018-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>这篇文章主要是将请求下来的数据，进行数据分析，并且进行存储</p>
+<span id="more"></span>
+
+<h1 id="数据解析"><a href="#数据解析" class="headerlink" title="数据解析"></a>数据解析</h1><h2 id="数据的分类"><a href="#数据的分类" class="headerlink" title="数据的分类"></a>数据的分类</h2><ol>
+<li>结构化数据<br> 特点 ：有固定的格式,如：HTML、XML、JSON</li>
+<li>非结构化数据<br> 示例 ：图片、音频、视频,这类数据一般存储为二进制</li>
+</ol>
+<h2 id="正则表达式-re"><a href="#正则表达式-re" class="headerlink" title="正则表达式 re"></a>正则表达式 re</h2><h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、创建编译对象 ：p = re.compile(&#x27;正则表达式&#x27;)</span><br><span class="line">2、对字符串匹配 ：r = p.match(&quot;字符串&quot;)</span><br><span class="line">3、获取匹配结果 ：print(r.group())</span><br></pre></td></tr></table></figure>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><ol>
+<li><strong>match(s)</strong> : 字符串开头的第1个,返回对象</li>
+<li><strong>search(s)</strong>: 从开始往后找,匹配第1个满足的,返回对象</li>
+<li><strong>findall(s)</strong>:所有全部匹配,返回一个列表</li>
+</ol>
+<h3 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h3><table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.</td>
+<td align="center">任意字符(不包括\n)</td>
+</tr>
+<tr>
+<td align="center">\d</td>
+<td align="center">数字</td>
+</tr>
+<tr>
+<td align="center">\s</td>
+<td align="center">空白字符</td>
+</tr>
+<tr>
+<td align="center">\S</td>
+<td align="center">非空白字符</td>
+</tr>
+<tr>
+<td align="center">[…]</td>
+<td align="center">包含[]内容 A[BCD]E -&gt; ABE ACE ABCE</td>
+</tr>
+<tr>
+<td align="center">\w</td>
+<td align="center">字母、数字、_</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">0次或n次</td>
+</tr>
+<tr>
+<td align="center">？</td>
+<td align="center">0次或1次</td>
+</tr>
+<tr>
+<td align="center">+</td>
+<td align="center">1次或n次</td>
+</tr>
+</tbody></table>
+<h3 id="贪婪匹配和非贪婪匹配"><a href="#贪婪匹配和非贪婪匹配" class="headerlink" title="贪婪匹配和非贪婪匹配"></a>贪婪匹配和非贪婪匹配</h3><p><strong>贪婪匹配(.*)</strong> : 在整个表达式匹配成功的前提下,尽可能多的匹配 *<br><strong>非贪婪匹配(.*?)</strong> : 在整个表达式匹配成功的前提下,尽可能少的匹配 *</p>
+<blockquote>
+<p>re.S 让 . 能够匹配\n在内的所有字符</p>
+</blockquote>
+<h3 id="findall的分组"><a href="#findall的分组" class="headerlink" title="findall的分组"></a>findall的分组</h3><p>1.分组示例<br>先按照正则整体匹配出来,然后再匹配()中的<br>如果正则中有多个(),则以元组形式显示</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">&quot;A B C D&quot;</span></span><br><span class="line">p1 = re.<span class="built_in">compile</span>(<span class="string">&#x27;\w+\s+\w+&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p1.findall(s))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 先匹配整体正则 [&#x27;A B&#x27;,&#x27;C D&#x27;]</span></span><br><span class="line"><span class="comment"># 2. 再匹配正则()中的 [&#x27;A&#x27;,&#x27;C&#x27;]</span></span><br><span class="line">p2 = re.<span class="built_in">compile</span>(<span class="string">&#x27;(\w+)\s+\w+&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p2.findall(s))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 先按整体匹配 [&#x27;A B&#x27;,&#x27;C D&#x27;]</span></span><br><span class="line"><span class="comment"># 2. 匹配正则()中的,多个()放到元组中</span></span><br><span class="line">p3 = re.<span class="built_in">compile</span>(<span class="string">&#x27;(\w+)\s+(\w+)&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p3.findall(s))</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>正则分组练习</span><br><span class="line">``` py</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">html = <span class="string">&quot;&quot;&quot;&lt;div class=&quot;animal&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;p class=&quot;name&quot;&gt;</span></span><br><span class="line"><span class="string">       &lt;a title=&quot;Tiger&quot;&gt;&lt;/a&gt;</span></span><br><span class="line"><span class="string">    &lt;/p&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &lt;p class=&quot;content&quot;&gt;</span></span><br><span class="line"><span class="string">       Two tigers two tigers run fast</span></span><br><span class="line"><span class="string">    &lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;div class=&quot;animal&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;p class=&quot;name&quot;&gt;</span></span><br><span class="line"><span class="string">       &lt;a title=&quot;Rabbit&quot;&gt;&lt;/a&gt;</span></span><br><span class="line"><span class="string">    &lt;/p&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &lt;p class=&quot;content&quot;&gt;</span></span><br><span class="line"><span class="string">       Small white rabbit white and white</span></span><br><span class="line"><span class="string">    &lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;&quot;&quot;&quot;</span></span><br><span class="line">p = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;div class=&quot;animal&quot;&gt;.*?title=&quot;(.*?)&quot;.*?class=&quot;content&quot;&gt;(.*?)&lt;/p&gt;.*?&lt;/div&gt;&#x27;</span>,re.S)</span><br><span class="line">r_list = p.findall(html)</span><br><span class="line"><span class="comment">#print(r_list)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> r_tuple <span class="keyword">in</span> r_list:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;动物名称:&quot;</span>,r_tuple[<span class="number">0</span>].strip())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;动物描述:&quot;</span>,r_tuple[<span class="number">1</span>].strip())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;*&quot;</span> * <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="案例1-：内涵段子脑筋急转弯抓取"><a href="#案例1-：内涵段子脑筋急转弯抓取" class="headerlink" title="案例1 ：内涵段子脑筋急转弯抓取"></a>案例1 ：内涵段子脑筋急转弯抓取</h2><ol>
+<li><p>网址 ：<a target="_blank" rel="noopener" href="https://www.neihan8.com/">https://www.neihan8.com/</a></p>
+</li>
+<li><p>目标 ：段子 - 脑筋急转弯 - 题目、答案</p>
+</li>
+<li><p>步骤</p>
+<ol>
+<li>找URL规律</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第1页：https://www.neihan8.com/njjzw/</span><br><span class="line">第2页：https://www.neihan8.com/njjzw/index_2.html</span><br><span class="line">第n页：https://www.neihan8.com/njjzw/index_n.html</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>写正则</li>
+</ol>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="keyword">class</span>=<span class="string">&quot;text-column.*?title=&quot;</span>(.*?)<span class="string">&quot;.*?&lt;div class=&quot;</span>desc<span class="string">&quot;&gt;(.*?)&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>写代码</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、获取页面</span><br><span class="line">2、解析页面</span><br><span class="line">3、保存数据</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NeihanSpider</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0&quot;</span>&#125;</span><br><span class="line">        self.baseurl = <span class="string">&quot;https://www.neihan8.com/njjzw/&quot;</span></span><br><span class="line">        self.page = <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 下载页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPage</span>(<span class="params">self,url</span>):</span><br><span class="line">        req = urllib.request.Request(url,headers=self.headers)</span><br><span class="line">        res = urllib.request.urlopen(req)</span><br><span class="line">        html = res.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        self.parsePage(html)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 解析页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parsePage</span>(<span class="params">self,html</span>):</span><br><span class="line">        p = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;div class=&quot;text-column.*?title=&quot;(.*?)&quot;.*?&lt;div class=&quot;desc&quot;&gt;(.*?)&lt;/div&gt;&#x27;</span>,re.S)</span><br><span class="line">        r_list = p.findall(html)</span><br><span class="line">        <span class="comment"># r_list : [(&quot;什么动物在墙上&quot;,&quot;海豹&quot;),(),(),()]</span></span><br><span class="line">        self.writePage(r_list)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 保存数据</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writePage</span>(<span class="params">self,r_list</span>):</span><br><span class="line">        <span class="keyword">for</span> r_tuple <span class="keyword">in</span> r_list:</span><br><span class="line">            <span class="keyword">for</span> r_str <span class="keyword">in</span> r_tuple:</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;急转弯.txt&quot;</span>,<span class="string">&quot;a&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(r_str.strip()+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;急转弯.txt&quot;</span>,<span class="string">&quot;a&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(<span class="string">&quot;\n\n&quot;</span>)</span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">workOn</span>(<span class="params">self</span>):</span><br><span class="line">        self.getPage(self.baseurl)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            c = <span class="built_in">input</span>(<span class="string">&quot;是否继续(y/n):&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> c.strip().lower() == <span class="string">&quot;y&quot;</span>:</span><br><span class="line">                self.page += <span class="number">1</span></span><br><span class="line">                url = self.baseurl + <span class="string">&quot;index_&quot;</span> + \</span><br><span class="line">                      <span class="built_in">str</span>(self.page) + <span class="string">&quot;.html&quot;</span></span><br><span class="line">                self.getPage(url)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;第%d页爬取结束&quot;</span> % self.page)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;结束&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    spider = NeihanSpider()</span><br><span class="line">    spider.workOn()</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="csv模块的使用"><a href="#csv模块的使用" class="headerlink" title="csv模块的使用"></a>csv模块的使用</h1><h2 id="使用流程-1"><a href="#使用流程-1" class="headerlink" title="使用流程"></a>使用流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、打开csv文件</span><br><span class="line">    with open(&quot;test.csv&quot;,&quot;a&quot;,newline=&quot;&quot;) as f:</span><br><span class="line">2、初始化写入对象</span><br><span class="line">    writer = csv.writer(f)</span><br><span class="line">3、写入数据</span><br><span class="line">    writer.writerow([&quot;英雄&quot;,&quot;梁朝伟&quot;,&quot;2000&quot;])</span><br></pre></td></tr></table></figure>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>1、newline = “”<br>2、writer.writerow的参数一定要为列表</p>
+<h2 id="猫眼电影top100存入csv文件"><a href="#猫眼电影top100存入csv文件" class="headerlink" title="猫眼电影top100存入csv文件"></a>猫眼电影top100存入csv文件</h2><ol>
+<li><p>网址 ：猫眼电影 - 榜单 - TOP100榜</p>
+</li>
+<li><p>目标 ：电影名称 、主演 、上映时间</p>
+</li>
+<li><p>步骤</p>
+<ol>
+<li>规律</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第1页：http://maoyan.com/board/4?offset=0</span><br><span class="line">第2页：http://maoyan.com/board/4?offset=10</span><br><span class="line">第n页：offset=(n-1)*10</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>写正则</li>
+</ol>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="keyword">class</span>=<span class="string">&quot;movie-item-info&quot;</span>&gt;.*?title=<span class="string">&quot;(.*?)&quot;</span>.*?<span class="keyword">class</span>=<span class="string">&quot;star&quot;</span>&gt;(.*?)&lt;/p&gt;.*?<span class="keyword">class</span>=<span class="string">&quot;releasetime&quot;</span>&gt;(.*?)&lt;/p&gt;.*?&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>写代码</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MaoyanSpider</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36&quot;</span>&#125;</span><br><span class="line">        self.baseurl = <span class="string">&quot;http://maoyan.com/board/4?offset=&quot;</span></span><br><span class="line">        self.offset = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 下载页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPage</span>(<span class="params">self,url</span>):</span><br><span class="line">        req = urllib.request.Request(url,headers=self.headers)</span><br><span class="line">        res = urllib.request.urlopen(req)</span><br><span class="line">        html = res.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        self.parsePage(html)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 解析页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parsePage</span>(<span class="params">self,html</span>):</span><br><span class="line">        p = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;div class=&quot;movie-item-info&quot;&gt;.*?title=&quot;(.*?)&quot;.*?class=&quot;star&quot;&gt;(.*?)&lt;/p&gt;.*?class=&quot;releasetime&quot;&gt;(.*?)&lt;/p&gt;.*?&lt;/div&gt;&#x27;</span>,re.S)</span><br><span class="line">        r_list = p.findall(html)</span><br><span class="line">        <span class="comment"># r_list: [(&quot;英雄&quot;,&quot;梁朝伟&quot;,&quot;2000&quot;),()]</span></span><br><span class="line">        self.writeTocsv(r_list)</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 保存数据到csv</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writeTocsv</span>(<span class="params">self,r_list</span>):</span><br><span class="line">        <span class="keyword">for</span> r_tuple <span class="keyword">in</span> r_list:</span><br><span class="line">            L = [r_tuple[<span class="number">0</span>].strip(),r_tuple[<span class="number">1</span>].strip(),r_tuple[<span class="number">2</span>].strip()]            </span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;TOP100.csv&quot;</span>,<span class="string">&quot;a&quot;</span>,newline=<span class="string">&quot;&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                <span class="comment"># 初始化写入对象</span></span><br><span class="line">                writer = csv.writer(f)</span><br><span class="line">                writer.writerow(L)</span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">workOn</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            c = <span class="built_in">input</span>(<span class="string">&quot;爬取按y,退出按q:&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> c.strip().lower() == <span class="string">&quot;y&quot;</span>:</span><br><span class="line">                url = self.baseurl + <span class="built_in">str</span>(self.offset)</span><br><span class="line">                self.getPage(url)</span><br><span class="line">                self.offset += <span class="number">10</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;本页爬取成功&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;结束!&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    spider = MaoyanSpider()</span><br><span class="line">    spider.workOn()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/08/crawler/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="爬虫-基础知识">
+                  <i class="fa fa-angle-left"></i> 爬虫-基础知识
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/08/crawler/requests/" rel="next" title="爬虫-requests模块">
+                  爬虫-requests模块 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

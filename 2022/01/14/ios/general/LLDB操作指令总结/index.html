@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="LLDB全称轻量级的高性能调试器（Low Level Debugger），默认内置于Xcode中。能够很好的运用它会使我们的开发效率事半功倍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLDB操作指令总结">
+<meta property="og:url" content="https://rencheng.cc/2022/01/14/ios/general/LLDB%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="LLDB全称轻量级的高性能调试器（Low Level Debugger），默认内置于Xcode中。能够很好的运用它会使我们的开发效率事半功倍。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-14T08:32:37.000Z">
+<meta property="article:modified_time" content="2022-01-14T08:32:37.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2022/01/14/ios/general/LLDB%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2022/01/14/ios/general/LLDB%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/","path":"2022/01/14/ios/general/LLDB操作指令总结/","title":"LLDB操作指令总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LLDB操作指令总结 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">语法规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#print%E3%80%81po%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">print、po命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expression"><span class="nav-number">2.2.</span> <span class="nav-text">expression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x"><span class="nav-number">2.3.</span> <span class="nav-text">x</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memory"><span class="nav-number">2.4.</span> <span class="nav-text">memory</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">进阶指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#breakpoint"><span class="nav-number">3.1.</span> <span class="nav-text">breakpoint</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E9%83%A8%E5%88%86%E6%88%96%E8%80%85%E6%89%80%E6%9C%89%E7%9A%84%E6%96%AD%E7%82%B9"><span class="nav-number">3.1.1.</span> <span class="nav-text">列出部分或者所有的断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99%E6%89%80%E6%9C%89%E5%87%BD%E6%95%B0%E5%90%8D%E4%B8%BAxxx%E7%9A%84%E9%83%BD%E8%AE%BE%E7%BD%AE%E6%96%AD%E7%82%B9"><span class="nav-number">3.1.2.</span> <span class="nav-text">给所有函数名为xxx的都设置断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99%E6%9F%90%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E8%A1%8C%E8%AE%BE%E7%BD%AE%E6%96%AD%E7%82%B9"><span class="nav-number">3.1.3.</span> <span class="nav-text">给某个文件的行设置断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99%E6%9F%90%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BE%E7%BD%AE%E6%96%AD%E7%82%B9"><span class="nav-number">3.1.4.</span> <span class="nav-text">给某个文件的方法设置断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%96%AD%E7%82%B9%E6%9F%90%E4%B8%80%E7%BB%84"><span class="nav-number">3.1.5.</span> <span class="nav-text">删除断点某一组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%B0%83%E7%94%A8%E6%A0%88"><span class="nav-number">3.1.6.</span> <span class="nav-text">显示调用栈</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2022/01/14/ios/general/LLDB%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LLDB操作指令总结 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LLDB操作指令总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-14 16:32:37" itemprop="dateCreated datePublished" datetime="2022-01-14T16:32:37+08:00">2022-01-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>LLDB全称轻量级的高性能调试器（Low Level Debugger），默认内置于Xcode中。能够很好的运用它会使我们的开发效率事半功倍。</p>
+<span id="more"></span>
+
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>LLDB命令语法特性，可简写<br><code>print</code>命令可简写成，<code>p</code>,<code>pr</code>,<code>pri</code>,<code>prin</code>。其他命令以此类推。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="print、po命令"><a href="#print、po命令" class="headerlink" title="print、po命令"></a>print、po命令</h3><p>他们可以输出，可以调用方法，可以写表达式。</p>
+<ul>
+<li><code>print</code>/<code>p</code>：打印变量</li>
+<li><code>po</code>: 打印值；如果是对象，打印其description的信息</li>
+</ul>
+<p><strong>语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p 变量名</span><br><span class="line">print 变量名</span><br><span class="line"># 或</span><br><span class="line">po 变量名</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p object</span><br><span class="line">(Person *) <span class="variable">$1</span> = 0x00000001010c7810</span><br><span class="line">(lldb) po object</span><br><span class="line">&lt;Person: 0x1010c7810&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="expression"><a href="#expression" class="headerlink" title="expression"></a>expression</h3><p>执行一个表达式，并将表达式返回的结果输出。<br>可以执行表达式来动态改变程序运行的轨迹。 假如我们在运行过程中，突然想把 self.view 颜色改成红色，看看效果。我们不必写下代码，重新run，只需暂停程序，用expression改变颜色，再刷新一下界面，就能看到效果。</p>
+<p><strong>语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expression 变量名 = 数值</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expression <span class="variable">$1</span> = 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="x"><a href="#x" class="headerlink" title="x"></a>x</h3><p>查看内存中读取一个地址的信息</p>
+<p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x/数量-格式-字节大小 内存地址</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(lldb) x 0x00000001010c7c70</span><br><span class="line">0x1010c7c70: c9 3f 82 ea 01 00 00 01 00 00 00 00 00 00 00 00  .?..............</span><br><span class="line">0x1010c7c80: 50 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  P...............</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>格式 <ul>
+<li>x：16进制；</li>
+<li>f：浮点数；</li>
+<li>d：十进制</li>
+</ul>
+</li>
+<li>字节大小<ul>
+<li>b - byte 1字节</li>
+<li>h - half word 2字节</li>
+<li>w - word 4字节</li>
+<li>giant word 8字节</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h3><p>修改内存中的值<br><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">memory write 内存地址 数值</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">memory write 0x0000010 10</span><br></pre></td></tr></table></figure>
+
+<h2 id="进阶指令"><a href="#进阶指令" class="headerlink" title="进阶指令"></a>进阶指令</h2><h3 id="breakpoint"><a href="#breakpoint" class="headerlink" title="breakpoint"></a>breakpoint</h3><h4 id="列出部分或者所有的断点"><a href="#列出部分或者所有的断点" class="headerlink" title="列出部分或者所有的断点"></a>列出部分或者所有的断点</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">breakpoint list</span><br><span class="line">或者</span><br><span class="line">br l</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看某一组的信息</span></span><br><span class="line">breakpoint list 断点组<span class="built_in">id</span></span><br><span class="line"><span class="comment"># 显示断点信息格式化</span></span><br><span class="line">breakpoint list -v </span><br><span class="line"><span class="comment"># 显示断点摘要</span></span><br><span class="line">breakpoint list -b</span><br></pre></td></tr></table></figure>
+
+<h4 id="给所有函数名为xxx的都设置断点"><a href="#给所有函数名为xxx的都设置断点" class="headerlink" title="给所有函数名为xxx的都设置断点"></a>给所有函数名为xxx的都设置断点</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">breakpoint <span class="built_in">set</span> –name c函数名/oc方法</span><br><span class="line">br s -n 函数名</span><br><span class="line">b 函数名</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># C</span></span><br><span class="line">breakpoint <span class="built_in">set</span> -n <span class="string">&quot;main&quot;</span></span><br><span class="line"><span class="comment"># OC </span></span><br><span class="line">breakpoint <span class="built_in">set</span> -n <span class="string">&quot;-[ViewController viewDidLoad:]&quot;</span></span><br><span class="line"><span class="comment"># OC 同时设置多个方法</span></span><br><span class="line">breakpoint <span class="built_in">set</span> -n <span class="string">&quot;-[ViewController playGame:]&quot;</span> -n <span class="string">&quot;-[ViewController pauseGame:]&quot;</span> -n <span class="string">&quot;-[ViewController continueGame:]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="给某个文件的行设置断点"><a href="#给某个文件的行设置断点" class="headerlink" title="给某个文件的行设置断点"></a>给某个文件的行设置断点</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">breakpoint <span class="built_in">set</span> –file 文件名 –line 行号</span><br><span class="line">br s -f 文件名 -l 行号</span><br><span class="line">b 文件名:行号</span><br></pre></td></tr></table></figure>
+
+<h4 id="给某个文件的方法设置断点"><a href="#给某个文件的方法设置断点" class="headerlink" title="给某个文件的方法设置断点"></a>给某个文件的方法设置断点</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">breakpoint <span class="built_in">set</span> --file 文件名 --selector 方法名</span><br><span class="line">br s -f 文件名 -s 方法名</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除断点某一组"><a href="#删除断点某一组" class="headerlink" title="删除断点某一组"></a>删除断点某一组</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">breakpoint delete 断点组<span class="built_in">id</span></span><br><span class="line">br del 断点组<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="显示调用栈"><a href="#显示调用栈" class="headerlink" title="显示调用栈"></a>显示调用栈</h4><p><strong>语法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bt</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/13/network/HTTP/" rel="prev" title="HTTP">
+                  <i class="fa fa-angle-left"></i> HTTP
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/08/crawler/%E8%87%AA%E5%8A%A8%E5%8C%96%E7%AD%BE%E5%88%B0%E8%84%9A%E6%9C%AC/" rel="next" title="自动签到脚本">
+                  自动签到脚本 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

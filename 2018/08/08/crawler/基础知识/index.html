@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫-基础知识">
+<meta property="og:url" content="https://rencheng.cc/2018/08/08/crawler/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-08T06:06:08.000Z">
+<meta property="article:modified_time" content="2018-08-08T06:06:08.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/08/08/crawler/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/08/08/crawler/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/","path":"2018/08/08/crawler/基础知识/","title":"爬虫-基础知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>爬虫-基础知识 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB"><span class="nav-number">1.</span> <span class="nav-text">网络爬虫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">企业获取数据的方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%81%9A%E7%88%AC%E8%99%AB%E4%BC%98%E5%8A%BF"><span class="nav-number">3.</span> <span class="nav-text">Python做爬虫优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%AC%E8%99%AB%E5%88%86%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text">爬虫分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%88%AC%E5%8F%96%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.</span> <span class="nav-text">数据爬取步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Anaconda-%E5%92%8C-Spyder"><span class="nav-number">6.</span> <span class="nav-text">Anaconda 和 Spyder</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Google%E6%8F%92%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">Google插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB%E7%9F%A5%E8%AF%86"><span class="nav-number">8.</span> <span class="nav-text">WEB知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E5%92%8CHTTPS"><span class="nav-number">8.1.</span> <span class="nav-text">HTTP和HTTPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GET%E5%92%8CPOST"><span class="nav-number">8.2.</span> <span class="nav-text">GET和POST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL-%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E5%AE%9A%E4%BD%8D%E7%AC%A6"><span class="nav-number">8.3.</span> <span class="nav-text">URL 统一资源定位符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Agent"><span class="nav-number">8.4.</span> <span class="nav-text">User-Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie"><span class="nav-number">8.5.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Json"><span class="nav-number">8.6.</span> <span class="nav-text">Json</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/08/08/crawler/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="爬虫-基础知识 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          爬虫-基础知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-08 14:06:08" itemprop="dateCreated datePublished" datetime="2018-08-08T14:06:08+08:00">2018-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁、自动索引、模拟程序或者蠕虫。</p>
+<span id="more"></span>
+
+
+<h1 id="网络爬虫"><a href="#网络爬虫" class="headerlink" title="网络爬虫"></a>网络爬虫</h1><p><strong>定义</strong>：网络蜘蛛、网络机器人,抓取网络数据的程序<br><strong>总结</strong>：用Python程序去模仿人去访问网站,模仿的越像越好<br><strong>目的</strong>：通过有效的大量数据分析市场走势、决策</p>
+<h1 id="企业获取数据的方式"><a href="#企业获取数据的方式" class="headerlink" title="企业获取数据的方式"></a>企业获取数据的方式</h1><ul>
+<li>公司自有数据</li>
+<li>第三方数据平台购买<ul>
+<li><a target="_blank" rel="noopener" href="https://www.datatang.com/index.html">数据堂</a>、<a target="_blank" rel="noopener" href="http://www.gbdex.com/website/">贵阳大数据交易所</a></li>
+</ul>
+</li>
+<li>爬虫爬取数据<ul>
+<li>市场上没有或者价格太高,利用爬虫程序爬取</li>
+</ul>
+</li>
+</ul>
+<h1 id="Python做爬虫优势"><a href="#Python做爬虫优势" class="headerlink" title="Python做爬虫优势"></a>Python做爬虫优势</h1><p>请求模块、解析模块丰富成熟;强大的<a target="_blank" rel="noopener" href="https://scrapy.org/">Scrapy框架</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PHP ：对多线程、异步支持不好</span><br><span class="line">JAVA：代码笨重, 代码量大</span><br><span class="line">C/C++ ：虽然效率高, 但是代码成型很慢</span><br></pre></td></tr></table></figure>
+
+<h1 id="爬虫分类"><a href="#爬虫分类" class="headerlink" title="爬虫分类"></a>爬虫分类</h1><ol>
+<li>通用网络爬虫(搜索引擎引用,需要遵守robots协议)<br> <a target="_blank" rel="noopener" href="https://www.taobao.com/robots.txt">https://www.taobao.com/robots.txt</a></br><br> <strong>搜索引擎如何获取一个新网站的URL?</strong><ol>
+<li>网站主动向搜索引擎提供(<a target="_blank" rel="noopener" href="https://ziyuan.baidu.com/site/index">百度站长平台</a>)</li>
+<li>和DNS服务商(万网)合作,快速收录新网站</li>
+</ol>
+</li>
+<li>聚焦网络爬虫<br> 自己写的爬虫程序, 面向需求的爬虫</li>
+</ol>
+<h1 id="数据爬取步骤"><a href="#数据爬取步骤" class="headerlink" title="数据爬取步骤"></a>数据爬取步骤</h1><ol>
+<li>确定需要爬取的URL</li>
+<li>通过HTTP/HTTPS协议发请求获取响应页面</li>
+<li>提取HTML页面有用的数据    1. 所需要的数据,保存    2. 页面中有新的URL,继续第2步</li>
+</ol>
+<h1 id="Anaconda-和-Spyder"><a href="#Anaconda-和-Spyder" class="headerlink" title="Anaconda 和 Spyder"></a>Anaconda 和 Spyder</h1><p>Anaconda是Python开源的发行版本<br>Spyder是Python的集成开发环境（iPython的一种集成环境）</p>
+<ol>
+<li>Spyder常用快捷键<ol>
+<li>注释/取消注释 ：Ctrl + 1</li>
+<li>保存 ：Ctrl + s</li>
+<li>运行程序 ：F5</li>
+<li>自动补全 ：Tab</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>conda 和 pip 区别</p>
+<ul>
+<li>conda可以很好的解决依赖关系</li>
+</ul>
+</blockquote>
+<h1 id="Google插件"><a href="#Google插件" class="headerlink" title="Google插件"></a>Google插件</h1><ol>
+<li>JSONView</li>
+<li>XPath：爬虫</li>
+<li>Proxy-SwitchyOmega：浏览器代理</li>
+</ol>
+<h1 id="WEB知识"><a href="#WEB知识" class="headerlink" title="WEB知识"></a>WEB知识</h1><h2 id="HTTP和HTTPS"><a href="#HTTP和HTTPS" class="headerlink" title="HTTP和HTTPS"></a>HTTP和HTTPS</h2><pre><code>1. HTTP : 80
+2. HTTPS: 443, HTTP的升级版,加了一个安全套接层
+</code></pre>
+<h2 id="GET和POST"><a href="#GET和POST" class="headerlink" title="GET和POST"></a>GET和POST</h2><pre><code>1. GET ：查询参数会在URL地址上显示出来
+2. POST：查询参数和提交的数据是隐藏在Form表单里,不会在URL地址上显示
+</code></pre>
+<h2 id="URL-统一资源定位符"><a href="#URL-统一资源定位符" class="headerlink" title="URL 统一资源定位符"></a>URL 统一资源定位符</h2><pre><code>[https]:// [item.jd.com] [/14017559909.html][#detail]
+ 协议    域名/IP地址   访问资源的路径   锚点
+</code></pre>
+<h2 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h2><p>记录用户的浏览器、操作系统等,为了让用户获取更好的HTML页面效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36</span><br></pre></td></tr></table></figure>
+
+<p>浏览器的标记</p>
+<table>
+<thead>
+<tr>
+<th align="center">浏览器</th>
+<th align="center">标记</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Mozilla Firefox</td>
+<td align="center">Gecko内核</td>
+</tr>
+<tr>
+<td align="center">IE</td>
+<td align="center">Trident(自己的内核)</td>
+</tr>
+<tr>
+<td align="center">Linux</td>
+<td align="center">KHTML(like Gecko)</td>
+</tr>
+<tr>
+<td align="center">Safari</td>
+<td align="center">Webkit(like KHTML)</td>
+</tr>
+<tr>
+<td align="center">Google</td>
+<td align="center">Chrome(like Webkit)</td>
+</tr>
+<tr>
+<td align="center">其他浏览器</td>
+<td align="center">都是模仿(IE/Chrome)</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie，有时也用其复数形式 Cookies，指某些网站为了辨别用户身份、进行 session 跟踪而储存在用户本地终端上的数据（通常经过加密）</p>
+<h2 id="Json"><a href="#Json" class="headerlink" title="Json"></a>Json</h2><p>JSON(JavaScript Object Notation, JS 对象简谱) 是一种轻量级的数据交换格式。它基于 ECMAScript (欧洲计算机协会制定的js规范)的一个子集，采用完全独立于编程语言的文本格式来存储和表示数据。简洁和清晰的层次结构使得 JSON 成为理想的数据交换语言。 易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BeJson&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://www.bejson.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;page&quot;</span><span class="punctuation">:</span> <span class="number">88</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;isNonProfit&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;street&quot;</span><span class="punctuation">:</span> <span class="string">&quot;科技园路.&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;江苏苏州&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;country&quot;</span><span class="punctuation">:</span> <span class="string">&quot;中国&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;links&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Google&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://www.google.com&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Baidu&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;SoSo&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://www.SoSo.com&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/06/recommend/%E7%B2%BE%E9%80%89%E7%BD%91%E7%AB%99/" rel="prev" title="精选网站">
+                  <i class="fa fa-angle-left"></i> 精选网站
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/08/crawler/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" rel="next" title="爬虫-数据持久化">
+                  爬虫-数据持久化 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

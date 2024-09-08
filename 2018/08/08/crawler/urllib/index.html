@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="urllib在Python2.x中内置的库是urllib和urllib2，在Python3.x中合并为urllib库。urllib是系统内置库，提供了一系列用于操作URL的功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫-urllib">
+<meta property="og:url" content="https://rencheng.cc/2018/08/08/crawler/urllib/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="urllib在Python2.x中内置的库是urllib和urllib2，在Python3.x中合并为urllib库。urllib是系统内置库，提供了一系列用于操作URL的功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-08T11:58:14.000Z">
+<meta property="article:modified_time" content="2018-08-08T11:58:14.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/08/08/crawler/urllib/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/08/08/crawler/urllib/","path":"2018/08/08/crawler/urllib/","title":"爬虫-urllib"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>爬虫-urllib | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%AC%E8%99%AB%E8%AF%B7%E6%B1%82%E6%A8%A1%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">爬虫请求模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#urllib-request%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.1.</span> <span class="nav-text">urllib.request模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-urllib-parse-quote-%E2%80%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E2%80%9D"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2. urllib.parse.quote(“字符串”)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-urllib-parse-unquote-%E2%80%9C-e8-d3-f8%E2%80%A6%E2%80%9D"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">3. urllib.parse.unquote(“%e8%d3%f8…”)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0"><span class="nav-number">1.3.</span> <span class="nav-text">练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E6%95%B0%E6%8D%AE%E6%8A%93%E5%8F%96"><span class="nav-number">1.3.1.</span> <span class="nav-text">1 : 百度贴吧数据抓取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-GET%E6%96%B9%E5%BC%8F%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7"><span class="nav-number">1.3.2.</span> <span class="nav-text">2 : GET方式爬取百度贴吧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-POST%E6%96%B9%E5%BC%8F%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8"><span class="nav-number">1.3.3.</span> <span class="nav-text">3 : POST方式有道词典</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/08/08/crawler/urllib/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="爬虫-urllib | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          爬虫-urllib
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-08 19:58:14" itemprop="dateCreated datePublished" datetime="2018-08-08T19:58:14+08:00">2018-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>urllib在Python2.x中内置的库是urllib和urllib2，在Python3.x中合并为urllib库。<br>urllib是系统内置库，提供了一系列用于操作URL的功能。</p>
+<span id="more"></span>
+
+<h1 id="爬虫请求模块"><a href="#爬虫请求模块" class="headerlink" title="爬虫请求模块"></a>爬虫请求模块</h1><p>urllib提供的功能就是利用程序去执行各种HTTP请求。如果要模拟浏览器完成特定功能，需要把请求伪装成浏览器。伪装的方法是先监控浏览器发出的请求，再根据浏览器的请求头来伪装，User-Agent头就是用来标识浏览器的。</p>
+<h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><ol>
+<li>python2 ：urllib 、urllib2</li>
+<li>python3 ：urllib 、requests(下一篇会介绍)</li>
+</ol>
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><h3 id="urllib-request模块"><a href="#urllib-request模块" class="headerlink" title="urllib.request模块"></a>urllib.request模块</h3><p>可以非常方便地抓取URL内容，也就是发送一个GET请求到指定的页面，然后返回HTTP的响应：</p>
+<ol>
+<li><p>urllib.request.urlopen(“URL”)</p>
+<ol>
+<li>作用 ：向网站发起1个请求并获取响应<br> 字节流 = res.read()<br> 字符串 = res.read().decode(“utf-8”)<br> encode() : 字符串 转为 字节流<br> decode() : 字节流 转为 字符串</li>
+<li>重构User-Agent<ol>
+<li>urlopen()不支持重构User-Agent</li>
+<li>支持重构User-Agent</li>
+</ol>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">urllib.request.Request(url,headers=&#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;&quot;</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>urllib.request.Request(url,headers=字典)</p>
+<blockquote>
+<p>User-Agent是爬虫和反爬虫斗争的第1步,发送请求必须带User-Agent</p>
+</blockquote>
+<p> 使用流程</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">req =  创建请求对象(Request(url,headers=...))</span><br><span class="line">res =  获取响应对象(urlopen(req)</span><br><span class="line">html = 获取响应内容res.read().decode(&quot;utf-8&quot;)</span><br></pre></td></tr></table></figure>
+<p> 响应对象res的方法</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. res.read() ：读取响应内容</span><br><span class="line">2. res.getcode() ：获取HTTP响应码</span><br><span class="line">    200 ：成功</span><br><span class="line">    4XX ：服务器页面出错</span><br><span class="line">    5XX ：服务器出错</span><br><span class="line">3. geturl() ：返回实际数据的URL(防止重定向问题)</span><br></pre></td></tr></table></figure></li>
+<li><p>urllib.request.Request(url,data=data,headers=字典)</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    data : Form表单数据以bytes类型提交,不能是str    1、把Form表单数据定义为字典:data</span><br><span class="line">    2、urlencode(data)</span><br><span class="line">    3、encode(&quot;utf-8&quot;)转为bytes    ```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### urllib.parse模块</span><br><span class="line">#### 1. urllib.parse.urlencode(&#123;字典&#125;)</span><br><span class="line">例如：</span><br><span class="line">``` py</span><br><span class="line">wd = &#123;&quot;wd&quot;:&quot;摩擦科技&quot;&#125;</span><br><span class="line">s = urllib.parse.urlencode(wd)</span><br><span class="line">s的值 ：&quot;wd=%E8%BE%BE%E5%86%85%E.....&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="2-urllib-parse-quote-“字符串”"><a href="#2-urllib-parse-quote-“字符串”" class="headerlink" title="2. urllib.parse.quote(“字符串”)"></a>2. urllib.parse.quote(“字符串”)</h4><p>例如：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">&quot;摩擦科技&quot;</span></span><br><span class="line">s2 = urllib.parse.quote(s1)</span><br><span class="line">s2的值 ：<span class="string">&quot;%e8%e3%d5....&quot;</span></span><br></pre></td></tr></table></figure>
+<p>写入本地</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;文件名.txt&quot;</span>,<span class="string">&quot;w&quot;</span>,encoding=<span class="string">&quot;gb18030&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(字符串)</span><br></pre></td></tr></table></figure>
+<h4 id="3-urllib-parse-unquote-“-e8-d3-f8…”"><a href="#3-urllib-parse-unquote-“-e8-d3-f8…”" class="headerlink" title="3. urllib.parse.unquote(“%e8%d3%f8…”)"></a>3. urllib.parse.unquote(“%e8%d3%f8…”)</h4></li>
+</ol>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><h3 id="1-百度贴吧数据抓取"><a href="#1-百度贴吧数据抓取" class="headerlink" title="1 : 百度贴吧数据抓取"></a>1 : 百度贴吧数据抓取</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">h_list = [</span><br><span class="line">        &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36 OPR/26.0.1656.60&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">baseurl = <span class="string">&quot;http://tieba.baidu.com/f?&quot;</span></span><br><span class="line">name = <span class="built_in">input</span>(<span class="string">&quot;请输入贴吧名称:&quot;</span>)</span><br><span class="line">begin = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入起始页:&quot;</span>))</span><br><span class="line">end = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入终止页:&quot;</span>))</span><br><span class="line"><span class="comment"># 进行url编码,用于url拼接</span></span><br><span class="line">kw = &#123;<span class="string">&quot;kw&quot;</span>:name&#125;</span><br><span class="line">kw = urllib.parse.urlencode(kw)</span><br><span class="line"><span class="comment"># kw的值 ： &quot;kw=%a3%b4...&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(begin,end+<span class="number">1</span>):</span><br><span class="line">    <span class="comment"># 拼接页面的url</span></span><br><span class="line">    pn = (page-<span class="number">1</span>)*<span class="number">50</span></span><br><span class="line">    url = baseurl + kw + <span class="string">&quot;&amp;pn=&quot;</span> + <span class="built_in">str</span>(pn)</span><br><span class="line">    <span class="comment"># 发请求</span></span><br><span class="line">    headers = random.choice(h_list)</span><br><span class="line">    req = urllib.request.Request(url,headers=headers)</span><br><span class="line">    res = urllib.request.urlopen(req)</span><br><span class="line">    html = res.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line">    <span class="comment"># 保存</span></span><br><span class="line">    filename = <span class="string">&quot;第&quot;</span>+<span class="built_in">str</span>(page)+<span class="string">&quot;页.html&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&quot;w&quot;</span>,encoding=<span class="string">&quot;gb18030&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(html)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第%d页保存成功&quot;</span> % page)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-GET方式爬取百度贴吧"><a href="#2-GET方式爬取百度贴吧" class="headerlink" title="2 : GET方式爬取百度贴吧"></a>2 : GET方式爬取百度贴吧</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BaiduSpider</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0&quot;</span>&#125;</span><br><span class="line">        self.baseurl = <span class="string">&quot;http://tieba.baidu.com/f?&quot;</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 发请求获取页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPage</span>(<span class="params">self,url</span>):</span><br><span class="line">        req = urllib.request.Request(url,headers=self.headers)</span><br><span class="line">        res = urllib.request.urlopen(req)</span><br><span class="line">        html = res.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> html</span><br><span class="line">    <span class="comment"># 保存</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writePage</span>(<span class="params">self,filename,html</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&quot;w&quot;</span>,encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(html)  </span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">workOn</span>(<span class="params">self</span>):</span><br><span class="line">        name = <span class="built_in">input</span>(<span class="string">&quot;请输入贴吧名称:&quot;</span>)</span><br><span class="line">        begin = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入起始页:&quot;</span>))</span><br><span class="line">        end = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入终止页:&quot;</span>))</span><br><span class="line">        <span class="comment"># 进行url编码,用于url拼接</span></span><br><span class="line">        kw = &#123;<span class="string">&quot;kw&quot;</span>:name&#125;</span><br><span class="line">        kw = urllib.parse.urlencode(kw)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(begin,end+<span class="number">1</span>):</span><br><span class="line">            <span class="comment"># 拼接页面的url</span></span><br><span class="line">            pn = (page-<span class="number">1</span>)*<span class="number">50</span></span><br><span class="line">            url = self.baseurl + kw + <span class="string">&quot;&amp;pn=&quot;</span> + <span class="built_in">str</span>(pn)</span><br><span class="line">            html = self.getPage(url)</span><br><span class="line">            filename = <span class="string">&quot;第&quot;</span>+<span class="built_in">str</span>(page)+<span class="string">&quot;页.html&quot;</span></span><br><span class="line">            self.writePage(filename,html)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;第%d页爬取成功&quot;</span> % page)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    spider = BaiduSpider()</span><br><span class="line">    spider.workOn()</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-POST方式有道词典"><a href="#3-POST方式有道词典" class="headerlink" title="3 : POST方式有道词典"></a>3 : POST方式有道词典</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到data并把它转为bytes</span></span><br><span class="line">key = <span class="built_in">input</span>(<span class="string">&quot;请输入要翻译的内容:&quot;</span>)</span><br><span class="line"><span class="comment"># 1. 把Form表单数据定义为字典</span></span><br><span class="line">data = &#123;</span><br><span class="line">        <span class="string">&quot;i&quot;</span>:key,</span><br><span class="line">        <span class="string">&quot;from&quot;</span>:<span class="string">&quot;AUTO&quot;</span>,</span><br><span class="line">        <span class="string">&quot;to&quot;</span>:<span class="string">&quot;AUTO&quot;</span>,</span><br><span class="line">        <span class="string">&quot;smartresult&quot;</span>:<span class="string">&quot;dict&quot;</span>,</span><br><span class="line">        <span class="string">&quot;client&quot;</span>:<span class="string">&quot;fanyideskweb&quot;</span>,</span><br><span class="line">        <span class="string">&quot;salt&quot;</span>:<span class="string">&quot;1543043553775&quot;</span>,</span><br><span class="line">        <span class="string">&quot;sign&quot;</span>:<span class="string">&quot;802536ba0b13500261edf93830d299a0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;doctype&quot;</span>:<span class="string">&quot;json&quot;</span>,</span><br><span class="line">        <span class="string">&quot;version&quot;</span>:<span class="string">&quot;2.1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;keyfrom&quot;</span>:<span class="string">&quot;fanyi.web&quot;</span>,</span><br><span class="line">        <span class="string">&quot;action&quot;</span>:<span class="string">&quot;FY_BY_REALTIME&quot;</span>,</span><br><span class="line">        <span class="string">&quot;typoResult&quot;</span>:<span class="string">&quot;false&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment"># 2. urlencode把字典编码成字符串</span></span><br><span class="line">data = urllib.parse.urlencode(data)</span><br><span class="line"><span class="comment"># 3. encode()把字符串转为字节流</span></span><br><span class="line">data = data.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发请求获响应</span></span><br><span class="line"><span class="comment"># url为抓包抓到的POST的地址,去掉translate_o中的 _o</span></span><br><span class="line">url = <span class="string">&quot;http://fanyi.youdao.com/translate?smartresult=dict&amp;smartresult=rule&quot;</span></span><br><span class="line">headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0&quot;</span>&#125;</span><br><span class="line">req = urllib.request.Request(url,data=data,headers=headers)</span><br><span class="line">res = urllib.request.urlopen(req)</span><br><span class="line">html = res.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"><span class="comment"># 把json格式的字符串转为Python中的字典</span></span><br><span class="line">r_dict = json.loads(html)</span><br><span class="line">r = r_dict[<span class="string">&quot;translateResult&quot;</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="string">&quot;tgt&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(r)</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#123;&#x27;type&#x27;: &#x27;ZH_CN2EN&#x27;, </span></span><br><span class="line"><span class="comment"># &#x27;errorCode&#x27;: 0, </span></span><br><span class="line"><span class="comment"># &#x27;elapsedTime&#x27;: 1, </span></span><br><span class="line"><span class="comment"># &#x27;translateResult&#x27;: </span></span><br><span class="line"><span class="comment">#   [[&#123;&#x27;src&#x27;: &#x27;你好&#x27;, &#x27;tgt&#x27;: &#x27;hello&#x27;&#125;]]</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/08/crawler/requests/" rel="prev" title="爬虫-requests模块">
+                  <i class="fa fa-angle-left"></i> 爬虫-requests模块
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/08/crawler/xpath%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="next" title="爬虫-xpath解析工具">
+                  爬虫-xpath解析工具 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

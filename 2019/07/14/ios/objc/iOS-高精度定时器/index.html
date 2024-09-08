@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="苹果上面的App一般都是不允许在后台运行的，比如说定时器计时，当用户切换到后台，定时器就被被挂起，等回到App之后，才会Resume。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-高精度定时器">
+<meta property="og:url" content="https://rencheng.cc/2019/07/14/ios/objc/iOS-%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="苹果上面的App一般都是不允许在后台运行的，比如说定时器计时，当用户切换到后台，定时器就被被挂起，等回到App之后，才会Resume。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-14T02:59:35.000Z">
+<meta property="article:modified_time" content="2019-07-14T02:59:35.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objc">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/14/ios/objc/iOS-%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/07/14/ios/objc/iOS-%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8/","path":"2019/07/14/ios/objc/iOS-高精度定时器/","title":"iOS-高精度定时器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS-高精度定时器 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">场景描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSTimer%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%87%86"><span class="nav-number">2.</span> <span class="nav-text">NSTimer为什么不准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-source-t-%EF%BC%88%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">dispatch_source_t （高精度定时器）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/14/ios/objc/iOS-%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%AE%9A%E6%97%B6%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS-高精度定时器 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS-高精度定时器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-14 10:59:35" itemprop="dateCreated datePublished" datetime="2019-07-14T10:59:35+08:00">2019-07-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.2k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>苹果上面的App一般都是不允许在后台运行的，比如说定时器计时，当用户切换到后台，定时器就被被挂起，等回到App之后，才会Resume。</p>
+<span id="more"></span>
+
+<h2 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h2><p>在实际开发过程中，我们经常遇到定时器NSTimer不准确的情况。比如</p>
+<pre><code>1. 滑动视图的时候，NSTimer干脆就不走了；
+2. 两台设备同样倒计时300，有的设备走得快，有的设备走得慢，如果是抢购商品，这个不准确就很扯皮了；
+</code></pre>
+<p>解决方案：</p>
+<pre><code>1. 可以通过切换runloop的模式来处理
+2. 更换计时方案
+</code></pre>
+<h2 id="NSTimer为什么不准"><a href="#NSTimer为什么不准" class="headerlink" title="NSTimer为什么不准"></a>NSTimer为什么不准</h2><p>NSTimer受runloop的影响，由于runloop需要处理很多任务，导致NSTimer的精度降低</p>
+<h2 id="dispatch-source-t-（高精度定时器）"><a href="#dispatch-source-t-（高精度定时器）" class="headerlink" title="dispatch_source_t （高精度定时器）"></a>dispatch_source_t （高精度定时器）</h2><p><strong>简述</strong>：GCD 比 NSTimer 更准的定时器<br><strong>优点</strong>：精度很高，系统自动触发，系统级别</p>
+<p><strong>注意</strong>：dispatch_source_t在后台可以走，但是在一段时间（30s或3min）后，程序也会被挂起，这个时候dispatch_source_t还是不准，所以我们要给程序开一个后台任务，让程序在后台能夺走一会儿</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">// 宏定义 @weakify是YYKit提供的</span><br><span class="line">#ifndef WEAK_SELF</span><br><span class="line">#define WEAK_SELF @weakify(self)</span><br><span class="line">#define STRONG_SELF @strongify(self)</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">@interface classname ()</span><br><span class="line">// 定义属性</span><br><span class="line">@property (nonatomic, strong) dispatch_source_t timer;    //!&lt; 定时器</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - 开始定时器</span><br><span class="line">- (void)startTime &#123;</span><br><span class="line">    dispatch_resume(self.timer);</span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - 关闭定时器</span><br><span class="line">- (void)closeTime &#123;</span><br><span class="line">    dispatch_source_cancel(_timer);</span><br><span class="line">    dispatch_source_set_cancel_handler(_timer, ^&#123;</span><br><span class="line">        self-&gt;_timer = nil;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - 懒加载</span><br><span class="line">- (dispatch_source_t)timer &#123;</span><br><span class="line">    if (!_timer) &#123;</span><br><span class="line">        WEAK_SELF</span><br><span class="line">        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());</span><br><span class="line">        dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), 1.0 * NSEC_PER_SEC, 0);</span><br><span class="line">        dispatch_source_set_event_handler(_timer, ^&#123;</span><br><span class="line">            STRONG_SELF</span><br><span class="line">            if (!self) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            if (self.lessSecond &lt; 0) &#123;</span><br><span class="line">                dispatch_source_cancel(self-&gt;_timer);</span><br><span class="line">                [self showTimeOutAlertController];</span><br><span class="line">                [(AppDelegate *)[UIApplication sharedApplication].delegate endBackgroundTask];</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                NSInteger min = self.lessSecond / 60;</span><br><span class="line">                NSInteger second = self.lessSecond % 60;</span><br><span class="line">                NSString *title = [NSString stringWithFormat:@&quot;%02ld:%02ld&quot;, min, second];</span><br><span class="line">                NSLog(@&quot;%@&quot;, title);</span><br><span class="line">                self.lessSecond--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return _timer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;</span><br><span class="line">@property (strong</span><br><span class="line">- (void)endBackgroundTask;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">@interface AppDelegate ()</span><br><span class="line">@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;  //!&lt; 后台任务标识</span><br><span class="line">@property (nonatomic, strong) NSTimer *backgroundTimer;        //!&lt; 后台定时器</span><br><span class="line">@end</span><br><span class="line">/ 当应用程序掉到后台时，执行该方法</span><br><span class="line"></span><br><span class="line">// 当一个 iOS 应用被送到后台,它的主线程会被暂停。你用 NSThread 的 detachNewThreadSelector:toTar get:withObject:类方法创建的线程也被挂起了。</span><br><span class="line">// 如果你想在后台完成一个长期任务,就必须调用 UIApplication 的 beginBackgroundTaskWithExpirationHandler:实例方法,来向 iOS 借点时间。</span><br><span class="line">// 默认情况下，如果在这个期限内,长期任务没有被完成,iOS 将终止程序。</span><br><span class="line">// 怎么办？可以使用 beginBackgroundTaskWithExpirationHandler:实例方法,来向 iOS 再借点时间。</span><br><span class="line">- (void)applicationDidEnterBackground:(UIApplication *)application &#123;    </span><br><span class="line">    // 使用这个方法来释放公共的资源、存储用户数据、停止我们定义的定时器（timers）、并且存储在程序终止前的相关信息。</span><br><span class="line">    // 如果，我们的应用程序提供了后台执行的方法，那么，在程序退出时，这个方法将代替applicationWillTerminate方法的执行。</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    // 标记一个长时间运行的后台任务将开始</span><br><span class="line">    // 通过调试，发现，iOS给了我们额外的10分钟（600s）来执行这个任务。</span><br><span class="line">    self.backgroundTaskIdentifier = [application beginBackgroundTaskWithExpirationHandler:^(void) &#123;</span><br><span class="line">        // 当应用程序留给后台的时间快要到结束时（应用程序留给后台执行的时间是有限的）， 这个Block块将被执行</span><br><span class="line">        // 我们需要在次Block块中执行一些清理工作。</span><br><span class="line">        // 如果清理工作失败了，那么将导致程序挂掉</span><br><span class="line">        </span><br><span class="line">        // 清理工作需要在主线程中用同步的方式来进行</span><br><span class="line">        [self endBackgroundTask];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    // 模拟一个Long-Running Task</span><br><span class="line">    self.backgroundTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f</span><br><span class="line">                                                            target:self</span><br><span class="line">                                                          selector:@selector(timerMethod:)</span><br><span class="line">                                                          userInfo:nil</span><br><span class="line">                                                           repeats:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)endBackgroundTask &#123;</span><br><span class="line">    dispatch_queue_t mainQueue = dispatch_get_main_queue();</span><br><span class="line">    AppDelegate *weakSelf = self;</span><br><span class="line">    dispatch_async(mainQueue, ^(void) &#123;</span><br><span class="line">        AppDelegate *strongSelf = weakSelf;</span><br><span class="line">        if (strongSelf != nil) &#123;</span><br><span class="line">            [strongSelf.backgroundTimer invalidate];// 停止定时器</span><br><span class="line">            self-&gt;_backgroundTimer = nil;// 停止定时器</span><br><span class="line">            // 每个对 beginBackgroundTaskWithExpirationHandler:方法的调用,必须要相应的调用 endBackgroundTask:方法。这样，来告诉应用程序你已经执行完成了。</span><br><span class="line">            // 也就是说,我们向 iOS 要更多时间来完成一个任务,那么我们必须告诉 iOS 你什么时候能完成那个任务。</span><br><span class="line">            // 也就是要告诉应用程序：“好借好还”嘛。</span><br><span class="line">            // 标记指定的后台任务完成</span><br><span class="line">            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];</span><br><span class="line">            // 销毁后台任务标识符</span><br><span class="line">            strongSelf.backgroundTaskIdentifier = UIBackgroundTaskInvalid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 模拟的一个 Long-Running Task 方法</span><br><span class="line">- (void)timerMethod:(NSTimer *)paramSender &#123;</span><br><span class="line">    // backgroundTimeRemaining 属性包含了程序留给的我们的时间</span><br><span class="line">    NSTimeInterval backgroundTimeRemaining =[[UIApplication sharedApplication] backgroundTimeRemaining];</span><br><span class="line">    if (backgroundTimeRemaining == DBL_MAX) &#123;</span><br><span class="line">        NSLog(@&quot;Background Time Remaining = Undetermined&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        NSLog(@&quot;Background Time Remaining = %.02f Seconds&quot;, backgroundTimeRemaining);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/Objc/" rel="tag"># Objc</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/14/python/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B02/" rel="prev" title="Python-网络编程（一）">
+                  <i class="fa fa-angle-left"></i> Python-网络编程（一）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/14/hexo/%E5%A2%9E%E5%8A%A0%E6%97%B6%E5%BA%8F%E5%9B%BE/" rel="next" title="hexo-增加时序图">
+                  hexo-增加时序图 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Redis 在Python中的使用介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis For Python">
+<meta property="og:url" content="https://rencheng.cc/2018/09/02/redis/inPython/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="Redis 在Python中的使用介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/o2xzb.png">
+<meta property="article:published_time" content="2018-09-02T08:22:49.000Z">
+<meta property="article:modified_time" content="2018-09-02T08:22:49.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/o2xzb.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/09/02/redis/inPython/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/09/02/redis/inPython/","path":"2018/09/02/redis/inPython/","title":"Redis For Python"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis For Python | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu"><span class="nav-number">1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">1.2.</span> <span class="nav-text">Windows</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%89%80%E5%9C%A8%E8%B7%AF%E5%BE%84"><span class="nav-number">2.1.</span> <span class="nav-text">配置文件所在路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">2.1.2.</span> <span class="nav-text">windows</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%9E%E6%8E%A5%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">设置连接密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%81%E8%AE%B8%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.3.</span> <span class="nav-text">允许远程连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95"><span class="nav-number">2.4.</span> <span class="nav-text">远程连接测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E8%BF%9E%E6%8E%A5Ubuntu%E7%9A%84Redis%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.4.1.</span> <span class="nav-text">Windows连接Ubuntu的Redis服务**</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B-string"><span class="nav-number">3.1.</span> <span class="nav-text">字符串类型(string)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">3.1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E9%A1%BB%E6%8E%8C%E6%8F%A1%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.2.</span> <span class="nav-text">必须掌握命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.3.</span> <span class="nav-text">扩展命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.4.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-get%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.4.1.</span> <span class="nav-text">set | get命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set%E5%91%BD%E4%BB%A4%E4%B9%8B-setnx"><span class="nav-number">3.1.4.2.</span> <span class="nav-text">set命令之 - setnx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set%E5%91%BD%E4%BB%A4%E4%B9%8B-ex"><span class="nav-number">3.1.4.3.</span> <span class="nav-text">set命令之 - ex</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mset-mget"><span class="nav-number">3.1.4.4.</span> <span class="nav-text">mset | mget</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strlen"><span class="nav-number">3.1.4.5.</span> <span class="nav-text">strlen</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B4%A2%E5%BC%95%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.4.6.</span> <span class="nav-text">字符串索引操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getrange-key-%E8%B5%B7%E5%A7%8B%E5%80%BC-%E7%BB%88%E6%AD%A2%E5%80%BC"><span class="nav-number">3.1.4.7.</span> <span class="nav-text">getrange key 起始值 终止值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#append-key-value"><span class="nav-number">3.1.4.8.</span> <span class="nav-text">append key value</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">整数操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.2.1.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">浮点数操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB"><span class="nav-number">3.4.</span> <span class="nav-text">命令汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C"><span class="nav-number">3.4.1.</span> <span class="nav-text">字符串操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E6%93%8D%E4%BD%9C"><span class="nav-number">3.4.2.</span> <span class="nav-text">数字操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">3.4.3.</span> <span class="nav-text">设置过期时间的两种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">方式一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">方式二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%AD%98%E6%B4%BB%E6%97%B6%E9%97%B4"><span class="nav-number">3.4.4.</span> <span class="nav-text">查看存活时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%BF%87%E6%9C%9F"><span class="nav-number">3.4.5.</span> <span class="nav-text">删除过期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.5.</span> <span class="nav-text">通用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%88List%EF%BC%89"><span class="nav-number">3.5.1.</span> <span class="nav-text">列表数据类型（List）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-1"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%B4%E5%B0%BE%E5%8E%8B%E5%85%A5%E5%85%83%E7%B4%A0%EF%BC%88LPUSH-RPUSH%EF%BC%89"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">头尾压入元素（LPUSH | RPUSH）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-%E8%AE%BE%E7%BD%AE-%E5%88%97%E8%A1%A8%E5%85%83%E7%B4%A0"><span class="nav-number">3.5.1.3.</span> <span class="nav-text">查看|设置 列表元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E6%8C%87%E5%AE%9A%E5%85%83%E7%B4%A0%EF%BC%88LREM%EF%BC%89"><span class="nav-number">3.5.1.4.</span> <span class="nav-text">移除指定元素（LREM）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%BB%E9%99%A4%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E5%A4%96%E5%85%83%E7%B4%A0%EF%BC%88LTRIM%EF%BC%89"><span class="nav-number">3.5.1.5.</span> <span class="nav-text">去除指定范围外元素（LTRIM）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E4%B8%AD%E6%8F%92%E5%85%A5%E5%80%BC%EF%BC%88LINSERT%EF%BC%89"><span class="nav-number">3.5.1.6.</span> <span class="nav-text">列表中插入值（LINSERT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E5%BC%B9%E5%87%BA%EF%BC%88BLPOP-BRPOP%EF%BC%89"><span class="nav-number">3.5.1.7.</span> <span class="nav-text">阻塞弹出（BLPOP | BRPOP）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8Epython%E4%BA%A4%E4%BA%92"><span class="nav-number">4.</span> <span class="nav-text">与python交互</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/09/02/redis/inPython/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis For Python | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis For Python
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-02 16:22:49" itemprop="dateCreated datePublished" datetime="2018-09-02T16:22:49+08:00">2018-09-02</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>13k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Redis 在Python中的使用介绍</p>
+<span id="more"></span>
+
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo apt-get install redis-server</span><br><span class="line"><span class="comment"># 确认是否启动</span></span><br><span class="line">ps -aux | grep redis</span><br><span class="line"><span class="comment"># 服务端启动</span></span><br><span class="line">sudo /etc/init.d/redis-server status</span><br><span class="line">sudo /etc/init.d/redis-server start</span><br><span class="line">sudo /etc/init.d/redis-server stop</span><br><span class="line">sudo /etc/init.d/redis-server restart</span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli -h IP地址 -p 端口</span><br><span class="line">redis-cli <span class="comment"># 默认连接本机的6379端口</span></span><br><span class="line">127.0.0.1:6379&gt;ping</span><br><span class="line">PONG</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、下载安装包</span><br><span class="line">   https://github.com/ServiceStack/redis-windows/blob/master/downloads/redis-<span class="number">64.3</span><span class="number">.0</span><span class="number">.503</span>.<span class="built_in">zip</span></span><br><span class="line"><span class="number">2</span>、解压</span><br><span class="line"><span class="number">3</span>、启动服务端</span><br><span class="line">   双击解压后的 redis-server.exe </span><br><span class="line"><span class="number">4</span>、客户端连接</span><br><span class="line">   双击解压后的 redis-cli.exe</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题：关闭终端后服务终止</strong><br><strong>解决：将Redis服务安装到本地服务</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、重命名 redis.windows.conf 为 redis.conf,作为redis服务的配置文件</span><br><span class="line">2、cmd命令行，进入到redis-server.exe所在目录</span><br><span class="line">3、执行：redis-server --service-install redis.conf --loglevel verbose</span><br><span class="line">4、计算机-管理-服务-Redis-启动</span><br></pre></td></tr></table></figure>
+
+<p><strong>卸载</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">到 redis-server.exe 所在路径执行：</span><br><span class="line">1、redis-server --service-uninstall</span><br><span class="line">2、sc delete Redis</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h2 id="配置文件所在路径"><a href="#配置文件所在路径" class="headerlink" title="配置文件所在路径"></a>配置文件所在路径</h2><h3 id="Ubuntu-1"><a href="#Ubuntu-1" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>下载解压后的redis文件夹中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis.windows.conf </span><br><span class="line">redis.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置连接密码"><a href="#设置连接密码" class="headerlink" title="设置连接密码"></a>设置连接密码</h2><ol>
+<li>requirepass 密码</li>
+<li>重启服务 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/redis-server restart</span><br></pre></td></tr></table></figure>
+</li>
+<li>客户端连接 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -p 6379 -a 123456</span><br><span class="line">127.0.0.1:6379&gt;ping</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="允许远程连接"><a href="#允许远程连接" class="headerlink" title="允许远程连接"></a>允许远程连接</h2><ol>
+<li><p>注释掉IP地址绑定</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure></li>
+<li><p>关闭保护模式（默认开始，不允许外部网络访问）</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected-mode no</span><br></pre></td></tr></table></figure></li>
+<li><p>重启redis服务</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/redis-server restart</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="远程连接测试"><a href="#远程连接测试" class="headerlink" title="远程连接测试"></a>远程连接测试</h2><h3 id="Windows连接Ubuntu的Redis服务"><a href="#Windows连接Ubuntu的Redis服务" class="headerlink" title="Windows连接Ubuntu的Redis服务**"></a>Windows连接Ubuntu的Redis服务**</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cmd命令行</span></span><br><span class="line"><span class="number">1</span>、d:</span><br><span class="line"><span class="number">2</span>、cd Redis3<span class="number">.0</span></span><br><span class="line"><span class="number">3</span>、redis-cli -h x.x.x.x -a <span class="number">123456</span></span><br><span class="line"><span class="number">4</span>、x.x.x.x:<span class="number">6379</span>&gt;ping</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="字符串类型-string"><a href="#字符串类型-string" class="headerlink" title="字符串类型(string)"></a>字符串类型(string)</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字符串、数字，都会转为字符串来存储</span><br><span class="line">以二进制的方式存储在内存中</span><br></pre></td></tr></table></figure>
+
+<h3 id="必须掌握命令"><a href="#必须掌握命令" class="headerlink" title="必须掌握命令"></a>必须掌握命令</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> key value</span><br><span class="line">setnx key value</span><br><span class="line"><span class="built_in">set</span> key value ex seconds</span><br><span class="line">get key</span><br><span class="line">mset key1 value1 key2 value2 </span><br><span class="line">mget key1 key2 key3 </span><br><span class="line">stren key </span><br><span class="line"><span class="comment"># 数字操作</span></span><br><span class="line">incr key</span><br><span class="line">decr key</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展命令"><a href="#扩展命令" class="headerlink" title="扩展命令"></a>扩展命令</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">append key value</span><br><span class="line">setrange key index value</span><br><span class="line">getrange key start stop</span><br><span class="line">incrby key step</span><br><span class="line">decrby key step</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="set-get命令"><a href="#set-get命令" class="headerlink" title="set | get命令"></a>set | get命令</h4><p><strong>作用</strong>:<br>设置键值，获取键对应的值</p>
+<p><strong>命令格式</strong>:<br>set key value<br>get key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tarena@tedu:~$ redis-cli -h <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> -p <span class="number">6379</span> -a <span class="number">123456</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="string">&#x27;Lucy&#x27;</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get name</span><br><span class="line"><span class="string">&quot;Lucy&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> number <span class="number">10</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;10&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> number <span class="number">6.66</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;6.66&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="set命令之-setnx"><a href="#set命令之-setnx" class="headerlink" title="set命令之 - setnx"></a>set命令之 - setnx</h4><p>setnx key value : 键不存在时才能进行设置<strong>（必须掌握）</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 键不存在，进行设置（此处name键已经存在）</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx name <span class="string">&#x27;Tom&#x27;</span></span><br><span class="line">(nil)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="set命令之-ex"><a href="#set命令之-ex" class="headerlink" title="set命令之 - ex"></a>set命令之 - ex</h4><p><strong>作用:</strong><br>设置过期时间</p>
+<p><strong>命令格式:</strong><br>set key value ex seconds</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="string">&#x27;Tiechui&#x27;</span> ex <span class="number">3</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get name</span><br><span class="line"><span class="string">&quot;Tiechui&quot;</span></span><br><span class="line"><span class="comment"># 3秒后再次获取，得到 nil</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get name</span><br><span class="line">(nil)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="mset-mget"><a href="#mset-mget" class="headerlink" title="mset | mget"></a>mset | mget</h4><p><strong>作用:</strong><br>同时设置多个值，获取多个值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; mset name1 <span class="string">&#x27;lucy&#x27;</span> name2 <span class="string">&#x27;tom&#x27;</span> name3 <span class="string">&#x27;jim&#x27;</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; mget name1 name2 name3</span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;lucy&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;tom&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;jim&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<p><strong>键的命名规范</strong></p>
+<p>​mset  wang::email  ***@qq.com</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; mset wang::email wangweichao@tedu.cn guo::email guods@tedu.cn</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; mget wang::email guo::email</span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;wangweichao@tedu.cn&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;guods@tedu.cn&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h4><p><strong>作用:</strong><br>获取值的长度</p>
+<p><strong>命令格式:</strong><br>strlen key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; strlen name</span><br><span class="line">(integer) <span class="number">11</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串索引操作"><a href="#字符串索引操作" class="headerlink" title="字符串索引操作"></a>字符串索引操作</h4><p><strong>setrange</strong><br>key 索引值 value</p>
+<p><strong>作用:</strong><br>从索引值开始，value替换原内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get message</span><br><span class="line"><span class="string">&quot;hello world&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setrange message <span class="number">6</span> <span class="string">&#x27;tarena&#x27;</span></span><br><span class="line">(integer) <span class="number">12</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get message</span><br><span class="line"><span class="string">&quot;hello tarena&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="getrange-key-起始值-终止值"><a href="#getrange-key-起始值-终止值" class="headerlink" title="getrange key 起始值 终止值"></a>getrange key 起始值 终止值</h4><p><strong>作用:</strong><br>获取指定范围切片内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get message</span><br><span class="line"><span class="string">&quot;hello tarena&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; getrange message <span class="number">0</span> <span class="number">4</span></span><br><span class="line"><span class="string">&quot;hello&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; getrange message <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="string">&quot;hello tarena&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="append-key-value"><a href="#append-key-value" class="headerlink" title="append key value"></a>append key value</h4><p><strong>作用:</strong><br>追加拼接value的值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> message <span class="string">&#x27;hello &#x27;</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; append message <span class="string">&#x27;world&#x27;</span></span><br><span class="line">(integer) <span class="number">11</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get message</span><br><span class="line"><span class="string">&quot;hello world&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h2 id="整数操作"><a href="#整数操作" class="headerlink" title="整数操作"></a>整数操作</h2><p>INCRBY key 步长</p>
+<p>DECRBY key 步长</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> number <span class="number">10</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;10&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; INCRBY number <span class="number">5</span></span><br><span class="line">(integer) <span class="number">15</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;15&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; DECRBY number <span class="number">5</span></span><br><span class="line">(integer) <span class="number">5</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;5&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>INCR key : +1操作</strong></p>
+<p><strong>DECR key : -1操作</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; incr number</span><br><span class="line">(integer) <span class="number">7</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; decr number</span><br><span class="line">(integer) <span class="number">6</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;6&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>抖音上有人关注你了，是不是可以用INCR呢，如果取消关注了是不是可以用DECR</p>
+<h2 id="浮点数操作"><a href="#浮点数操作" class="headerlink" title="浮点数操作"></a>浮点数操作</h2><p>incrbyfloat key step</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get number</span><br><span class="line"><span class="string">&quot;10&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; INCRBYFLOAT number <span class="number">6.66</span></span><br><span class="line"><span class="string">&quot;12.66&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; INCRBYFLOAT number -<span class="number">6.66</span></span><br><span class="line"><span class="string">&quot;6&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br><span class="line"><span class="comment"># 先转为数字类型，然后再进行相加减，不能使用append</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="命令汇总"><a href="#命令汇总" class="headerlink" title="命令汇总"></a>命令汇总</h2><h3 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、<span class="built_in">set</span> key value</span><br><span class="line"><span class="number">2</span>、setnx key value</span><br><span class="line"><span class="number">3</span>、get key</span><br><span class="line"><span class="number">3</span>、mset</span><br><span class="line"><span class="number">4</span>、mget</span><br><span class="line"><span class="number">5</span>、<span class="built_in">set</span> key value ex seconds</span><br><span class="line"><span class="number">6</span>、strlen key </span><br></pre></td></tr></table></figure>
+<h3 id="数字操作"><a href="#数字操作" class="headerlink" title="数字操作"></a>数字操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>、incrby key 步长</span><br><span class="line"><span class="number">8</span>、decrby key 步长</span><br><span class="line"><span class="number">9</span>、incr key</span><br><span class="line"><span class="number">10</span>、decr key</span><br><span class="line"><span class="number">11</span>、incrbyfloat key number</span><br></pre></td></tr></table></figure>
+<h3 id="设置过期时间的两种方式"><a href="#设置过期时间的两种方式" class="headerlink" title="设置过期时间的两种方式"></a>设置过期时间的两种方式</h3><h4 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、<span class="built_in">set</span> key value ex <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h4 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、<span class="built_in">set</span> key value</span><br><span class="line"><span class="number">2</span>、expire key <span class="number">5</span> <span class="comment"># 秒</span></span><br><span class="line"><span class="number">3</span>、pexpire key <span class="number">5</span> <span class="comment"># 毫秒</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看存活时间"><a href="#查看存活时间" class="headerlink" title="查看存活时间"></a>查看存活时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttl key</span><br></pre></td></tr></table></figure>
+<h3 id="删除过期"><a href="#删除过期" class="headerlink" title="删除过期"></a>删除过期</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">persist key</span><br></pre></td></tr></table></figure>
+
+<h2 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h2><ol>
+<li><p>切换库</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select number</span><br></pre></td></tr></table></figure></li>
+<li><p>查看键</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys * </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>键类型</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TYPE key</span><br></pre></td></tr></table></figure></li>
+<li><p>键是否存在</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exists key</span><br></pre></td></tr></table></figure></li>
+<li><p>删除键</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> key</span><br></pre></td></tr></table></figure></li>
+<li><p>键重命名</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename key newkey</span><br></pre></td></tr></table></figure></li>
+<li><p>返回旧值并设置新值（如果键不存在，就创建并赋值）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getset key value</span><br></pre></td></tr></table></figure></li>
+<li><p>清除当前库中所有数据（慎用）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flushdb</span><br></pre></td></tr></table></figure></li>
+<li><p>清除所有库中所有数据（慎用）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flushall</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>string数据类型注意</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># key值取值原则</span></span><br><span class="line"><span class="number">1</span>、key值不宜过长，消耗内存，且在数据中查找这类键值的计算成本高</span><br><span class="line"><span class="number">2</span>、不宜过短，可读性较差</span><br><span class="line"><span class="comment"># 值</span></span><br><span class="line"><span class="number">1</span>、一个字符串类型的值最多能存储512M内容</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="列表数据类型（List）"><a href="#列表数据类型（List）" class="headerlink" title="列表数据类型（List）"></a>列表数据类型（List）</h3><h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><p>元素是字符串类型<br>列表头尾增删快，中间增删慢，增删元素是常态<br>元素可重复<br>最多可包$2^{32} -1$个元素<br>索引同python列表</p>
+<h4 id="头尾压入元素（LPUSH-RPUSH）"><a href="#头尾压入元素（LPUSH-RPUSH）" class="headerlink" title="头尾压入元素（LPUSH | RPUSH）"></a>头尾压入元素（LPUSH | RPUSH）</h4><p>​1、LPUSH key value</p>
+<p>​2、RPUSH key value</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LPUSH mylist1 <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span></span><br><span class="line">(integer) <span class="number">5</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; RPUSH mylist2 <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span></span><br><span class="line">(integer) <span class="number">5</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="查看-设置-列表元素"><a href="#查看-设置-列表元素" class="headerlink" title="查看|设置 列表元素"></a>查看|设置 列表元素</h4><p>  查看（LRANGE)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LRANGE key start stop</span><br><span class="line"><span class="comment"># 查看列表中所有元素</span></span><br><span class="line">LRANGE key <span class="number">0</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>  获取指定位置元素（LINDEX）</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LINDEX key index</span><br></pre></td></tr></table></figure>
+
+<p>  设置指定位置元素的值（LSET）</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LSET key index value</span><br></pre></td></tr></table></figure>
+
+<p>  获取列表长度（LLEN)</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LLEN key</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>头尾弹出元素（LPOP |  RPOP）</strong></p>
+<p>LPOP key : 从列表头部弹出一个元素</p>
+<p>RPOP key : 从列表尾部弹出一个元素</p>
+<p>RPOPLPUSH source destination : 从一个列表尾部弹出元素压入到另一个列表头部</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;8&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LPOP mylist1</span><br><span class="line"><span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; RPOP mylist1</span><br><span class="line"><span class="string">&quot;8&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; RPOPLPUSH mylist1 mylist2</span><br><span class="line"><span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="移除指定元素（LREM）"><a href="#移除指定元素（LREM）" class="headerlink" title="移除指定元素（LREM）"></a>移除指定元素（LREM）</h4><p>  LREM key count value</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">count&gt;<span class="number">0</span>：表示从头部开始向表尾搜索，移除与value相等的元素，数量为count</span><br><span class="line">count&lt;<span class="number">0</span>：表示从尾部开始向表头搜索，移除与value相等的元素，数量为count</span><br><span class="line">count=<span class="number">0</span>：移除表中所有与value相等的值</span><br></pre></td></tr></table></figure>
+
+<p>  示例</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LPUSH mylist1 <span class="number">3</span> <span class="number">2</span></span><br><span class="line">(integer) <span class="number">4</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LREM mylist1 <span class="number">1</span> <span class="number">2</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LREM mylist1 <span class="number">1</span> <span class="number">3</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist1 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="去除指定范围外元素（LTRIM）"><a href="#去除指定范围外元素（LTRIM）" class="headerlink" title="去除指定范围外元素（LTRIM）"></a>去除指定范围外元素（LTRIM）</h4><p>  LTRIM key start stop</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">6</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LTRIM mylist2 <span class="number">0</span> -<span class="number">2</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<p>  应用场景: 保存微博评论最后500条</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LTRIM user001::comments <span class="number">0</span> <span class="number">499</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="列表中插入值（LINSERT）"><a href="#列表中插入值（LINSERT）" class="headerlink" title="列表中插入值（LINSERT）"></a>列表中插入值（LINSERT）</h4><p>  LINSERT key BEFORE|AFTER pivot value</p>
+<p>  key和pivot不存在，不进行任何操作</p>
+<p>  示例代码</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LINSERT mylist2 after <span class="number">2</span> <span class="number">666</span></span><br><span class="line">(integer) <span class="number">6</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LINSERT mylist2 before <span class="number">4</span> <span class="number">888</span></span><br><span class="line">(integer) <span class="number">7</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LRANGE mylist2 <span class="number">0</span> -<span class="number">1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;0&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">3</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">4</span>) <span class="string">&quot;666&quot;</span></span><br><span class="line"><span class="number">5</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">6</span>) <span class="string">&quot;888&quot;</span></span><br><span class="line"><span class="number">7</span>) <span class="string">&quot;4&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="阻塞弹出（BLPOP-BRPOP）"><a href="#阻塞弹出（BLPOP-BRPOP）" class="headerlink" title="阻塞弹出（BLPOP | BRPOP）"></a>阻塞弹出（BLPOP | BRPOP）</h4><p>  BLPOP key timeout</p>
+<p>  BRPOP key timeout</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、如果弹出的列表不存在或者为空，就会阻塞</span><br><span class="line"><span class="number">2</span>、超时时间设置为<span class="number">0</span>，就是永久阻塞，直到有数据可以弹出</span><br><span class="line"><span class="number">3</span>、如果多个客户端阻塞再同一个列表上，使用First In First Service原则，先到先服务</span><br></pre></td></tr></table></figure>
+
+<p>  示例</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; BLPOP mylist2 <span class="number">0</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;mylist2&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; BLPOP mylist2 <span class="number">0</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;mylist2&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; BLPOP mylist2 <span class="number">0</span></span><br><span class="line"><span class="number">1</span>) <span class="string">&quot;mylist2&quot;</span></span><br><span class="line"><span class="number">2</span>) <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; BLPOP mylist2 <span class="number">0</span></span><br><span class="line"><span class="comment"># 阻塞了</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>列表常用命令总结</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 增</span></span><br><span class="line">LPUSH key value1 value2 </span><br><span class="line">RPUSH key value1 value2</span><br><span class="line">RPOPLPUSH source destination</span><br><span class="line">LINSERT key after|before value newvalue</span><br><span class="line"><span class="comment"># 查</span></span><br><span class="line">LRANGE key start stop</span><br><span class="line">LLEN key</span><br><span class="line"><span class="comment"># 删</span></span><br><span class="line">LPOP key</span><br><span class="line">RPOP key</span><br><span class="line">BLPOP key timeout</span><br><span class="line">BRPOP key timeout</span><br><span class="line">LREM key count value</span><br><span class="line">LTRIM key start stop</span><br><span class="line"><span class="comment"># 改</span></span><br><span class="line">LSET key index newvalue</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="与python交互"><a href="#与python交互" class="headerlink" title="与python交互"></a>与python交互</h1><ul>
+<li>模块</li>
+</ul>
+<p>Ubuntu</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install redis</span><br></pre></td></tr></table></figure>
+
+<p>Windows</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用流程</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="comment"># 创建数据库连接对象</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>,password=<span class="string">&#x27;123456&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通用命令代码示例</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库连接对象</span></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>,password=<span class="string">&#x27;123456&#x27;</span>)</span><br><span class="line"><span class="comment"># [b&#x27;key1&#x27;,b&#x27;key2&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(r.keys(<span class="string">&#x27;*&#x27;</span>))</span><br><span class="line"><span class="comment"># 键类型：string</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(<span class="string">&#x27;spider::urls&#x27;</span>))</span><br><span class="line"><span class="comment"># 是否存在：1 或者 0</span></span><br><span class="line"><span class="built_in">print</span>(r.exists(<span class="string">&#x27;spider::urls&#x27;</span>))</span><br><span class="line"><span class="comment"># 删除key：spider::urls</span></span><br><span class="line">r.delete(<span class="string">&#x27;spider::urls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>字符串命令代码示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">r.<span class="built_in">set</span>(<span class="string">&#x27;mystring&#x27;</span>,<span class="string">&#x27;python&#x27;</span>)</span><br><span class="line"><span class="comment"># b&#x27;python&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(r.get(<span class="string">&#x27;mystring&#x27;</span>))</span><br><span class="line"><span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(r.setnx(<span class="string">&#x27;mystring&#x27;</span>,<span class="string">&#x27;socket&#x27;</span>))</span><br><span class="line"><span class="comment"># mset：参数为字典</span></span><br><span class="line">r.mset(&#123;<span class="string">&#x27;mystring2&#x27;</span>:<span class="string">&#x27;mysql&#x27;</span>,<span class="string">&#x27;mystring3&#x27;</span>:<span class="string">&#x27;mongodb&#x27;</span>&#125;)</span><br><span class="line"><span class="comment"># mget：结果为一个列表</span></span><br><span class="line"><span class="built_in">print</span>(r.mget(<span class="string">&#x27;mystring&#x27;</span>,<span class="string">&#x27;mystring2&#x27;</span>,<span class="string">&#x27;mystring3&#x27;</span>))</span><br><span class="line"><span class="comment"># mystring长度：6</span></span><br><span class="line"><span class="built_in">print</span>(r.strlen(<span class="string">&#x27;mystring&#x27;</span>))</span><br><span class="line"><span class="comment"># 数字类型操作</span></span><br><span class="line">r.<span class="built_in">set</span>(<span class="string">&#x27;number&#x27;</span>,<span class="number">10</span>)</span><br><span class="line">r.incrby(<span class="string">&#x27;number&#x27;</span>,<span class="number">5</span>)</span><br><span class="line">r.decrby(<span class="string">&#x27;number&#x27;</span>,<span class="number">5</span>)</span><br><span class="line">r.incr(<span class="string">&#x27;number&#x27;</span>)</span><br><span class="line">r.decr(<span class="string">&#x27;number&#x27;</span>)</span><br><span class="line">r.incrbyfloat(<span class="string">&#x27;number&#x27;</span>,<span class="number">6.66</span>)</span><br><span class="line">r.incrbyfloat(<span class="string">&#x27;number&#x27;</span>,-<span class="number">6.66</span>)</span><br><span class="line"><span class="comment"># b&#x27;10&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(r.get(<span class="string">&#x27;number&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>python操作list</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># [&#x27;mysql&#x27;,&#x27;redis&#x27;]</span></span><br><span class="line">r.lpush(<span class="string">&#x27;pylist&#x27;</span>,<span class="string">&#x27;redis&#x27;</span>,<span class="string">&#x27;mysql&#x27;</span>)</span><br><span class="line"><span class="comment"># [&#x27;mysql&#x27;,&#x27;redis&#x27;,&#x27;django&#x27;,&#x27;spider&#x27;]</span></span><br><span class="line">r.rpush(<span class="string">&#x27;pylist&#x27;</span>,<span class="string">&#x27;django&#x27;</span>,<span class="string">&#x27;spider&#x27;</span>)</span><br><span class="line"><span class="comment"># [&#x27;mysql&#x27;,&#x27;redis&#x27;,&#x27;django&#x27;,&#x27;spider&#x27;,&#x27;AI&#x27;]</span></span><br><span class="line">r.linsert(<span class="string">&#x27;pylist&#x27;</span>,<span class="string">&#x27;after&#x27;</span>,<span class="string">&#x27;spider&#x27;</span>,<span class="string">&#x27;AI&#x27;</span>)</span><br><span class="line"><span class="comment"># 5</span></span><br><span class="line"><span class="built_in">print</span>(r.llen(<span class="string">&#x27;pylist&#x27;</span>))</span><br><span class="line"><span class="comment"># [&#x27;redis&#x27;,&#x27;django&#x27;,&#x27;spider&#x27;]</span></span><br><span class="line">r.lpop(<span class="string">&#x27;pylist&#x27;</span>)</span><br><span class="line">r.rpop(<span class="string">&#x27;pylist&#x27;</span>)</span><br><span class="line"><span class="comment"># [&#x27;redis&#x27;,&#x27;django&#x27;,&#x27;spider&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(r.lrange(<span class="string">&#x27;pylist&#x27;</span>,<span class="number">0</span>,-<span class="number">1</span>))</span><br><span class="line"><span class="comment"># [&#x27;redis&#x27;,&#x27;spider&#x27;]</span></span><br><span class="line">r.lrem(<span class="string">&#x27;pylist&#x27;</span>,<span class="number">0</span>,<span class="string">&#x27;django&#x27;</span>)</span><br><span class="line"><span class="comment"># 返回True，[&#x27;redis&#x27;]</span></span><br><span class="line">r.ltrim(<span class="string">&#x27;pylist&#x27;</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 返回True，[&#x27;spiderman&#x27;]</span></span><br><span class="line">r.lset(<span class="string">&#x27;pylist&#x27;</span>,<span class="number">0</span>,<span class="string">&#x27;spiderman&#x27;</span>)</span><br><span class="line"></span><br><span class="line">r.delete(<span class="string">&#x27;pylist&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>位图操作bitmap（重要）</strong></p>
+<p>位图不是真正的数据类型，它是定义在字符串类型中<br>一个字符串类型的值最多能存储512M字节的内容，位上限：2^32</p>
+<p><strong>强势点</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以实时的进行统计，极其节省空间。官方在模拟<span class="number">1</span>亿<span class="number">2</span>千<span class="number">8</span>百万用户的模拟环境下，在一台MacBookPro上，典型的统计如“日用户数”的时间消耗小于50ms, 占用16MB内存</span><br></pre></td></tr></table></figure>
+
+<p><strong>设置某一位上的值</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setbit key offset value</span><br><span class="line"><span class="comment"># offset是偏移量，从0开始</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认扩展位以0填充</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> mykey ab</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get mykey</span><br><span class="line"><span class="string">&quot;ab&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SETBIT mykey <span class="number">0</span> <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; get mykey</span><br><span class="line"><span class="string">&quot;\xe1b&quot;</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>获取某一位上的值</strong></p>
+<p>GETBIT key offset</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GETBIT mykey <span class="number">3</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GETBIT mykey <span class="number">0</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<p><strong>bitcount</strong></p>
+<p>统计键所对应的值中有多少个 1 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SETBIT user001 <span class="number">1</span> <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SETBIT user001 <span class="number">30</span> <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; bitcount user001</span><br><span class="line">(integer) <span class="number">2</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<p><strong>应用场景案例</strong></p>
+<p>网站用户的上线次数统计（寻找活跃用户）</p>
+<p>用户名为key，上线的天作为offset，上线设置为1</p>
+<p>示例: 用户名为 user001 的用户，今年第1天上线，第30天上线</p>
+<p>SETBIT user001 1 1 </p>
+<p>SETBIT user001 30 1</p>
+<p>BITCOUNT user001</p>
+<p><strong>代码实现</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">2</span>,password=<span class="string">&#x27;123456&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># user1，一年之中第1天和第5天登录</span></span><br><span class="line">r.setbit(<span class="string">&#x27;user001&#x27;</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">r.setbit(<span class="string">&#x27;user001&#x27;</span>,<span class="number">5</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># user2，一年之中第100天和第200天登录</span></span><br><span class="line">r.setbit(<span class="string">&#x27;user002&#x27;</span>,<span class="number">100</span>,<span class="number">1</span>)</span><br><span class="line">r.setbit(<span class="string">&#x27;user002&#x27;</span>,<span class="number">200</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># user3，一年之中好多天登录</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">365</span>,<span class="number">2</span>):</span><br><span class="line">    r.setbit(<span class="string">&#x27;user003&#x27;</span>,i,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># user4，一年之中好多天登录</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">365</span>,<span class="number">3</span>):</span><br><span class="line">    r.setbit(<span class="string">&#x27;user004&#x27;</span>,i,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">user_list = r.keys(<span class="string">&#x27;user*&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(user_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 活跃用户</span></span><br><span class="line">active_users = []</span><br><span class="line"><span class="comment"># 不活跃用户</span></span><br><span class="line">noactive_user = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> user_list:</span><br><span class="line">    <span class="comment"># 统计位图中有多少个 1</span></span><br><span class="line">    login_count = r.bitcount(user)</span><br><span class="line">    <span class="keyword">if</span> login_count &gt;= <span class="number">100</span>:</span><br><span class="line">       active_users.append((user,login_count))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      noactive_user.append((user,login_count))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印活跃用户</span></span><br><span class="line"><span class="keyword">for</span> active <span class="keyword">in</span> active_users:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;活跃用户:&#x27;</span>,active)</span><br></pre></td></tr></table></figure>
+
+<p><strong>list案例: 一个进程负责生产url，一个进程负责消费url</strong></p>
+<p>进程1: 生产者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">urls_list = [</span><br><span class="line">    <span class="string">&#x27;01_baidu.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;02_sina.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;03_taobao.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;04_tmall.com&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;05_jd.com&#x27;</span></span><br><span class="line">]</span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,db=<span class="number">0</span>,password=<span class="string">&#x27;123456&#x27;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    url = random.choice(urls_list)</span><br><span class="line">    r.lpush(<span class="string">&#x27;spider::urls&#x27;</span>,url)</span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+
+<p>进程2: 消费者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;192.168.43.49&#x27;</span>,db=<span class="number">0</span>,password=<span class="string">&#x27;123456&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 结果为元组</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        url = r.blpop(<span class="string">&#x27;spider::urls&#x27;</span>,<span class="number">3</span>)</span><br><span class="line">        <span class="built_in">print</span>(url[<span class="number">1</span>])</span><br><span class="line">        r.lrem(<span class="string">&#x27;spider::urls&#x27;</span>,count=<span class="number">0</span>,value=url[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;爬取结束&#x27;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://cdn.rencheng.cc/blog/o2xzb.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/02/redis/%E7%AE%80%E8%BF%B0/" rel="prev" title="Redis简述">
+                  <i class="fa fa-angle-left"></i> Redis简述
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/09/08/ios/general/iOS%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="next" title="iOS-持续集成">
+                  iOS-持续集成 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

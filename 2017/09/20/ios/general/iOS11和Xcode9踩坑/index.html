@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="iOS11和Xcode9踩坑">
+<meta property="og:url" content="https://rencheng.cc/2017/09/20/ios/general/iOS11%E5%92%8CXcode9%E8%B8%A9%E5%9D%91/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/jymfv.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/42o56.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/e932s.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1m23b.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/bndpq.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/06pkq.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/kmpjz.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1npzx.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/qwhqb.gif">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ceiu3.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/nbl2m.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/h9n27.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/5pu6g.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/j2ayg.png">
+<meta property="article:published_time" content="2017-09-20T06:05:25.000Z">
+<meta property="article:modified_time" content="2017-09-20T06:05:25.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/jymfv.jpg">
+
+
+<link rel="canonical" href="https://rencheng.cc/2017/09/20/ios/general/iOS11%E5%92%8CXcode9%E8%B8%A9%E5%9D%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2017/09/20/ios/general/iOS11%E5%92%8CXcode9%E8%B8%A9%E5%9D%91/","path":"2017/09/20/ios/general/iOS11和Xcode9踩坑/","title":"iOS11和Xcode9踩坑"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS11和Xcode9踩坑 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tableview"><span class="nav-number">1.</span> <span class="nav-text">tableview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#headerView-footerView"><span class="nav-number">1.1.</span> <span class="nav-text">headerView&#x2F;footerView</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2%E7%A7%8D"><span class="nav-number">1.1.2.</span> <span class="nav-text">解决方法(2种):</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BarButtonItem"><span class="nav-number">2.</span> <span class="nav-text">BarButtonItem</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%B4%9Fwidth%E5%A4%B1%E6%95%88"><span class="nav-number">2.1.</span> <span class="nav-text">设置负width失效</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">解决方法:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E4%BA%86%E6%A0%B7%E5%BC%8F%E5%90%8E%E7%82%B9%E5%87%BB%E6%A0%B7%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">设定了样式后点击样式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">2.2.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2%E7%A7%8D-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">解决方法(2种):</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ToolBar%E4%B8%8AItem%E7%82%B9%E5%87%BB%E5%A4%B1%E6%95%88"><span class="nav-number">2.3.</span> <span class="nav-text">ToolBar上Item点击失效</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">2.3.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2%E7%A7%8D-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">解决方法(2种):</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#App%E5%9B%BE%E6%A0%87%E4%B8%A2%E5%A4%B1"><span class="nav-number">3.</span> <span class="nav-text">App图标丢失</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-4"><span class="nav-number">3.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.2.</span> <span class="nav-text">解决方法:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%A4%B1%E6%95%88"><span class="nav-number">4.</span> <span class="nav-text">部分宏定义失效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-5"><span class="nav-number">4.1.</span> <span class="nav-text">问题描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">4.2.</span> <span class="nav-text">排查过程:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2"><span class="nav-number">4.3.</span> <span class="nav-text">解决方法:</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2017/09/20/ios/general/iOS11%E5%92%8CXcode9%E8%B8%A9%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS11和Xcode9踩坑 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS11和Xcode9踩坑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-09-20 14:05:25" itemprop="dateCreated datePublished" datetime="2017-09-20T14:05:25+08:00">2017-09-20</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://cdn.rencheng.cc/blog/jymfv.jpg"></p>
+<span id="more"></span>
+
+<h1 id="tableview"><a href="#tableview" class="headerlink" title="tableview"></a>tableview</h1><h2 id="headerView-footerView"><a href="#headerView-footerView" class="headerlink" title="headerView/footerView"></a>headerView/footerView</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述:"></a>问题描述:</h3><p>只实现<code>tableView:heightForFooterInSection:</code>或<code>tableView:heightForHeaderInSection:</code>方法返回section的header/footer高度时header/footer会使用默认值，如下图，只返回了footer的高度，没有返回footer的对象。<br><img src="https://cdn.rencheng.cc/blog/42o56.jpg"></p>
+<h3 id="解决方法-2种"><a href="#解决方法-2种" class="headerlink" title="解决方法(2种):"></a>解决方法(2种):</h3><ul>
+<li>需要控制header/footer的高度还需要实现<br>tableView:viewForHeaderInSection:或tableView:viewForFooterInSection:方法。如图，即使是返回nil也会使高度设置生效<br>  <img src="https://cdn.rencheng.cc/blog/e932s.jpg"></li>
+<li>通过将tableview新增的estimatedSectionHeaderHeight和estimatedSectionFooterHeight属性设置为0，如下图<br><img src="https://cdn.rencheng.cc/blog/1m23b.png"></li>
+</ul>
+<h1 id="BarButtonItem"><a href="#BarButtonItem" class="headerlink" title="BarButtonItem"></a>BarButtonItem</h1><h2 id="设置负width失效"><a href="#设置负width失效" class="headerlink" title="设置负width失效"></a>设置负width失效</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述:"></a>问题描述:</h3><p>像往常一样，创建了两个barButtonItem，一个作为按钮，一个作为调整宽度的，将width设置为了-10，但是Xcode9编译运行后，并不是想要的按钮的位置向右缩减了10，如图:<br><img src="https://cdn.rencheng.cc/blog/bndpq.png"><br>但是在设置其width&gt;0是会生效的</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法:"></a>解决方法:</h3><p>创建一个UIButton并设置其title/imageEdgeInsets，然后通过customView创建UIBarButtonItem。<br><img src="https://cdn.rencheng.cc/blog/06pkq.png"></p>
+<h2 id="设定了样式后点击样式"><a href="#设定了样式后点击样式" class="headerlink" title="设定了样式后点击样式"></a>设定了样式后点击样式</h2><h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述:"></a>问题描述:</h3><p>在Xcode9之前，通过<code>-setTitleTextAttributes:forState:</code>方式设定UIBarButtonItem的样式，只需要设定<code>UIControlStateNormal</code>的时候即可同时让其他状态也会使用相同的样式，而Xcode9只会设置Normal的样式，在按下高亮时还是默认的样式。<br><img src="https://cdn.rencheng.cc/blog/kmpjz.gif"></p>
+<h3 id="解决方法-2种-1"><a href="#解决方法-2种-1" class="headerlink" title="解决方法(2种):"></a>解决方法(2种):</h3><ul>
+<li>同样给<code>UIControlStateHighlighted</code>状态设定一下样式。<br>  <img src="https://cdn.rencheng.cc/blog/1npzx.gif"></li>
+<li>或者将UIBarButtonItem使用UIButton作为customView创建，UIButton没有出现这个问题。<br>  <img src="https://cdn.rencheng.cc/blog/qwhqb.gif"></li>
+</ul>
+<h2 id="ToolBar上Item点击失效"><a href="#ToolBar上Item点击失效" class="headerlink" title="ToolBar上Item点击失效"></a>ToolBar上Item点击失效</h2><h3 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述:"></a>问题描述:</h3><ol>
+<li>创建一个全屏的半透明View并在这个View上放置一个tapGesture</li>
+<li>创建一个toolBar放在这个View上</li>
+<li>通过<code>-initWithTitle:target:action:</code>方法创建一个UIBarButtonItem放置在toolbar上</li>
+<li>点击这个UIBarButtonItem，发现其有高亮状态但是点击被tapGesture响应<br> 问题仅在<code>Xcode9+iOS11</code>上出现。<code>Xcode8+iOS11</code>或<code>Xcode9+iOS10</code>无法复现，大致样式如下图<br> <img src="https://cdn.rencheng.cc/blog/ceiu3.png"></li>
+</ol>
+<h3 id="解决方法-2种-2"><a href="#解决方法-2种-2" class="headerlink" title="解决方法(2种):"></a>解决方法(2种):</h3><p>个人更倾向于第二种</p>
+<ul>
+<li>再创建一个View放置在上半截位置上，然后将tapGesture添加给这个只有半截的View上</li>
+<li>将UIBarButtonItem的初始化方法改为通过customView初始化，使用UIButton作为customView</li>
+</ul>
+<h1 id="App图标丢失"><a href="#App图标丢失" class="headerlink" title="App图标丢失"></a>App图标丢失</h1><h2 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述:"></a>问题描述:</h2><p>使用Xcode9+CocoaPods的工程在编译运行后，会出现AppIcon丢失的问题</p>
+<h2 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法:"></a>解决方法:</h2><p>参考<a target="_blank" rel="noopener" href="https://github.com/CocoaPods/CocoaPods/issues/7003">CocoaPods-Issue7003</a>的方法，但是issues里建议的脚本在我这边运行会报错找不到：<br><img src="https://cdn.rencheng.cc/blog/nbl2m.png"><br>后通过翻查<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/syntax/podfile.html#post_install">Podfile-syntax</a>以及<a target="_blank" rel="noopener" href="http://www.rubydoc.info/gems/cocoapods/Pod/AggregateTarget">ruby-pod-AggregateTarget</a>找到其属性client_root可以获取项目路径，最终结合Issue7003里的脚本，插入到Podfile中，执行pod install后，即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">post_install do |installer|</span><br><span class="line">    installer.aggregate_targets.each do |target|</span><br><span class="line">        copy_pods_resources_path = &quot;#&#123;target.client_root&#125;/Pods/Target Support Files/#&#123;target.name&#125;/#&#123;target.name&#125;-resources.sh&quot;</span><br><span class="line">        string_to_replace = &#x27;--compile &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;&quot;&#x27;</span><br><span class="line">        assets_compile_with_app_icon_arguments = &#x27;--compile &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;&quot; --app-icon &quot;$&#123;ASSETCATALOG_COMPILER_</span><br><span class="line">APPICON_NAME&#125;&quot; --output-partial-info-plist &quot;$&#123;BUILD_DIR&#125;/assetcatalog_generated_info.plist&quot;&#x27;</span><br><span class="line">        text = File.read(copy_pods_resources_path)</span><br><span class="line">        new_contents = text.gsub(string_to_replace, assets_compile_with_app_icon_arguments)</span><br><span class="line">        File.open(copy_pods_resources_path, &quot;w&quot;) &#123;|file| file.puts new_contents &#125;</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h1 id="部分宏定义失效"><a href="#部分宏定义失效" class="headerlink" title="部分宏定义失效"></a>部分宏定义失效</h1><h2 id="问题描述-5"><a href="#问题描述-5" class="headerlink" title="问题描述:"></a>问题描述:</h2><p>我们使用的一个库中<code>check_compile_time()</code>报错，如下图:<br><img src="https://cdn.rencheng.cc/blog/h9n27.png"></p>
+<h2 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程:"></a>排查过程:</h2><p>但是使用Xcode9无法跳转其定义，使用Xcode8跳转后发现其实际是<code>__Check_Compile_Time()</code>，如下图:<br><img src="https://cdn.rencheng.cc/blog/5pu6g.png"><br>然后再回到Xcode9改为了__Check_Compile_Time()后点击跳转定义文件里发现，提示一些原来的宏被更改名称为__开头了:<br><img src="https://cdn.rencheng.cc/blog/j2ayg.png"></p>
+<h2 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法:"></a>解决方法:</h2><p>将上图中提示的相关的宏定义替换成新的即可</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/09/14/ios/general/iOS-Xcode%E7%9B%B8%E5%85%B3%E8%84%9A%E6%9C%AC/" rel="prev" title="iOS-Xcode相关脚本">
+                  <i class="fa fa-angle-left"></i> iOS-Xcode相关脚本
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/11/docker/Docker%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" rel="next" title="Docker问题解决">
+                  Docker问题解决 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

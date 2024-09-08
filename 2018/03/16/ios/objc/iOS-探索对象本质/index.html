@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="如果想探究OC对象的本质，所以我们需要了解OC这门语言；然后我们也要熟悉研究东西怎么切入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-探索对象本质">
+<meta property="og:url" content="https://rencheng.cc/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="如果想探究OC对象的本质，所以我们需要了解OC这门语言；然后我们也要熟悉研究东西怎么切入">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-16T06:22:35.000Z">
+<meta property="article:modified_time" content="2018-03-16T06:22:35.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objc">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/","path":"2018/03/16/ios/objc/iOS-探索对象本质/","title":"iOS-探索对象本质"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS-探索对象本质 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OC%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="nav-number">1.</span> <span class="nav-text">OC的本质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86Objective-C%E4%BB%A3%E7%A0%81%E8%BD%AC%E6%8D%A2%E4%B8%BAC-C-%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">将Objective-C代码转换为C\C++代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AANSObject%E5%AF%B9%E8%B1%A1%E5%8D%A0%E7%94%A8%E5%AF%B9%E5%B0%91%E4%B8%AA%E5%AD%97%E8%8A%82"><span class="nav-number">1.2.</span> <span class="nav-text">一个NSObject对象占用对少个字节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%AF%B9%E8%B1%A1%E5%8D%A0%E7%94%A8%E7%A9%BA%E9%97%B4"><span class="nav-number">1.3.</span> <span class="nav-text">如何查看对象占用空间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90"><span class="nav-number">2.</span> <span class="nav-text">内存对齐</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/03/16/ios/objc/iOS-%E6%8E%A2%E7%B4%A2%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%B4%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS-探索对象本质 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS-探索对象本质
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-16 14:22:35" itemprop="dateCreated datePublished" datetime="2018-03-16T14:22:35+08:00">2018-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>如果想探究OC对象的本质，所以我们需要了解OC这门语言；然后我们也要熟悉研究东西怎么切入</p>
+<span id="more"></span>
+
+<h2 id="OC的本质"><a href="#OC的本质" class="headerlink" title="OC的本质"></a>OC的本质</h2><p><strong>我们平时编写的OC代码，底层实现其实都是C\C++代码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OC -&gt; C\C++ -&gt; 汇编语言 -&gt; 机器语言</span><br></pre></td></tr></table></figure>
+<p>OC的面向对象都是基于C\C++的数据结构实现的</p>
+<h3 id="将Objective-C代码转换为C-C-代码"><a href="#将Objective-C代码转换为C-C-代码" class="headerlink" title="将Objective-C代码转换为C\C++代码"></a>将Objective-C代码转换为C\C++代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun -sdk iphoneos clang -<span class="built_in">arch</span> arm64 -rewrite-objc OC源文件 -o 输出的CPP文件</span><br></pre></td></tr></table></figure>
+<p>如果涉及ARC，需要增加参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun -sdk iphoneos clang -<span class="built_in">arch</span> arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-8.0.0 OC源文件 -o 输出的CPP文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="一个NSObject对象占用对少个字节"><a href="#一个NSObject对象占用对少个字节" class="headerlink" title="一个NSObject对象占用对少个字节"></a>一个NSObject对象占用对少个字节</h3><ul>
+<li>系统分配了16个字节给NSObject对象（通过malloc_size函数获得）</li>
+<li>但NSObject对象内部只使用了8个字节的空间（64bit环境下，可以通过class_getInstanceSize函数获得）</li>
+</ul>
+<blockquote>
+<p>参考 <a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/">objc开放源码</a></p>
+</blockquote>
+<h3 id="如何查看对象占用空间"><a href="#如何查看对象占用空间" class="headerlink" title="如何查看对象占用空间"></a>如何查看对象占用空间</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&lt;objc/runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;malloc/malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NSObject</span> *object = [[<span class="built_in">NSObject</span> alloc] init];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%ld&quot;</span>, class_getInstanceSize([<span class="built_in">NSObject</span> <span class="keyword">class</span>])); <span class="comment">// 输出8 - 对象真实占用的地址(内存对齐后)</span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%ld&quot;</span>, malloc_size((__bridge <span class="keyword">const</span> <span class="type">void</span> *)object));<span class="comment">// 输出16 - 系统真正为该对象分配的空间</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>OC对象最小分配的空间是 16</p>
+</blockquote>
+<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>为了提高内存的访问效率，争取在一个总线周期就把数据读取到。</p>
+<p>在iOS中，<code>CoreFoundation</code>限制了对象最小占用的空间大小。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="type">size_t</span> <span class="title function_">instanceSize</span><span class="params">(<span class="type">size_t</span> extraBytes)</span> <span class="type">const</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (fastpath(cache.hasFastInstanceSize(extraBytes))) &#123;</span><br><span class="line">        <span class="keyword">return</span> cache.fastInstanceSize(extraBytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">size_t</span> size = alignedInstanceSize() + extraBytes;</span><br><span class="line">    <span class="comment">// CF requires all objects be at least 16 bytes.</span></span><br><span class="line">    <span class="keyword">if</span> (size &lt; <span class="number">16</span>) size = <span class="number">16</span>;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>限制了对齐要求<code>8字节</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> WORD_MASK 7UL</span></span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">uint32_t</span> <span class="title function_">word_align</span><span class="params">(<span class="type">uint32_t</span> x)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (x + WORD_MASK) &amp; ~WORD_MASK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是在<code>malloc</code>方法中，又限制了<code>16字节</code>对齐</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MALLOC_ALIGNMENT (2 * SIZE_SZ &lt; __alignof__ (long double) \</span></span><br><span class="line"><span class="meta">			  ? __alignof__ (long double) : 2 * SIZE_SZ)</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/Objc/" rel="tag"># Objc</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/02/markdown/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" rel="prev" title="markdown-数学公式">
+                  <i class="fa fa-angle-left"></i> markdown-数学公式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/06/ios/general/TypeEncodings/" rel="next" title="Type Encodings">
+                  Type Encodings <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

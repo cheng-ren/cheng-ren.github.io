@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="项目中有一个需求：给定一个NSData *类型的数据，从中解析出文件类型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取文件后缀">
+<meta property="og:url" content="https://rencheng.cc/2020/02/12/ios/general/%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="项目中有一个需求：给定一个NSData *类型的数据，从中解析出文件类型。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-12T11:18:49.000Z">
+<meta property="article:modified_time" content="2020-02-12T11:18:49.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/02/12/ios/general/%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/02/12/ios/general/%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80/","path":"2020/02/12/ios/general/获取文件后缀/","title":"获取文件后缀"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>获取文件后缀 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%90%8E%E7%BC%80%E5%88%A4%E6%96%AD"><span class="nav-number">1.</span> <span class="nav-text">图片后缀判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%88%A4%E6%96%AD"><span class="nav-number">2.</span> <span class="nav-text">文件后缀判断</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/02/12/ios/general/%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="获取文件后缀 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          获取文件后缀
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-12 19:18:49" itemprop="dateCreated datePublished" datetime="2020-02-12T19:18:49+08:00">2020-02-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>项目中有一个需求：<br>给定一个<code>NSData *</code>类型的数据，从中解析出文件类型。</p>
+<span id="more"></span>
+
+<h2 id="图片后缀判断"><a href="#图片后缀判断" class="headerlink" title="图片后缀判断"></a>图片后缀判断</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NSInteger</span> ImageFormat <span class="built_in">NS_TYPED_EXTENSIBLE_ENUM</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatUndefined = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatJPEG      = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatPNG       = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatGIF       = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatTIFF      = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatWebP      = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatHEIC      = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> ImageFormat ImageFormatHEIF      = <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">+ (ImageFormat)imageFormatForImageData:(<span class="keyword">nullable</span> <span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="keyword">if</span> (!data) &#123;</span><br><span class="line">        <span class="keyword">return</span> ImageFormatUndefined;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// File signatures table: http://www.garykessler.net/library/file_sigs.html</span></span><br><span class="line">    uint8_t c;</span><br><span class="line">    [data getBytes:&amp;c length:<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">switch</span> (c) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0xFF</span>:</span><br><span class="line">            <span class="keyword">return</span> ImageFormatJPEG;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x89</span>:</span><br><span class="line">            <span class="keyword">return</span> ImageFormatPNG;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x47</span>:</span><br><span class="line">            <span class="keyword">return</span> ImageFormatGIF;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x49</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x4D</span>:</span><br><span class="line">            <span class="keyword">return</span> ImageFormatTIFF;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x52</span>: &#123;</span><br><span class="line">            <span class="keyword">if</span> (data.length &gt;= <span class="number">12</span>) &#123;</span><br><span class="line">                <span class="comment">//RIFF....WEBP</span></span><br><span class="line">                <span class="built_in">NSString</span> *testString = [[<span class="built_in">NSString</span> alloc] initWithData:[data subdataWithRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">12</span>)] encoding:<span class="built_in">NSASCIIStringEncoding</span>];</span><br><span class="line">                <span class="keyword">if</span> ([testString hasPrefix:<span class="string">@&quot;RIFF&quot;</span>] &amp;&amp; [testString hasSuffix:<span class="string">@&quot;WEBP&quot;</span>]) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ImageFormatWebP;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0x00</span>: &#123;</span><br><span class="line">            <span class="keyword">if</span> (data.length &gt;= <span class="number">12</span>) &#123;</span><br><span class="line">                <span class="comment">//....ftypheic ....ftypheix ....ftyphevc ....ftyphevx</span></span><br><span class="line">                <span class="built_in">NSString</span> *testString = [[<span class="built_in">NSString</span> alloc] initWithData:[data subdataWithRange:<span class="built_in">NSMakeRange</span>(<span class="number">4</span>, <span class="number">8</span>)] encoding:<span class="built_in">NSASCIIStringEncoding</span>];</span><br><span class="line">                <span class="keyword">if</span> ([testString isEqualToString:<span class="string">@&quot;ftypheic&quot;</span>]</span><br><span class="line">                    || [testString isEqualToString:<span class="string">@&quot;ftypheix&quot;</span>]</span><br><span class="line">                    || [testString isEqualToString:<span class="string">@&quot;ftyphevc&quot;</span>]</span><br><span class="line">                    || [testString isEqualToString:<span class="string">@&quot;ftyphevx&quot;</span>]) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ImageFormatHEIC;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//....ftypmif1 ....ftypmsf1</span></span><br><span class="line">                <span class="keyword">if</span> ([testString isEqualToString:<span class="string">@&quot;ftypmif1&quot;</span>] || [testString isEqualToString:<span class="string">@&quot;ftypmsf1&quot;</span>]) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ImageFormatHEIF;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ImageFormatUndefined;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件后缀判断"><a href="#文件后缀判断" class="headerlink" title="文件后缀判断"></a>文件后缀判断</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)getFileExtension &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *path = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@&quot;2019工资单 (1)&quot;</span> ofType:<span class="string">@&quot;docx&quot;</span>];</span><br><span class="line">    <span class="built_in">NSData</span> *data = [<span class="built_in">NSData</span> dataWithContentsOfFile:path];</span><br><span class="line">    <span class="built_in">NSString</span> *extension = [<span class="keyword">self</span> contentTypeForImageData:data];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, extension);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)contentTypeForImageData:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">NSInteger</span> maxLength = <span class="number">28</span>;</span><br><span class="line">    Byte headBytes[maxLength];</span><br><span class="line">    [data getBytes:headBytes length:maxLength];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *headStr = [<span class="keyword">self</span> hexStringFromByte:headBytes];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSDictionary</span> *dict = [<span class="keyword">self</span> dict];</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *key <span class="keyword">in</span> dict) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([headStr hasPrefix:[key uppercaseString]]) &#123;</span><br><span class="line">            <span class="keyword">return</span> dict[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">@&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)hexStringFromByte:(Byte *)byta &#123;</span><br><span class="line">    <span class="comment">// 转16进制</span></span><br><span class="line">    <span class="built_in">NSString</span> *hexStr = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">28</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> *newHexStr = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%x&quot;</span>,byta[i]&amp;<span class="number">0xff</span>];<span class="comment">///16进制数</span></span><br><span class="line">        <span class="keyword">if</span>([newHexStr length]==<span class="number">1</span>)</span><br><span class="line">            hexStr = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@0%@&quot;</span>,hexStr,newHexStr];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            hexStr = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@%@&quot;</span>,hexStr,newHexStr];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [hexStr uppercaseString];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSDictionary</span> *)dict &#123;</span><br><span class="line">    <span class="keyword">return</span> @&#123;</span><br><span class="line">        <span class="string">@&quot;FFD8FF&quot;</span> : <span class="string">@&quot;JPEG&quot;</span> ,</span><br><span class="line">        <span class="string">@&quot;89504E47&quot;</span> : <span class="string">@&quot;PNG&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;47494638&quot;</span> : <span class="string">@&quot;GIF&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;49492A00&quot;</span> : <span class="string">@&quot;TIFF&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;424D&quot;</span> : <span class="string">@&quot;BMP&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;41433130&quot;</span> : <span class="string">@&quot;DWG&quot;</span>, <span class="comment">// CAD</span></span><br><span class="line">        <span class="string">@&quot;38425053&quot;</span> : <span class="string">@&quot;PSD&quot;</span>, <span class="comment">// Adobe Photoshop</span></span><br><span class="line">        <span class="string">@&quot;7B5C727466&quot;</span> : <span class="string">@&quot;RTF&quot;</span>, <span class="comment">// Rich Text Format</span></span><br><span class="line">        <span class="string">@&quot;3C3F786D6C&quot;</span> : <span class="string">@&quot;XML&quot;</span>, <span class="comment">// XML</span></span><br><span class="line">        <span class="string">@&quot;68746D6C3E&quot;</span> : <span class="string">@&quot;HTML&quot;</span>, <span class="comment">// HTML</span></span><br><span class="line">        <span class="string">@&quot;48544D4C207B0D0A0942&quot;</span> : <span class="string">@&quot;CSS&quot;</span>, <span class="comment">// CSS</span></span><br><span class="line">        <span class="string">@&quot;696B2E71623D696B2E71&quot;</span> : <span class="string">@&quot;JS&quot;</span>, <span class="comment">// JS</span></span><br><span class="line">        <span class="string">@&quot;44656C69766572792D646174653A&quot;</span> : <span class="string">@&quot;EML&quot;</span>, <span class="comment">//Email [thorough only].</span></span><br><span class="line">        <span class="string">@&quot;CFAD12FEC5FD746F&quot;</span> : <span class="string">@&quot;DBX&quot;</span>, <span class="comment">// Outlook Express.</span></span><br><span class="line">        <span class="string">@&quot;2142444E&quot;</span> : <span class="string">@&quot;PST&quot;</span>, <span class="comment">// Outlook (pst).</span></span><br><span class="line">        <span class="string">@&quot;D0CF11E0&quot;</span> : <span class="string">@&quot;XLS_DOC&quot;</span>, <span class="comment">// MS Word/Excel</span></span><br><span class="line">        <span class="string">@&quot;504B0304&quot;</span> : <span class="string">@&quot;XLSX_DOCX&quot;</span>, <span class="comment">// MS Word/Excel</span></span><br><span class="line">        <span class="string">@&quot;255044462D&quot;</span> : <span class="string">@&quot;PDF&quot;</span>, <span class="comment">// PDF</span></span><br><span class="line">        <span class="string">@&quot;5374616E64617264204A&quot;</span> : <span class="string">@&quot;MDB&quot;</span>, <span class="comment">// MS Access.</span></span><br><span class="line">        <span class="string">@&quot;d0cf11e0a1b11ae10000&quot;</span> : <span class="string">@&quot;WPS&quot;</span>, <span class="comment">// WPS文字wps、表格et、演示dps都是一样的</span></span><br><span class="line">        <span class="string">@&quot;504B0304&quot;</span> : <span class="string">@&quot;ZIP&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;52617221&quot;</span> : <span class="string">@&quot;RAR&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;4D5A9000030000000400&quot;</span> : <span class="string">@&quot;EXE&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;57415645&quot;</span> : <span class="string">@&quot;WAV&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;41564920&quot;</span> : <span class="string">@&quot;AVI&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;000001BA&quot;</span> : <span class="string">@&quot;MPG&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;6D6F6F76&quot;</span> : <span class="string">@&quot;MOV&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;00000020667479706d70&quot;</span> : <span class="string">@&quot;MP4&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;49443303000000002176&quot;</span> : <span class="string">@&quot;MP3&quot;</span>,</span><br><span class="line">        <span class="string">@&quot;464C5601050000000900&quot;</span> : <span class="string">@&quot;FLV&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/11/flutter/Flutter%E5%8A%A8%E7%94%BB/" rel="prev" title="Flutter - 动画Animation开发指南">
+                  <i class="fa fa-angle-left"></i> Flutter - 动画Animation开发指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/14/ios/general/%E6%8F%90%E5%AE%A1%E8%A2%AB%E6%8B%92%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="提审被拒解决方案">
+                  提审被拒解决方案 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

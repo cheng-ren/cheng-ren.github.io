@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="记录一下Wireshark使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wireshark抓包">
+<meta property="og:url" content="https://rencheng.cc/2022/01/11/network/Wireshark%E6%8A%93%E5%8C%85/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="记录一下Wireshark使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/84byj.png">
+<meta property="article:published_time" content="2022-01-11T12:11:58.000Z">
+<meta property="article:modified_time" content="2022-01-11T12:11:58.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="抓包">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/84byj.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2022/01/11/network/Wireshark%E6%8A%93%E5%8C%85/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2022/01/11/network/Wireshark%E6%8A%93%E5%8C%85/","path":"2022/01/11/network/Wireshark抓包/","title":"Wireshark抓包"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Wireshark抓包 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">捕获过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">表达式语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">显示过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">表达式语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7HTTPS%E6%95%B0%E6%8D%AE%EF%BC%88MacOS%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">捕获HTTPS数据（MacOS）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2022/01/11/network/Wireshark%E6%8A%93%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Wireshark抓包 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Wireshark抓包
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-11 20:11:58" itemprop="dateCreated datePublished" datetime="2022-01-11T20:11:58+08:00">2022-01-11</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>记录一下<code>Wireshark</code>使用</p>
+<span id="more"></span>
+
+<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><h3 id="捕获过滤器"><a href="#捕获过滤器" class="headerlink" title="捕获过滤器"></a>捕获过滤器</h3><p>捕获过滤器表达式作用在wireshark开始捕获数据包之前，只捕获符合条件的数据包</p>
+<h4 id="表达式语法"><a href="#表达式语法" class="headerlink" title="表达式语法"></a>表达式语法</h4><table>
+<thead>
+<tr>
+<th align="left">协议列表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">tcp</td>
+</tr>
+<tr>
+<td align="left">udp</td>
+</tr>
+<tr>
+<td align="left">arp</td>
+</tr>
+<tr>
+<td align="left">tcp</td>
+</tr>
+<tr>
+<td align="left">ip</td>
+</tr>
+<tr>
+<td align="left">ip6</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">逻辑关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">or</td>
+</tr>
+<tr>
+<td align="left">and</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">取反关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">no</td>
+</tr>
+</tbody></table>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><ol>
+<li><p>协议是<code>tcp</code>并且端口号是<code>443</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tcp port 443</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">tcp port https</span><br></pre></td></tr></table></figure></li>
+<li><p>协议是<code>tcp</code>并且端口号<strong>不是</strong><code>443</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp and not port 443</span><br></pre></td></tr></table></figure></li>
+<li><p>域名是<code>baidu.com</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">host baidu.com</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">host 220.181.38.148</span><br></pre></td></tr></table></figure></li>
+<li><p>网卡的mac地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether host 00:00:5e:00:53:10</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="显示过滤器"><a href="#显示过滤器" class="headerlink" title="显示过滤器"></a>显示过滤器</h3><p>显示过滤器表达式作用在在wireshark捕获数据包之后，从已捕获的所有数据包中显示出符合条件的数据包，隐藏不符合条件的数据包。</p>
+<h4 id="表达式语法-1"><a href="#表达式语法-1" class="headerlink" title="表达式语法"></a>表达式语法</h4><table>
+<thead>
+<tr>
+<th align="left">逻辑关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">||</td>
+</tr>
+<tr>
+<td align="left">&amp;&amp;</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">取反关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">!</td>
+</tr>
+</tbody></table>
+<h4 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h4><ol>
+<li>IP地址是<code>106.152.175.199</code>并且端口号是<code>56147</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip.addr == 106.152.175.199 &amp;&amp; tcp.port == 56147</span><br></pre></td></tr></table></figure></li>
+<li>IP地址是<code>106.152.175.199</code>并且端口号<strong>不是</strong><code>56147</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip.addr == 106.152.175.199 &amp;&amp; tcp.port != 56147</span><br></pre></td></tr></table></figure></li>
+<li>目标IP地址是<code>106.152.175.199</code>并且源IP地址是<code>16.52.175.199</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip.dst == 106.52.175.199 &amp;&amp; ip.src == 16.52.175.199</span><br></pre></td></tr></table></figure></li>
+<li>url中包含.js的http数据包<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.uri contains <span class="string">&quot;.js&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>内容包含username的http数据包<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains <span class="string">&quot;username&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="捕获HTTPS数据（MacOS）"><a href="#捕获HTTPS数据（MacOS）" class="headerlink" title="捕获HTTPS数据（MacOS）"></a>捕获HTTPS数据（MacOS）</h2><ol>
+<li>命令行启动谷歌浏览器，并指定<code>ssl-key-log-file=/tmp/.ssl-key.log</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/tmp/chrome --ssl-key-log-file=/tmp/.ssl-key.log</span><br></pre></td></tr></table></figure></li>
+<li>配置Wireshark，依次打开<code>首选项</code>-&gt;<code>protocol</code>-&gt;<code>TLS</code></li>
+<li>在输入框内输入<code>/tmp/.ssl-key.log</code><br><img src="https://cdn.rencheng.cc/blog/84byj.png"></li>
+<li>在新开启的浏览器窗口，访问要抓取的内容</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+              <a href="/tags/%E6%8A%93%E5%8C%85/" rel="tag"># 抓包</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/03/ios/general/2022%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/" rel="prev" title="2022面试题整理">
+                  <i class="fa fa-angle-left"></i> 2022面试题整理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/13/network/HTTP/" rel="next" title="HTTP">
+                  HTTP <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

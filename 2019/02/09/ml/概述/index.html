@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="机器学习是一门能够让编程计算机从数据中学习的计算机科学。一个计算机程序在完成任务T之后，获得经验E，其表现效果为P，如果随着任务的增加，其表征经验的效果也能随之增加，即P与T成正增长关系，这样的系统就是一个机器学习系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-概述">
+<meta property="og:url" content="https://rencheng.cc/2019/02/09/ml/%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="机器学习是一门能够让编程计算机从数据中学习的计算机科学。一个计算机程序在完成任务T之后，获得经验E，其表现效果为P，如果随着任务的增加，其表征经验的效果也能随之增加，即P与T成正增长关系，这样的系统就是一个机器学习系统。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-09T06:21:13.000Z">
+<meta property="article:modified_time" content="2019-02-09T06:21:13.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="AI进阶">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/02/09/ml/%E6%A6%82%E8%BF%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/02/09/ml/%E6%A6%82%E8%BF%B0/","path":"2019/02/09/ml/概述/","title":"机器学习-概述"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习-概述 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">什么是机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.</span> <span class="nav-text">为什么需要机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">机器学习的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">机器学习的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">机器学习的基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">机器学习的典型应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">机器学习的基本问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/02/09/ml/%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习-概述 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习-概述
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-09 14:21:13" itemprop="dateCreated datePublished" datetime="2019-02-09T14:21:13+08:00">2019-02-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>机器学习是一门能够让编程计算机从数据中学习的计算机科学。<br>一个计算机程序在完成任务T之后，获得经验E，其表现效果为P，如果随着任务的增加，其表征经验的效果也能随之增加，即P与T成正增长关系，这样的系统就是一个机器学习系统。</p>
+<span id="more"></span>
+
+<h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习"></a>什么是机器学习</h2><p>机器学习是一门能够让编程计算机从数据中学习的计算机科学。<br>一个计算机程序在完成任务T之后，获得经验E，其表现效果为P，如果随着任务的增加，其表征经验的效果也能随之增加，即P与T成正增长关系，这样的系统就是一个机器学习系统。</p>
+<blockquote>
+<p>人工智能，智能手机也算智能，通过编写逻辑智能就可以称之为人工智能<br>机器学习，是从现有流程中学习经验<br>深度学习，由神经网络算法构建的机器学习模型</p>
+</blockquote>
+<h2 id="为什么需要机器学习"><a href="#为什么需要机器学习" class="headerlink" title="为什么需要机器学习"></a>为什么需要机器学习</h2><ol>
+<li>有助于提高系统的可维护性和可扩展性</li>
+<li>用于解决算法非常复杂或没有算法的问题<br>经验主义</li>
+<li>规则发现，算法自动生成，获得对业务的洞见</li>
+</ol>
+<h2 id="机器学习的问题"><a href="#机器学习的问题" class="headerlink" title="机器学习的问题"></a>机器学习的问题</h2><ol>
+<li>建模问题<br>所谓机器学习，在形式上可这样理解：在数据对象中通过统计或推理的方法，寻找一个接受特定输入X，并给出预期输出Y的功能函数f，即Y=f(X)。</li>
+<li>评估问题<br>针对已知的输入，函数给出的输出(预测值)与实际输出(目标值)之间存在一定的误差，因此需要构建一个评估体系，根据误差的大小判定函数的优劣。</li>
+<li>优化问题<br>学习的核心在于改善性能，通过数据对算法的反复锤炼，不断提升函数预测的准确性，直至获得能够满足实际需求的最优解，这个过程就是机器学习。</li>
+</ol>
+<h2 id="机器学习的类型"><a href="#机器学习的类型" class="headerlink" title="机器学习的类型"></a>机器学习的类型</h2><p><strong>按照学习方式划分：</strong>有监督学习、无监督学习、半监督学习、强化学习</p>
+<ul>
+<li><strong>有监督学习</strong>：用已知输出评估模型的性能；考试选择题：给出标准答案</li>
+<li><strong>无监督学习</strong>：在没有已知输出的情况下，仅仅根据输入信息的相关性，进行类别的划分；考试写作文：没有标准答案</li>
+<li><strong>半监督学习</strong>：先通过无监督学习划分类别，再根据人工标记通过有监督学习预测输出。</li>
+<li><strong>强化学习</strong>：通过对不同决策结果的奖励和惩罚，使机器学习系统在经过足够长时间的训练以后，越来越倾向于给出接近期望结果的输出。类似于小孩，做对了，会得到夸奖，做错了，会得到惩罚。</li>
+</ul>
+<p><strong>按照学习过程划分：</strong>批量学习、增量学习</p>
+<ul>
+<li><strong>批量学习</strong>：将学习的过程和应用的过程截然分开，用全部的训练数据训练模型，然后再在应用场景中实现预测，当预测结果不够理想时，重新回到学习过程，如此循环。</li>
+<li><strong>增量学习</strong>：将学习的过程和应用的过程统一起来，在应用的同时以增量的方式，不断学习新的内容，边训练边预测。</li>
+</ul>
+<p><strong>按照学习策略划分：</strong>基于实例的学习，基于模型的学习</p>
+<ul>
+<li><p><strong>实例学习</strong>：根据以往的经验，寻找与待预测输入最接近的样本，以其输出作为预测结果。</p>
+<table>
+<thead>
+<tr>
+<th>年龄</th>
+<th>学历</th>
+<th>经验</th>
+<th>性别</th>
+<th>月薪</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>25</td>
+<td>硕士</td>
+<td>2</td>
+<td>女</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>本科</td>
+<td>3</td>
+<td></td>
+<td>8000</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>20</td>
+<td>本科</td>
+<td>3</td>
+<td>男</td>
+<td>？</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>模型学习</strong>：根据以往的经验，建立用于联系输出和输入的某种数学模型，将待预测输入代入该模型，预测其结果。</p>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>2x</td>
+<td>=Y</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>9?</td>
+<td>18</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="机器学习的基本流程"><a href="#机器学习的基本流程" class="headerlink" title="机器学习的基本流程"></a>机器学习的基本流程</h2><pre class="mermaid">graph LR
+A[数据收集] --> B[数据清洗]
+B --> C[数据预处理]
+C --> D[选择模型]
+D --> E[训练模型]
+E --> F[验证模型]
+F --> G[使用模型]
+G --> H[维护模型]</pre>
+
+<p><strong>数据处理</strong></p>
+<ol>
+<li>数据收集 （数据检索、数据挖掘、爬虫）</li>
+<li>数据清洗</li>
+</ol>
+<p><strong>机器学习</strong></p>
+<ol>
+<li>选择模型 （算法）</li>
+<li>训练模型 （算法）</li>
+<li>评估模型 （工具、框架、算法知识）</li>
+<li>测试模型</li>
+</ol>
+<p><strong>业务运维</strong></p>
+<ol>
+<li>应用模型</li>
+<li>维护模型</li>
+</ol>
+<h2 id="机器学习的典型应用"><a href="#机器学习的典型应用" class="headerlink" title="机器学习的典型应用"></a>机器学习的典型应用</h2><p>股价预测、推荐引擎、自然语言识别、语音识别、图像识别、人脸识别</p>
+<h2 id="机器学习的基本问题"><a href="#机器学习的基本问题" class="headerlink" title="机器学习的基本问题"></a>机器学习的基本问题</h2><ul>
+<li><p>回归问题：根据已知的输入和输出寻找某种性能最佳的模型，将未知输出的输入代入模型，得到连续的输出。</p>
+</li>
+<li><p>分类问题：根据已知的输入和输出寻找某种性能最佳的模型，将未知输出的输入代入模型，得到离散的输出。</p>
+</li>
+<li><p>聚类问题：根据样本特征的相似程度，将其划分为不同的群落。</p>
+</li>
+<li><p>降维问题：在性能损失尽可能小的前提下，降低数据的复杂度(样本特征)。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI%E8%BF%9B%E9%98%B6/" rel="tag"># AI进阶</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/12/31/summary/2018%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="prev" title="2018年终总结">
+                  <i class="fa fa-angle-left"></i> 2018年终总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/10/ml/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" rel="next" title="机器学习-学习路线">
+                  机器学习-学习路线 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

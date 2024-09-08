@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="普通的线性回归，在计算总样本误差即损失值时，对所有训练样本一视同仁，因此极少数”坏”样本会使得预测模型偏离于大多数好样本所遵循的规则，影响模型的预测精度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-回归问题">
+<meta property="og:url" content="https://rencheng.cc/2019/02/20/ml/%E5%9B%9E%E5%BD%92/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="普通的线性回归，在计算总样本误差即损失值时，对所有训练样本一视同仁，因此极少数”坏”样本会使得预测模型偏离于大多数好样本所遵循的规则，影响模型的预测精度。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-20T06:51:41.000Z">
+<meta property="article:modified_time" content="2019-02-20T06:51:41.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="AI进阶">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/02/20/ml/%E5%9B%9E%E5%BD%92/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/02/20/ml/%E5%9B%9E%E5%BD%92/","path":"2019/02/20/ml/回归/","title":"机器学习-回归问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习-回归问题 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">岭回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%9B%9E%E5%BD%92"><span class="nav-number">3.</span> <span class="nav-text">多项式回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">4.</span> <span class="nav-text">决策树</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/02/20/ml/%E5%9B%9E%E5%BD%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习-回归问题 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习-回归问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-20 14:51:41" itemprop="dateCreated datePublished" datetime="2019-02-20T14:51:41+08:00">2019-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>普通的线性回归，在计算总样本误差即损失值时，对所有训练样本一视同仁，因此极少数”坏”样本会使得预测模型偏离于大多数好样本所遵循的规则，影响模型的预测精度。</p>
+<span id="more"></span>
+
+<h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>import sklearn.linear_model as lm<br>创建学习模型对象：model=lm.LinearRegression()<br>训练学习模型对象：model.fit(x, y) # [x, y]-BGD-&gt;[w0, w1]<br>预测给定输入的输出：pred_y = model.predict(pred_x)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.linear_model <span class="keyword">as</span> lm</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">x, y = [], []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/single.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">		data = [<span class="built_in">float</span>(substr) <span class="keyword">for</span> substr</span><br><span class="line">			<span class="keyword">in</span> line.split(<span class="string">&#x27;,&#x27;</span>)]</span><br><span class="line">		x.append(data[:-<span class="number">1</span>])</span><br><span class="line">		y.append(data[-<span class="number">1</span>])</span><br><span class="line">x = np.array(x)</span><br><span class="line">y = np.array(y)</span><br><span class="line"><span class="comment"># 创建线性回归器</span></span><br><span class="line">model = lm.LinearRegression()</span><br><span class="line"><span class="comment"># 训练线性回归器</span></span><br><span class="line">model.fit(x, y) <span class="comment"># 根据梯度下降算法寻找最优的模型参数</span></span><br><span class="line"><span class="comment"># 测试线性回归器</span></span><br><span class="line">pred_y = model.predict(x)</span><br><span class="line"><span class="keyword">for</span> train, pred <span class="keyword">in</span> <span class="built_in">zip</span>(y, pred_y):</span><br><span class="line">	<span class="built_in">print</span>(train, <span class="string">&#x27;-&gt;&#x27;</span>, pred)</span><br><span class="line"><span class="comment"># 平均绝对值误差：mean(|y-y&#x27;|)</span></span><br><span class="line"><span class="built_in">print</span>(sm.mean_absolute_error(y, pred_y))</span><br><span class="line"><span class="comment"># 平均平方误差：mean((y-y&#x27;)^2)</span></span><br><span class="line"><span class="built_in">print</span>(sm.mean_squared_error(y, pred_y))</span><br><span class="line"><span class="comment"># 中位数绝对值误差：median(|y-y&#x27;|)</span></span><br><span class="line"><span class="built_in">print</span>(sm.median_absolute_error(y, pred_y))</span><br><span class="line"><span class="comment"># 协方差误差分值：[-1, 1]</span></span><br><span class="line"><span class="built_in">print</span>(sm.explained_variance_score(y, pred_y))</span><br><span class="line"><span class="comment"># R2分值：综合以上所有指标得到的综合评价，[0, 1]</span></span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(y, pred_y))</span><br><span class="line"><span class="comment"># 保存训练好的模型</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/linear.pkl&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	pickle.dump(model, f)</span><br><span class="line">mp.figure(<span class="string">&#x27;Linear Regression&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Linear Regression&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.scatter(x, y, c=<span class="string">&#x27;dodgerblue&#x27;</span>, alpha=<span class="number">0.75</span>,</span><br><span class="line">	s=<span class="number">60</span>, label=<span class="string">&#x27;Sample&#x27;</span>)</span><br><span class="line">sorted_indices = x.T[<span class="number">0</span>].argsort()</span><br><span class="line">mp.plot(x[sorted_indices], pred_y[sorted_indices],</span><br><span class="line">	c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;Regression&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.linear_model <span class="keyword">as</span> lm</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">x, y = [], []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/single.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">		data = [<span class="built_in">float</span>(substr) <span class="keyword">for</span> substr</span><br><span class="line">			<span class="keyword">in</span> line.split(<span class="string">&#x27;,&#x27;</span>)]</span><br><span class="line">		x.append(data[:-<span class="number">1</span>])</span><br><span class="line">		y.append(data[-<span class="number">1</span>])</span><br><span class="line">x = np.array(x)</span><br><span class="line">y = np.array(y)</span><br><span class="line"><span class="comment"># 从文件中加载模型</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/linear.pkl&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	model = pickle.load(f)</span><br><span class="line"><span class="comment"># 测试线性回归器</span></span><br><span class="line">pred_y = model.predict(x)</span><br><span class="line"><span class="keyword">for</span> train, pred <span class="keyword">in</span> <span class="built_in">zip</span>(y, pred_y):</span><br><span class="line">	<span class="built_in">print</span>(train, <span class="string">&#x27;-&gt;&#x27;</span>, pred)</span><br><span class="line"><span class="comment"># 平均绝对值误差：mean(|y-y&#x27;|)</span></span><br><span class="line"><span class="built_in">print</span>(sm.mean_absolute_error(y, pred_y))</span><br><span class="line"><span class="comment"># 平均平方误差：mean((y-y&#x27;)^2)</span></span><br><span class="line"><span class="built_in">print</span>(sm.mean_squared_error(y, pred_y))</span><br><span class="line"><span class="comment"># 中位数绝对值误差：median(|y-y&#x27;|)</span></span><br><span class="line"><span class="built_in">print</span>(sm.median_absolute_error(y, pred_y))</span><br><span class="line"><span class="comment"># 协方差误差分值：[-1, 1]</span></span><br><span class="line"><span class="built_in">print</span>(sm.explained_variance_score(y, pred_y))</span><br><span class="line"><span class="comment"># R2分值：综合以上所有指标得到的综合评价，[0, 1]</span></span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(y, pred_y))</span><br><span class="line">mp.figure(<span class="string">&#x27;Linear Regression&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Linear Regression&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.scatter(x, y, c=<span class="string">&#x27;dodgerblue&#x27;</span>, alpha=<span class="number">0.75</span>,</span><br><span class="line">	s=<span class="number">60</span>, label=<span class="string">&#x27;Sample&#x27;</span>)</span><br><span class="line">sorted_indices = x.T[<span class="number">0</span>].argsort()</span><br><span class="line">mp.plot(x[sorted_indices], pred_y[sorted_indices],</span><br><span class="line">	c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;Regression&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>普通的线性回归，在计算总样本误差即损失值时，对所有训练样本一视同仁，因此极少数”坏”样本会使得预测模型偏离于大多数好样本所遵循的规则，影响模型的预测精度。岭回归就是在线性回归的基础之上，为每个训练样本分配不同的权重，越是能够反应一般规律的大多数好样本所得到的权重越大，而极少数偏离于一般规律的坏样本则只能获得较低的权重，从而使得最终的预测模型尽可能偏向于多数好样本，而弱化少数坏样本对模型的影响。<br>因此：超参数，人为给定<br>model = lm.Ridge(正则强度/惩罚力度)<br>正则强度/惩罚力度：[0, oo)<br>正则强度越小，权重差异就越小，0表示无差异，等同线性回归</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.linear_model <span class="keyword">as</span> lm</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">x, y = [], []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/abnormal.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">		data = [<span class="built_in">float</span>(substr) <span class="keyword">for</span> substr</span><br><span class="line">			<span class="keyword">in</span> line.split(<span class="string">&#x27;,&#x27;</span>)]</span><br><span class="line">		x.append(data[:-<span class="number">1</span>])</span><br><span class="line">		y.append(data[-<span class="number">1</span>])</span><br><span class="line">x = np.array(x)</span><br><span class="line">y = np.array(y)</span><br><span class="line"><span class="comment"># 创建线性回归器</span></span><br><span class="line">model1 = lm.LinearRegression()</span><br><span class="line"><span class="comment"># 训练线性回归器</span></span><br><span class="line">model1.fit(x, y) <span class="comment"># 根据梯度下降算法寻找最优的模型参数</span></span><br><span class="line"><span class="comment"># 测试线性回归器</span></span><br><span class="line">pred_y1 = model1.predict(x)</span><br><span class="line"><span class="comment"># 线性回归的R2分值</span></span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(y, pred_y1))</span><br><span class="line"><span class="comment"># 创建岭回归器</span></span><br><span class="line">model2 = lm.Ridge(<span class="number">250</span>)</span><br><span class="line"><span class="comment"># 训练岭回归器</span></span><br><span class="line">model2.fit(x, y) <span class="comment"># 通过差异化权重削弱异常样本的影响</span></span><br><span class="line"><span class="comment"># 测试岭回归器</span></span><br><span class="line">pred_y2 = model2.predict(x)</span><br><span class="line"><span class="comment"># 岭回归的R2分值</span></span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(y, pred_y2))</span><br><span class="line">mp.figure(<span class="string">&#x27;Linear &amp; Ridge Regression&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Linear &amp; Ridge Regression&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.scatter(x, y, c=<span class="string">&#x27;dodgerblue&#x27;</span>, alpha=<span class="number">0.75</span>,</span><br><span class="line">	s=<span class="number">60</span>, label=<span class="string">&#x27;Sample&#x27;</span>)</span><br><span class="line">sorted_indices = x.T[<span class="number">0</span>].argsort()</span><br><span class="line">mp.plot(x[sorted_indices], pred_y1[sorted_indices],</span><br><span class="line">	c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;Linear&#x27;</span>)</span><br><span class="line">mp.plot(x[sorted_indices], pred_y2[sorted_indices],</span><br><span class="line">	c=<span class="string">&#x27;limegreen&#x27;</span>, label=<span class="string">&#x27;Ridge&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="多项式回归"><a href="#多项式回归" class="headerlink" title="多项式回归"></a>多项式回归</h2><p>$y = w_1 + w_1x + w_2x^2 + w_3x^3 + … + w_nx^n$<br>$loss = Loss(w_0, w_1, …, w_n)$<br>$y = w_0 + w_1 \times 1 + w_2 \times 2 + w_3 \times 3 + … + w_n \times n$<br>$x_1 -&gt; x_1, x_2, x_3, …, x_n$<br>$\Downarrow$<br>x1-&gt;多项式特征扩展-x1,x2,x3,…,xn-&gt;线性回归-&gt;w0~wn<br>$\Downarrow$<br>管线</p>
+<p>import sklearn.pipeline as pl<br>import sklearn.preprocessing as sp<br>多项式特征扩展器=sp.PolynomialFeatures(n=最高次幂)<br>线性回归器=lm.LinearRegression()<br>管线模型=pl.make_pipeline(多项式特征扩展器,线性回归器)<br>管线模型.fit(x,y) # [x,y]-BGD-&gt;[w0,w1,w2,w3,…,wn]<br>管线模型.predict(x)-&gt;pred_y<br>**<em>欠拟合</em>**：过于简单的模型，或者训练集的规模过小，导致模型无法真实地反应输入和输出之间的规律，出现训练集和测试集的评估分值都比较低的现象。可以通过增加模型的复杂度，或者增加训练集的规模，提高模型的拟合度，优化其性能。<br>**<em>过拟合</em>**：过于复杂的模型，或者特征数过多，大致模型失去足够的一般性，即太过于倾向训练数据，反而对训练集以外的其它样本的预测性能大幅下降。可以减少特征数，或者降低模型的复杂度，在训练集和测试集的拟合程度上寻求一个折衷，提高模型的泛化能力。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.pipeline <span class="keyword">as</span> pl</span><br><span class="line"><span class="keyword">import</span> sklearn.preprocessing <span class="keyword">as</span> sp</span><br><span class="line"><span class="keyword">import</span> sklearn.linear_model <span class="keyword">as</span> lm</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">train_x, train_y = [], []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/single.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">		data = [<span class="built_in">float</span>(substr) <span class="keyword">for</span> substr</span><br><span class="line">			<span class="keyword">in</span> line.split(<span class="string">&#x27;,&#x27;</span>)]</span><br><span class="line">		train_x.append(data[:-<span class="number">1</span>])</span><br><span class="line">		train_y.append(data[-<span class="number">1</span>])</span><br><span class="line">train_x = np.array(train_x)</span><br><span class="line">train_y = np.array(train_y)</span><br><span class="line">model = pl.make_pipeline(sp.PolynomialFeatures(<span class="number">10</span>),</span><br><span class="line">	lm.LinearRegression())</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">pred_train_y = model.predict(train_x)</span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(train_y, pred_train_y))</span><br><span class="line">test_x = np.linspace(train_x.<span class="built_in">min</span>(),</span><br><span class="line">	train_x.<span class="built_in">max</span>(), <span class="number">1000</span>)[:, np.newaxis]</span><br><span class="line">pred_test_y = model.predict(test_x)</span><br><span class="line">mp.figure(<span class="string">&#x27;Polynomial Regression&#x27;</span>,</span><br><span class="line">	facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Polynomial Regression&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">mp.scatter(train_x, train_y, c=<span class="string">&#x27;dodgerblue&#x27;</span>,</span><br><span class="line">	alpha=<span class="number">0.75</span>, s=<span class="number">60</span>, label=<span class="string">&#x27;Sample&#x27;</span>)</span><br><span class="line">mp.plot(test_x, pred_test_y, c=<span class="string">&#x27;orangered&#x27;</span>,</span><br><span class="line">	label=<span class="string">&#x27;Regression&#x27;</span>)</span><br><span class="line">mp.legend()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h2><p>既可用于解决回归问题，也可用于解决分类问题。</p>
+<ol>
+<li><p>相似的输入必会产生相似的输出</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">年龄：0-青年，1-中年，2-老年</span><br><span class="line">学历：0-大专，1-大本，2-硕士，3-博士</span><br><span class="line">资历：0-小白，1-小牛，2-大牛，3-骨灰</span><br><span class="line">性别：0-女性，1-男性</span><br><span class="line">等级：0-低收入，1-中等收入，2-高收入</span><br><span class="line"></span><br><span class="line">年龄  学历  资历  性别  月薪      等级</span><br><span class="line">  0       1       0       1    6000       0</span><br><span class="line">  0       0       1       1    7000       1</span><br><span class="line">  1       2       2       1    10000      2</span><br><span class="line">--&gt;</span><br><span class="line">  0      0       1        1    对输出取平均/对输出做投票</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建树状模型提高对相似输入的检索性能<br>依次选取总样本空间中的每一个特征作为划分子表的依据，将样本矩阵划分为若干层级的多个子矩阵，每一个层级对应一个特征，组成树状结构。预测时，根据待预测样本的每个特征值，找到与之对应的叶级子表，将该子表的输出按照平均或者投票的方式计算预测值。</p>
+</li>
+<li><p>优先选择对输出影响最大的部分特征划分子表<br>根据按照某个特征划分子表前后，其信息熵或基尼不纯度的减少量来判断该特征对输出的影响，信息熵或基尼不纯度减少量越大的特征，对输出的影响也越大，越应该优先作为子表划分的依据。</p>
+</li>
+<li><p>集成算法</p>
+<ol>
+<li>自助聚合：每次从总样本空间中随机抽取一部分样本构建决策树，这样共构建B棵决策树</li>
+<li>随机森林：每次从总样本空间中随机抽取一部分样本及特征构建决策树，这样共构建B棵决策树</li>
+<li>正向激励：为样本空间中的每个样本分配初始权重，构建第一颗决策树，针对训练集中预测错误的样本，提升其权重，再构建第二棵决策树，以此类推，共构建B棵权重各不相同的决策树</li>
+</ol>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.datasets <span class="keyword">as</span> sd</span><br><span class="line"><span class="keyword">import</span> sklearn.utils <span class="keyword">as</span> su</span><br><span class="line"><span class="keyword">import</span> sklearn.tree <span class="keyword">as</span> st</span><br><span class="line"><span class="keyword">import</span> sklearn.ensemble <span class="keyword">as</span> se</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line">boston = sd.load_boston()</span><br><span class="line">x, y = su.shuffle(boston.data, boston.target,</span><br><span class="line">	random_state=<span class="number">7</span>)</span><br><span class="line">train_size = <span class="built_in">int</span>(<span class="built_in">len</span>(x) * <span class="number">0.8</span>)</span><br><span class="line">train_x, test_x, train_y, test_y = \</span><br><span class="line">	x[:train_size], x[train_size:], \</span><br><span class="line">	y[:train_size], y[train_size:]</span><br><span class="line"><span class="comment"># 决策树回归器</span></span><br><span class="line">model = st.DecisionTreeRegressor(max_depth=<span class="number">4</span>)</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">pred_test_y = model.predict(test_x)</span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(test_y, pred_test_y))</span><br><span class="line"><span class="comment"># 正向激励集成决策树回归器</span></span><br><span class="line">model = se.AdaBoostRegressor(</span><br><span class="line">	st.DecisionTreeRegressor(max_depth=<span class="number">4</span>),</span><br><span class="line">	n_estimators=<span class="number">400</span>, random_state=<span class="number">7</span>)</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">pred_test_y = model.predict(test_x)</span><br><span class="line"><span class="built_in">print</span>(sm.r2_score(test_y, pred_test_y))</span><br></pre></td></tr></table></figure></li>
+<li><p>特征重要性<br>决策树模型在确定子表划分依据的过程中，会计算按照每个特征划分子表所引起的信息熵或基尼不纯度减少量，从业务上看该指标即体现了，每个特征对输出的影响力度。<br>model = …<br>model.fit(…)<br>model.feature_importances_</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.datasets <span class="keyword">as</span> sd</span><br><span class="line"><span class="keyword">import</span> sklearn.utils <span class="keyword">as</span> su</span><br><span class="line"><span class="keyword">import</span> sklearn.tree <span class="keyword">as</span> st</span><br><span class="line"><span class="keyword">import</span> sklearn.ensemble <span class="keyword">as</span> se</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line">boston = sd.load_boston()</span><br><span class="line">fn = boston.feature_names</span><br><span class="line">x, y = su.shuffle(boston.data, boston.target,</span><br><span class="line">	random_state=<span class="number">7</span>)</span><br><span class="line">train_size = <span class="built_in">int</span>(<span class="built_in">len</span>(x) * <span class="number">0.8</span>)</span><br><span class="line">train_x, test_x, train_y, test_y = \</span><br><span class="line">	x[:train_size], x[train_size:], \</span><br><span class="line">	y[:train_size], y[train_size:]</span><br><span class="line"><span class="comment"># 正向激励集成决策树回归器</span></span><br><span class="line">model = se.AdaBoostRegressor(</span><br><span class="line">	st.DecisionTreeRegressor(max_depth=<span class="number">4</span>),</span><br><span class="line">	n_estimators=<span class="number">400</span>, random_state=<span class="number">7</span>)</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">fi = model.feature_importances_</span><br><span class="line"><span class="keyword">for</span> n, i <span class="keyword">in</span> <span class="built_in">zip</span>(fn, fi):</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&#x27;&#123;:&gt;10&#125; : &#123;:.4f&#125;&#x27;</span>.<span class="built_in">format</span>(n, i))</span><br><span class="line">mp.figure(<span class="string">&#x27;Feature Importance&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Feature Importance&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Feature&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Importance&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(axis=<span class="string">&#x27;y&#x27;</span>, linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">sorted_indices = fi.argsort()[::-<span class="number">1</span>]</span><br><span class="line">pos = np.arange(sorted_indices.size)</span><br><span class="line">mp.bar(pos, fi[sorted_indices], facecolor=<span class="string">&#x27;lightcoral&#x27;</span>,</span><br><span class="line">	edgecolor=<span class="string">&#x27;indianred&#x27;</span>)</span><br><span class="line">mp.xticks(pos, fn[sorted_indices], rotation=<span class="number">30</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+<p>特征重要性与模型的算法有关，还与数据的粒度有关。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> sklearn.utils <span class="keyword">as</span> su</span><br><span class="line"><span class="keyword">import</span> sklearn.ensemble <span class="keyword">as</span> se</span><br><span class="line"><span class="keyword">import</span> sklearn.metrics <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/bike_day.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	reader = csv.reader(f)</span><br><span class="line">	x, y = [], []</span><br><span class="line">	<span class="keyword">for</span> row <span class="keyword">in</span> reader:</span><br><span class="line">		x.append(row[<span class="number">2</span>:<span class="number">13</span>])</span><br><span class="line">		y.append(row[-<span class="number">1</span>])</span><br><span class="line">fn_dy = np.array(x[<span class="number">0</span>])</span><br><span class="line">x = np.array(x[<span class="number">1</span>:], dtype=<span class="built_in">float</span>)</span><br><span class="line">y = np.array(y[<span class="number">1</span>:], dtype=<span class="built_in">float</span>)</span><br><span class="line">x, y = su.shuffle(x, y, random_state=<span class="number">7</span>)</span><br><span class="line">train_size = <span class="built_in">int</span>(<span class="built_in">len</span>(x) * <span class="number">0.9</span>)</span><br><span class="line">train_x, test_x, train_y, test_y = \</span><br><span class="line">	x[:train_size], x[train_size:], \</span><br><span class="line">	y[:train_size], y[train_size:]</span><br><span class="line"><span class="comment"># 随机森林集成决策树回归器</span></span><br><span class="line">model = se.RandomForestRegressor(</span><br><span class="line">	max_depth=<span class="number">10</span>, n_estimators=<span class="number">1000</span>,</span><br><span class="line">	min_samples_split=<span class="number">2</span>)</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">fi_dy = model.feature_importances_</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../data/bike_hour.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	reader = csv.reader(f)</span><br><span class="line">	x, y = [], []</span><br><span class="line">	<span class="keyword">for</span> row <span class="keyword">in</span> reader:</span><br><span class="line">		x.append(row[<span class="number">2</span>:<span class="number">14</span>])</span><br><span class="line">		y.append(row[-<span class="number">1</span>])</span><br><span class="line">fn_hr = np.array(x[<span class="number">0</span>])</span><br><span class="line">x = np.array(x[<span class="number">1</span>:], dtype=<span class="built_in">float</span>)</span><br><span class="line">y = np.array(y[<span class="number">1</span>:], dtype=<span class="built_in">float</span>)</span><br><span class="line">x, y = su.shuffle(x, y, random_state=<span class="number">7</span>)</span><br><span class="line">train_size = <span class="built_in">int</span>(<span class="built_in">len</span>(x) * <span class="number">0.9</span>)</span><br><span class="line">train_x, test_x, train_y, test_y = \</span><br><span class="line">	x[:train_size], x[train_size:], \</span><br><span class="line">	y[:train_size], y[train_size:]</span><br><span class="line"><span class="comment"># 随机森林集成决策树回归器</span></span><br><span class="line">model = se.RandomForestRegressor(</span><br><span class="line">	max_depth=<span class="number">10</span>, n_estimators=<span class="number">1000</span>,</span><br><span class="line">	min_samples_split=<span class="number">2</span>)</span><br><span class="line">model.fit(train_x, train_y)</span><br><span class="line">fi_hr = model.feature_importances_</span><br><span class="line">mp.figure(<span class="string">&#x27;Bike&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.subplot(<span class="number">211</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Day&#x27;</span>, fontsize=<span class="number">16</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Importance&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(axis=<span class="string">&#x27;y&#x27;</span>, linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">sorted_indices = fi_dy.argsort()[::-<span class="number">1</span>]</span><br><span class="line">pos = np.arange(sorted_indices.size)</span><br><span class="line">mp.bar(pos, fi_dy[sorted_indices], facecolor=<span class="string">&#x27;deepskyblue&#x27;</span>,</span><br><span class="line">	edgecolor=<span class="string">&#x27;steelblue&#x27;</span>)</span><br><span class="line">mp.xticks(pos, fn_dy[sorted_indices], rotation=<span class="number">30</span>)</span><br><span class="line">mp.subplot(<span class="number">212</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;Hour&#x27;</span>, fontsize=<span class="number">16</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;Feature&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;Importance&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.grid(axis=<span class="string">&#x27;y&#x27;</span>, linestyle=<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">sorted_indices = fi_hr.argsort()[::-<span class="number">1</span>]</span><br><span class="line">pos = np.arange(sorted_indices.size)</span><br><span class="line">mp.bar(pos, fi_hr[sorted_indices], facecolor=<span class="string">&#x27;lightcoral&#x27;</span>,</span><br><span class="line">	edgecolor=<span class="string">&#x27;indianred&#x27;</span>)</span><br><span class="line">mp.xticks(pos, fn_hr[sorted_indices], rotation=<span class="number">30</span>)</span><br><span class="line">mp.tight_layout()</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>对于回归问题，模型关注的是回归曲线，该曲线反映了输入数据和输出数据之间的函数关系。<br>对于分类问题，模型关注的是分类边界，边界线反映了不同类别之间的划分依据。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI%E8%BF%9B%E9%98%B6/" rel="tag"># AI进阶</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/02/12/ml/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/" rel="prev" title="机器学习-梯度下降算法">
+                  <i class="fa fa-angle-left"></i> 机器学习-梯度下降算法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/22/ml/%E5%88%86%E7%B1%BB/" rel="next" title="机器学习-分类问题">
+                  机器学习-分类问题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

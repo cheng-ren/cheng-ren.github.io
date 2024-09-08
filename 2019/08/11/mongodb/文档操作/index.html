@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这一节是文档的创建，删除，修改，查询">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB-文档操作">
+<meta property="og:url" content="https://rencheng.cc/2019/08/11/mongodb/%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="这一节是文档的创建，删除，修改，查询">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-11T02:55:52.000Z">
+<meta property="article:modified_time" content="2019-08-11T02:55:52.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/08/11/mongodb/%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/08/11/mongodb/%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/","path":"2019/08/11/mongodb/文档操作/","title":"MongoDB-文档操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MongoDB-文档操作 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%AE"><span class="nav-number">1.1.</span> <span class="nav-text">键</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%AE%E7%9A%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">键的命名规则：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%BC"><span class="nav-number">1.2.</span> <span class="nav-text">值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#id"><span class="nav-number">1.3.</span> <span class="nav-text">_id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E6%96%87%E6%A1%A3"><span class="nav-number">1.4.</span> <span class="nav-text">集合中的文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E5%88%9B%E5%BB%BA%E5%8E%9F%E5%88%99"><span class="nav-number">1.5.</span> <span class="nav-text">集合创建原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%96%87%E6%A1%A3"><span class="nav-number">2.</span> <span class="nav-text">插入文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%8D%95%E4%B8%AA%E6%96%87%E6%A1%A3"><span class="nav-number">2.1.</span> <span class="nav-text">插入单个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%A4%9A%E6%9D%A1%E6%96%87%E6%A1%A3"><span class="nav-number">2.2.</span> <span class="nav-text">插入多条文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#save%E6%8F%92%E5%85%A5%E6%96%87%E6%A1%A3"><span class="nav-number">2.3.</span> <span class="nav-text">save插入文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">获取集合对象方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="nav-number">4.</span> <span class="nav-text">删除文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E6%9D%A1%E6%88%96%E5%A4%9A%E6%9D%A1%E6%96%87%E6%A1%A3"><span class="nav-number">4.1.</span> <span class="nav-text">删除一条或多条文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%9B%86%E5%90%88%E4%B8%AD%E6%89%80%E6%9C%89%E6%96%87%E6%A1%A3"><span class="nav-number">4.2.</span> <span class="nav-text">删除集合中所有文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3"><span class="nav-number">5.</span> <span class="nav-text">修改文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%8D%95%E4%B8%AA%E6%96%87%E6%A1%A3"><span class="nav-number">5.1.</span> <span class="nav-text">更新单个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%A4%9A%E4%B8%AA%E6%96%87%E6%A1%A3"><span class="nav-number">5.2.</span> <span class="nav-text">更新多个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E5%88%B0%E5%88%B0%E6%9F%90%E4%B8%AA%E7%84%B6%E5%90%8E%E5%B0%86%E5%85%B6%E4%BF%AE%E6%94%B9"><span class="nav-number">5.3.</span> <span class="nav-text">查到到某个然后将其修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E5%88%B0%E5%88%B0%E6%9F%90%E4%B8%AA%E7%84%B6%E5%90%8E%E5%B0%86%E5%85%B6%E6%9B%BF%E6%8D%A2"><span class="nav-number">5.4.</span> <span class="nav-text">查到到某个然后将其替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">5.5.</span> <span class="nav-text">修改器的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">5.5.1.</span> <span class="nav-text">$set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unset"><span class="nav-number">5.5.2.</span> <span class="nav-text">$unset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rename"><span class="nav-number">5.5.3.</span> <span class="nav-text">$rename</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inc"><span class="nav-number">5.5.4.</span> <span class="nav-text">$inc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mul"><span class="nav-number">5.5.5.</span> <span class="nav-text">$mul</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#max"><span class="nav-number">5.5.6.</span> <span class="nav-text">$max</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#min"><span class="nav-number">5.5.7.</span> <span class="nav-text">$min</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setOnInsert"><span class="nav-number">5.5.8.</span> <span class="nav-text">$setOnInsert</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="nav-number">5.6.</span> <span class="nav-text">数组修改器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#push"><span class="nav-number">5.6.1.</span> <span class="nav-text">$push</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pushAll"><span class="nav-number">5.6.2.</span> <span class="nav-text">$pushAll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pull"><span class="nav-number">5.6.3.</span> <span class="nav-text">$pull</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pullAll"><span class="nav-number">5.6.4.</span> <span class="nav-text">$pullAll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#each"><span class="nav-number">5.6.5.</span> <span class="nav-text">$each</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#position"><span class="nav-number">5.6.6.</span> <span class="nav-text">$position</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sort"><span class="nav-number">5.6.7.</span> <span class="nav-text">$sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pop"><span class="nav-number">5.6.8.</span> <span class="nav-text">$pop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addToSet"><span class="nav-number">5.6.9.</span> <span class="nav-text">$addToSet</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/08/11/mongodb/%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MongoDB-文档操作 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MongoDB-文档操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-11 10:55:52" itemprop="dateCreated datePublished" datetime="2019-08-11T10:55:52+08:00">2019-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>这一节是文档的创建，删除，修改，查询</p>
+<span id="more"></span>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>mongodb中数据的组织形式</p>
+<p>mongodb文档 ： 是以键值对的形成组成的一组数据。类似python中字典描述数据的方式</p>
+<ol>
+<li>文档是bson数据类型</li>
+<li>文档是由键值对构成</li>
+<li>文档是MongoDB的基本单元</li>
+</ol>
+<h3 id="键"><a href="#键" class="headerlink" title="键"></a>键</h3><p>即文档的域，表达了一个键值对的含义</p>
+<h4 id="键的命名规则："><a href="#键的命名规则：" class="headerlink" title="键的命名规则："></a>键的命名规则：</h4><ol>
+<li><code>utf-8</code>格式<code>字符串</code></li>
+<li>不能使用<code>\0</code></li>
+<li>一个文档中的键不能<code>重复</code></li>
+</ol>
+<h3 id="值"><a href="#值" class="headerlink" title="值"></a>值</h3><p>即文档存储的数据。<br>bson支持的数据类型值</p>
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>整型</td>
+<td>整数 1  2   3</td>
+</tr>
+<tr>
+<td>布尔类型</td>
+<td>true  false</td>
+</tr>
+<tr>
+<td>浮点型</td>
+<td>小数</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>数组</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>时间日期</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>时间戳</td>
+</tr>
+<tr>
+<td>String</td>
+<td>字符串</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td>特殊字符串</td>
+</tr>
+<tr>
+<td>Binary data</td>
+<td>二进制子串</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>null 空值</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>内部文档（对象）</td>
+</tr>
+<tr>
+<td>code</td>
+<td>js代码</td>
+</tr>
+<tr>
+<td>regex</td>
+<td>正则子串</td>
+</tr>
+<tr>
+<td>ObjectId</td>
+<td>自动生成ID标记</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;_id&quot; : ObjectId(&quot;5ba07671b17d2b40342f7c5c&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="id"><a href="#id" class="headerlink" title="_id"></a>_id</h3><p>当mongodb插入文档时如果不指定<code>_id</code>域则自动生成_id域。值如果不自己指定即会自动生成一个ObjectId值</p>
+<p>24位16进制  使用ObjectId经过算法处理保证其唯一性</p>
+<p>5ba07671 b17d2b 4034 2f7c5c<br>8位文档创建时间  6位  机器ID   4位进程id  6位计数器</p>
+<blockquote>
+<p>文档中键值对是有序的<br>文档中键值对严格区分大小写</p>
+</blockquote>
+<h3 id="集合中的文档"><a href="#集合中的文档" class="headerlink" title="集合中的文档"></a>集合中的文档</h3><ol>
+<li><p>集合中的文档不一定有相同的域 </p>
+<ul>
+<li>个数不同</li>
+<li>域不相同</li>
+<li>数据类型不同</li>
+</ul>
+</li>
+<li><p>集合中文档各自比较独立，相互并不影响</p>
+</li>
+</ol>
+<h3 id="集合创建原则"><a href="#集合创建原则" class="headerlink" title="集合创建原则"></a>集合创建原则</h3><ol>
+<li>集合中的文档要描述同一类事物</li>
+<li>数据库中同一类数据尽量集中存放在相同的集合</li>
+<li>集合中的文档嵌套层数不要太多</li>
+</ol>
+<h2 id="插入文档"><a href="#插入文档" class="headerlink" title="插入文档"></a>插入文档</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.collection.insert()</span><br><span class="line">功能 ： 插入一个文档</span><br><span class="line">参数 ： 要插入的文档</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. </span><br><span class="line">db.class0.insert(&#123;&#x27;name&#x27;:&#x27;Lucy&#x27;,&quot;age&quot;:18,&quot;sex&quot;:&#x27;w&#x27;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入单个文档"><a href="#插入单个文档" class="headerlink" title="插入单个文档"></a>插入单个文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.class0.insert(&#123;_id:1,name:&#x27;Jame&#x27;,age:16,sex:&#x27;m&#x27;&#125;)</span><br><span class="line">或者</span><br><span class="line">db.class0.insertOne(&#123;_id:1,name:&#x27;Jame&#x27;,age:16,sex:&#x27;m&#x27;&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>插入操作中键可以不加引号</li>
+<li>查看插入结果 db.class0.find()</li>
+<li>_id 值可以自己插入，但是不能重复</li>
+</ul>
+<h3 id="插入多条文档"><a href="#插入多条文档" class="headerlink" title="插入多条文档"></a>插入多条文档</h3><p>参数用中括号里面放入多个文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">db.class0.insert([&#123;&#125;,&#123;&#125;,...])</span><br><span class="line">或</span><br><span class="line">db.class0.insertMany([])</span><br><span class="line"></span><br><span class="line">e.g.</span><br><span class="line">db.class0.insert([&#123;name:&quot;Alex&quot;,age:19,sex:&#x27;m&#x27;&#125;,&#123;name:&#x27;Abby&#x27;,age:18,sex:&#x27;w&#x27;&#125;])</span><br><span class="line"></span><br><span class="line">db.class0.insertMany([&#123;name:&quot;John&quot;,age:16,sex:&#x27;m&#x27;&#125;,&#123;name:&quot;Lenzer&quot;,age:17,sex:&#x27;m&#x27;&#125;])</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="save插入文档"><a href="#save插入文档" class="headerlink" title="save插入文档"></a>save插入文档</h3><blockquote>
+<p>跟insert插入的区别就是，如果_id重复，save会覆盖，insert会报错</p>
+</blockquote>
+<p>如果正常插入与insert用法相同</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.save()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">db.class0.save(&#123;name:&#x27;Allen&#x27;,age:19,sex:&#x27;m&#x27;&#125;)</span><br><span class="line">db.class0.save([&#123;name:&quot;Sunny&quot;,age:17,sex:&#x27;w&#x27;&#125;,&#123;name:&#x27;Alice&#x27;,age:16,sex:&#x27;w&#x27;&#125;])</span><br></pre></td></tr></table></figure>
+
+<p>如果插入数据是有_id域，且_id域值存在时则会修改原有文档，如果该值不存在则正常插入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.class0.save(&#123;_id:2,name:&#x27;Mary&#x27;,age:20,sex:&#x27;w&#x27;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取集合对象方法"><a href="#获取集合对象方法" class="headerlink" title="获取集合对象方法"></a>获取集合对象方法</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.class0  ===&gt; db.getCollection(&#x27;class0&#x27;)</span><br><span class="line"></span><br><span class="line">e.g.</span><br><span class="line">db.getCollection(&quot;class0&quot;).find()</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><h3 id="删除一条或多条文档"><a href="#删除一条或多条文档" class="headerlink" title="删除一条或多条文档"></a>删除一条或多条文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remove(query,justOne)</span><br></pre></td></tr></table></figure>
+<p>功能 ： 删除文档<br>参数 ： </p>
+<ul>
+<li>query  用法同find </li>
+<li>justOne  布尔值 默认为false表示删除所有符合条                 件的文档 设置为true则表示只删除一条</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 删除所有不存在sex域的文档</span><br><span class="line">db.class1.remove(&#123;sex:&#123;$exists:false&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  删除第一条性别为w的文档</span><br><span class="line">db.class1.remove(&#123;sex:&#x27;w&#x27;&#125;,true)</span><br></pre></td></tr></table></figure>
+<h3 id="删除集合中所有文档"><a href="#删除集合中所有文档" class="headerlink" title="删除集合中所有文档"></a>删除集合中所有文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 删除class1中所有文档</span><br><span class="line">db.class1.remove(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改文档"><a href="#修改文档" class="headerlink" title="修改文档"></a>修改文档</h2><h3 id="更新单个文档"><a href="#更新单个文档" class="headerlink" title="更新单个文档"></a>更新单个文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updateOne(query,update,upsert,multi)</span><br></pre></td></tr></table></figure>
+<p>功能 ： 修改文档<br>参数 ： </p>
+<ul>
+<li>query  筛选条件  用法同find</li>
+<li>update  要修改成什么内容 通常配合修改操作符        （修改器）使用</li>
+<li>upsert  布尔值，默认是false  如果query没有筛         选到文档则不做任何操作<pre><code>          如果设置为true 则如果query没有筛选到匹配文档则根据query和update内容插入新的文档
+</code></pre>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  将Tom的年龄修改为18</span><br><span class="line">db.class0.update(&#123;name:&#x27;Tom&#x27;&#125;,&#123;$set:&#123;age:18&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  如果有name=Jame的文档则修改，如果没有则根据         query update插入新的文档</span><br><span class="line">db.class0.update(&#123;name:&#x27;Jame&#x27;&#125;,&#123;$set:&#123;age:15&#125;&#125;,true)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  修改所有年龄小于17的为18</span><br><span class="line">db.class0.update(&#123;age:&#123;$lt:17&#125;&#125;,&#123;$set:&#123;age:18&#125;&#125;,false,true)</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新多个文档"><a href="#更新多个文档" class="headerlink" title="更新多个文档"></a>更新多个文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updateMany(query,update,upsert)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查到到某个然后将其修改"><a href="#查到到某个然后将其修改" class="headerlink" title="查到到某个然后将其修改"></a>查到到某个然后将其修改</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.findOneAndUpdate()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 找到名字为jpy的人，更改它的名字是lilei</span><br><span class="line">db.class.findOneAndUpdate(&#123;name:&#x27;Jpy&#x27;&#125;, &#123;$set:&#123;name:&#x27;lilei&#x27;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="查到到某个然后将其替换"><a href="#查到到某个然后将其替换" class="headerlink" title="查到到某个然后将其替换"></a>查到到某个然后将其替换</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.findOneAndReplace()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 找到名字是eveb的这个人，并且把替换文档</span><br><span class="line">db.class.findOneAndReplace(&#123;name:&quot;eveb&quot;&#125;, &#123;name:&#x27;aaa&#x27;, age:34&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="修改器的使用"><a href="#修改器的使用" class="headerlink" title="修改器的使用"></a>修改器的使用</h3><h4 id="set"><a href="#set" class="headerlink" title="$set"></a>$set</h4><p>修改一个值或者也可以增加一个域</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 修改姓名ebal的年龄为49岁</span><br><span class="line">db.class.updateOne(&#123;name:&#x27;ebal&#x27;&#125;, &#123;$set:&#123;age:49&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 修改姓名ebal的年龄为49岁, 性别为女，并且新增一个喜好的域</span><br><span class="line">db.class.updateOne(&#123;name:&#x27;ebal&#x27;&#125;, &#123;$set:&#123;age:49, sex:0, habby:[1, 2]&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="unset"><a href="#unset" class="headerlink" title="$unset"></a>$unset</h4><p>删除一个域</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 删除名字Jpy的age域（字段）</span><br><span class="line">db.class.updateMany(&#123;name:&#x27;Jpy&#x27;&#125;, &#123;$unset:&#123;age:&#x27;&#x27;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="rename"><a href="#rename" class="headerlink" title="$rename"></a>$rename</h4><p>给一个域重命名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 当前集合中所有的sex域更名为gender</span><br><span class="line">db.class.updateMany(&#123;&#125;, &#123;$rename:&#123;sex:&#x27;gender&#x27;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="inc"><a href="#inc" class="headerlink" title="$inc"></a>$inc</h4><p>加法修改器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 将所有人的年龄都加上1岁</span><br><span class="line">db.class.updateMany(&#123;&#125;, &#123;$inc:&#123;age:1&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="mul"><a href="#mul" class="headerlink" title="$mul"></a>$mul</h4><p>乘法修改器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 将所有人的年龄都成上3</span><br><span class="line">db.class.updateMany(&#123;&#125;, &#123;$mul:&#123;age:3&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="max"><a href="#max" class="headerlink" title="$max"></a>$max</h4><p>指定一个值的下限</p>
+<blockquote>
+<p>小于指定的值则修改该值，大于不变</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 将所有人的年龄小于18的都修改为18</span><br><span class="line">db.class.updateMany(&#123;&#125;, &#123;$max:&#123;age:18&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="min"><a href="#min" class="headerlink" title="$min"></a>$min</h4><p>指定一个值的上限</p>
+<blockquote>
+<p>大于指定的值则修改该值，小于不变</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 将所有人的年龄大于18的都修改为18</span><br><span class="line">db.class.updateMany(&#123;&#125;, &#123;$min:&#123;age:18&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="setOnInsert"><a href="#setOnInsert" class="headerlink" title="$setOnInsert"></a>$setOnInsert</h4><p>如果使用update插入了文档，则将该修改器内容作为插入文档的一部分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  如果插入了新文档则setOnInsert内容也会作为新文档一部分</span><br><span class="line">db.class0.update(&#123;name:&#x27;Jame&#x27;&#125;,&#123;$set:&#123;age:18&#125;,$setOnInsert:&#123;gender:&#x27;m&#x27;,tel:&#x27;123456&#x27;&#125;&#125;,true)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="数组修改器"><a href="#数组修改器" class="headerlink" title="数组修改器"></a>数组修改器</h3><h4 id="push"><a href="#push" class="headerlink" title="$push"></a>$push</h4><p>向数组中添加一项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  给小红 score数组中添加一项91</span><br><span class="line">db.class1.update(&#123;name:&#x27;小红&#x27;&#125;,&#123;$push:&#123;score:91&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="pushAll"><a href="#pushAll" class="headerlink" title="$pushAll"></a>$pushAll</h4><p>向数组中添加多项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">db.class1.update(&#123;name:&#x27;小乔&#x27;&#125;,&#123;$pushAll:&#123;score:[94,10]&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="pull"><a href="#pull" class="headerlink" title="$pull"></a>$pull</h4><p>从数组中删除一项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  从数组中删除一项</span><br><span class="line">db.class1.update(&#123;name:&#x27;小红&#x27;&#125;,&#123;$pull:&#123;score:78&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="pullAll"><a href="#pullAll" class="headerlink" title="$pullAll"></a>$pullAll</h4><p>从数组中删除多项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.</span><br><span class="line">db.class1.update(&#123;name:&#x27;小乔&#x27;&#125;,&#123;$pullAll:&#123;score:[92,10]&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="each"><a href="#each" class="headerlink" title="$each"></a>$each</h4><p>对多个值逐个进行操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  分别插入99  10</span><br><span class="line">db.class1.update(&#123;name:&#x27;小乔&#x27;&#125;,&#123;$push:&#123;score:&#123;$each:[99,10]&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="position"><a href="#position" class="headerlink" title="$position"></a>$position</h4><p>指定插入位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  将67 插入到数组1号位置</span><br><span class="line">db.class1.update(&#123;name:&#x27;小明&#x27;&#125;,&#123;$push:&#123;score:&#123;$each:[67],$position:1&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="sort"><a href="#sort" class="headerlink" title="$sort"></a>$sort</h4><p>数组排序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  将说有score域的数组降序排序</span><br><span class="line">db.class1.update(&#123;&#125;,&#123;$push:&#123;score:&#123;$each:[],$sort:-1&#125;&#125;&#125;,false,true)</span><br></pre></td></tr></table></figure>
+<h4 id="pop"><a href="#pop" class="headerlink" title="$pop"></a>$pop</h4><p>弹出一项 1表示弹出最后一项  -1弹出第一项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g.  删除小明score中第一项</span><br><span class="line">db.class1.update(&#123;name:&#x27;小明&#x27;&#125;,&#123;$pop:&#123;score:-1&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="addToSet"><a href="#addToSet" class="headerlink" title="$addToSet"></a>$addToSet</h4><p>向数组中添加一项 但是不能添加重复的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.g. 如果数组中没有81 则添加81</span><br><span class="line">db.class1.update(&#123;name:&#x27;小刚&#x27;&#125;,&#123;$addToSet:&#123;score:81&#125;&#125;)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/11/mongodb/%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/" rel="prev" title="MongoDB-集合操作">
+                  <i class="fa fa-angle-left"></i> MongoDB-集合操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/11/mongodb/%E6%9F%A5%E6%89%BE%E6%93%8D%E4%BD%9C/" rel="next" title="MongoDB-查找操作">
+                  MongoDB-查找操作 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

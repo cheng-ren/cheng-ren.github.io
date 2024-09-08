@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="平时开发中，大部分使用NSSet和NSMutableSet。下面介绍个特殊的。  NSHashTable NXHashTable（objc源码）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特殊的集合结构">
+<meta property="og:url" content="https://rencheng.cc/2020/01/15/ios/objc/%E7%89%B9%E6%AE%8A%E7%9A%84%E9%9B%86%E5%90%88%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="平时开发中，大部分使用NSSet和NSMutableSet。下面介绍个特殊的。  NSHashTable NXHashTable（objc源码）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-15T07:47:58.000Z">
+<meta property="article:modified_time" content="2020-01-15T07:47:58.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/01/15/ios/objc/%E7%89%B9%E6%AE%8A%E7%9A%84%E9%9B%86%E5%90%88%E7%BB%93%E6%9E%84/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/01/15/ios/objc/%E7%89%B9%E6%AE%8A%E7%9A%84%E9%9B%86%E5%90%88%E7%BB%93%E6%9E%84/","path":"2020/01/15/ios/objc/特殊的集合结构/","title":"特殊的集合结构"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>特殊的集合结构 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NSHashTable"><span class="nav-number">1.</span> <span class="nav-text">NSHashTable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NXHashTable"><span class="nav-number">2.</span> <span class="nav-text">NXHashTable</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/01/15/ios/objc/%E7%89%B9%E6%AE%8A%E7%9A%84%E9%9B%86%E5%90%88%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="特殊的集合结构 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          特殊的集合结构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-15 15:47:58" itemprop="dateCreated datePublished" datetime="2020-01-15T15:47:58+08:00">2020-01-15</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.9k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>平时开发中，大部分使用<code>NSSet</code>和<code>NSMutableSet</code>。下面介绍个特殊的。</p>
+<ul>
+<li>NSHashTable</li>
+<li>NXHashTable（objc源码）</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="NSHashTable"><a href="#NSHashTable" class="headerlink" title="NSHashTable"></a>NSHashTable</h2><p><code>NSHashTable</code>是更广泛意义的<code>NSSet</code>，区别于<code>NSSet/NSMutableSet</code>，<code>NSHashTable</code>有如下特性：</p>
+<ul>
+<li>NSHashTable 是可变的；</li>
+<li><strong>NSHashTable 可以持有 weak 类型的成员变量；</strong></li>
+<li>NSHashTable 可以在添加成员变量的时候复制成员；</li>
+<li>NSHashTable 可以随意的存储指针并且利用指针的唯一性来进行 hash 同一性检查（检查成员变量是否有重复）和对比操作（equal）；</li>
+</ul>
+<blockquote>
+<p>参考： <a target="_blank" rel="noopener" href="https://nshipster.com/nshashtable-and-nsmaptable/">https://nshipster.com/nshashtable-and-nsmaptable/</a></p>
+</blockquote>
+<blockquote>
+<p>Hash冲突解决方案：拉链法</p>
+</blockquote>
+<p>使用方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *str = <span class="string">@&quot;10&quot;</span>;</span><br><span class="line"><span class="built_in">NSHashTable</span> *table = [[<span class="built_in">NSHashTable</span> alloc] initWithOptions:<span class="built_in">NSHashTableCopyIn</span> capacity:<span class="number">0</span>];</span><br><span class="line">[table addObject:str];</span><br><span class="line">[table removeObject:str];</span><br></pre></td></tr></table></figure>
+
+<p>NSHashTableOptions介绍（源码中是使用静态常量做关联）</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123;</span><br><span class="line">    <span class="comment">// 默认行为，强引用集合中的对象，等同于NSMutableSet</span></span><br><span class="line">    <span class="built_in">NSHashTableStrongMemory</span>             = <span class="number">0</span>,</span><br><span class="line">    <span class="comment">// 在将对象添加到集合之前，会拷贝对象</span></span><br><span class="line">    <span class="built_in">NSHashTableCopyIn</span>                   = <span class="built_in">NSPointerFunctionsCopyIn</span>,</span><br><span class="line">    <span class="comment">// 使用移位指针(shifted pointer)来做hash检测和确定两个对象是否相等；</span></span><br><span class="line">    <span class="comment">// 同时使用description方法来做描述字符串</span></span><br><span class="line">    <span class="built_in">NSHashTableObjectPointerPersonality</span> = <span class="built_in">NSPointerFunctionsObjectPointerPersonality</span>,</span><br><span class="line">    <span class="comment">// 弱引用集合中的对象，且在对象被释放后，会被正确的移除。</span></span><br><span class="line">    <span class="built_in">NSHashTableWeakMemory</span>               = <span class="built_in">NSPointerFunctionsWeakMemory</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NSUInteger</span> <span class="built_in">NSHashTableOptions</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="NXHashTable"><a href="#NXHashTable" class="headerlink" title="NXHashTable"></a>NXHashTable</h2><p>在objc源码中，找到了关于NSHashTable的类似实现。可以参考下</p>
+<p>NXHashTable存储结构（精简过）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">// 附属实体</span></span><br><span class="line">    <span class="type">const</span> NXHashTablePrototype	*prototype;</span><br><span class="line">    <span class="comment">// 真实的长度（存储了多少有效数据）</span></span><br><span class="line">    <span class="type">unsigned</span>		  count;</span><br><span class="line">    <span class="comment">// buckets实际所占用的空间大小（比理论高，2^n，不够会扩容）</span></span><br><span class="line">    <span class="type">unsigned</span>		  nbBuckets;</span><br><span class="line">    <span class="comment">// 数据[HashBucket?]</span></span><br><span class="line">    <span class="type">void</span>			 *buckets;</span><br><span class="line">    <span class="comment">// 信息</span></span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	     *info;</span><br><span class="line">&#125; NXHashTable;</span><br></pre></td></tr></table></figure>
+<p>NXHashTablePrototype存储结构（精简过）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">// hash方法的函数指针</span></span><br><span class="line">    <span class="type">uintptr_t</span>	(* hash)(<span class="type">const</span> <span class="type">void</span> * info,</span><br><span class="line">                                  <span class="type">const</span> <span class="type">void</span> * data);</span><br><span class="line">    <span class="comment">// isEqual方法的函数指针</span></span><br><span class="line">    <span class="type">int</span>		(* isEqual)(<span class="type">const</span> <span class="type">void</span> * info, <span class="type">const</span> <span class="type">void</span> * data1, <span class="type">const</span> <span class="type">void</span> * data2);</span><br><span class="line">    <span class="comment">// free方法的函数指针</span></span><br><span class="line">    <span class="type">void</span>	(* <span class="built_in">free</span>)(<span class="type">const</span> <span class="type">void</span> * info, <span class="type">void</span> * data);</span><br><span class="line">    <span class="comment">// 保留字段</span></span><br><span class="line">    <span class="type">int</span>		style;</span><br><span class="line">&#125; NXHashTablePrototype;</span><br></pre></td></tr></table></figure>
+<p>HashBucket存储结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="comment">// 存储的数据</span></span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	*one;</span><br><span class="line">    <span class="comment">// 存储数据的集合[x, x]，新数据在前面</span></span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**many;</span><br><span class="line">&#125; oneOrMany;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>	&#123;</span></span><br><span class="line">    <span class="type">unsigned</span> 	count; </span><br><span class="line">    <span class="comment">// 如果count == 1，则取elements.one</span></span><br><span class="line">    <span class="comment">// 如果count &gt;  1，则取elements.many</span></span><br><span class="line">    oneOrMany	elements;</span><br><span class="line">&#125; HashBucket;</span><br></pre></td></tr></table></figure>
+
+<p>NXHashTable的构造器<code>NXCreateHashTable</code>和<code>NXCreateHashTableFromZone</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">NXHashTable *NXCreateHashTable (NXHashTablePrototype prototype, <span class="type">unsigned</span> capacity, <span class="keyword">const</span> <span class="type">void</span> *info) &#123;</span><br><span class="line">    <span class="keyword">return</span> NXCreateHashTableFromZone(prototype, capacity, info, DEFAULT_ZONE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NXHashTable *NXCreateHashTableFromZone (NXHashTablePrototype prototype, <span class="type">unsigned</span> capacity, <span class="keyword">const</span> <span class="type">void</span> *info, <span class="type">void</span> *z) &#123;</span><br><span class="line">    NXHashTable			*table;</span><br><span class="line">    NXHashTablePrototype	*proto;</span><br><span class="line">    </span><br><span class="line">    table = ALLOCTABLE(z);</span><br><span class="line">    <span class="keyword">if</span> (! prototypes) bootstrap ();</span><br><span class="line">    <span class="keyword">if</span> (! prototype.hash) prototype.hash = NXPtrHash;</span><br><span class="line">    <span class="keyword">if</span> (! prototype.isEqual) prototype.isEqual = NXPtrIsEqual;</span><br><span class="line">    <span class="keyword">if</span> (! prototype.free) prototype.free = NXNoEffectFree;</span><br><span class="line">    <span class="keyword">if</span> (prototype.style) &#123;</span><br><span class="line">	_objc_inform (<span class="string">&quot;*** NXCreateHashTable: invalid style\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">    proto = (NXHashTablePrototype *)NXHashGet (prototypes, &amp;prototype); </span><br><span class="line">    <span class="keyword">if</span> (! proto) &#123;</span><br><span class="line">	proto</span><br><span class="line">            = (NXHashTablePrototype *) malloc(<span class="keyword">sizeof</span> (NXHashTablePrototype));</span><br><span class="line">	bcopy ((<span class="keyword">const</span> <span class="type">char</span>*)&amp;prototype, (<span class="type">char</span>*)proto, <span class="keyword">sizeof</span> (NXHashTablePrototype));</span><br><span class="line">    	(<span class="type">void</span>) NXHashInsert (prototypes, proto);</span><br><span class="line">	proto = (NXHashTablePrototype *)NXHashGet (prototypes, &amp;prototype);</span><br><span class="line">	<span class="keyword">if</span> (! proto) &#123;</span><br><span class="line">	    _objc_inform (<span class="string">&quot;*** NXCreateHashTable: bug\n&quot;</span>);</span><br><span class="line">	    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	    &#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">    table-&gt;prototype = proto; table-&gt;count = <span class="number">0</span>; table-&gt;info = info;</span><br><span class="line">    table-&gt;nbBuckets = GOOD_CAPACITY(capacity);</span><br><span class="line">    table-&gt;buckets = ALLOCBUCKETS(z, table-&gt;nbBuckets);</span><br><span class="line">    <span class="keyword">return</span> table;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>取数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过hash函数（data指针位运算得到的散列数）-&gt;取模（得到下标）-&gt; 加上头指针（得到数据的具体地址）</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	BUCKETOF(table, data) (((HashBucket *)table-&gt;buckets)+((*table-&gt;prototype-&gt;hash)(table-&gt;info, data) % table-&gt;nbBuckets))</span></span><br><span class="line"><span class="comment">// 判断数据指针是否一致</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ISEQUAL(table, data1, data2) ((data1 == data2) || (*table-&gt;prototype-&gt;isEqual)(table-&gt;info, data1, data2))</span></span><br><span class="line"><span class="type">void</span> *<span class="title function_">NXHashGet</span> <span class="params">(NXHashTable *table, <span class="type">const</span> <span class="type">void</span> *data)</span> &#123;</span><br><span class="line">    HashBucket	*bucket = BUCKETOF(table, data);</span><br><span class="line">    <span class="type">unsigned</span>	j = bucket-&gt;count;</span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**pairs;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (! j) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</span><br><span class="line">    	<span class="keyword">return</span> ISEQUAL(table, data, bucket-&gt;elements.one)</span><br><span class="line">	    ? (<span class="type">void</span> *) bucket-&gt;elements.one : <span class="literal">NULL</span>; </span><br><span class="line">	&#125;;</span><br><span class="line">    pairs = bucket-&gt;elements.many;</span><br><span class="line">    <span class="comment">// 从列表中遍历寻找元素</span></span><br><span class="line">    <span class="keyword">while</span> (j--) &#123;</span><br><span class="line">	<span class="comment">/* we don&#x27;t cache isEqual because lists are short */</span></span><br><span class="line">    	<span class="keyword">if</span> (ISEQUAL(table, data, *pairs)) <span class="keyword">return</span> (<span class="type">void</span> *) *pairs; </span><br><span class="line">	pairs ++;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>插入数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">NXHashInsert</span> <span class="params">(NXHashTable *table, <span class="type">const</span> <span class="type">void</span> *data)</span> &#123;</span><br><span class="line">    HashBucket	*bucket = BUCKETOF(table, data);</span><br><span class="line">    <span class="type">unsigned</span>	j = bucket-&gt;count;</span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**pairs;</span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**newt;</span><br><span class="line">    __unused <span class="type">void</span> *z = ZONE_FROM_PTR(table);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (! j) &#123;</span><br><span class="line">	bucket-&gt;count++; bucket-&gt;elements.one = data; </span><br><span class="line">	table-&gt;count++; </span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</span><br><span class="line">    	<span class="keyword">if</span> (ISEQUAL(table, data, bucket-&gt;elements.one)) &#123;</span><br><span class="line">	       <span class="type">const</span> <span class="type">void</span>	*old = bucket-&gt;elements.one;</span><br><span class="line">	       bucket-&gt;elements.one = data;</span><br><span class="line">	       <span class="keyword">return</span> (<span class="type">void</span> *) old;</span><br><span class="line">	   &#125;;</span><br><span class="line">        <span class="comment">// 数据迁移one-&gt;many</span></span><br><span class="line">	   newt = ALLOCPAIRS(z, <span class="number">2</span>);</span><br><span class="line">	   newt[<span class="number">1</span>] = bucket-&gt;elements.one;</span><br><span class="line">	   *newt = data;</span><br><span class="line">	   bucket-&gt;count++; bucket-&gt;elements.many = newt; </span><br><span class="line">	   table-&gt;count++; </span><br><span class="line">	   <span class="comment">// 如果列表的实际长度大于物理长度，就扩容buckets</span></span><br><span class="line">	   <span class="keyword">if</span> (table-&gt;count &gt; table-&gt;nbBuckets) _NXHashRehash (table);</span><br><span class="line">	   <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">    pairs = bucket-&gt;elements.many;</span><br><span class="line">    <span class="comment">// 遍历先有的列表，如果数据已经存在，就返回</span></span><br><span class="line">    <span class="keyword">while</span> (j--) &#123;</span><br><span class="line">	<span class="comment">/* we don&#x27;t cache isEqual because lists are short */</span></span><br><span class="line">    	<span class="keyword">if</span> (ISEQUAL(table, data, *pairs)) &#123;</span><br><span class="line">	       <span class="type">const</span> <span class="type">void</span>	*old = *pairs;</span><br><span class="line">	       *pairs = data;</span><br><span class="line">	       <span class="keyword">return</span> (<span class="type">void</span> *) old;</span><br><span class="line">	    &#125;;</span><br><span class="line">	   pairs ++;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="comment">/* 我们扩大这个buckets里面的many；并将新数据放在前面 */</span></span><br><span class="line">    newt = ALLOCPAIRS(z, bucket-&gt;count+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (bucket-&gt;count) bcopy ((<span class="type">const</span> <span class="type">char</span>*)bucket-&gt;elements.many, (<span class="type">char</span>*)(newt+<span class="number">1</span>), bucket-&gt;count * PTRSIZE);</span><br><span class="line">    *newt = data;</span><br><span class="line">    FREEPAIRS (bucket-&gt;elements.many);</span><br><span class="line">    bucket-&gt;count++; bucket-&gt;elements.many = newt; </span><br><span class="line">    table-&gt;count++; </span><br><span class="line">    <span class="keyword">if</span> (table-&gt;count &gt; table-&gt;nbBuckets) _NXHashRehash (table);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>扩容</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 思路：</span></span><br><span class="line"><span class="comment">// 将table的信息缓存到一个临时的table中</span></span><br><span class="line"><span class="comment">// 将table内的信息更新成最新</span></span><br><span class="line"><span class="comment">// 将table内的buckets数据仓重新分配大的内存</span></span><br><span class="line"><span class="comment">// 遍历将临时table中的数据依次再插入到新的buckets中</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MORE_CAPACITY(b) (b*2+1)</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> _NXHashRehash (NXHashTable *table) &#123;</span><br><span class="line">    _NXHashRehashToCapacity (table, MORE_CAPACITY(table-&gt;nbBuckets));</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> _NXHashRehashToCapacity (NXHashTable *table, <span class="type">unsigned</span> newCapacity) &#123;</span><br><span class="line">    <span class="comment">/* Rehash: we create a pseudo table pointing really to the old guys,</span></span><br><span class="line"><span class="comment">    extend self, copy the old pairs, and free the pseudo table */</span></span><br><span class="line">    NXHashTable	*old;</span><br><span class="line">    NXHashState	state;</span><br><span class="line">    <span class="type">void</span>	*aux;</span><br><span class="line">    __unused <span class="type">void</span> *z = ZONE_FROM_PTR(table);</span><br><span class="line">    </span><br><span class="line">    old = ALLOCTABLE(z);</span><br><span class="line">    old-&gt;prototype = table-&gt;prototype; old-&gt;count = table-&gt;count; </span><br><span class="line">    old-&gt;nbBuckets = table-&gt;nbBuckets; old-&gt;buckets = table-&gt;buckets;</span><br><span class="line">    table-&gt;nbBuckets = newCapacity;</span><br><span class="line">    table-&gt;count = <span class="number">0</span>; table-&gt;buckets = ALLOCBUCKETS(z, table-&gt;nbBuckets);</span><br><span class="line">    state = NXInitHashState (old);</span><br><span class="line">    <span class="keyword">while</span> (NXNextHashState (old, &amp;state, &amp;aux))</span><br><span class="line">	(<span class="type">void</span>) NXHashInsert (table, aux);</span><br><span class="line">    freeBuckets (old, NO);</span><br><span class="line">    <span class="keyword">if</span> (old-&gt;count != table-&gt;count)</span><br><span class="line">	_objc_inform(<span class="string">&quot;*** hashtable: count differs after rehashing; probably indicates a broken invariant: there are x and y such as isEqual(x, y) is TRUE but hash(x) != hash (y)\n&quot;</span>);</span><br><span class="line">    <span class="built_in">free</span> (old-&gt;buckets); </span><br><span class="line">    <span class="built_in">free</span> (old);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>删除某个元素</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">NXHashRemove</span> <span class="params">(NXHashTable *table, <span class="type">const</span> <span class="type">void</span> *data)</span> &#123;</span><br><span class="line">    HashBucket	*bucket = BUCKETOF(table, data);</span><br><span class="line">    <span class="type">unsigned</span>	j = bucket-&gt;count;</span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**pairs;</span><br><span class="line">    <span class="type">const</span> <span class="type">void</span>	**newt;</span><br><span class="line">    __unused <span class="type">void</span> *z = ZONE_FROM_PTR(table);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (! j) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (! ISEQUAL(table, data, bucket-&gt;elements.one)) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	data = bucket-&gt;elements.one;</span><br><span class="line">	table-&gt;count--; bucket-&gt;count--; bucket-&gt;elements.one = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> (<span class="type">void</span> *) data;</span><br><span class="line">	&#125;;</span><br><span class="line">    pairs = bucket-&gt;elements.many;</span><br><span class="line">    <span class="keyword">if</span> (j == <span class="number">2</span>) &#123;</span><br><span class="line">    	<span class="keyword">if</span> (ISEQUAL(table, data, pairs[<span class="number">0</span>])) &#123;</span><br><span class="line">	    bucket-&gt;elements.one = pairs[<span class="number">1</span>]; data = pairs[<span class="number">0</span>];</span><br><span class="line">	    &#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (ISEQUAL(table, data, pairs[<span class="number">1</span>])) &#123;</span><br><span class="line">	    bucket-&gt;elements.one = pairs[<span class="number">0</span>]; data = pairs[<span class="number">1</span>];</span><br><span class="line">	    &#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	FREEPAIRS (pairs);</span><br><span class="line">	table-&gt;count--; bucket-&gt;count--;</span><br><span class="line">	<span class="keyword">return</span> (<span class="type">void</span> *) data;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="keyword">while</span> (j--) &#123;</span><br><span class="line">    	<span class="keyword">if</span> (ISEQUAL(table, data, *pairs)) &#123;</span><br><span class="line">	    data = *pairs;</span><br><span class="line">	    <span class="comment">/* we shrink this bucket */</span></span><br><span class="line">	    newt = (bucket-&gt;count<span class="number">-1</span>) </span><br><span class="line">		? ALLOCPAIRS(z, bucket-&gt;count<span class="number">-1</span>) : <span class="literal">NULL</span>;</span><br><span class="line">	    <span class="keyword">if</span> (bucket-&gt;count<span class="number">-1</span> != j)</span><br><span class="line">		    bcopy ((<span class="type">const</span> <span class="type">char</span>*)bucket-&gt;elements.many, (<span class="type">char</span>*)newt, PTRSIZE*(bucket-&gt;count-j<span class="number">-1</span>));</span><br><span class="line">	    <span class="keyword">if</span> (j)</span><br><span class="line">		    bcopy ((<span class="type">const</span> <span class="type">char</span>*)(bucket-&gt;elements.many + bucket-&gt;count-j), (<span class="type">char</span>*)(newt+bucket-&gt;count-j<span class="number">-1</span>), PTRSIZE*j);</span><br><span class="line">	    FREEPAIRS (bucket-&gt;elements.many);</span><br><span class="line">	    table-&gt;count--; bucket-&gt;count--; bucket-&gt;elements.many = newt;</span><br><span class="line">	    <span class="keyword">return</span> (<span class="type">void</span> *) data;</span><br><span class="line">	    &#125;;</span><br><span class="line">	pairs ++;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/13/search/%E7%A5%9E%E7%AD%96SDK%E8%B0%83%E7%A0%94/" rel="prev" title="神策SDK调研">
+                  <i class="fa fa-angle-left"></i> 神策SDK调研
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/16/flutter/Flutter%E6%9E%B6%E6%9E%84/" rel="next" title="Flutter - 架构">
+                  Flutter - 架构 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

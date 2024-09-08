@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基于swift5.1写的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift">
+<meta property="og:url" content="https://rencheng.cc/2019/07/20/ios/swift/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="基于swift5.1写的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/m7u8l.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/g2c1n.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/i1pnj.png">
+<meta property="article:published_time" content="2019-07-20T02:51:47.000Z">
+<meta property="article:modified_time" content="2019-07-20T02:51:47.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/m7u8l.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/20/ios/swift/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/07/20/ios/swift/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/","path":"2019/07/20/ios/swift/基础语法/","title":"Swift"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Swift | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">基础语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA"><span class="nav-number">1.1.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.2.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.</span> <span class="nav-text">常用数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">1.6.</span> <span class="nav-text">字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.7.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%BB%84"><span class="nav-number">1.8.</span> <span class="nav-text">元组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">流程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if-else"><span class="nav-number">2.1.</span> <span class="nav-text">if-else</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">2.2.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for"><span class="nav-number">2.3.</span> <span class="nav-text">for</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AD%E5%8C%BA%E9%97%B4%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9Aa%E2%80%A6b-a-lt-%E5%8F%96%E5%80%BC-lt-b"><span class="nav-number">2.3.1.</span> <span class="nav-text">闭区间运算符：a…b, a &lt;&#x3D; 取值 &lt;&#x3D; b</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8A%E5%BC%80%E5%8C%BA%E9%97%B4%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9Aa-lt-b-a-lt-%E5%8F%96%E5%80%BC-lt-b"><span class="nav-number">2.3.2.</span> <span class="nav-text">半开区间运算符：a..&lt;b, a &lt;&#x3D; 取值 &lt; b</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E8%BF%90%E7%AE%97%E7%AC%A6%E7%94%A8%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%8A"><span class="nav-number">2.3.3.</span> <span class="nav-text">区间运算符用在数组上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.3.4.</span> <span class="nav-text">区间类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A6%E9%97%B4%E9%9A%94%E7%9A%84%E5%8C%BA%E9%97%B4%E5%80%BC"><span class="nav-number">2.3.5.</span> <span class="nav-text">带间隔的区间值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch"><span class="nav-number">2.4.</span> <span class="nav-text">switch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">3.1.</span> <span class="nav-text">函数的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E8%BF%94%E5%9B%9E-Implicit-Return"><span class="nav-number">3.2.</span> <span class="nav-text">隐式返回(Implicit Return)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%85%83%E7%BB%84-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">3.3.</span> <span class="nav-text">返回元组:实现多返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A"><span class="nav-number">3.4.</span> <span class="nav-text">函数的文档注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E6%A0%87%E7%AD%BE-Argument-Label"><span class="nav-number">3.5.</span> <span class="nav-text">参数标签(Argument Label)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E5%80%BC-Default-Parameter-Value"><span class="nav-number">3.6.</span> <span class="nav-text">默认参数值(Default Parameter Value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0-Variadic-Parameter"><span class="nav-number">3.7.</span> <span class="nav-text">可变参数(Variadic Parameter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E8%87%AA%E5%B8%A6%E7%9A%84print%E5%87%BD%E6%95%B0"><span class="nav-number">3.8.</span> <span class="nav-text">Swift自带的print函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%8F%82%E6%95%B0-In-Out-Parameter"><span class="nav-number">3.9.</span> <span class="nav-text">输入输出参数(In-Out Parameter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD-Function-Overload"><span class="nav-number">3.10.</span> <span class="nav-text">函数重载(Function Overload)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0"><span class="nav-number">3.11.</span> <span class="nav-text">内联函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B-Function-Type"><span class="nav-number">3.12.</span> <span class="nav-text">函数类型(Function Type)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%88%AB%E5%90%8D%EF%BC%88typealias%EF%BC%89"><span class="nav-number">3.13.</span> <span class="nav-text">函数别名（typealias）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/20/ios/swift/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Swift | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-20 10:51:47" itemprop="dateCreated datePublished" datetime="2019-07-20T10:51:47+08:00">2019-07-20</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>13k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>基于swift5.1写的</p>
+<span id="more"></span>
+
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">&quot;Hello World&quot;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>不用编写main函数，Swift将全局范围内的首句可执行代码作为程序入口</p>
+</li>
+<li><p>一句代码尾部可以省略分号(;)，多句代码写到同一行时必须用分号(;)隔开 </p>
+</li>
+<li><p>用<code>var</code>定义变量，<code>let</code>定义常量，编译器能自动推断出变量\常量的类型</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> c <span class="operator">=</span> a <span class="operator">+</span> b</span><br><span class="line">c <span class="operator">+=</span> <span class="number">30</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Playground可以快速预览代码效果，是学习语法的好帮手 </p>
+</li>
+<li><p><code>Command + Shift + Enter</code>:运行整个Playground</p>
+</li>
+<li><p><code>Shift + Enter</code>:运行截止到某一行代码</p>
+</li>
+</ul>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 多行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 1</span></span><br><span class="line"><span class="comment"> <span class="comment">/* 多行注释嵌套 */</span></span></span><br><span class="line"><span class="comment"> 2</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><ul>
+<li>只能赋值1次</li>
+<li>它的值不要求在编译时期确定，但使用之前必须赋值1次</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age1 <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> age2: <span class="type">Int</span></span><br><span class="line">age2 <span class="operator">=</span> <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">getAge</span>() -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">30</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> age3 <span class="operator">=</span> getAge()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>常量、变量在初始化之前，都不能使用</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age: <span class="type">Int</span></span><br><span class="line"><span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line"><span class="built_in">print</span>(age)</span><br><span class="line"><span class="built_in">print</span>(height)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>下面代码是错误的</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age</span><br><span class="line">age <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><ul>
+<li>标识符(比如常量名、变量名、函数名)几乎可以使用任何字符</li>
+<li>标识符不能以数字开头，不能包含空白字符、制表符、箭头等特殊字符</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> 🐂🍺() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;666&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">🐂🍺()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> 👽 <span class="operator">=</span> <span class="string">&quot;ET&quot;</span></span><br><span class="line"><span class="keyword">var</span> 🥛 <span class="operator">=</span> <span class="string">&quot;milk&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常用数据类型"><a href="#常用数据类型" class="headerlink" title="常用数据类型"></a>常用数据类型</h3><p><img src="https://cdn.rencheng.cc/blog/m7u8l.png"></p>
+<ul>
+<li><p>整数类型:Int8、Int16、Int32、Int64、UInt8、UInt16、UInt32、UInt64 </p>
+</li>
+<li><p>在32bit平台，Int等价于Int32，Int等价于Int64</p>
+</li>
+<li><p>整数的最值:UInt8.max、Int16.min</p>
+</li>
+<li><p>一般情况下，都是直接使用Int即可</p>
+</li>
+<li><p>浮点类型:Float，32位，精度只有6位;Double，64位，精度至少15位</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> letFloat: <span class="type">Float</span> <span class="operator">=</span> <span class="number">30.0</span></span><br><span class="line"><span class="keyword">let</span> letDouble <span class="operator">=</span> <span class="number">30.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h3><p><strong>布尔</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bool <span class="operator">=</span> <span class="literal">true</span> <span class="comment">// 取反是false</span></span><br></pre></td></tr></table></figure>
+<p><strong>字符串</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;飞翔&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>字符(可存储ASCII字符、Unicode字符)</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> character: <span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;🐶&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>整数</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> intDecimal <span class="operator">=</span> <span class="number">15</span> <span class="comment">//十进制</span></span><br><span class="line"><span class="keyword">let</span> intBinary <span class="operator">=</span> <span class="number">0b10001</span> <span class="comment">// 二进制</span></span><br><span class="line"><span class="keyword">let</span> intOctal <span class="operator">=</span> <span class="number">0o21</span> <span class="comment">// 八进制</span></span><br><span class="line"><span class="keyword">let</span> intHexadecimal <span class="operator">=</span> <span class="number">0x11</span> <span class="comment">// 十六进制</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> 整数和浮点数可以添加额外的零或者添加下划线来增强可读性 <code>p100_0000</code>、 <code>1_000_000.000_000_1</code>、 <code>000123.456</code></p>
+</blockquote>
+<p><strong>浮点数</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> doubleDecimal <span class="operator">=</span> <span class="number">15.0</span> <span class="comment">//十进制, 等价于1.25e2,0.0125等价于1.25e-2</span></span><br><span class="line"><span class="keyword">let</span> doubleHexadecimal1 <span class="operator">=</span> <span class="number">0xFp2</span> <span class="comment">// 十六进制, 意味着25×2^2，相当于十进制的60</span></span><br><span class="line"><span class="keyword">let</span> doubleHexadecimal2 <span class="operator">=</span> <span class="number">0xFp-2</span> <span class="comment">// 十六进制, 意味着25×2^-2，相当于十进制的3.75</span></span><br></pre></td></tr></table></figure>
+<p><strong>数组</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array <span class="operator">=</span> [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>字典</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dictionary <span class="operator">=</span> [<span class="string">&quot;age&quot;</span>: <span class="number">18</span>, <span class="string">&quot;height&quot;</span>: <span class="number">168</span>, <span class="string">&quot;weight&quot;</span>: <span class="number">120</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p><strong>整数转换</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> int1: <span class="type">UInt16</span> <span class="operator">=</span> <span class="number">2_000</span></span><br><span class="line"><span class="keyword">let</span> int2: <span class="type">UInt8</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> int3 <span class="operator">=</span> int1 <span class="operator">+</span> <span class="type">UInt16</span>(int2)</span><br></pre></td></tr></table></figure>
+<p><strong>整数、浮点数转换</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> int <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> double <span class="operator">=</span> <span class="number">0.14</span></span><br><span class="line"><span class="keyword">let</span> pi <span class="operator">=</span> <span class="type">Double</span>(int) <span class="operator">+</span> double</span><br><span class="line"><span class="keyword">let</span> intPi <span class="operator">=</span> <span class="type">Int</span>(pi)</span><br></pre></td></tr></table></figure>
+
+<p><strong>字面量相加</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字面量可以直接相加，欣慰数字字面量本身没有明确类型</span></span><br><span class="line"><span class="keyword">let</span> result <span class="operator">=</span> <span class="number">3</span> <span class="operator">+</span> <span class="number">0.14</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> http404Error <span class="operator">=</span> (<span class="number">404</span>, <span class="string">&quot;Not Found&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The status code is <span class="subst">\(http404Error.<span class="number">0</span>)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> (statusCode, statusMessage) <span class="operator">=</span> http404Error</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The status code is <span class="subst">\(statusCode)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> (justTheStatusCode, <span class="keyword">_</span>) <span class="operator">=</span> http404Error</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> http200Error <span class="operator">=</span> (statusCode: <span class="number">200</span>, description: <span class="string">&quot;OK&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The status code is <span class="subst">\(http200Error.statusCode)</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><h3 id="if-else"><a href="#if-else" class="headerlink" title="if-else"></a>if-else</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age <span class="operator">=</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">if</span> age <span class="operator">&gt;=</span> <span class="number">22</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Get married&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> age <span class="operator">&gt;=</span> <span class="number">18</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Being a adult&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> age <span class="operator">&gt;=</span> <span class="number">7</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Just a child&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>if后面的条件可以省略小括号</li>
+<li>条件后边的大括号不可以省略</li>
+<li>if后边的条件智能是Bool类型</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误代码</span></span><br><span class="line"><span class="keyword">let</span> age <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> age &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num <span class="operator">=</span> <span class="number">5</span></span><br><span class="line"><span class="keyword">where</span> num <span class="operator">&gt;</span> <span class="number">5</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;num is <span class="subst">\(num)</span>&quot;</span>)</span><br><span class="line">    num <span class="operator">-=</span> <span class="number">1</span></span><br><span class="line">&#125; <span class="comment">//打印了5次</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span></span><br><span class="line"><span class="keyword">repeat</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;num is <span class="subst">\(num)</span>&quot;</span>)</span><br><span class="line">    num <span class="operator">-=</span> <span class="number">1</span></span><br><span class="line">&#125; <span class="keyword">while</span> num <span class="operator">&gt;</span> <span class="number">0</span> <span class="comment">//打印了1次</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>repeat-while 相当于C语言的do-while</li>
+<li>这里不用num–，是因为从Swift3开始，去除了自增（++），自减（–）运算符</li>
+</ul>
+<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><h4 id="闭区间运算符：a…b-a-lt-取值-lt-b"><a href="#闭区间运算符：a…b-a-lt-取值-lt-b" class="headerlink" title="闭区间运算符：a…b, a &lt;= 取值 &lt;= b"></a>闭区间运算符：a…b, a &lt;= 取值 &lt;= b</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Alex&quot;</span>, <span class="string">&quot;Brian&quot;</span>, <span class="string">&quot;Jack&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">...</span><span class="number">3</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(names[i])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Anna, Alex, Brian, Jack</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Alex&quot;</span>, <span class="string">&quot;Brian&quot;</span>, <span class="string">&quot;Jack&quot;</span>]</span><br><span class="line"><span class="keyword">let</span> range <span class="operator">=</span> <span class="number">1</span><span class="operator">...</span><span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range &#123;</span><br><span class="line">    <span class="built_in">print</span>(names[i])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Alex, Brian, Jack</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Alex&quot;</span>, <span class="string">&quot;Brian&quot;</span>, <span class="string">&quot;Jack&quot;</span>]</span><br><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a<span class="operator">...</span>b &#123;</span><br><span class="line">    <span class="built_in">print</span>(name[i])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Alex, Brian</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// i默认是let, 如果有需要可以声明为var</span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">3</span> &#123;</span><br><span class="line">    i <span class="operator">+=</span> <span class="number">5</span></span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 6 7 8</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">_</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">3</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;for&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 打印了三次</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="半开区间运算符：a-lt-b-a-lt-取值-lt-b"><a href="#半开区间运算符：a-lt-b-a-lt-取值-lt-b" class="headerlink" title="半开区间运算符：a..&lt;b, a &lt;= 取值 &lt; b"></a>半开区间运算符：a..&lt;b, a &lt;= 取值 &lt; b</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">..&lt;</span><span class="number">5</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1 2 3 4</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="区间运算符用在数组上"><a href="#区间运算符用在数组上" class="headerlink" title="区间运算符用在数组上"></a>区间运算符用在数组上</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Alex&quot;</span>, <span class="string">&quot;Brian&quot;</span>, <span class="string">&quot;Jack&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names[<span class="number">0</span><span class="operator">...</span><span class="number">3</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Anna, Alex, Brian, Jack</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>单侧区间</strong><br>让区间朝着一个方向尽可能的远</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Alex&quot;</span>, <span class="string">&quot;Brian&quot;</span>, <span class="string">&quot;Jack&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names[<span class="number">2</span><span class="operator">...</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Brian, Jack</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names[<span class="operator">...</span><span class="number">2</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Anna, Alex, Brian</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names[<span class="operator">..&lt;</span><span class="number">2</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Anna, Alex</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> range <span class="operator">=</span> <span class="operator">...</span><span class="number">5</span></span><br><span class="line">range.contains(<span class="number">7</span>) <span class="comment">// false</span></span><br><span class="line">range.contains(<span class="number">4</span>) <span class="comment">// true</span></span><br><span class="line">range.contains(<span class="number">7</span><span class="operator">-</span><span class="number">3</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="区间类型"><a href="#区间类型" class="headerlink" title="区间类型"></a>区间类型</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> range1: <span class="type">ClosedRange</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> <span class="number">1</span><span class="operator">...</span><span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> range2: <span class="type">Range</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span>  <span class="number">1</span><span class="operator">..&lt;</span><span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> range3: <span class="type">PartialRangeThrough</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> <span class="operator">...</span><span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>字符、字符串也能使用区间运算符，但默认不能用在for-in中</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stringRange1 <span class="operator">=</span> <span class="string">&quot;cc&quot;</span><span class="operator">...</span><span class="string">&quot;ff&quot;</span> <span class="comment">// ClosedRange&lt;String&gt; </span></span><br><span class="line">stringRange1.contains(<span class="string">&quot;cb&quot;</span>) <span class="comment">// false </span></span><br><span class="line">stringRange1.contains(<span class="string">&quot;dz&quot;</span>) <span class="comment">// true</span></span><br><span class="line">stringRange1.contains(<span class="string">&quot;fg&quot;</span>) <span class="comment">// false</span></span><br><span class="line"><span class="keyword">let</span> stringRange2 <span class="operator">=</span> <span class="string">&quot;a&quot;</span><span class="operator">...</span><span class="string">&quot;f&quot;</span></span><br><span class="line">stringRange2.contains(<span class="string">&quot;d&quot;</span>) <span class="comment">// true</span></span><br><span class="line">stringRange2.contains(<span class="string">&quot;h&quot;</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// \0到~囊括了所有可能要用到的ASCII字符</span></span><br><span class="line"><span class="keyword">let</span> characterRange: <span class="type">ClosedRange</span>&lt;<span class="type">Character</span>&gt; <span class="operator">=</span> <span class="string">&quot;<span class="subst">\0</span>&quot;</span><span class="operator">...</span><span class="string">&quot;~&quot;</span> characterRange.contains(<span class="string">&quot;G&quot;</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="带间隔的区间值"><a href="#带间隔的区间值" class="headerlink" title="带间隔的区间值"></a>带间隔的区间值</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> hours <span class="operator">=</span> <span class="number">11</span></span><br><span class="line"><span class="keyword">let</span> hourInterval <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="comment">// tickMark的取值:从4开始，累加2，不超过11</span></span><br><span class="line"><span class="keyword">for</span> tickMark <span class="keyword">in</span> <span class="built_in">stride</span>(from: <span class="number">4</span>, through: hours, by: hourInterval) &#123;</span><br><span class="line">    <span class="built_in">print</span>(tickMark)</span><br><span class="line">&#125; <span class="comment">// 4 6 8 10</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><ul>
+<li>case、default后面不能写大括号{}</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> number &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 1&quot;</span>)</span><br><span class="line"><span class="keyword">break</span> <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 2&quot;</span>)</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is other&quot;</span>)</span><br><span class="line"><span class="keyword">break</span></span><br><span class="line">&#125; <span class="comment">// number is 1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>默认可以不写break，并不会贯穿到后面的条件</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> number &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 1&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 2&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is other&quot;</span>)</span><br><span class="line">&#125; <span class="comment">// number is 1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用fallthrough可以实现贯穿效果</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> number &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 1&quot;</span>)</span><br><span class="line">    <span class="keyword">fallthrough</span></span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 2&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is other&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// number is 1</span></span><br><span class="line"><span class="comment">// number is 2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>switch必须要保证能处理所有情况</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示范，编译器会报错；应该加上default</span></span><br><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> number &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;number is 1&quot;</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;number is 2&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>case、default后面至少要有一条语句</li>
+<li>如果不想做任何事，加个break即可</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> number &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 1&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number is 2&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line"><span class="keyword">break</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果能保证已处理所有情况，也可以不必使用default</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">enum Answer &#123; case right, wrong &#125; </span><br><span class="line">let answer = Answer.right</span><br><span class="line">switch answer &#123;</span><br><span class="line">case Answer.right:</span><br><span class="line">    print(&quot;right&quot;) </span><br><span class="line">case Answer.wrong: </span><br><span class="line">    print(&quot;wrong&quot;)</span><br><span class="line">&#125;</span><br><span class="line">// 由于已确定answer是Ansewer类型，因此可以省略Answer </span><br><span class="line">switch answer &#123;</span><br><span class="line">case .right:</span><br><span class="line">    print(&quot;right&quot;) </span><br><span class="line">case .wrong:</span><br><span class="line">    print(&quot;wrong&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>switch也支持Character、String类型</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;Jack&quot;</span></span><br><span class="line"><span class="keyword">switch</span> string &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;Jack&quot;</span>:</span><br><span class="line">    <span class="keyword">fallthrough</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;Rose&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Right person&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// Right person</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> character: <span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">switch</span> character &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The letter A&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not the letter A&quot;</span>)</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// The letter A</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> string &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;Jack&quot;</span>, <span class="string">&quot;Rose&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Right person&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// Right person</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>区间匹配、元组匹配</li>
+<li>可以使用下划线 _ 忽略某个值</li>
+<li>关于case匹配问题，属于模式匹配(Pattern Matching)的范畴，以后会再次详细展开讲解</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> count <span class="operator">=</span> <span class="number">62</span></span><br><span class="line"><span class="keyword">switch</span> count &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;none&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span><span class="operator">..&lt;</span><span class="number">5</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a few&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="number">5</span><span class="operator">..&lt;</span><span class="number">12</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;several&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="number">12</span><span class="operator">..&lt;</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;dozens of&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="number">100</span><span class="operator">..&lt;</span><span class="number">1000</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hundreds of&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;many&quot;</span>)</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// dozens of</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> point <span class="operator">=</span> (<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">switch</span> point &#123;</span><br><span class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="number">0</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;the origin&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> (<span class="keyword">_</span>, <span class="number">0</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the x-axis&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="keyword">_</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the y-axis&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> (<span class="operator">-</span><span class="number">2</span><span class="operator">...</span><span class="number">2</span>, <span class="operator">-</span><span class="number">2</span><span class="operator">...</span><span class="number">2</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;inside the box&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;outside of the box&quot;</span>) &#125; </span><br><span class="line"><span class="comment">// inside the box</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>值绑定 必要时 let也可以改为var</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> point <span class="operator">=</span> (<span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">switch</span> point &#123;</span><br><span class="line"><span class="keyword">case</span> (<span class="keyword">let</span> x, <span class="number">0</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the x-axis with an x value of <span class="subst">\(x)</span>&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="keyword">let</span> y):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the y-axis with a y value of <span class="subst">\(y)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;somewhere else at (<span class="subst">\(x)</span>, <span class="subst">\(y)</span>)&quot;</span>) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// on the x-axis with an x value of 2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>where</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> point <span class="operator">=</span> (<span class="number">1</span>, <span class="operator">-</span><span class="number">1</span>)</span><br><span class="line"><span class="keyword">switch</span> point &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x <span class="operator">==</span> y:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the line x == y&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x <span class="operator">==</span> <span class="operator">-</span>y:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;on the line x == -y&quot;</span>) </span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;(<span class="subst">\(x)</span>, <span class="subst">\(y)</span>) is just some arbitrary point&quot;</span>) &#125; </span><br><span class="line">    </span><br><span class="line"><span class="comment">// on the line x == -y</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将所有正数加起来</span></span><br><span class="line"><span class="keyword">var</span> numbers <span class="operator">=</span> [<span class="number">10</span>, <span class="number">20</span>, <span class="operator">-</span><span class="number">10</span>, <span class="operator">-</span><span class="number">20</span>, <span class="number">30</span>, <span class="operator">-</span><span class="number">30</span>]</span><br><span class="line"><span class="keyword">var</span> sum <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> numbers <span class="keyword">where</span> num <span class="operator">&gt;</span> <span class="number">0</span> &#123; <span class="comment">// 使用where来过滤num</span></span><br><span class="line">    sum <span class="operator">+=</span> num </span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(sum) <span class="comment">// 60</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>标签语句；指定跳出的循环层级</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">outer: <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">4</span> &#123; </span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">4</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> k <span class="operator">==</span> <span class="number">3</span> &#123;</span><br><span class="line">            <span class="keyword">continue</span> outer</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> i <span class="operator">==</span> <span class="number">3</span> &#123;</span><br><span class="line">            <span class="keyword">break</span> outer </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;i == <span class="subst">\(i)</span>, k == <span class="subst">\(k)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h3><ul>
+<li>形参默认是let，也只能是let</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">pi</span>() -&gt; <span class="type">Double</span> &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">3.14</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>无返回值</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sayHello</span>() -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sayHello</span>() -&gt; () &#123; </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="隐式返回-Implicit-Return"><a href="#隐式返回-Implicit-Return" class="headerlink" title="隐式返回(Implicit Return)"></a>隐式返回(Implicit Return)</h3><ul>
+<li>如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>) <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="返回元组-实现多返回值"><a href="#返回元组-实现多返回值" class="headerlink" title="返回元组:实现多返回值"></a>返回元组:实现多返回值</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">calculate</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; (sum: <span class="type">Int</span>, difference: <span class="type">Int</span>, average: <span class="type">Int</span>) &#123; </span><br><span class="line">    <span class="keyword">let</span> sum <span class="operator">=</span> v1 <span class="operator">+</span> v2</span><br><span class="line">    <span class="keyword">return</span> (sum, v1 <span class="operator">-</span> v2, sum <span class="operator">&gt;&gt;</span> <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> result <span class="operator">=</span> calculate(v1: <span class="number">20</span>, v2: <span class="number">10</span>) </span><br><span class="line">result.sum <span class="comment">// 30</span></span><br><span class="line">result.difference <span class="comment">// 10 </span></span><br><span class="line">result.average <span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数的文档注释"><a href="#函数的文档注释" class="headerlink" title="函数的文档注释"></a>函数的文档注释</h3><p><a target="_blank" rel="noopener" href="https://swift.org/documentation/api-design-guidelines/">参考官方文档</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 求和【概述】 </span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// 将2个整数相加【更详细的描述】 </span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// - Parameter v1: 第1个整数</span></span><br><span class="line"><span class="comment">/// - Parameter v2: 第2个整数</span></span><br><span class="line"><span class="comment">/// - Returns: 2个整数的和 </span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// - Note:传入2个整数即可【批注】</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    v1 <span class="operator">+</span> v2 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数标签-Argument-Label"><a href="#参数标签-Argument-Label" class="headerlink" title="参数标签(Argument Label)"></a>参数标签(Argument Label)</h3><p><strong>可以修改参数标签</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">goToWork</span>(<span class="params">at</span> <span class="params">time</span>: <span class="type">String</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;this time is <span class="subst">\(time)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">goToWork(at: <span class="string">&quot;08:00&quot;</span>)</span><br><span class="line"><span class="comment">// this time is 08:00</span></span><br></pre></td></tr></table></figure>
+<p><strong>可以使用下划线_ 省略参数标签</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="keyword">_</span> <span class="params">v1</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="默认参数值-Default-Parameter-Value"><a href="#默认参数值-Default-Parameter-Value" class="headerlink" title="默认参数值(Default Parameter Value)"></a>默认参数值(Default Parameter Value)</h3><p><strong>参数可以有默认值</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">check</span>(<span class="params">name</span>: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;nobody&quot;</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">job</span>: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;none&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;name=<span class="subst">\(name)</span>, age=<span class="subst">\(age)</span>, job=<span class="subst">\(job)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">check(name: <span class="string">&quot;Jack&quot;</span>, age: <span class="number">20</span>, job: <span class="string">&quot;Doctor&quot;</span>) <span class="comment">// name=Jack, age=20, job=Doctor</span></span><br><span class="line">check(name: <span class="string">&quot;Rose&quot;</span>, age: <span class="number">18</span>) <span class="comment">// name=Rose, age=18, job=none</span></span><br><span class="line">check(age: <span class="number">10</span>, job: <span class="string">&quot;Batman&quot;</span>) <span class="comment">// name=nobody, age=10, job=Batman</span></span><br><span class="line">check(age: <span class="number">15</span>) <span class="comment">// name=nobody, age=15, job=none</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>C++的默认参数值有个限制:必须从右往左设置。由于Swift拥有参数标签，因此并没有此类限制<br>但是在省略参数标签时，需要特别注意，避免出错</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里的middle不可以省略参数标签</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">first</span>: <span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>, <span class="params">middle</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">last</span>: <span class="type">Int</span> <span class="operator">=</span> <span class="number">30</span>) &#123; &#125; test(middle: <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="可变参数-Variadic-Parameter"><a href="#可变参数-Variadic-Parameter" class="headerlink" title="可变参数(Variadic Parameter)"></a>可变参数(Variadic Parameter)</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="keyword">_</span> <span class="params">numbers</span>: <span class="type">Int</span>...) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    <span class="keyword">var</span> total <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        total <span class="operator">+=</span> number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>) <span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+<p><strong>一个函数最多只能有1个可变参数</strong><br><strong>紧跟在可变参数后面的参数不能省略参数标签</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数string不能省略标签</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">numbers</span>: <span class="type">Int</span>..., <span class="params">string</span>: <span class="type">String</span>, <span class="keyword">_</span> <span class="params">other</span>: <span class="type">String</span>) &#123; &#125;</span><br><span class="line">test(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, string: <span class="string">&quot;Jack&quot;</span>, <span class="string">&quot;Rose&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Swift自带的print函数"><a href="#Swift自带的print函数" class="headerlink" title="Swift自带的print函数"></a>Swift自带的print函数</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// - Parameters:</span></span><br><span class="line"><span class="comment">///     - items: Zero or more items to print.</span></span><br><span class="line"><span class="comment">///     - separator: A string to print between each item. The default is a single space (`&quot; &quot;`). </span></span><br><span class="line"><span class="comment">///     - terminator: The string to print after all items have been printed. The</span></span><br><span class="line"><span class="comment">///       default is a newline (`&quot;\n&quot;`).</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">print</span>(<span class="keyword">_</span> <span class="params">items</span>: <span class="keyword">Any</span><span class="operator">...</span>, <span class="params">separator</span>: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot; &quot;</span>, <span class="params">terminator</span>: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\n</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>) <span class="comment">// 1 2 3 4 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, separator: <span class="string">&quot;_&quot;</span>) <span class="comment">// 1_2_3_4_5</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;My name is Jake.&quot;</span>, terminator: <span class="string">&quot;&quot;</span>) </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;My age is 18.&quot;</span>)</span><br><span class="line"><span class="comment">// My name is Jake.My age is 18.</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="输入输出参数-In-Out-Parameter"><a href="#输入输出参数-In-Out-Parameter" class="headerlink" title="输入输出参数(In-Out Parameter)"></a>输入输出参数(In-Out Parameter)</h3><p><strong>可以用inout定义一个输入输出参数:可以在函数内部修改外部实参的值</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">swapValues</span>(<span class="keyword">_</span> <span class="params">v1</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">v2</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123; </span><br><span class="line">    <span class="keyword">let</span> tmp <span class="operator">=</span> v1</span><br><span class="line">    v1 <span class="operator">=</span> v2</span><br><span class="line">    v2 <span class="operator">=</span> tmp </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> num1 <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> num2 <span class="operator">=</span> <span class="number">20</span></span><br><span class="line">swapValues(<span class="operator">&amp;</span>num1, <span class="operator">&amp;</span>num2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">swapValues</span>(<span class="keyword">_</span> <span class="params">v1</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">v2</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123; </span><br><span class="line">    (v1, v2) <span class="operator">=</span> (v2, v1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可变参数不能标记为inout<br>inout参数不能有默认值<br>inout参数只能传入可以被多次赋值的<br>inout参数的本质是地址传递(引用传递)</p>
+</blockquote>
+<h3 id="函数重载-Function-Overload"><a href="#函数重载-Function-Overload" class="headerlink" title="函数重载(Function Overload)"></a>函数重载(Function Overload)</h3><ul>
+<li>规则<ul>
+<li>函数名相同</li>
+<li>参数个数不同 || 参数类型不同 || 参数标签不同</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>, <span class="params">v3</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2 <span class="operator">+</span> v3</span><br><span class="line">&#125; <span class="comment">// 参数个数不同</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Double</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    v1 <span class="operator">+</span> <span class="type">Double</span>(v2) &#125; <span class="comment">// 参数类型不同</span></span><br><span class="line">&#125; <span class="comment">// 参数类型不同</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="keyword">_</span> <span class="params">v1</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125; <span class="comment">//https://cdn.rencheng.cc/blog</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">a</span>: <span class="type">Int</span>, <span class="params">b</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    a<span class="operator">+</span>b</span><br><span class="line">&#125; <span class="comment">// 参数标签不同</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>) <span class="comment">// 30 </span></span><br><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>, v3: <span class="number">30</span>) <span class="comment">// 60 </span></span><br><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20.0</span>) <span class="comment">// 30.0 </span></span><br><span class="line">sum(v1: <span class="number">10.0</span>, v2: <span class="number">20</span>) <span class="comment">// 30.0 </span></span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>) <span class="comment">// 30</span></span><br><span class="line">sum(a: <span class="number">10</span>, b: <span class="number">20</span>) <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>返回值类型与函数重载无关</strong><br><img src="https://cdn.rencheng.cc/blog/g2c1n.png"><br><strong>默认参数值和函数重载一起使用产生二义性时，编译器并不会报错(在C++中会报错)</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>, <span class="params">v3</span>: <span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    v1 <span class="operator">+</span> v2 <span class="operator">+</span> v3 </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 会调用sum(v1: Int, v2: Int) </span></span><br><span class="line">sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>可变参数、省略参数标签、函数重载一起使用产生二义性时，编译器有可能会报错</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line">https:<span class="comment">//cdn.rencheng.cc/blog</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="keyword">_</span> <span class="params">v1</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    v1 <span class="operator">+</span> v2 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="keyword">_</span> <span class="params">numbers</span>: <span class="type">Int</span>...) -&gt; <span class="type">Int</span> &#123; <span class="keyword">var</span> total <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        total <span class="operator">+=</span> number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// error: ambiguous use of &#x27;sum&#x27;</span></span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h3><p><img src="https://cdn.rencheng.cc/blog/i1pnj.png"></p>
+<ul>
+<li><p>如果开启了编译器优化(Release模式默认会开启优化)，编译器会自动将某些函数变成内联函数 p将函数调用展开成函数体</p>
+</li>
+<li><p>哪些函数不会被自动内联? </p>
+<ul>
+<li>函数体比较长 </li>
+<li>包含递归调用 </li>
+<li>包含动态派发</li>
+</ul>
+</li>
+</ul>
+<p><strong>@inline</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 永远不会被内联(即使开启了编译器优化) </span></span><br><span class="line"><span class="meta">@inline</span>(never) <span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开启编译器优化后，即使代码很长，也会被内联(递归调用函数、动态派发的函数除外) </span></span><br><span class="line"><span class="meta">@inline</span>(__always) <span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在Release模式下，编译器已经开启优化，会自动决定哪些函数需要内联，因此没必要使用@inline</p>
+</blockquote>
+<h3 id="函数类型-Function-Type"><a href="#函数类型-Function-Type" class="headerlink" title="函数类型(Function Type)"></a>函数类型(Function Type)</h3><p><strong>每一个函数都是有类型的，函数类型由形式参数类型、返回值类型组成</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123; &#125; <span class="comment">// () -&gt; Void 或者 () -&gt; ()</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">a</span>: <span class="type">Int</span>, <span class="params">b</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    a<span class="operator">+</span>b</span><br><span class="line">&#125; <span class="comment">// (Int, Int) -&gt; Int</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义变量</span></span><br><span class="line"><span class="keyword">var</span> fn: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span> <span class="operator">=</span> sum </span><br><span class="line">fn(<span class="number">2</span>, <span class="number">3</span>) <span class="comment">// 5，调用时不需要参数标签</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>函数类型作为函数参数</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">sum</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">+</span> v2</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">difference</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    v1 <span class="operator">-</span> v2 </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">printResult</span>(<span class="keyword">_</span> <span class="params">mathFn</span>: (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">a</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">b</span>: <span class="type">Int</span>) &#123; </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Result: <span class="subst">\(mathFn(a, b))</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">printResult(sum, <span class="number">5</span>, <span class="number">2</span>) <span class="comment">// Result: 7</span></span><br><span class="line">printResult(difference, <span class="number">5</span>, <span class="number">2</span>) <span class="comment">// Result: 3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>函数类型作为函数返回值</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">next</span>(<span class="keyword">_</span> <span class="params">input</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    input <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">previous</span>(<span class="keyword">_</span> <span class="params">input</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    input <span class="operator">-</span> <span class="number">1</span> </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">forward</span>(<span class="keyword">_</span> <span class="params">forward</span>: <span class="type">Bool</span>) -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    forward <span class="operator">?</span> next : previous</span><br><span class="line">&#125;</span><br><span class="line">forward(<span class="literal">true</span>)(<span class="number">3</span>) <span class="comment">// 4</span></span><br><span class="line">forward(<span class="literal">false</span>)(<span class="number">3</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>返回值是函数类型的函数，叫做高阶函数(Higher-Order Function)</p>
+</blockquote>
+<h3 id="函数别名（typealias）"><a href="#函数别名（typealias）" class="headerlink" title="函数别名（typealias）"></a>函数别名（typealias）</h3><p><strong>typealias用来给类型起别名</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Byte</span> <span class="operator">=</span> <span class="type">Int8</span></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">Short</span> <span class="operator">=</span> <span class="type">Int16</span></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">Long</span> <span class="operator">=</span> <span class="type">Int64</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Date</span> <span class="operator">=</span> (year: <span class="type">Int</span>, month: <span class="type">Int</span>, day: <span class="type">Int</span>) <span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">date</span>: <span class="type">Date</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(date.<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(date.year) </span><br><span class="line">&#125;</span><br><span class="line">test((<span class="number">2011</span>, <span class="number">9</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>按照Swift标准库的定义，Void就是空元组()</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">Void</span> <span class="operator">=</span> ()</span><br><span class="line"></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">IntFn</span> <span class="operator">=</span> (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">difference</span>(<span class="params">v1</span>: <span class="type">Int</span>, <span class="params">v2</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; </span><br><span class="line">    v1 <span class="operator">-</span> v2</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> fn: <span class="type">IntFn</span> <span class="operator">=</span> difference</span><br><span class="line">fn(<span class="number">20</span>, <span class="number">10</span>) <span class="comment">// 10</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">setFn</span>(<span class="keyword">_</span> <span class="params">fn</span>: <span class="type">IntFn</span>) &#123; &#125; setFn(difference)</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">getFn</span>() -&gt; <span class="type">IntFn</span> &#123; </span><br><span class="line">    difference </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Swift/" rel="tag"># Swift</a>
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/14/ios/general/%E7%BB%84%E4%BB%B6%E5%8C%96%EF%BC%88CocoaPods%EF%BC%89/" rel="prev" title="iOS-组件化（CocoaPods）">
+                  <i class="fa fa-angle-left"></i> iOS-组件化（CocoaPods）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/" rel="next" title="iOS13和Xcode11踩坑">
+                  iOS13和Xcode11踩坑 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

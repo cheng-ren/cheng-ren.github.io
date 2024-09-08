@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="关于软件开发模式的记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="敏捷开发">
+<meta property="og:url" content="https://rencheng.cc/2020/08/05/manager/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="关于软件开发模式的记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/xvod4.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/umlyp.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/6m04u.jpg">
+<meta property="article:published_time" content="2020-08-04T16:59:07.000Z">
+<meta property="article:modified_time" content="2020-08-04T16:59:07.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="团队管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/xvod4.jpg">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/08/05/manager/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/08/05/manager/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/","path":"2020/08/05/manager/敏捷开发/","title":"敏捷开发"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>敏捷开发 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">传统软件开发模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91-Agile-Development"><span class="nav-number">2.</span> <span class="nav-text">敏捷开发(Agile Development)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91"><span class="nav-number">2.1.</span> <span class="nav-text">什么是敏捷开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E9%80%82%E7%94%A8%E4%BA%8E"><span class="nav-number">2.2.</span> <span class="nav-text">敏捷开发适用于</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="nav-number">2.3.</span> <span class="nav-text">敏捷开发流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">敏捷开发实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scrum"><span class="nav-number">2.4.1.</span> <span class="nav-text">Scrum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XP%EF%BC%88Extreme-Programming%EF%BC%89"><span class="nav-number">2.4.2.</span> <span class="nav-text">XP（Extreme Programming）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E4%B8%ADXP%E4%B8%8ESCRUM%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.4.3.</span> <span class="nav-text">敏捷开发中XP与SCRUM的区别</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/08/05/manager/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="敏捷开发 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          敏捷开发
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-05 00:59:07" itemprop="dateCreated datePublished" datetime="2020-08-05T00:59:07+08:00">2020-08-05</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>关于软件开发模式的记录</p>
+<span id="more"></span>
+
+<h2 id="传统软件开发模式"><a href="#传统软件开发模式" class="headerlink" title="传统软件开发模式"></a>传统软件开发模式</h2><ol>
+<li>需要经历问题评估、计划解决方案、设计系统架构、开发代码、测试、部署和使用系统、维护解决方案等过程。</li>
+<li>如瀑布流模式: 它是以文档为驱动，在整个开发过程中，开发人员根据需求文档进行开发，一切以文档为依据。<br> <img src="https://cdn.rencheng.cc/blog/xvod4.jpg"></li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>由于开发模型是线性的，用户只有等到整个过程的末期才能见到开发成果，从而增加了开发的风险；</li>
+<li>早期的错误可能要等到开发后期的测试阶段才能发现，进而带来严重的后果。</li>
+<li>各个软件生命周期衔接花费时间较长，团队人员交流成本大。</li>
+<li>在需求不明并且在项目进行过程中可能变化的情况下基本是不可行的。</li>
+</ol>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xi_gua_gua/article/details/53107283">软件开发的11种模式</a></p>
+</blockquote>
+<h2 id="敏捷开发-Agile-Development"><a href="#敏捷开发-Agile-Development" class="headerlink" title="敏捷开发(Agile Development)"></a>敏捷开发(Agile Development)</h2><h3 id="什么是敏捷开发"><a href="#什么是敏捷开发" class="headerlink" title="什么是敏捷开发"></a>什么是敏捷开发</h3><ol>
+<li>敏捷开发(Agile Development)是一种以人为核心、迭代、循序渐进的开发方式。</li>
+<li>在敏捷开发中，软件项目的构建被切分成多个子项目，各个子项目的成果都经过测试，具备集成和可运行的特征。</li>
+<li>它并不是一门技术，而是一种开发方式，是一种软件开发的流程。</li>
+<li>作用指导我们用规定的环节去一步一步完成项目的开发。因为它采用的是迭代式开发，所以这种开发方式的主要驱动核心是人。</li>
+</ol>
+<h3 id="敏捷开发适用于"><a href="#敏捷开发适用于" class="headerlink" title="敏捷开发适用于"></a>敏捷开发适用于</h3><ul>
+<li>客户不知道自己要啥的情况，这样的客户占绝大多数。因为客户不知道要啥，所以你需要不断帮客户弄明白他到底想要啥。换句话说，你需要和客户沟通，合作，倾听反馈，持续改进；</li>
+<li>竞争激烈的市场，这样的情况下，赶在竞争对手前交付一个不完美但至少能用的产品非常重要；</li>
+<li>快速变化的市场，你在埋头造一辆汽车的时候，客户已经想开飞机满天飞了，这就需要你能一步步的把汽车改成飞机，还能按时交付；</li>
+<li>适用于在一个地方办公的小团队，一般 10 个人以内。这样能使敏捷中主要的沟通方式「Face to Face」是可行的。</li>
+</ul>
+<h3 id="敏捷开发流程"><a href="#敏捷开发流程" class="headerlink" title="敏捷开发流程"></a>敏捷开发流程</h3><p><img src="https://cdn.rencheng.cc/blog/umlyp.jpg"></p>
+<h3 id="敏捷开发实现方式"><a href="#敏捷开发实现方式" class="headerlink" title="敏捷开发实现方式"></a>敏捷开发实现方式</h3><ul>
+<li>Scrum</li>
+<li>XP</li>
+</ul>
+<h4 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h4><p><img src="https://cdn.rencheng.cc/blog/6m04u.jpg"></p>
+<p><strong>项目角色</strong></p>
+<ul>
+<li>产品负责人（Product Owner）：主要负责确定产品的功能和达到要求的标准，指定软件的发布日期和交付的内容，同时有权力接受或拒绝开发团队的工作成果。</li>
+<li>流程管理员（Scrum Master）：主要负责整个Scrum流程在项目中的顺利实施和进行，以及清除挡在客户和开发工作之间的沟通障碍，使得客户可以直接驱动开发。</li>
+<li>开发团队（Scrum Team）：主要负责软件产品在Scrum规定流程下进行开发工作，人数控制在5~10人左右，每个成员可能负责不同的技术方面，但要求每成员必须要有很强的自我管理能力，同时具有一定的表达能力；成员可以采用任何工作方式，只要能达到Sprint的目标。</li>
+</ul>
+<h4 id="XP（Extreme-Programming）"><a href="#XP（Extreme-Programming）" class="headerlink" title="XP（Extreme Programming）"></a>XP（Extreme Programming）</h4><p><strong>什么是XP</strong></p>
+<ul>
+<li>极限编程（eXtreme Programming），是一种全新的、轻量级的、灵巧的软件开发方法，是一种软件工程方法学。它强调程序设计团队与业务专家之间的紧密协作、面对面的沟通（比书面的文档更有效）、频繁交付新的软件版本、紧凑而自我组织型的团队、能够很好的适应需求变化的代码编写和团队组织方法，更注重软件开发中人的作用。</li>
+<li>XP的核心是沟通（Communication）、简单（Simplicity）、反馈（Feedback）、勇气（Courage）四大价值观，它们是XP的基础，也是XP的灵魂。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/happylee6688/article/details/21551065">敏捷开发之XP</a></p>
+<h4 id="敏捷开发中XP与SCRUM的区别"><a href="#敏捷开发中XP与SCRUM的区别" class="headerlink" title="敏捷开发中XP与SCRUM的区别"></a>敏捷开发中XP与SCRUM的区别</h4><ol>
+<li><p>迭代长度的不同</p>
+<ul>
+<li>XP的一个Sprint的迭代长度大致为1<del>2周, 而Scrum的迭代长度一般为 2</del> 4周.</li>
+</ul>
+</li>
+<li><p>在迭代中, 是否允许修改需求</p>
+<ul>
+<li>XP在一个迭代中，如果一个User Story(一个用户需求)还没有实现， 则可以考虑用另外的需求将其替换，替换的原则是需求实现的时间量是相等的。</li>
+<li>而Scrum是不允许这样做的，一旦迭代开工会完毕, 任何需求都不允许添加进来，并有Scrum Master严格把关，不允许开发团队受到干扰</li>
+<li>在迭代中，User Story是否严格按照优先级别来实现</li>
+<li>XP是务必要遵守优先级别的。 但Scrum在这点做得很灵活， 可以不按照优先级别来做</li>
+</ul>
+<blockquote>
+<p>Scrum这样处理的理由是：如果优先问题的解决者，由于其它事情耽搁，不能认领任务，那么整个进度就耽误了。 另外一个原因是，如果按优先级排序的User Story #6和#10，虽然#6优先级高，但是如果#6的实现要依赖于#10，则不得不优先做#10.</p>
+</blockquote>
+</li>
+<li><p>软件的实施过程中，是否采用严格的工程方法，保证进度或者质量</p>
+<ul>
+<li>Scrum没有对软件的整个实施过程开出个工程实践的处方，要求开发者自觉保证。</li>
+<li>但XP对整个流程方法定义非常严格，规定需要采用TDD, 自动测试， 结对编程，简单设计，重构等约束团队的行为。</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%A2%E9%98%9F%E7%AE%A1%E7%90%86/" rel="tag"># 团队管理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/05/22/ios/general/iOS-%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83/" rel="prev" title="iOS-灰度发布">
+                  <i class="fa fa-angle-left"></i> iOS-灰度发布
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/14/ios/general/App%E7%98%A6%E8%BA%AB/" rel="next" title="iOS-App瘦身">
+                  iOS-App瘦身 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

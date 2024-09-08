@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="经过多年的等待和期待，iOS13 终于支持本机Dark Mode！ 用户可以选择启用系统范围的深色外观，所有正式应用程序都将支持该外观。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-支持Dark Mode">
+<meta property="og:url" content="https://rencheng.cc/2019/07/30/ios/general/DarkMode/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="经过多年的等待和期待，iOS13 终于支持本机Dark Mode！ 用户可以选择启用系统范围的深色外观，所有正式应用程序都将支持该外观。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/flxpq.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1130i.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1x26o.png-thumb100">
+<meta property="article:published_time" content="2019-07-30T05:52:01.000Z">
+<meta property="article:modified_time" content="2019-07-30T05:52:01.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/flxpq.png-thumb100">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/07/30/ios/general/DarkMode/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/07/30/ios/general/DarkMode/","path":"2019/07/30/ios/general/DarkMode/","title":"iOS-支持Dark Mode"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS-支持Dark Mode | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E9%A2%9C%E8%89%B2"><span class="nav-number">2.</span> <span class="nav-text">适配颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Color"><span class="nav-number">2.1.</span> <span class="nav-text">System Color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Custom-Colors"><span class="nav-number">2.2.</span> <span class="nav-text">Custom Colors</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%9B%BE%E7%89%87"><span class="nav-number">3.</span> <span class="nav-text">适配图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8BDark-Mode"><span class="nav-number">4.</span> <span class="nav-text">代码检测Dark Mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%86%99-User-Interface-Style"><span class="nav-number">5.</span> <span class="nav-text">重写 User Interface Style</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%8E%A7%E5%88%B6"><span class="nav-number">5.1.</span> <span class="nav-text">全局控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E9%A1%B5%E9%9D%A2"><span class="nav-number">5.2.</span> <span class="nav-text">特定页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8D%B0%E5%88%87%E6%8D%A2%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">打印切换信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/07/30/ios/general/DarkMode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS-支持Dark Mode | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS-支持Dark Mode
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-30 13:52:01" itemprop="dateCreated datePublished" datetime="2019-07-30T13:52:01+08:00">2019-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.8k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://cdn.rencheng.cc/blog/flxpq.png-thumb100"></p>
+<p>经过多年的等待和期待，iOS13 终于支持本机<code>Dark Mode</code>！ 用户可以选择启用系统范围的深色外观，所有正式应用程序都将支持该外观。</p>
+<span id="more"></span>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在应用中启用<code>Dark Mode</code>支持就像使用新的iOS13 SDK一样容易！ 使用最新的SDK时，iOS将自动更新系统控件，例如开关，表格视图和按钮。如我们所见，Apple还使开发人员可以轻松地添加<code>Dark Mode</code>支持。<br>但是，iOS不会自动切换图像或文本颜色，因此您可能会在<code>Dark Mode</code>下注意到很多与应用有关的问题。<br>尽管使用新的iOS13 SDK进行构建会自动更新系统控件，但Apple强烈建议所有开发人员检查并更新其应用程序，以确保在启用<code>Dark Mode</code>时所有文本和图像都能正确显示。<br>幸运的是，由于苹果在过去几年中对资产目录进行了许多改进，因此大多数iOS应用程序应该能够采用<code>Dark Mode</code>，而无需进行重大代码更改。</p>
+<h2 id="适配颜色"><a href="#适配颜色" class="headerlink" title="适配颜色"></a>适配颜色</h2><h3 id="System-Color"><a href="#System-Color" class="headerlink" title="System Color"></a>System Color</h3><p>iOS13现在在<code>UIColor</code>中包括新的系统颜色，例如<code>label</code>颜色。 通过使用iOS13中可用的新系统颜色，您的应用程序可以自动支持<code>Dark Mode</code>和高对比度模式。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label.color = <span class="built_in">UIColor</span>.secondaryLabel</span><br></pre></td></tr></table></figure>
+
+<h3 id="Custom-Colors"><a href="#Custom-Colors" class="headerlink" title="Custom Colors"></a>Custom Colors</h3><p>尽管强烈建议您使用系统颜色来自动适应界面更改并确保各个应用程序之间的一致性，但是您可能希望在自定义颜色上支持深色模式。<br>使用iOS11的新资产目录颜色，可以通过添加自定义颜色的深色版本来轻松支持深色模式。<br>要添加资产目录颜色的深色版本，只需在目录中选择颜色，然后在“属性”检查器中将<code>Appearances</code>切换为<code>Any</code>，<code>Dark</code>。 然后，添加颜色的深色外观版本。<br><img src="https://cdn.rencheng.cc/blog/1130i.png-thumb100"><br>就是这样-启用深色模式时，iOS会自动切换到资产目录颜色的深色版本，而您无需进行其他工作！</p>
+<blockquote>
+<p>如果工程未使用资产目录颜色？<br>资产目录颜色使支持<code>Dark Mode</code>更加容易！ 请参阅<a target="_blank" rel="noopener" href="https://twitter.com/twannl">Antoine van der Lee</a>撰写的<a target="_blank" rel="noopener" href="https://www.avanderlee.com/xcode/dark-mode-on-ios-preparations-using-asset-catalog-colors/">博客文章</a>，详细了解如何使用资产目录颜色，如果您不希望切换，请参阅下面的以编程方式<a target="_blank" rel="noopener" href="https://schiavo.me/2019/implementing-dark-mode/#detecting-dark-mode-programmatically">检测Dark Mode</a>。</p>
+</blockquote>
+<h2 id="适配图片"><a href="#适配图片" class="headerlink" title="适配图片"></a>适配图片</h2><p>虽然大多数图像在<code>Dark Mode</code>下看起来都不错，尤其是当您使用模板图像时，如果您将其放置在工作中以自动切换颜色（请参见上文的“适应颜色”），该图像会自动更改色调，但您可能希望<code>Dark Mode</code>下看某些图像具有不同的颜色。<br><img src="https://cdn.rencheng.cc/blog/1x26o.png-thumb100"><br>与资产目录颜色一样，启用<code>Dark Mode</code>时自动切换资产目录中的图像很简单。 要添加任何图像的深色版本，只需在目录中选择该图像，然后在“属性”检查器中将<code>Appearances</code>切换为<code>Any</code>，<code>Dark</code>。 然后，只需添加图像的深色外观版本。</p>
+<h2 id="代码检测Dark-Mode"><a href="#代码检测Dark-Mode" class="headerlink" title="代码检测Dark Mode"></a>代码检测Dark Mode</h2><p>在某些情况下，您需要以代码来检测外观变化并相应地更改用户界面。</p>
+<blockquote>
+<p>⚠️警告：响应外观更改时，请确保尽快更新您的界面。 不要执行与外观更改无关的任务，因为这可能会导致延迟，尤其是当用户从Control Center切换外观时。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">override func traitCollectionDidChange(_ previousTraitCollection: <span class="built_in">UITraitCollection</span>?) &#123;</span><br><span class="line">    <span class="variable language_">super</span>.traitCollectionDidChange(previousTraitCollection)</span><br><span class="line"></span><br><span class="line">    let userInterfaceStyle = traitCollection.userInterfaceStyle <span class="comment">// Either .unspecified, .light, or .dark</span></span><br><span class="line">    <span class="comment">// Update your user interface based on the appearance</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过在视图控制器上重写traitCollectionDidChange，检测外观变化很简单，只需访问视图控制器的<code>traitCollection.userInterfaceStyle</code>。<br>但是要记住，我们也要针对其他情况更改（例如设备旋转）调用<code>traitCollectionDidChange</code>。 您可以使用此新方法检查当前外观是否不同：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">override func traitCollectionDidChange(_ previousTraitCollection: <span class="built_in">UITraitCollection</span>?) &#123;</span><br><span class="line">    <span class="variable language_">super</span>.traitCollectionDidChange(previousTraitCollection)</span><br><span class="line"></span><br><span class="line">    let hasUserInterfaceStyleChanged = previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) <span class="comment">// Bool</span></span><br><span class="line">    <span class="comment">// Update your user interface based on the appearance</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果要从任何地方访问当前特征集，也可以使用<code>UITraitCollection.current</code>。</p>
+<h2 id="重写-User-Interface-Style"><a href="#重写-User-Interface-Style" class="headerlink" title="重写 User Interface Style"></a>重写 User Interface Style</h2><h3 id="全局控制"><a href="#全局控制" class="headerlink" title="全局控制"></a>全局控制</h3><p>系统会自动在与iOS13或更高版本的SDK链接的任何应用中选择采用浅色和深色外观。 如果您需要更多时间来处理应用程序的<code>Dark Mode</code>支持，或者希望将应用保持单一样式，则可以通过在应用的<code>Info.plist</code>文件中添加<code>UIUserInterfaceStyle</code>键（值为<code>Light</code>或<code>Dark</code>）来控制。 设置此键会导致系统忽略用户的偏好，并始终将特定外观应用于您的应用。</p>
+<blockquote>
+<p>⚠️Note️注意：强烈建议支持深色模式。 在改进应用程序的<code>Dark Mode</code>支持时，请使用UIUserInterfaceStyle键暂时停用。</p>
+</blockquote>
+<h3 id="特定页面"><a href="#特定页面" class="headerlink" title="特定页面"></a>特定页面</h3><p>在iOS13中，您现在可以在特定视图或视图控制器上重写<code>User Interface Style</code>。例如，您可能只希望某个视图控制器处于<code>Dark Mode</code>，而应用程序的其余部分处于<code>Light</code>模式。<br>要覆盖用户界面样式，只需在顶视图或视图控制器中覆盖此变量，它将向下传播到子视图：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inside a UIViewController</span></span><br><span class="line">override func viewDidLoad() &#123;</span><br><span class="line">    <span class="variable language_">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Always adopt a dark interface style.    </span></span><br><span class="line">    overrideUserInterfaceStyle = .dark</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="打印切换信息"><a href="#打印切换信息" class="headerlink" title="打印切换信息"></a>打印切换信息</h2><p>Edit Scheme -&gt; Run -&gt; Arguments -&gt; Arguments Passed On Launch<br>加入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-UITraitCollectionChangeLoggingEnabled YES</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在文章中，我们探讨了如何使您的应用在iOS13的<code>Dark Mode</code>中看起来更漂亮，以及如何调整图像，颜色和自定义用户界面元素以匹配新样式。<br>我迫不及待想看到肯定会在秋天出现的所有出色的<code>Dark Mode</code>应用程序！<br>本文所有信息全部摘自<a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2019/214/">WWDC</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/" rel="prev" title="iOS13和Xcode11踩坑">
+                  <i class="fa fa-angle-left"></i> iOS13和Xcode11踩坑
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/11/mongodb/%E6%A6%82%E8%BF%B0/" rel="next" title="MongoDB-概述">
+                  MongoDB-概述 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

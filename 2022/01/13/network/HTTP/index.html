@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="总结一下最近关于HTTP的理解  HTTP&#x2F;1.1 HTTP&#x2F;2 HTTP&#x2F;3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP">
+<meta property="og:url" content="https://rencheng.cc/2022/01/13/network/HTTP/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="总结一下最近关于HTTP的理解  HTTP&#x2F;1.1 HTTP&#x2F;2 HTTP&#x2F;3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/4ryrp.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/3tdd8.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/f515q.jpg">
+<meta property="article:published_time" content="2022-01-13T11:40:29.000Z">
+<meta property="article:modified_time" content="2022-01-13T11:40:29.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/4ryrp.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2022/01/13/network/HTTP/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2022/01/13/network/HTTP/","path":"2022/01/13/network/HTTP/","title":"HTTP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTTP | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text">时间线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86"><span class="nav-number">2.</span> <span class="nav-text">标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">请求方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-number">5.</span> <span class="nav-text">头部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="nav-number">5.1.</span> <span class="nav-text">请求头字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="nav-number">5.2.</span> <span class="nav-text">响应头字段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP2"><span class="nav-number">6.</span> <span class="nav-text">HTTP2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">6.1.1.</span> <span class="nav-text">二进制格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">6.1.2.</span> <span class="nav-text">多路复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">6.1.3.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%B4%E9%83%A8%E5%8E%8B%E7%BC%A9"><span class="nav-number">6.1.4.</span> <span class="nav-text">头部压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81"><span class="nav-number">6.1.5.</span> <span class="nav-text">服务器推送</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">6.2.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%9F%E5%A4%B4%E9%98%BB%E5%A1%9E"><span class="nav-number">6.2.1.</span> <span class="nav-text">队头阻塞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%A1%E6%89%8B%E5%BB%B6%E8%BF%9F"><span class="nav-number">6.2.2.</span> <span class="nav-text">握手延迟</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-3"><span class="nav-number">7.</span> <span class="nav-text">HTTP&#x2F;3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7-1"><span class="nav-number">7.1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%BF%81%E7%A7%BB"><span class="nav-number">7.1.1.</span> <span class="nav-text">连接迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E4%BA%86HTTP-2%E7%9A%84%E9%98%9F%E5%A4%B4%E9%98%BB%E5%A1%9E%E5%92%8C%E6%8F%A1%E6%89%8B%E5%BB%B6%E8%BF%9F"><span class="nav-number">7.1.2.</span> <span class="nav-text">解决了HTTP&#x2F;2的队头阻塞和握手延迟</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2022/01/13/network/HTTP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTTP | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-13 19:40:29" itemprop="dateCreated datePublished" datetime="2022-01-13T19:40:29+08:00">2022-01-13</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>总结一下最近关于HTTP的理解</p>
+<ul>
+<li>HTTP/1.1</li>
+<li>HTTP/2</li>
+<li>HTTP/3</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="时间线"><a href="#时间线" class="headerlink" title="时间线"></a>时间线</h2><table>
+<thead>
+<tr>
+<th align="left">时间</th>
+<th align="left">版本</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1991</td>
+<td align="left">0.9</td>
+<td align="left">只支持<code>GET</code>请求方法获取文本数据（比如HTML文档），且不支持请求头、响应头等，无法向服务器传递太多信息</td>
+</tr>
+<tr>
+<td align="left">1996</td>
+<td align="left">1.0</td>
+<td align="left">支持<code>POST</code>、<code>HEAD</code>等请求方法，支持请求头、响应头等，支持更多种数据类型（不再局限于文本数据）</br>浏览器的每次请求都需要与服务器建立-个TCP连接，请求处理完成后立即断开TCP连接</td>
+</tr>
+<tr>
+<td align="left">1997</td>
+<td align="left">1.1</td>
+<td align="left">最经典、使用最广泛的版本</br>支持<code>PUT</code>、<code>DELETE</code>等请求方法</br>采用持久连接 (Connection: keep-alive），多个请求可以共用同一个TCP连接</td>
+</tr>
+<tr>
+<td align="left">2015</td>
+<td align="left">2.0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">2018</td>
+<td align="left">3.0</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h2><p>口由万维网协会 (W3C）、互联网工程任务组 （ETF） 协调制定，最终发布了一系列的<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/standards">RFC</a></p>
+<blockquote>
+<p>在RFC 5234中表明：ABNF用作internet中通信协议的定义语言</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc7230">ABNF</a>是最严谨的HTTP报文格式描述形式</p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p><img src="https://cdn.rencheng.cc/blog/4ryrp.png"></p>
+<h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><table>
+<thead>
+<tr>
+<th align="left">方法名</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GET</td>
+<td align="left">常用于读取的操作，请求参数直接拼接在URL的后面（浏览器对URL是有长度限制的）</td>
+</tr>
+<tr>
+<td align="left">POST</td>
+<td align="left">常用于添加、修改、删除的操作，请求参数可以放到请求体中（没有大小限制）</td>
+</tr>
+<tr>
+<td align="left">HEAD</td>
+<td align="left">请求得到与GET请求相同的响应，但没有响应体；</br>使用场景：下载大文件前，先获取其大小，再決定是否要下载。以此可以节约带宽资源</td>
+</tr>
+<tr>
+<td align="left">OPTIONS</td>
+<td align="left">用于获取目的资源所支持的通信选项，比如服务器支持的请求方法</td>
+</tr>
+<tr>
+<td align="left">PUT</td>
+<td align="left">用于对已存在的资源进行整体覆盖</td>
+</tr>
+<tr>
+<td align="left">PATCH</td>
+<td align="left">用于对资源进行部分修改（资源不存在，会创建新的资源）</td>
+</tr>
+<tr>
+<td align="left">DELETE</td>
+<td align="left">用于删除指定的资源</td>
+</tr>
+<tr>
+<td align="left">TRACE</td>
+<td align="left">请求服务器回显其收到的请求信息，主要用于HTTP请求的测试或诊断</td>
+</tr>
+<tr>
+<td align="left">CONNECT</td>
+<td align="left">可以开启一个客户端与所请求资源之间的双向沟通的通道，它可以用来创建隧道 (tunnel)</br>可以用来访问采用了 SSL (HTTPS) 协议的站点</td>
+</tr>
+</tbody></table>
+<h2 id="头部字段"><a href="#头部字段" class="headerlink" title="头部字段"></a>头部字段</h2><h3 id="请求头字段"><a href="#请求头字段" class="headerlink" title="请求头字段"></a>请求头字段</h3><table>
+<thead>
+<tr>
+<th align="left">字段</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">User-Agent</td>
+<td align="left">浏览器的身份标识字符串</td>
+<td align="left">User-Agent: Mozilla/5.0 (X11;Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0</td>
+</tr>
+<tr>
+<td align="left">Host</td>
+<td align="left">服务器的域名、端口号</td>
+<td align="left">Host: localhost:80</td>
+</tr>
+<tr>
+<td align="left">Date</td>
+<td align="left">发送该消息的日期和时间</td>
+<td align="left">Date: Tue, 15 Nov 1994 08:12:31 GMT</td>
+</tr>
+<tr>
+<td align="left">Referer</td>
+<td align="left">表示浏览器所访问的前一个页面</br>正是前一个页面的某个链接将浏览器带到了当前这个页面</td>
+<td align="left">Referer: <a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></td>
+</tr>
+<tr>
+<td align="left">Content-Type</td>
+<td align="left">请求体的类型</td>
+<td align="left">Content-Type: multipart/form-data</td>
+</tr>
+<tr>
+<td align="left">Content-Length</td>
+<td align="left">请求体的长度(字节为单位）</td>
+<td align="left">Content-Length: 232</td>
+</tr>
+<tr>
+<td align="left">Accept</td>
+<td align="left">能够接受的响应内容类型</br>(Content-Types)</td>
+<td align="left">Accept: text/plain</td>
+</tr>
+<tr>
+<td align="left">Accept-Charset</td>
+<td align="left">能够接受的符集</td>
+<td align="left">Accept-Charset: GB2312,utf-8;q=0.7,*; q=0.7</td>
+</tr>
+<tr>
+<td align="left">Accept-Encoding</td>
+<td align="left">能够接受的编码方式列表</td>
+<td align="left">Accept-Encoding: gzip, deflate</td>
+</tr>
+<tr>
+<td align="left">Accept-Language</td>
+<td align="left">能够接受的响应内容的自然语言列表</td>
+<td align="left">Accept-Language: en-US</td>
+</tr>
+<tr>
+<td align="left">Range</td>
+<td align="left">仅请求某个实体的一部分。字节偏移以0开始</td>
+<td align="left">Range: bytes=500-999</td>
+</tr>
+<tr>
+<td align="left">Origin</td>
+<td align="left">发起一个针对跨域资源共享的请求</td>
+<td align="left">Origin: <a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></td>
+</tr>
+<tr>
+<td align="left">Cookie</td>
+<td align="left">之前由服务器通过set-Cookie发送的cookie</td>
+<td align="left">Cookie: Version=1; Skin=new;</td>
+</tr>
+<tr>
+<td align="left">Connection</td>
+<td align="left">该浏览器根要优先伅用的连接类型</td>
+<td align="left">Connection: keep-alive</td>
+</tr>
+<tr>
+<td align="left">Cache-Control</td>
+<td align="left">用来指定在这次的请求/响应链中的所有缓存机制都必须遵守的指令</td>
+<td align="left">Cache-Control: no-cache</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>q值越大，优先级越高。默认1.0</p>
+</blockquote>
+<h3 id="响应头字段"><a href="#响应头字段" class="headerlink" title="响应头字段"></a>响应头字段</h3><table>
+<thead>
+<tr>
+<th align="left">字段</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Content-Type</td>
+<td align="left">响应体的类型</td>
+<td align="left">Content-Type: text/html; charset=utf-8</td>
+</tr>
+<tr>
+<td align="left">Content-Encoding</td>
+<td align="left">内容所使用的编码类型</td>
+<td align="left">Content-Encoding: gzip</td>
+</tr>
+<tr>
+<td align="left">Content-Length</td>
+<td align="left">响应体的长度(字节为单位）</td>
+<td align="left">Content-Length: 348</td>
+</tr>
+<tr>
+<td align="left">Content-Disposition</td>
+<td align="left">一个可以让客户端下载文件并建议文件名的头部</td>
+<td align="left">Content-Disposition: attachment;filename=”fname.ext”</td>
+</tr>
+<tr>
+<td align="left">Accept-Ranges</td>
+<td align="left">服务器支持哪些种类的部分内容范围</td>
+<td align="left">Accept-Ranges: bytes</td>
+</tr>
+<tr>
+<td align="left">Content-Range</td>
+<td align="left">这条部分消息是属于完整消息的哪部分</td>
+<td align="left">Content-Range: bytes 21010-47021/47022</td>
+</tr>
+<tr>
+<td align="left">Access-Control-Allow-Origin</td>
+<td align="left">指定哪些网站可参与到跨来源资源共享过程中</td>
+<td align="left">Access-Control-Allow-Origin:*</td>
+</tr>
+<tr>
+<td align="left">Location</td>
+<td align="left">用来进行重定向，或者在创建了某个新资源时使用</td>
+<td align="left">Location: <a target="_blank" rel="noopener" href="http://www.w3.org/">http://www.w3.org</a></td>
+</tr>
+<tr>
+<td align="left">Set-Cookie</td>
+<td align="left">返回一个Cookie让客户端去保存</td>
+<td align="left">Set-Cookie: UserID=JohnDoe; Max Age=3600; Version=1</td>
+</tr>
+<tr>
+<td align="left">Connection</td>
+<td align="left">针对该连接所预期的选项</td>
+<td align="left">Connection: close</td>
+</tr>
+<tr>
+<td align="left">Cache-Control</td>
+<td align="left">向从服务器直到客户端在内的所有缓存机制告知，它们是否可以缓存这个对象。单位为秒</td>
+<td align="left">Cache-Control: max-age=3600</td>
+</tr>
+</tbody></table>
+<h2 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h2><p><strong>数据流</strong>：已建立的连接内的双向字节流，可以承载一条或多条消息</p>
+<blockquote>
+<p>所有通信都在一个TCP连接上完成，此连接可以承载任意数量的双向数据流</p>
+</blockquote>
+<p><strong>消息</strong>：与逻辑HTTP请求或响应消息对应，由一系列帧组成<br><strong>帧</strong>：<code>HTTP/2</code>通信的最小单位，每个帧都包含帧头 （会标识出当前帧所属的数据流）</p>
+<blockquote>
+<p>来自不同数据流的帧可以交错发送，然后再根据每个帧头的数据流标识符重新组装</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.http2demo.io/"><code>HTTP/1.1</code>与<code>HTTP/2</code>速度对比</a></p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><h4 id="二进制格式"><a href="#二进制格式" class="headerlink" title="二进制格式"></a>二进制格式</h4><p><code>HTTP/2.0</code>采用二进制格式传输数据，而非<code>HTTP/1.1</code>的文本传输</p>
+<blockquote>
+<p>二进制格式在协议的解析和优化扩展上带来更多的优势和可能</p>
+</blockquote>
+<h4 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h4><p>客户端和服务器可以将 HTTP消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来</p>
+<ul>
+<li>并行交错地发送多个请求，请求之间互不影响</li>
+<li>并行交错地发送多个响应，响应之间互不干扰</li>
+</ul>
+<p><img src="https://cdn.rencheng.cc/blog/3tdd8.jpg"></p>
+<blockquote>
+<p>不必再为绕过 HTTP/1.1限制而做很多工作<br>比如image sprites、合并CSS\JS. 内嵌CSS\JS\Bas64图片，城名分片等</p>
+</blockquote>
+<h4 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h4><p><code>HTTP/2</code>标准允许每个数据流都有一个关联的权重和依赖关系</p>
+<ul>
+<li>可以向每个数据流分配一个介于1至256之间的整数</li>
+<li>每个数据流与其他数据流之问可以存在显式依赖关系<br>客户端可以构建和传递“优先级树”，表明它倾向于如何接收响应</li>
+</ul>
+<p>服务器可以使用此信意通过控制CPU，内存和其他资源的分配设定数据流处理的优先级，在资源数据可用之后，确保将高优先级响应以最优方式传输至客户端。</p>
+<h4 id="头部压缩"><a href="#头部压缩" class="headerlink" title="头部压缩"></a>头部压缩</h4><p><code>HTTP/2</code>使用<code>HPACK</code>压缩请求头和响应头，可以极大减少头部开销，进而提高性能。</p>
+<h4 id="服务器推送"><a href="#服务器推送" class="headerlink" title="服务器推送"></a>服务器推送</h4><p>服务器可以对一个客户端请求发送多个响应，除了对最初请求的响应外，服务器还可以向客户端推送额外资源，而无需客户端额外明确地请求。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="队头阻塞"><a href="#队头阻塞" class="headerlink" title="队头阻塞"></a>队头阻塞</h4><p><code>HTTP/2</code>是基于<code>TCP</code>协议的, 传输过程相当于队列，串行发送。如果第一个数据包丢失，为了保证有序性，后续数据要等到队头数据重传后才可继续。</p>
+<h4 id="握手延迟"><a href="#握手延迟" class="headerlink" title="握手延迟"></a>握手延迟</h4><p>由于<code>HTTP/2</code>的连接是基于TCP，并且前身SPDY的原因又做TLS/SSL安全套接层，所以握手时间太长。</p>
+<h2 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP/3"></a>HTTP/3</h2><p><img src="https://cdn.rencheng.cc/blog/f515q.jpg"></p>
+<h3 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h3><h4 id="连接迁移"><a href="#连接迁移" class="headerlink" title="连接迁移"></a>连接迁移</h4><p>TCP基于4要素 （源1P、源端口、目标1P、目标端口）,切换网络时至少会有一个要素发生变化，导致连接发生变化。当连接发生变化时，如果还使用原来的TCP连接，则会导致连接失败，就得等原来的连接超时后重新建立连接，所以我们有时候发现切换到一个新网络时，即使新网络状況良好，但内容还是需要加载很久，如果实现得好，当检测到网络变化时立刻建立新的TCP连接，即使这样，建立新的连接还是需要几百毫秒的时间。</p>
+<p>QUIC的连接不受4要素的影响，当4要素发生变化时，原连接依然维持。QUIC连接不以4要素作为标识，而是使用一组Connection 1D（连接D）来标识一个连接。即使IP或者端口发生变化，只要Connection 1D没有变化，那么连接依然可以维持</p>
+<blockquote>
+<p>当设备连接到Wi-Fi时，将进行中的下载从蜂窝网络连接转移到更快速的Wi-Fi连接<br>当Wi-Fi连接不再可用时，将连接转移到蜂窝网络连接</p>
+</blockquote>
+<h4 id="解决了HTTP-2的队头阻塞和握手延迟"><a href="#解决了HTTP-2的队头阻塞和握手延迟" class="headerlink" title="解决了HTTP/2的队头阻塞和握手延迟"></a>解决了HTTP/2的队头阻塞和握手延迟</h4>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/11/network/Wireshark%E6%8A%93%E5%8C%85/" rel="prev" title="Wireshark抓包">
+                  <i class="fa fa-angle-left"></i> Wireshark抓包
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/14/ios/general/LLDB%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/" rel="next" title="LLDB操作指令总结">
+                  LLDB操作指令总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

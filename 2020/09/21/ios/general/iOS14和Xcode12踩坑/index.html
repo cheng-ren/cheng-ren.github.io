@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="今年整体适配强度不大。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS14和Xcode12踩坑">
+<meta property="og:url" content="https://rencheng.cc/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="今年整体适配强度不大。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/y3ady.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/07w06.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/ciwxj.jpg">
+<meta property="article:published_time" content="2020-09-21T09:34:45.000Z">
+<meta property="article:modified_time" content="2020-09-21T09:34:45.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/y3ady.jpg">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/","path":"2020/09/21/ios/general/iOS14和Xcode12踩坑/","title":"iOS14和Xcode12踩坑"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS14和Xcode12踩坑 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text">权限相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%8A%A5%E9%94%99"><span class="nav-number">2.</span> <span class="nav-text">模拟器报错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E4%BF%A1-Pasted-from-QQ"><span class="nav-number">3.</span> <span class="nav-text">微信 Pasted from QQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIPageControl-%E5%AD%90%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7%E5%8F%98%E6%9B%B4-%E5%8F%8A-%E6%96%B0%E5%A2%9E-API"><span class="nav-number">4.</span> <span class="nav-text">UIPageControl 子视图层级变更 及 新增 API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UITableViewCell-%E5%B1%82%E7%BA%A7%E8%B0%83%E6%95%B4"><span class="nav-number">5.</span> <span class="nav-text">UITableViewCell 层级调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDFA%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E5%92%8C%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E5%9C%B0%E5%9D%80%E8%B0%83%E6%95%B4"><span class="nav-number">6.</span> <span class="nav-text">IDFA访问权限和无线局域网地址调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%8F%91%E7%94%9F%E6%94%B9%E5%8F%98"><span class="nav-number">7.</span> <span class="nav-text">对象存储结构发生改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">8.</span> <span class="nav-text">新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E4%B8%AD%E7%94%BB"><span class="nav-number">8.1.</span> <span class="nav-text">画中画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHPicker"><span class="nav-number">8.2.</span> <span class="nav-text">PHPicker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Widget-Extension"><span class="nav-number">8.3.</span> <span class="nav-text">Widget Extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Clips"><span class="nav-number">8.4.</span> <span class="nav-text">App Clips</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%94%A4%E9%86%92"><span class="nav-number">8.4.1.</span> <span class="nav-text">如何唤醒?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">8.4.2.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">8.4.3.</span> <span class="nav-text">实现方式</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/09/21/ios/general/iOS14%E5%92%8CXcode12%E8%B8%A9%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS14和Xcode12踩坑 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS14和Xcode12踩坑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-21 17:34:45" itemprop="dateCreated datePublished" datetime="2020-09-21T17:34:45+08:00">2020-09-21</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.7k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>今年整体适配强度不大。<br><img src="https://cdn.rencheng.cc/blog/y3ady.jpg"></p>
+<span id="more"></span>
+
+<h2 id="权限相关"><a href="#权限相关" class="headerlink" title="权限相关"></a>权限相关</h2><p>如果设备开启了本地的服务，会弹出允许本地网络的权限提示框。<br>在Info.plist中增加隐私配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Privacy - Local Network Usage Description</span><br><span class="line">    - 使用本地网络进行数据请求访问，作为视频的预缓存</span><br><span class="line"></span><br><span class="line">Bonjour services</span><br><span class="line">    - _http._tcp</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果不加该配置，提审会被拒。</p>
+</blockquote>
+<h2 id="模拟器报错"><a href="#模拟器报错" class="headerlink" title="模拟器报错"></a>模拟器报错</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">building for iOS Simulator, but linking in object file built for iOS, xxxx for architecture arm64</span><br></pre></td></tr></table></figure>
+<p><strong>原因：</strong></p>
+<ul>
+<li><code>Xcode12</code>以前，我们通过<code>Valid Architectures</code> 选项来配置支持的架构。</li>
+<li><code>Xcode12</code>中， <code>Valid Architectures</code>这一选项被删掉了，改变成了<code>VALID_ARCHS</code>。</li>
+</ul>
+<blockquote>
+<p>在<code>Xcode11</code>中，<code>x86_64</code>的架构支持是默认支持的，就算不写也支持。但<code>Xcode12</code>的时候，苹果将要推出了ARM架构的Mac，看来全面采用ARM架构已经成为苹果的趋势了，这使得Xcode其实就没必要再对<code>x86_64</code>架构默认支持。故需要手动添加上才能跑模拟器。</p>
+</blockquote>
+<p><strong>解决方案：</strong><br>在<code>VALID_ARCHS</code>选项上增加<code>x86_64</code>的架构配置 </p>
+<blockquote>
+<p>如果Cocoapods管理的组件，需要支持模拟器<br>需要手动设置<code>User-Defined</code>的<code>VALID_ARCHS</code></p>
+</blockquote>
+<h2 id="微信-Pasted-from-QQ"><a href="#微信-Pasted-from-QQ" class="headerlink" title="微信 Pasted from QQ"></a>微信 Pasted from QQ</h2><p>打开某款App，频繁提示<code>** Pasted from ***</code></p>
+<blockquote>
+<p>苹果强化了对系统剪切板内容访问的提示，适度减少访问频次吧。不过现在是大家都玩口令的年代，这很难控制住…</p>
+</blockquote>
+<h2 id="UIPageControl-子视图层级变更-及-新增-API"><a href="#UIPageControl-子视图层级变更-及-新增-API" class="headerlink" title="UIPageControl 子视图层级变更 及 新增 API"></a>UIPageControl 子视图层级变更 及 新增 API</h2><p>iOS14中，苹果对<code>UIPageControl</code>控件进行了调整，定制性更强了。可以通过官方的API设置图片了，而且也有几个样式供我们选择。</p>
+<blockquote>
+<p>注意点</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[_pageControl setValue:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@&quot;xxx&quot;</span>] forKeyPath:<span class="string">@&quot;pageImage&quot;</span>];</span><br><span class="line">[_pageControl setValue:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@&quot;xxx&quot;</span>] forKeyPath:<span class="string">@&quot;currentPageImage&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>上面代码在iOS14中，会出现崩溃。跟<a href="https://rencheng.cc/2019/07/24/ios/general/iOS13%E5%92%8CXcode11%E8%B8%A9%E5%9D%91/#KVC%E8%AE%BF%E9%97%AE%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7Crash">去年</a>的<code>UITextFlied</code>设置<code>_placeholderLabel.textColor.</code>一样抓狂的感觉。</p>
+<blockquote>
+<p>如果封装SDK，尽可能的不要给系统UI控件通过KVC赋值和访问私有属性。</p>
+</blockquote>
+<h2 id="UITableViewCell-层级调整"><a href="#UITableViewCell-层级调整" class="headerlink" title="UITableViewCell 层级调整"></a>UITableViewCell 层级调整</h2><p>自定义子视图，曾经可以添加在<code>self</code>、<code>self.contentView</code>上均可。 以后需要注意了，必须按照苹果的规范。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Custom subviews should be added to the content view.</span><br><span class="line">@property (nonatomic, readonly, strong) UIView *contentView;</span><br></pre></td></tr></table></figure>
+
+<p><strong>影响：</strong> 不添加在 contentView 上的子视图，存在点击事件无法响应以及视图被系统默认高亮效果覆盖的问题。</p>
+<h2 id="IDFA访问权限和无线局域网地址调整"><a href="#IDFA访问权限和无线局域网地址调整" class="headerlink" title="IDFA访问权限和无线局域网地址调整"></a>IDFA访问权限和无线局域网地址调整</h2><ul>
+<li>在<code>iOS14</code>之前，IDFA的开关是统一管理的，开启关闭和还原都是针对所有App，但是好歹苹果还是默认开启的，如果要关闭，需要用户自己去设置页面关闭。WIFI地址是所有WIFI共用一个设备地址</li>
+<li>但是iOS14出来后，Apple将IDFA进一步隐私强化，每个App将需要自己申请用户权限来获取<code>IDFA</code>，Apple不再默认开启，用户可以在<code>设置-&gt;隐私-&gt;Tracking</code>或者App的权限管理页面来设置。WIFI地址目前是每个网络都配一个虚拟地址</li>
+</ul>
+<blockquote>
+<p>归因真的是越来越难了</p>
+</blockquote>
+<p><strong>如何应对</strong></p>
+<ol>
+<li>在Info.plist中增加隐私配置<code>Privacy - Tracking Usage Description</code>。</li>
+<li>引入<code>AppTrackingTransparency</code>框架，调用<code>ATTrackingManager.requestTrackingAuthorization</code>方法来请求权限。</li>
+<li>权限开启后，仍然使用<code>ASIdentifierManager.shared().advertisingIdentifier.uuidString</code>来获取IDFA。</li>
+</ol>
+<blockquote>
+<p>在使用时会进行权限访问的申请，如果拒绝，将是一串无意义的0。</p>
+</blockquote>
+<p><strong>影响</strong></p>
+<ol>
+<li>多渠道推广时很难有效归因，从而分辨是哪个平台买量来的用户。</li>
+<li>精准投放范围更小，转化成本上升。</li>
+<li>三方归因平台话语权更强，因为他们可以自定义统一的标识符来供合作的广告主们使用，平台越大，标识符价值越高。</li>
+<li>一旦用户单独关闭，推广时也无法区分老用户了，用户相当于进了黑盒，不过可以通过技术手段处理。</li>
+<li>进一步提高了用户隐私权，IDFA开启率将会降低。尤其是亚洲国家，默认开启率很高，一旦进行安装提示，开启率以预计将收到较大影响。</li>
+<li>一些无法升级更新的App，几乎无法进行有效推广。</li>
+</ol>
+<blockquote>
+<p>可以尝试<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/storekit/skadnetwork/verifying_an_install_validation_postback">SKAdNetwork</a>解决，统计更准确。但是应对场景过于单一。</p>
+</blockquote>
+<h2 id="对象存储结构发生改变"><a href="#对象存储结构发生改变" class="headerlink" title="对象存储结构发生改变"></a>对象存储结构发生改变</h2><ul>
+<li>iOS14以前，类是有<code>MyClass</code>+<code>class_rw_t</code>(dirty memory) + <code>class_ro_t</code>（clean memery）三个数据结构存储信息<br><img src="https://cdn.rencheng.cc/blog/07w06.jpg"></li>
+<li>iOS14，类里面的脏内存得到了优化，<code>class_rw_t</code>拆解成<code>class_rw_t</code>+<code>class_rw_ext_t</code><br><img src="https://cdn.rencheng.cc/blog/ciwxj.jpg"></li>
+</ul>
+<blockquote>
+<p>官方解释：通过统计发现，开发中大多数的类是没有通过Runtime机制为其添加属性，方法等信息的。所以就没必要为每个类都开辟这个一段空间，造成不必要的浪费。。</p>
+</blockquote>
+<p><strong>dirty memory</strong><br>脏内存。指可读可写内存<br><strong>clean memory</strong><br>干净内存。指只读内存</p>
+<p><strong>影响</strong><br>如果App内部没有通过系统API去访问脏内存的数据（属性或方法），那么就会产生错误，甚至崩溃。</p>
+<p><strong>解决</strong><br>官方建议：访问内存信息，请一定要使用官方提供的API，这样在以后不断的迭代优化过程中，才不会出现兼容问题。</p>
+<h2 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h2><h3 id="画中画"><a href="#画中画" class="headerlink" title="画中画"></a>画中画</h3><h3 id="PHPicker"><a href="#PHPicker" class="headerlink" title="PHPicker"></a>PHPicker</h3><p>在iOS14中，Apple优化了照片的隐私权限，可以让用户选择为该App共享哪些图片，而不是以前的允许访问（所有）图片。</p>
+<p><strong>影响</strong></p>
+<ul>
+<li>废弃<code>AssetLibrary</code>， 请使用<code>PhotoKit</code></li>
+<li>废弃<code>UIImagePickerController</code>，请使用<code>PHPickerViewController</code></li>
+</ul>
+<p><strong>特性</strong></p>
+<ul>
+<li>支持选择视频或图片</li>
+<li>支持单选或多选</li>
+<li>UI设计风格和操作手势与<code>照片App</code>完全相似</li>
+<li>不需要授权隐私权限</li>
+</ul>
+<p><strong>官方说明</strong></p>
+<blockquote>
+<p>Also please don’t prompt for photo library access before showing the picker and don’t require the user to grant you access before showing the picker. There’s no need to do any of this. And it doesn’t help with the users trust into your app.If your app leverages PhotoKit to access the photos library please reconsider if it really needs to have access to the library or if you can use PHPicker instead.We really hope you like the new picker and API. We’re looking forward to you adopting it in your apps. Thank you.<br>另外，在显示选择器之前，请不要提示对图库的访问权限，也不要要求用户在显示选择器之前授予您访问权限。 无需执行任何操作。 如果您的应用程序利用PhotoKit访问照片库，请重新考虑它是否真的需要访问该库或是否可以使用PHPicker，我们真的希望您喜欢该应用程序。 新的选择器和API。 我们期待您在应用中采用它。 谢谢。</p>
+</blockquote>
+<h3 id="Widget-Extension"><a href="#Widget-Extension" class="headerlink" title="Widget Extension"></a>Widget Extension</h3><p>小组件功能<br>具体开发实现可以参考苹果的官方教程<br><a target="_blank" rel="noopener" href="https://developer.apple.com/wwdc20/10028">为您介绍WidgetKit</a><br><a target="_blank" rel="noopener" href="https://developer.apple.com/wwdc20/10041">SwiftUI新功能</a><br><a target="_blank" rel="noopener" href="https://developer.apple.com/wwdc20/10194">为小组件添加配置和智能</a><br><a target="_blank" rel="noopener" href="https://developer.apple.com/wwdc20/10033">为小组件构建SwiftUI视图</a></p>
+<blockquote>
+<p>小组件仅支持SwiftUI开发</p>
+</blockquote>
+<h3 id="App-Clips"><a href="#App-Clips" class="headerlink" title="App Clips"></a>App Clips</h3><h4 id="如何唤醒"><a href="#如何唤醒" class="headerlink" title="如何唤醒?"></a>如何唤醒?</h4><p>苹果对App Clip的使用场景非常明确，系统对调起方式做了严格的过滤，支持的发起入口有如下几种：</p>
+<ul>
+<li>NFC</li>
+<li>QR Codes（也就是二维码，专门的生成工具会在年底开放）</li>
+<li>Maps</li>
+<li>Siri 建议</li>
+<li>Safari链接</li>
+<li>Messages</li>
+</ul>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ul>
+<li>10M的限制</li>
+<li>30天不使用，系统自动删除<code>App Clip</code>及<code>数据</code></li>
+<li>支持地理位置，相机，麦克风和蓝牙等权限，限制访问 Health、Fitness、通讯录、信息、照片、文件等个人数据。</li>
+<li>为了避免弹窗授权的糟糕体验，设计了免申请的通知、定位权限。当然还是有限制，免申请的通知只在 8 个小时内有效，地理位置只能获取一次。</li>
+<li>支持Sign in with Apple，也支持ASWebAuthenticationSession来第三方登录，以及使用Apple Pay。</li>
+<li>在使用App Clip的过程中，Apple也会明显提示主App的存在，方便用户直接去下载。</li>
+<li>不会与App一起出现在用户的Setting App里，有单独的App Clips的分组。</li>
+<li>一旦安装了主App，对应的App Clip将会被删除，再点击链接将会直接进入主App。</li>
+</ul>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><p><strong>依赖主APP</strong><br>虽然对于用户来说不需要下载主App，但开发者必须使App Clip跟随主App一同提交审核，App Clip并不能够独立开发并提审。（这与Apple设计之初的理念是一致的，目的是为了快速体验功能，而不是替代App）</p>
+<p><strong>独立的Target</strong><br>在开发上，也是完全Native的实现，类似于一个新增的<code>Extension target</code>，例如<code>Keyboard Extension</code>、<code>iMessage Extension</code>等。</p>
+<blockquote>
+<p><code>App Clip</code>不仅支持<code>SwiftUI</code>，也支持<code>UIKit</code>，包括很多人还在坚守的<code>Objective-C</code>，完全都没有问题，并不存在上手难度。</p>
+</blockquote>
+<p><strong>数据共享</strong><br>由于Target依赖于主App，所以Target间的资源共享都是完全OK的，只需要在资源归属上勾选上<code>App Clip</code>就可以了；同时，与Extension一致，<code>App Clip</code>可以通过<code>App Groups</code>来与主App共享数据。</p>
+<p><strong>引导转化</strong><br>Apple建议开发者可以在<code>App Clip</code>的视图中嵌入<code>SKOverlay</code>，当用户在<code>App Clip</code>中完成相关任务后展示<code>SKOverlay</code>，这样可以较好的引导用户</p>
+<blockquote>
+<p>比如可以将其放置在用户的付款确认界面之后。<br>新特性<a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2020/10661/">SKOverlay</a></p>
+</blockquote>
+<p><strong>支持一对多</strong><br>同时，主工程支持多个<code>App Clip</code> Target，目前并不清楚Apple对于数量的限制是多少，但是估计能够满足大部分App主要功能的拆分，以某团为例，可以存在多个<code>App Clip</code>：单车、外卖、酒店住宿、打车等等。</p>
+<p><strong>支持不同参数</strong><br>只需要提供不同参数，就可以针对不同场景不同需求来提供不同的 <code>App Clip</code> 体验，例如官方提供的统一连锁下不同咖啡馆举例</p>
+<p><strong>如何处理Universal Link和App Clip URL？</strong></p>
+<p>官方Demo提供的解决方案是通过编译宏<code>APPCLIP</code>来做分支处理，这样能够最大程度共用代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"><span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line"><span class="keyword">import</span> AppClip</span><br><span class="line"><span class="keyword">import</span> CoreLocation</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@main</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">FrutaApp</span>: <span class="title class_">App</span> &#123;</span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> model <span class="operator">=</span> <span class="type">FrutaModel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="operator">!</span><span class="type">APPCLIP</span></span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> store <span class="operator">=</span> <span class="type">Store</span>()</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@SceneBuilder</span> <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">Scene</span> &#123;</span><br><span class="line">        <span class="type">WindowGroup</span> &#123;</span><br><span class="line">            <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">            <span class="type">NavigationView</span> &#123;</span><br><span class="line">                <span class="type">SmoothieMenu</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            .environmentObject(model)</span><br><span class="line">            .onContinueUserActivity(<span class="type">NSUserActivityTypeBrowsingWeb</span>, perform: handleUserActivity)</span><br><span class="line">            <span class="keyword">#else</span></span><br><span class="line">            <span class="type">ContentView</span>()</span><br><span class="line">                .environmentObject(model)</span><br><span class="line">                .environmentObject(store)</span><br><span class="line">            <span class="keyword">#endif</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">handleUserActivity</span>(<span class="keyword">_</span> <span class="params">userActivity</span>: <span class="type">NSUserActivity</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> incomingURL <span class="operator">=</span> userActivity.webpageURL,</span><br><span class="line">              <span class="keyword">let</span> components <span class="operator">=</span> <span class="type">NSURLComponents</span>(url: incomingURL, resolvingAgainstBaseURL: <span class="literal">true</span>),</span><br><span class="line">              <span class="keyword">let</span> queryItems <span class="operator">=</span> components.queryItems <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> smoothieID <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;smoothie&quot;</span> &#125;)<span class="operator">?</span>.value &#123;</span><br><span class="line">            model.selectSmoothie(id: smoothieID)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> payload <span class="operator">=</span> userActivity.appClipActivationPayload,</span><br><span class="line">              <span class="keyword">let</span> latitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;latitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> longitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;longitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> latitude <span class="operator">=</span> <span class="type">Double</span>(latitudeValue), <span class="keyword">let</span> longitude <span class="operator">=</span> <span class="type">Double</span>(longitudeValue) <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> region <span class="operator">=</span> <span class="type">CLCircularRegion</span>(center: <span class="type">CLLocationCoordinate2D</span>(latitude: latitude,</span><br><span class="line">                            longitude: longitude), radius: <span class="number">100</span>, identifier: <span class="string">&quot;smoothie_location&quot;</span>)</span><br><span class="line">        payload.confirmAcquired(in: region) &#123; inRegion, error <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> error <span class="operator">=</span> error &#123;</span><br><span class="line">                <span class="built_in">print</span>(error.localizedDescription)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">                model.applePayAllowed <span class="operator">=</span> inRegion</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>handleUserActivity</code>就是在处理<code>App Clip</code>链接。<br>当然，直接将主App和<code>App Clip</code>的代码分开也是可以的，但是这可能对于两者区别较大的产品更适合，但同时也违反了Apple的初衷，希望<code>App Clip</code>仅仅是主App的一部分，这可能会导致审核遇阻。</p>
+<p><strong>与小程序的异同</strong></p>
+<p>有些人认为<code>App Clip</code>是苹果小程序，像微信一样。如果仅从两者设计之初的理念来比较，确实比较相似，但是从其他方面来讲，两者差异较大：</p>
+<ul>
+<li>入口不同：App Clip支持多种打开方式，微信小程序只支持从微信进入，但是后者支持主动搜索。</li>
+<li>性能不同：App Clip依赖于系统，微信小程序依赖于微信，原生性能会明显优于小程序。</li>
+<li>体验路径不同：微信小程序需要打开微信，下拉小程序列表，找到并打开目标小程序，<code>App Clip</code>一步到位，实施降维打击。</li>
+<li>定位不同：<code>App Clip</code>明确是主App功能的一部分，不能做主App无关的内容，但是微信小程序没有该限制，并且支持独立发布。</li>
+</ul>
+<p>也正是由于定位不同，微信小程序完全可以与<code>App Clip</code>共分天下，微信小程序已经形成生态圈，国内很多开发商专注于小程序的开发，都没有App，自然也就用不上<code>App Clip</code>，虽然<code>App Clip</code>必然会抢占小程序的市场，但是目前看，还是无法从根本上动摇小程序的地位。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/14/ios/general/App%E7%98%A6%E8%BA%AB/" rel="prev" title="iOS-App瘦身">
+                  <i class="fa fa-angle-left"></i> iOS-App瘦身
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/09/ios/general/%E6%B7%B1%E7%A9%B6iOS%E5%90%AF%E5%8A%A8%E5%9B%BE%E9%97%AE%E9%A2%98/" rel="next" title="深究iOS启动图问题">
+                  深究iOS启动图问题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

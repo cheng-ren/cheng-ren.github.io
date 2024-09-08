@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="随着项目的不断迭代，工程变得越来越庞大。大项目不仅面临着架构调整的问题，还要面对每次编译时长不断增加的问题。现在我们的项目全量编译要半个小时。 操作环境操作系统：MacOS 11开发工具：Xcode12CPU：i7 2.2GHz 4核8线程内存：16GB  业务驱动技术提升">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优化Xcode编译速度">
+<meta property="og:url" content="https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="随着项目的不断迭代，工程变得越来越庞大。大项目不仅面临着架构调整的问题，还要面对每次编译时长不断增加的问题。现在我们的项目全量编译要半个小时。 操作环境操作系统：MacOS 11开发工具：Xcode12CPU：i7 2.2GHz 4核8线程内存：16GB  业务驱动技术提升">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/rauk5.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/uyj8k.png-thumb100">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/1yb0t.png-thumb100">
+<meta property="article:published_time" content="2020-11-29T14:05:46.000Z">
+<meta property="article:modified_time" content="2020-11-29T14:05:46.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="App优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/rauk5.png-thumb100">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/","path":"2020/11/29/ios/general/优化Xcode编译速度/","title":"优化Xcode编译速度"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>优化Xcode编译速度 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E6%97%B6%E9%95%BF"><span class="nav-number">1.</span> <span class="nav-text">查看编译时长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%80%BB%E6%97%B6%E9%95%BF"><span class="nav-number">1.1.</span> <span class="nav-text">查看总时长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8D%95%E4%B8%AA%E7%BC%96%E8%AF%91%E5%8D%95%E5%85%83%E7%9A%84%E6%97%B6%E9%95%BF"><span class="nav-number">1.2.</span> <span class="nav-text">查看单个编译单元的时长</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96Xcode%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">优化Xcode配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E6%A8%A1%E5%9D%97%E7%BC%96%E8%AF%91%EF%BC%88Whole-Module-Optimization%EF%BC%8CWMO%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">全模块编译（Whole-Module Optimization，WMO）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E5%A4%84%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">调试信息处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text">架构配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%E7%AD%89%E7%BA%A7-Optimization-Level"><span class="nav-number">2.4.</span> <span class="nav-text">编译优化等级(Optimization Level)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BA%A7%E6%8F%90%E5%8D%87"><span class="nav-number">3.</span> <span class="nav-text">系统级提升</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E7%BC%96%E8%AF%91%E7%BA%BF%E7%A8%8B%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">增加编译线程数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E7%9B%98"><span class="nav-number">3.2.</span> <span class="nav-text">虚拟盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">代码优化</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/11/29/ios/general/%E4%BC%98%E5%8C%96Xcode%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="优化Xcode编译速度 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          优化Xcode编译速度
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-29 22:05:46" itemprop="dateCreated datePublished" datetime="2020-11-29T22:05:46+08:00">2020-11-29</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>随着项目的不断迭代，工程变得越来越庞大。大项目不仅面临着架构调整的问题，还要面对每次编译时长不断增加的问题。现在我们的项目全量编译要半个小时。</p>
+<p>操作环境<br>操作系统：MacOS 11<br>开发工具：Xcode12<br>CPU：i7 2.2GHz 4核8线程<br>内存：16GB</p>
+<blockquote>
+<p>业务驱动技术提升</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="查看编译时长"><a href="#查看编译时长" class="headerlink" title="查看编译时长"></a>查看编译时长</h2><h3 id="查看总时长"><a href="#查看总时长" class="headerlink" title="查看总时长"></a>查看总时长</h3><ol>
+<li>关闭Xcode</li>
+<li>执行如下命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES</span><br></pre></td></tr></table></figure></li>
+<li>启动Xcode<br><img src="https://cdn.rencheng.cc/blog/rauk5.png-thumb100"></li>
+</ol>
+<h3 id="查看单个编译单元的时长"><a href="#查看单个编译单元的时长" class="headerlink" title="查看单个编译单元的时长"></a>查看单个编译单元的时长</h3><p><a target="_blank" rel="noopener" href="https://github.com/RobertGummesson/BuildTimeAnalyzer-for-Xcode">BuildTimeAnalyzer-for-Xcode</a></p>
+<blockquote>
+<p>该插件会罗列单个编译单元的时长</p>
+</blockquote>
+<p><img src="https://cdn.rencheng.cc/blog/uyj8k.png-thumb100"></p>
+<blockquote>
+<p>首次启动该工程，根据配置指导走完后，需重新运行。</p>
+</blockquote>
+<h2 id="优化Xcode配置"><a href="#优化Xcode配置" class="headerlink" title="优化Xcode配置"></a>优化Xcode配置</h2><p>以下配置都是在工程对应<code>Target</code>的<code>Build Settings</code>中操作</p>
+<h3 id="全模块编译（Whole-Module-Optimization，WMO）"><a href="#全模块编译（Whole-Module-Optimization，WMO）" class="headerlink" title="全模块编译（Whole-Module Optimization，WMO）"></a>全模块编译（Whole-Module Optimization，WMO）</h3><p>在编译项目时，将同属于一个<code>Module</code>（可以理解为一个 Target、一个 Package）的所有源代码都串起来，进行整体的一个分析与优化，区别于 <code>Single-File Optimizatin</code>（单文件优化，以下简称SFO），<code>WMO</code>可以更好的统筹全局，去<code>inline</code>函数调用、排除死函数（即写了却从不调用的函数）等</p>
+<p>在<code>User-Define</code>中增加<code>SWIFT_WHOLE_MODULE_OPTIMIZATION</code>选项卡，值为<code>Yes</code></p>
+<blockquote>
+<p>在<code>Release</code>模式中，建议打开此选项。</p>
+</blockquote>
+<h3 id="调试信息处理"><a href="#调试信息处理" class="headerlink" title="调试信息处理"></a>调试信息处理</h3><p>将<code>Debug Information Format</code>选项中，</p>
+<ul>
+<li><code>Debug</code>模式的值<code>DWARF with dSYM</code>改为<code>DWARF</code>；</li>
+<li><code>Release</code>模式的值是<code>DWARF with dSYM</code>，因为一般工程都会集成Bugly，而Bugly问题分析是需要<code>.dSYM</code>文件的，如果不生成，线上崩溃是没有办法定位信息的。</li>
+</ul>
+<blockquote>
+<p>DWARF意思是矮小的，不作数的。</p>
+</blockquote>
+<h3 id="架构配置"><a href="#架构配置" class="headerlink" title="架构配置"></a>架构配置</h3><p>将<code>Build Active Architecture Only</code>选项里的<code>Debug</code>模式的值<code>No</code>改为<code>Yes</code></p>
+<blockquote>
+<p><code>Release</code>模式的值必须是<code>No</code>；虽说现在苹果全线都Arm架构了，但是仍然有arm64，armv7，armv7s等区分。</p>
+</blockquote>
+<h3 id="编译优化等级-Optimization-Level"><a href="#编译优化等级-Optimization-Level" class="headerlink" title="编译优化等级(Optimization Level)"></a>编译优化等级(Optimization Level)</h3><p><img src="https://cdn.rencheng.cc/blog/1yb0t.png-thumb100"></p>
+<blockquote>
+<p>在设置编译优化之后，Xcode断点和调试信息会不正常，所以一般静态库或者其他Target可以这样设置。</p>
+</blockquote>
+<h2 id="系统级提升"><a href="#系统级提升" class="headerlink" title="系统级提升"></a>系统级提升</h2><h3 id="增加编译线程数"><a href="#增加编译线程数" class="headerlink" title="增加编译线程数"></a>增加编译线程数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.Xcode PBXNumberOfParallelBuildSubtasks 4</span><br></pre></td></tr></table></figure>
+
+<h3 id="虚拟盘"><a href="#虚拟盘" class="headerlink" title="虚拟盘"></a>虚拟盘</h3><p>使用虚拟磁盘。编译过程中需要大量的磁盘 IO，这主要发生在<code>Derived Data</code>目录下，因此如果内存足够，可以考虑划出<code>4G</code>左右的内存，建一个虚拟磁盘，这样将会把<code>磁盘IO</code>优化为<code>内存IO</code>，从而提高速度。<br>由于打包机器每次都会重编译，因此不需要担心重启机器后缓存丢失的问题。</p>
+<h2 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h2><ol>
+<li>去除警告</li>
+<li>三目运算符</li>
+<li>提前计算常量</li>
+<li>宏定义</li>
+<li>类型推断</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/App%E4%BC%98%E5%8C%96/" rel="tag"># App优化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/13/ios/general/%E5%88%9B%E5%BB%BAFramework/" rel="prev" title="创建Framework">
+                  <i class="fa fa-angle-left"></i> 创建Framework
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/23/ios/general/%E6%B3%A8%E5%86%8C%E9%A6%99%E6%B8%AF%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E8%B4%A6%E5%8F%B7/" rel="next" title="注册香港苹果开发者账号">
+                  注册香港苹果开发者账号 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

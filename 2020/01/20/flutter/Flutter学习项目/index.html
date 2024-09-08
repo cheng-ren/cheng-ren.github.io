@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="列出一些Flutter项目的案例，在你考虑学习之前，先看看里面博主对Flutter的理解；😌。。。，还不是最终的解决方案，但它是目前最优的解决方案；当然也要结合各团队的情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter - 从入门到放弃">
+<meta property="og:url" content="https://rencheng.cc/2020/01/20/flutter/Flutter%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="列出一些Flutter项目的案例，在你考虑学习之前，先看看里面博主对Flutter的理解；😌。。。，还不是最终的解决方案，但它是目前最优的解决方案；当然也要结合各团队的情况">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/hve50.png">
+<meta property="article:published_time" content="2020-01-20T03:22:27.000Z">
+<meta property="article:modified_time" content="2020-01-20T03:22:27.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/hve50.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2020/01/20/flutter/Flutter%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2020/01/20/flutter/Flutter%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/","path":"2020/01/20/flutter/Flutter学习项目/","title":"Flutter - 从入门到放弃"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Flutter - 从入门到放弃 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%9D%E8%AF%95Flutter%E7%9A%84%E7%90%86%E7%94%B1"><span class="nav-number">1.</span> <span class="nav-text">尝试Flutter的理由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">学习项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">快速开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-number">4.</span> <span class="nav-text">Flutter 的技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-%E4%BC%98%E5%8A%BF"><span class="nav-number">5.</span> <span class="nav-text">Flutter 优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-%E7%BC%BA%E7%82%B9"><span class="nav-number">6.</span> <span class="nav-text">Flutter 缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-%E6%84%9F%E5%8F%97"><span class="nav-number">7.</span> <span class="nav-text">Flutter 感受</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9Flutter%E6%9C%AA%E6%9D%A5%E7%9A%84%E7%9C%8B%E6%B3%95"><span class="nav-number">8.</span> <span class="nav-text">对Flutter未来的看法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2020/01/20/flutter/Flutter%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Flutter - 从入门到放弃 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flutter - 从入门到放弃
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-20 11:22:27" itemprop="dateCreated datePublished" datetime="2020-01-20T11:22:27+08:00">2020-01-20</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>列出一些Flutter项目的案例，在你考虑学习之前，先看看里面博主对Flutter的理解；<br>😌。。。，还不是最终的解决方案，但它是目前最优的解决方案；当然也要结合各团队的情况</p>
+<span id="more"></span>
+
+<h2 id="尝试Flutter的理由"><a href="#尝试Flutter的理由" class="headerlink" title="尝试Flutter的理由"></a>尝试Flutter的理由</h2><ul>
+<li><strong>Dart 语言</strong><br>Flutter 是基于 Dart 设计的，Dart 语言从一开始就被设计为构建客户端应用程序的绝佳工具，并针对 UI 开发工作做了调整和优化。<br>Dart 有着干净且极为强大的语法，加之易于维护的特性，促进了强大的应用程序架构和设计。它与其他流行语言（例如 C#、Java 和 TypeScript）相似，这意味着有相关经验的开发人员很容易快速上手并开始使用 Dart。</li>
+</ul>
+<ol start="2">
+<li><strong>开发人员的广泛采用</strong><br>在短短的一年时间里，Flutter 在 GitHub 和 StackOverflow 上都取得了比 React Native（之前最流行的框架）更高的流行度。对你的应用程序来说，这意味着有更多的资源可供学习，可以找到更多熟练的开发人员来开发你的应用。此外，Flutter 技术本身的迭代速度更快。</li>
+<li><strong>它特别快</strong><br>Flutter 应用程序可编译为原生二进制文件，这些文件依赖于 C/C++ 内置的图形和渲染引擎，因此可生成非常快速且性能出众的应用程序。Flutter 应用程序能够在大多数设备上实现稳定的 60fps 输出，并在支持高刷新率的设备上实现令人难以置信的 120fps 帧率。<br>许多开发人员已经注意到，Flutter 的性能表现与其他跨平台框架相比有了极大的提升，这也是移动应用开发人员迅速而广泛地采用这一技术的驱动力。确实，在性能表现和流畅的渲染方面，真正的原生构建应用是很难被击败的，但在跨平台框架领域，Flutter 在这些指标的竞争中具有明显的优势。</li>
+<li><strong>它相对易学</strong><br>除了性能表现之外，Flutter 之所以获得如此广泛的使用率，另一大因素就是它提供的出色文档和可供参考的大批高质量示例。对于有兴趣学习新的框架、工具包或语言的开发人员来说，这一切都让 Flutter 与众不同。对于经验丰富的程序员而言这一点尤其重要，因为他们更有可能发现语言或工具包本身的设计问题。<br>Flutter 因其清晰的文档资料以及由新手和专家组成的支持社区而倍受赞誉，社区成员经常渴望分享他们的经验，并提供设计出色、开发模式出众的可靠实践示例，为他人带去福音。一般来说，易学易用，面向大众的技术往往没有那么重的精英主义氛围，所以对新人也更加友好。</li>
+<li><strong>它的设计精良</strong><br>Flutter 是基于出色的语言 Dart 和快速的高性能渲染引擎 Skia 从头开始设计出来的。这样的路线诞生了一个高水平的框架，能鼓励不同技能水平的开发人员基于良好的设计模式和最佳实践来构建应用，而不会因为标准冲突或糟糕的语言实践导致内部技术债。拥有多年经验，能熟练跨各种设备构建应用程序的开发人员开始上手 Flutter 几分钟时间，就能意识到 Flutter 带来的明显优势，新手也不太容易陷入困境，因为互联网上有很多很棒的示例可以用来学习最佳实践。</li>
+</ol>
+<h2 id="学习项目"><a href="#学习项目" class="headerlink" title="学习项目"></a>学习项目</h2><p><a target="_blank" rel="noopener" href="https://github.com/flutter/flutter/tree/master/examples">官方示例</a><br><a target="_blank" rel="noopener" href="https://github.com/flutter/samples">官方示例</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nisrulz/flutter-examples">基础教程</a></p>
+<blockquote>
+<p>项目都是独立的，可单独运行</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/iampawan/FlutterExampleApps">收集Flutter实例的App</a></p>
+<h2 id="快速开发"><a href="#快速开发" class="headerlink" title="快速开发"></a>快速开发</h2><p><a target="_blank" rel="noopener" href="https://app.quicktype.io/">jsontomodel</a></p>
+<h2 id="Flutter-的技术栈"><a href="#Flutter-的技术栈" class="headerlink" title="Flutter 的技术栈"></a>Flutter 的技术栈</h2><p><img src="https://cdn.rencheng.cc/blog/hve50.png"></p>
+<h2 id="Flutter-优势"><a href="#Flutter-优势" class="headerlink" title="Flutter 优势"></a>Flutter 优势</h2><ul>
+<li>跨平台，性能强大</li>
+<li>热重载功能</li>
+<li>免费，开源</li>
+<li>高度可定制</li>
+</ul>
+<h2 id="Flutter-缺点"><a href="#Flutter-缺点" class="headerlink" title="Flutter 缺点"></a>Flutter 缺点</h2><ul>
+<li>双端熟悉</li>
+<li>Dart编程；声明式语法上会发生嵌套地狱</li>
+<li>包体积增大</li>
+</ul>
+<h2 id="Flutter-感受"><a href="#Flutter-感受" class="headerlink" title="Flutter 感受"></a>Flutter 感受</h2><p>作为iOS开发工程师，在学习Flutter过程中，要对Android系统开发也要有些了解，要不然处处是坑；如果想开发一个项目，至少需要iOS和Android两个高级工程师来做，因为Flutter毕竟是跨平台UI的解决方案，它不是原生，在处理底层事件和高性能需求的时候离不开原生，需要制定通讯协议和解决方案；</p>
+<h2 id="对Flutter未来的看法"><a href="#对Flutter未来的看法" class="headerlink" title="对Flutter未来的看法"></a>对Flutter未来的看法</h2><p>个人觉得全量开发的可能性非常非常小，苹果也不允许的，而且目前很多公司的产品改造成Flutter的成本太大，ROI不高，不过flutter确实越来越完善了，如果swiftUI没发力，原生开发肯定会被严重蚕食</p>
+<blockquote>
+<p>你愿意在下一个项目中尝试 Flutter 吗？</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/16/flutter/Flutter%E6%9E%B6%E6%9E%84/" rel="prev" title="Flutter - 架构">
+                  <i class="fa fa-angle-left"></i> Flutter - 架构
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/01/flutter/Flutter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="next" title="Flutter - 环境配置">
+                  Flutter - 环境配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

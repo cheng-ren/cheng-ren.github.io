@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="记录Linux的常用命令，有备无患">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="https://rencheng.cc/2016/11/10/linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="记录Linux的常用命令，有备无患">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-11-10T12:44:06.000Z">
+<meta property="article:modified_time" content="2016-11-10T12:44:06.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="运维">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2016/11/10/linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2016/11/10/linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/","path":"2016/11/10/linux/Linux常用命令/","title":"Linux常用命令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux常用命令 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">常用Linux操作系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7-xshell"><span class="nav-number">2.</span> <span class="nav-text">远程连接工具-xshell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%B7%B2%E7%86%9F%E7%BB%83%E4%BD%BF%E7%94%A8%E7%9A%84Linux%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">默认已熟练使用的Linux命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vi%E5%8F%8Avim%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">vi及vim使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%91%BD%E4%BB%A4-Go-on"><span class="nav-number">6.</span> <span class="nav-text">Linux命令-Go on</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#raid0-raid1-raid5%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.</span> <span class="nav-text">raid0 raid1 raid5的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%A8%E6%9C%9F%E6%80%A7%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">8.</span> <span class="nav-text">周期性计划任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7-awk"><span class="nav-number">9.</span> <span class="nav-text">文本处理工具 - awk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%BF%85%E9%A1%BB%E5%85%BB%E6%88%90%E7%9A%84%E4%B9%A0%E6%83%AF"><span class="nav-number">10.</span> <span class="nav-text">使用命令必须养成的习惯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%BD%AF%E4%BB%B6"><span class="nav-number">11.</span> <span class="nav-text">常用远程连接软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="nav-number">12.</span> <span class="nav-text">常见服务的端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7-awk-1"><span class="nav-number">13.</span> <span class="nav-text">文本处理工具 - awk</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2016/11/10/linux/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux常用命令 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常用命令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-11-10 20:44:06" itemprop="dateCreated datePublished" datetime="2016-11-10T20:44:06+08:00">2016-11-10</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>记录Linux的常用命令，有备无患</p>
+<span id="more"></span>
+
+<h2 id="常用Linux操作系统"><a href="#常用Linux操作系统" class="headerlink" title="常用Linux操作系统"></a>常用Linux操作系统</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RedHat(红帽)：<span class="number">6.5</span>、<span class="number">7</span></span><br><span class="line">CentOS：<span class="number">6.5</span>、<span class="number">7</span></span><br><span class="line">Ubuntu：<span class="number">16.04</span>、<span class="number">18.04</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="远程连接工具-xshell"><a href="#远程连接工具-xshell" class="headerlink" title="远程连接工具-xshell"></a>远程连接工具-xshell</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、定义</span></span><br><span class="line">xshell: 安装终端模拟软件</span><br><span class="line"><span class="comment"># 2、使用</span></span><br><span class="line">文件-新建-输入服务器IP地址-输入用户名-输入密码-确认连接</span><br><span class="line"><span class="comment"># 3、文件互传</span></span><br><span class="line">sudo apt-get install lrzsz</span><br><span class="line">Windows -&gt; Linux：rz </span><br><span class="line">Linux -&gt; Windows: sz filename</span><br></pre></td></tr></table></figure>
+
+<h2 id="默认已熟练使用的Linux命令"><a href="#默认已熟练使用的Linux命令" class="headerlink" title="默认已熟练使用的Linux命令"></a>默认已熟练使用的Linux命令</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、pwd</span><br><span class="line"><span class="number">2</span>、cd    -- cd .. 、cd</span><br><span class="line"><span class="number">3</span>、ls -l   -- ll</span><br><span class="line"><span class="number">4</span>、mkdir -p /home/tarena/a/b/c/d</span><br><span class="line">   os</span><br><span class="line">   os.mkdir(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">   os.makedirs(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="number">5</span>、touch</span><br><span class="line"><span class="number">6</span>、tar </span><br><span class="line">  tar -zcvf xxx.tar.gz dir1 dir2</span><br><span class="line">  tar -zxvf xxx.tar.gz</span><br><span class="line">  tar -xf xxx.tar.gz</span><br><span class="line">  tar xf xxx.tar.gz</span><br><span class="line">  unzip xxx.<span class="built_in">zip</span></span><br><span class="line"><span class="number">7</span>、cp    -- cp -r <span class="comment">#-r选项递归复制,复制非空文件夹</span></span><br><span class="line"><span class="number">8</span>、mv</span><br><span class="line">  mv dir1 /home/tarena/</span><br><span class="line">  mv dir1 new_dir1</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、ifconfig</span><br><span class="line">  查看IP地址和MAC地址</span><br><span class="line">  Windows中命令为:ipconfig 或者 ipconfig/<span class="built_in">all</span></span><br><span class="line">  <span class="comment"># ubuntu18.04 不能使用ifconfig</span></span><br><span class="line">  sudo apt-get install net-tools</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、ping IP/域名 [-c n]</span><br><span class="line">  测试网络连通性,-c指定连接次数</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、nslookup 域名</span><br><span class="line">  解析域名对应的IP地址</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、ls -lh file|directory</span><br><span class="line">  显示文件权限及详细信息,h选项提供易读容量单位</span><br><span class="line">  -rw-r--r--  tarena tarena</span><br><span class="line">  分三组:  所有者权限 所属组用户权限 其他用户权限</span><br><span class="line">  r - 读(<span class="number">4</span>)</span><br><span class="line">  w - 写(<span class="number">2</span>)</span><br><span class="line">  x - 可执行(<span class="number">1</span>)</span><br><span class="line">  前<span class="number">3</span>位: 所有者(tarena这个用户)rw-</span><br><span class="line">  中<span class="number">3</span>位: 所属组其它用户(用户tarena2对文件权限)r--</span><br><span class="line">  尾<span class="number">3</span>位: 其它组其它用户(用户develop1对文件权限)r--</span><br><span class="line">  <span class="comment"># 777 rwxrwxrwx</span></span><br><span class="line">  <span class="comment"># 666 rw-rw-rw-</span></span><br><span class="line">  <span class="comment"># 644 rw-r--r--</span></span><br><span class="line"></span><br><span class="line"><span class="number">5</span>、tar -zcvf filename.tar.gz file1 file2 directory3 </span><br><span class="line">  将文件|目录打包并压缩</span><br><span class="line"> </span><br><span class="line"><span class="number">6</span>、tar -zxvf filename.tar.gz [-C path]</span><br><span class="line">  解压缩,默认解压到当前路径,-C可指定路径</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>、ps -aux</span><br><span class="line">  显示进程命令(包含PID号)  ps -aux | grep <span class="string">&#x27;mysql&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="number">8</span>、kill PID</span><br><span class="line">  杀死某个进程</span><br><span class="line">  eg: ps -aux | grep <span class="string">&#x27;mysql&#x27;</span></span><br><span class="line">      sudo kill PID号</span><br><span class="line"></span><br><span class="line"><span class="number">9</span>、chmod 权限 file</span><br><span class="line">  给文件指定或者增加某权限</span><br><span class="line">  chmod <span class="number">777</span> 文件名</span><br><span class="line">  chmod <span class="number">644</span> 文件名</span><br><span class="line">  rw-r--r--</span><br><span class="line">  chmod u+x 文件名 <span class="comment"># 文件所有者增加x权限(user)</span></span><br><span class="line">  chmod g+w 文件名 <span class="comment"># 同组其它用户增加w权限(group)</span></span><br><span class="line">  chmod o-r 文件名 <span class="comment"># 其它组其它用户减r权限(other)</span></span><br><span class="line">  chmod a+x 文件名 <span class="comment"># 给所有用户增加x权限(all)</span></span><br><span class="line"></span><br><span class="line"><span class="number">10</span>、chown user:group file</span><br><span class="line">  更改属主和属组</span><br><span class="line">  eg: chown root:root file</span><br><span class="line">       </span><br><span class="line"><span class="number">11</span>、find path -name filename</span><br><span class="line">  在某个路径下查找文件</span><br><span class="line">  eg: find /home/tarena/ -name <span class="string">&#x27;*.avi&#x27;</span></span><br><span class="line">    </span><br><span class="line"><span class="number">12</span>、ssh user@IP</span><br><span class="line">  远程连接到服务器</span><br><span class="line">  eg: ssh tarena@<span class="number">172.40</span><span class="number">.91</span><span class="number">.138</span></span><br><span class="line">    </span><br><span class="line"><span class="number">13</span>、scp file user@IP:绝对路径</span><br><span class="line">  本地文件复制到远程</span><br><span class="line">  eg: scp python.tar.gz tarena@<span class="number">172.40</span><span class="number">.91</span><span class="number">.138</span>:/home/tarena/</span><br></pre></td></tr></table></figure>
+
+<h2 id="vi及vim使用"><a href="#vi及vim使用" class="headerlink" title="vi及vim使用"></a>vi及vim使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">文本编辑器,vim是vi的升级版</span><br><span class="line"><span class="comment"># 使用流程</span></span><br><span class="line"><span class="number">1</span>、vi filename</span><br><span class="line">初始(不能编辑,浏览模式)  -&gt; 按 a(可编辑,插入模式) -&gt; 编辑内容 -&gt; 按ESC,然后shift+:(命令行模式) -&gt; 输入wq!(保存并退出)、或q!(不保存直接退出)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 练习</span></span><br><span class="line"><span class="number">1</span>、打开一个文件,写入你最喜欢的一首诗,保存退出</span><br><span class="line"><span class="number">2</span>、cat 文件名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用</span></span><br><span class="line"><span class="number">1</span>、查找</span><br><span class="line">  浏览模式 -&gt; 输入 /  -&gt; 输入查找内容 -&gt; Enter  (n表示下<span class="number">1</span>个,shift+n表示上<span class="number">1</span>个)</span><br><span class="line"><span class="number">2</span>、复制+删除+粘贴+撤销</span><br><span class="line">  yy：复制光标所在行(2yy复制两行内容)</span><br><span class="line">   p：粘贴</span><br><span class="line">  dd：删除(剪切)光标所在行(3dd删除(剪切)<span class="number">3</span>行内容）</span><br><span class="line">   u: 撤销</span><br><span class="line"></span><br><span class="line"><span class="comment"># 光标的跳转(浏览模式)：</span></span><br><span class="line">  行首： home</span><br><span class="line">  行尾： end</span><br><span class="line">  全文的首行：gg</span><br><span class="line">  全文的最后一行：G</span><br><span class="line">  全文的<span class="number">12</span>行：12G</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Linux命令-Go-on"><a href="#Linux命令-Go-on" class="headerlink" title="Linux命令-Go on"></a>Linux命令-Go on</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 22、统计文件的行数</span></span><br><span class="line">  wc -l</span><br><span class="line">	eg1: wc -l /etc/passwd</span><br><span class="line">	</span><br><span class="line"><span class="comment"># 23、对文件中内容进行排序</span></span><br><span class="line">  sort 文件名</span><br><span class="line">  </span><br><span class="line"><span class="comment"># 24、去除重复行,并统计每行出现的次数(相邻行)</span></span><br><span class="line">  uniq -c</span><br><span class="line">  sort 文件名 | uniq -c</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 14、管道操作  | ：  </span></span><br><span class="line">  将前面命令的输出，传递给后面命令，作为后面命令的参数</span><br><span class="line">  查看 /etc/passwd 文件的 第<span class="number">6</span>-<span class="number">10</span>行？ - cat、head、tail</span><br><span class="line">  <span class="comment"># cat /etc/passwd | head -10 | tail -5</span></span><br><span class="line">  <span class="comment"># head -10 /etc/passwd | tail -5</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 15、统计目录总共的占用空间的大小</span></span><br><span class="line">  du -sh 目录</span><br><span class="line"></span><br><span class="line"><span class="comment"># 16、查看磁盘使用情况(根分区使用情况)</span></span><br><span class="line">  df -h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 17、常见通配符使用</span></span><br><span class="line">  *：任意多个字符</span><br><span class="line">  ？：单个字符</span><br><span class="line">  eg1: rm -rf /home/tarena/test/*</span><br><span class="line">  eg2: ls *.jpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 18、重定向: 将前面命令的输出，写入到文本文件中</span></span><br><span class="line">  &gt;：覆盖重定向</span><br><span class="line">  &gt;&gt;：追加重定向</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 19、创建用户(会创建同名组)</span></span><br><span class="line">  useradd username</span><br><span class="line"></span><br><span class="line"><span class="comment"># 20、设置密码</span></span><br><span class="line">  sudo passwd 用户名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 21、删除用户</span></span><br><span class="line">  userdel 用户名</span><br><span class="line">  -r：递归删除，删除用户的家目录以及用户的邮件文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="raid0-raid1-raid5的区别"><a href="#raid0-raid1-raid5的区别" class="headerlink" title="raid0 raid1 raid5的区别"></a>raid0 raid1 raid5的区别</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、什么是raid？</span></span><br><span class="line">由一系列硬盘组成的阵列,简单说:一个服务器有<span class="number">10</span>个一硬盘,你如何能保证坏掉<span class="number">1</span>个硬盘后数据不丢,业务不断</span><br><span class="line"></span><br><span class="line"><span class="comment"># raid分类:raid0 、raid1、raid5</span></span><br><span class="line">raid0</span><br><span class="line">  <span class="number">1</span>、特点:数据分散存储在多个硬盘</span><br><span class="line">  <span class="number">2</span>、优点:读写并发,速度超快,提升数倍</span><br><span class="line">  <span class="number">3</span>、缺点:一旦一个硬盘挂掉,则损坏全部数据</span><br><span class="line">raid1:</span><br><span class="line">  <span class="number">1</span>、特点:数据分别写入两个磁盘(写了两份)</span><br><span class="line">  <span class="number">2</span>、优点:实现了数据备份</span><br><span class="line">  <span class="number">3</span>、缺点:磁盘使用率只能到<span class="number">50</span>%</span><br><span class="line">raid5:</span><br><span class="line">  <span class="number">1</span>、特点:提供热备盘实现故障恢复</span><br><span class="line">  <span class="number">2</span>、优点:只损坏<span class="number">1</span>块磁盘,数据不会损坏</span><br><span class="line">  <span class="number">3</span>、缺点:同时坏<span class="number">2</span>块磁盘,数据损坏</span><br></pre></td></tr></table></figure>
+
+<h2 id="周期性计划任务"><a href="#周期性计划任务" class="headerlink" title="周期性计划任务"></a>周期性计划任务</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、进入周期性计划任务</span></span><br><span class="line">crontab -e (首次进入按<span class="number">2</span> - 找vim)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置周期性计划任务</span></span><br><span class="line">* * * * *  : 五个*号代表  分 时 日 月 周</span><br><span class="line"><span class="number">0</span> <span class="number">2</span> * * *  : 每天凌晨<span class="number">2</span>点</span><br><span class="line">分 ：<span class="number">0</span>-<span class="number">59</span></span><br><span class="line">时 ：<span class="number">0</span>-<span class="number">23</span></span><br><span class="line">日 ：<span class="number">1</span>-<span class="number">31</span></span><br><span class="line">月 ：<span class="number">1</span>-<span class="number">12</span></span><br><span class="line">周 ：<span class="number">0</span>-<span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始设置 : </span></span><br><span class="line"><span class="number">1</span>、<span class="string">&#x27;*&#x27;</span> 代表所有可能值</span><br><span class="line"><span class="number">2</span>、<span class="string">&#x27;,&#x27;</span> 指定多个时间点 <span class="number">0</span> <span class="number">1</span>,<span class="number">5</span> * * * xxx</span><br><span class="line"><span class="number">3</span>、<span class="string">&#x27;/&#x27;</span> 指定时间间隔频率 <span class="number">0</span> <span class="number">0</span>-<span class="number">6</span>/<span class="number">1</span> * * * xxx</span><br><span class="line"><span class="number">4</span>、<span class="string">&#x27;-&#x27;</span> 指定一个时间段</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="number">1</span>、每月的<span class="number">1</span>日和<span class="number">5</span>日两天: * * <span class="number">1</span>,<span class="number">5</span> * * </span><br><span class="line"><span class="number">2</span>、每<span class="number">10</span>分钟: */<span class="number">10</span> * * * * </span><br><span class="line"><span class="number">3</span>、<span class="number">0</span>点-<span class="number">6</span>点每小时执行: <span class="number">0</span> <span class="number">0</span>-<span class="number">6</span>/<span class="number">1</span> * * *</span><br><span class="line"><span class="number">4</span>、每分钟执行: * * * * *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 练习</span></span><br><span class="line"><span class="number">1</span>、每小时的第<span class="number">3</span>分钟和第<span class="number">15</span>分钟执行</span><br><span class="line">  <span class="number">3</span>,<span class="number">15</span> * * * * python3 xxx.py</span><br><span class="line"><span class="number">2</span>、每周六、周日的<span class="number">0</span>点执行一个 <span class="number">01.</span>py 文件</span><br><span class="line">  <span class="number">0</span> <span class="number">0</span> * * <span class="number">6</span>,<span class="number">0</span></span><br><span class="line"><span class="number">6</span>、每天<span class="number">18</span>:<span class="number">00</span>到<span class="number">23</span>:<span class="number">00</span>之间每小时执行 <span class="number">01.</span>py 文件</span><br><span class="line">  <span class="number">0</span> <span class="number">18</span>-<span class="number">23</span>/<span class="number">1</span> * * *</span><br></pre></td></tr></table></figure>
+
+<h2 id="文本处理工具-awk"><a href="#文本处理工具-awk" class="headerlink" title="文本处理工具 - awk"></a>文本处理工具 - awk</h2><p><strong>语法格式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk 选项 <span class="string">&#x27;动作&#x27;</span> 文件列表</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用方式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux命令  |   awk  选项  <span class="string">&#x27;动作&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用方法</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line">awk <span class="string">&#x27;&#123;print &quot;abc&quot;&#125;&#x27;</span> ip.txt</span><br><span class="line"><span class="comment"># 思考: 这个会输出什么？</span></span><br><span class="line">df -h | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -F：指定分隔符</span></span><br><span class="line">awk -F <span class="string">&quot;:&quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>  <span class="comment"># 显示 : 分隔后的第2列</span></span><br><span class="line"><span class="comment"># 示例: 提取根分区的使用量</span></span><br><span class="line">df -h | head -<span class="number">4</span> | tail -<span class="number">1</span> | awk <span class="string">&#x27;&#123;print $5&#125;&#x27;</span> | awk -F <span class="string">&#x27;%&#x27;</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span></span><br><span class="line"><span class="comment"># 练习</span></span><br><span class="line">输出本机的IP地址</span><br><span class="line">ifconfig | head -<span class="number">2</span> | tail -<span class="number">1</span> | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>grep命令之正则表达式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正则表达式元字符集 - 使用grep命令</span></span><br><span class="line">^    :   以 ... 开头</span><br><span class="line">$    :   以 ... 结尾</span><br><span class="line">.     :   任何<span class="number">1</span>个字符</span><br><span class="line">*    :   <span class="number">0</span>次或多次</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式扩展字符集 - 使用 egrep 命令</span></span><br><span class="line">+    :   <span class="number">1</span>次或多次</span><br><span class="line">&#123;n&#125; :   出现n次</span><br><span class="line">()  ：  分组</span><br><span class="line"></span><br><span class="line">[a-z]   :  所有小写字母</span><br><span class="line">[A-Z]  :  所有大写字母</span><br><span class="line">[a-Z]  :  所有字母</span><br><span class="line">[<span class="number">0</span>-<span class="number">9</span>]  : 所有数字</span><br><span class="line">[a-Z0-<span class="number">9</span>]  : 所有的字母和数字</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用场景</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Mac地址正则匹配</span></span><br><span class="line">([<span class="number">0</span>-9a-fA-F]&#123;<span class="number">2</span>&#125;:)&#123;<span class="number">5</span>&#125;[<span class="number">0</span>-9a-fA-F]&#123;<span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="使用命令必须养成的习惯"><a href="#使用命令必须养成的习惯" class="headerlink" title="使用命令必须养成的习惯"></a><strong>使用命令必须养成的习惯</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、tab键自动补全</span><br><span class="line"><span class="number">2</span>、Ctrl + l : 清理屏幕</span><br><span class="line"><span class="number">3</span>、Ctrl + c : 终止当前命令的执行</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用远程连接软件"><a href="#常用远程连接软件" class="headerlink" title="常用远程连接软件"></a><strong>常用远程连接软件</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端仿真程序，其实就是Windows下登录UNIX或Linux服务器主机的软件，支持ssh、telnet</span></span><br><span class="line"><span class="number">1</span>、Xshell</span><br><span class="line"><span class="number">2</span>、Secure CRT</span><br><span class="line"></span><br><span class="line"><span class="comment"># xshell实现文件互传</span></span><br><span class="line"><span class="number">1</span>、xshell图形界面: 新建文件传输</span><br><span class="line"><span class="number">2</span>、安装: lrzsz,是一款可在linux里可代替ftp上传和下载的程序</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见服务的端口号"><a href="#常见服务的端口号" class="headerlink" title="常见服务的端口号"></a><strong>常见服务的端口号</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MySQL - <span class="number">3306</span></span><br><span class="line">MongoDB - <span class="number">27017</span></span><br><span class="line">Redis - <span class="number">6379</span></span><br><span class="line">redis-sentinel - <span class="number">26379</span></span><br><span class="line">SSH - <span class="number">22</span></span><br><span class="line">HTTP - <span class="number">80</span> </span><br><span class="line">NGINX - <span class="number">80</span></span><br><span class="line">HTTPS - <span class="number">443</span></span><br><span class="line">TELNET - <span class="number">23</span></span><br><span class="line">FTP - <span class="number">21</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="文本处理工具-awk-1"><a href="#文本处理工具-awk-1" class="headerlink" title="文本处理工具 - awk"></a><strong>文本处理工具 - awk</strong></h2><p><strong>语法格式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk 选项 <span class="string">&#x27;动作&#x27;</span> 文件列表</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用方式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux命令  |   awk  选项  <span class="string">&#x27;动作&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>作业</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx的访问日志目录 ： /var/log/nginx/access.log</span></span><br><span class="line">问题<span class="number">1</span>: 把访问过自己的IP地址输出</span><br><span class="line">  cat access.log | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> | sort | uniq </span><br><span class="line">问题<span class="number">2</span>: 统计有多少个IP访问过我</span><br><span class="line">  cat access.log | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> | sort | uniq | wc -l</span><br><span class="line">问题<span class="number">3</span>: 统计每个IP地址的访问次数,输出前<span class="number">10</span>个访问量最大的用户IP</span><br><span class="line">  cat access.log | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> | sort | uniq -c | sort -rnk <span class="number">1</span> | head -<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>grep命令之正则表达式</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正则表达式元字符集 - 使用grep命令</span></span><br><span class="line">^    :   以 ... 开头</span><br><span class="line">$    :   以 ... 结尾</span><br><span class="line">.     :   任何<span class="number">1</span>个字符</span><br><span class="line">*    :   <span class="number">0</span>次或多次</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式扩展字符集 - 使用 egrep 命令</span></span><br><span class="line">+    :   <span class="number">1</span>次或多次</span><br><span class="line">&#123;n&#125; :   出现n次</span><br><span class="line">()  ：  分组</span><br><span class="line"></span><br><span class="line">[a-z]   :  所有小写字母</span><br><span class="line">[A-Z]  :  所有大写字母</span><br><span class="line">[a-Z]  :  所有字母</span><br><span class="line">[<span class="number">0</span>-<span class="number">9</span>]  : 所有数字</span><br><span class="line">[a-Z0-<span class="number">9</span>]  : 所有的字母和数字</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用场景</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Mac地址正则匹配</span></span><br><span class="line"><span class="comment"># 00:0c:29:c6:36:2d</span></span><br><span class="line">([<span class="number">0</span>-9a-fA-F]&#123;<span class="number">2</span>&#125;:)&#123;<span class="number">5</span>&#125;[<span class="number">0</span>-9a-fA-F]&#123;<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">ifconfig | egrep <span class="string">&quot;([0-9a-fA-F]&#123;2&#125;:)&#123;5&#125;[0-9a-fA-F]&#123;2&#125;&quot;</span> | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag"># 运维</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/10/28/life/%E4%BB%B7%E5%80%BC%E8%A7%82/" rel="prev" title="价值观">
+                  <i class="fa fa-angle-left"></i> 价值观
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/11/linux/Shell%E7%BC%96%E7%A8%8B/" rel="next" title="Shell编程">
+                  Shell编程 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

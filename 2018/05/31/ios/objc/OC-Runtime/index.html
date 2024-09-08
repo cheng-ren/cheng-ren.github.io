@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同Objective-C的动态性是由Runtime API来支撑的Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写 libobjc源码下载地址代码地址 GNUstep是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍。虽然GNUstep不是苹果官方源码，但还是具有一定的参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC-Runtime">
+<meta property="og:url" content="https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同Objective-C的动态性是由Runtime API来支撑的Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写 libobjc源码下载地址代码地址 GNUstep是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍。虽然GNUstep不是苹果官方源码，但还是具有一定的参">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-31T06:45:19.000Z">
+<meta property="article:modified_time" content="2018-05-31T06:45:19.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objc">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/","path":"2018/05/31/ios/objc/OC-Runtime/","title":"OC-Runtime"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OC-Runtime | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">关联对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">方法定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">底层原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8API"><span class="nav-number">2.</span> <span class="nav-text">常用API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%9B%B8%E5%85%B3"><span class="nav-number">2.1.</span> <span class="nav-text">类相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">2.5.</span> <span class="nav-text">选择器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">场景应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">方法交换</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2018/05/31/ios/objc/OC-Runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OC-Runtime | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OC-Runtime
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-31 14:45:19" itemprop="dateCreated datePublished" datetime="2018-05-31T14:45:19+08:00">2018-05-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">iOS底层原理</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.3k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同<br>Objective-C的动态性是由Runtime API来支撑的<br>Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写</p>
+<p>libobjc源码<br><a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/">下载地址</a><br><a target="_blank" rel="noopener" href="https://opensource.apple.com/source">代码地址</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gnustep.org/resources/downloads.php">GNUstep</a>是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍。虽然GNUstep不是苹果官方源码，但还是具有一定的参考价值。</p>
+<span id="more"></span>
+
+<h2 id="关联对象"><a href="#关联对象" class="headerlink" title="关联对象"></a>关联对象</h2><p>默认情况下，因为分类底层结构的限制，不能添加成员变量到分类中。但可以通过关联对象来间接实现。</p>
+<h3 id="方法定义"><a href="#方法定义" class="headerlink" title="方法定义"></a>方法定义</h3><p><strong>添加关联对象(Set)</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> objc_setAssociatedObject(<span class="type">id</span> object, <span class="keyword">const</span> <span class="type">void</span> * key, <span class="type">id</span> value, objc_AssociationPolicy policy)</span><br></pre></td></tr></table></figure>
+
+<p><strong>获得关联对象(Get)</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">id</span> objc_getAssociatedObject(<span class="type">id</span> object, <span class="keyword">const</span> <span class="type">void</span> * key)</span><br></pre></td></tr></table></figure>
+
+<p><strong>移除所有的关联对象(Remove)</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> objc_removeAssociatedObjects(<span class="type">id</span> object)</span><br></pre></td></tr></table></figure>
+
+<p><strong>objc_AssociationPolicy</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">objc_AssociationPolicy</th>
+<th align="left">对应的修饰符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">OBJC_ASSOCIATION_ASSIGN</td>
+<td align="left">assign</td>
+</tr>
+<tr>
+<td align="left">OBJC_ASSOCIATION_RETAIN_NONATOMIC</td>
+<td align="left">strong, nonatomic</td>
+</tr>
+<tr>
+<td align="left">OBJC_ASSOCIATION_COPY_NONATOMIC</td>
+<td align="left">copy, nonatomic</td>
+</tr>
+<tr>
+<td align="left">OBJC_ASSOCIATION_RETAIN</td>
+<td align="left">strong, atomic</td>
+</tr>
+<tr>
+<td align="left">OBJC_ASSOCIATION_COPY</td>
+<td align="left">copy, atomic</td>
+</tr>
+</tbody></table>
+<p><strong>key的常见用法</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用全局变量</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="type">char</span> MyKey;</span><br><span class="line">objc_setAssociatedObject(obj, &amp;MyKey, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, &amp;MyKey)</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用getter方法的@selecor作为key - 最优</span></span><br><span class="line">objc_setAssociatedObject(obj, <span class="keyword">@selector</span>(<span class="keyword">getter</span>), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="keyword">@selector</span>(<span class="keyword">getter</span>)) <span class="comment">// @selector(getter) == _cmd</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用属性名作为key</span></span><br><span class="line">objc_setAssociatedObject(obj, <span class="string">@&quot;property&quot;</span>, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">objc_getAssociatedObject(obj, <span class="string">@&quot;property&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用变量自己的地址作为key</span></span><br><span class="line"><span class="keyword">const</span> <span class="type">void</span> *kkey = &amp;kkey</span><br><span class="line">objc_setAssociatedObject(obj, kkey, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">objc_getAssociatedObject(obj, kkey);</span><br></pre></td></tr></table></figure>
+
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p><strong>为UITextView增加限制的属性</strong></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UITextView+limit.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UITextView</span> (<span class="title">limit</span>)</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>) <span class="built_in">NSUInteger</span> maxLength;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UITextView+limit.m</span></span><br><span class="line">- (<span class="type">void</span>)setMaxLength:(<span class="built_in">NSUInteger</span>)maxLength &#123;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(maxLength), @(maxLength), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSUInteger</span>)maxLength &#123;</span><br><span class="line">    <span class="keyword">return</span> [objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(maxLength)) unsignedIntegerValue];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><p>实现关联对象核心底层类</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AssociationsManager - 全局管理关联对象的单例</span><br><span class="line">AssociationsHashMap - manager单例的字典实例&lt;实例对象地址,ObjectAssociationMap&gt;</span><br><span class="line">ObjectAssociationMap - &lt;key,ObjcAssociation&gt;</span><br><span class="line">ObjcAssociation - <span class="keyword">class</span> &#123;policy,value&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h2><h3 id="类相关"><a href="#类相关" class="headerlink" title="类相关"></a>类相关</h3><p><strong>动态创建一个类（参数：父类，类名，额外的内存空间）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class <span class="title function_">objc_allocateClassPair</span><span class="params">(Class superclass, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">size_t</span> extraBytes)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>类创建后要调用注册</p>
+</blockquote>
+<p><strong>注册一个类（要在类注册之前添加成员变量）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">objc_registerClassPair</span><span class="params">(Class cls)</span> </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注册后代表类对象和元类对象结构已经确定</p>
+</blockquote>
+<p><strong>销毁一个类</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">objc_disposeClassPair</span><span class="params">(Class cls)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取isa指向的Class</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class <span class="title function_">object_getClass</span><span class="params">(id obj)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>设置isa指向的Class</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class <span class="title function_">object_setClass</span><span class="params">(id obj, Class cls)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>判断一个OC对象是否为Class</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">object_isClass</span><span class="params">(id obj)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>判断一个Class是否为元类</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">class_isMetaClass</span><span class="params">(Class cls)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取父类</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class <span class="title function_">class_getSuperclass</span><span class="params">(Class cls)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><p><strong>获取一个实例变量信息</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ivar <span class="title function_">class_getInstanceVariable</span><span class="params">(Class cls, <span class="type">const</span> <span class="type">char</span> *name)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>拷贝实例变量列表（最后需要调用free释放）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ivar *<span class="title function_">class_copyIvarList</span><span class="params">(Class cls, <span class="type">unsigned</span> <span class="type">int</span> *outCount)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>设置和获取成员变量的值</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">object_setIvar</span><span class="params">(id obj, Ivar ivar, id value)</span></span><br><span class="line">id <span class="title function_">object_getIvar</span><span class="params">(id obj, Ivar ivar)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>动态添加成员变量（已经注册的类是不能动态添加成员变量的）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">class_addIvar</span><span class="params">(Class cls, <span class="type">const</span> <span class="type">char</span> * name, <span class="type">size_t</span> size, <span class="type">uint8_t</span> alignment, <span class="type">const</span> <span class="type">char</span> * types)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取成员变量的相关信息</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">ivar_getName</span><span class="params">(Ivar v)</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">ivar_getTypeEncoding</span><span class="params">(Ivar v)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p><strong>获取一个属性</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">objc_property_t</span> <span class="title function_">class_getProperty</span><span class="params">(Class cls, <span class="type">const</span> <span class="type">char</span> *name)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>拷贝属性列表（最后需要调用free释放）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">objc_property_t</span> *<span class="title function_">class_copyPropertyList</span><span class="params">(Class cls, <span class="type">unsigned</span> <span class="type">int</span> *outCount)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>动态添加属性</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">class_addProperty</span><span class="params">(Class cls, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">objc_property_attribute_t</span> *attributes,</span></span><br><span class="line"><span class="params">                  <span class="type">unsigned</span> <span class="type">int</span> attributeCount)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>动态替换属性</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">class_replaceProperty</span><span class="params">(Class cls, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">objc_property_attribute_t</span> *attributes,</span></span><br><span class="line"><span class="params">                      <span class="type">unsigned</span> <span class="type">int</span> attributeCount)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取属性的一些信息</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">property_getName</span><span class="params">(<span class="type">objc_property_t</span> property)</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">property_getAttributes</span><span class="params">(<span class="type">objc_property_t</span> property)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p><strong>获得一个实例方法、类方法</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Method <span class="title function_">class_getInstanceMethod</span><span class="params">(Class cls, SEL name)</span></span><br><span class="line">Method <span class="title function_">class_getClassMethod</span><span class="params">(Class cls, SEL name)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方法实现相关操作</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IMP <span class="title function_">class_getMethodImplementation</span><span class="params">(Class cls, SEL name)</span> </span><br><span class="line">IMP <span class="title function_">method_setImplementation</span><span class="params">(Method m, IMP imp)</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">method_exchangeImplementations</span><span class="params">(Method m1, Method m2)</span> </span><br></pre></td></tr></table></figure>
+
+<p><strong>拷贝方法列表（最后需要调用free释放）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method *<span class="title function_">class_copyMethodList</span><span class="params">(Class cls, <span class="type">unsigned</span> <span class="type">int</span> *outCount)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>动态添加方法</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">class_addMethod</span><span class="params">(Class cls, SEL name, IMP imp, <span class="type">const</span> <span class="type">char</span> *types)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>动态替换方法</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IMP <span class="title function_">class_replaceMethod</span><span class="params">(Class cls, SEL name, IMP imp, <span class="type">const</span> <span class="type">char</span> *types)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取方法的相关信息（带有copy的需要调用free去释放）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SEL <span class="title function_">method_getName</span><span class="params">(Method m)</span></span><br><span class="line">IMP <span class="title function_">method_getImplementation</span><span class="params">(Method m)</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">method_getTypeEncoding</span><span class="params">(Method m)</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">method_getNumberOfArguments</span><span class="params">(Method m)</span></span><br><span class="line"><span class="type">char</span> *<span class="title function_">method_copyReturnType</span><span class="params">(Method m)</span></span><br><span class="line"><span class="type">char</span> *<span class="title function_">method_copyArgumentType</span><span class="params">(Method m, <span class="type">unsigned</span> <span class="type">int</span> index)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><p><strong>选择器相关</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *<span class="title function_">sel_getName</span><span class="params">(SEL sel)</span></span><br><span class="line">SEL <span class="title function_">sel_registerName</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str)</span></span><br></pre></td></tr></table></figure>
+<p><strong>用block作为方法实现</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IMP <span class="title function_">imp_implementationWithBlock</span><span class="params">(id block)</span></span><br><span class="line">id <span class="title function_">imp_getBlock</span><span class="params">(IMP anImp)</span></span><br><span class="line">BOOL <span class="title function_">imp_removeBlock</span><span class="params">(IMP anImp)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="场景应用"><a href="#场景应用" class="headerlink" title="场景应用"></a>场景应用</h2><h3 id="方法交换"><a href="#方法交换" class="headerlink" title="方法交换"></a>方法交换</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> once;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;once, ^&#123;</span><br><span class="line">        Class <span class="keyword">class</span> = <span class="built_in">NSClassFromString</span>(<span class="string">@&quot;__NSArrayI&quot;</span>);</span><br><span class="line">        [<span class="keyword">self</span> swizzleMethods:<span class="keyword">class</span> originalSelector:<span class="keyword">@selector</span>(objectAtIndex:) swizzledSelector:<span class="keyword">@selector</span>(ll_objectAtIndex:)];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 方法交换的具体实现</span></span><br><span class="line">+ (<span class="type">void</span>)swizzleMethods:(Class)<span class="keyword">class</span> originalSelector:(SEL)origSel swizzledSelector:(SEL)swizSel &#123;</span><br><span class="line">    Method origMethod = class_getInstanceMethod(<span class="keyword">class</span>, origSel);</span><br><span class="line">    Method swizMethod = class_getInstanceMethod(<span class="keyword">class</span>, swizSel);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//class_addMethod will fail if original method already exists</span></span><br><span class="line">    <span class="type">BOOL</span> didAddMethod = class_addMethod(<span class="keyword">class</span>, origSel, method_getImplementation(swizMethod), method_getTypeEncoding(swizMethod));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (didAddMethod) &#123;</span><br><span class="line">        class_replaceMethod(<span class="keyword">class</span>, swizSel, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//origMethod and swizMethod already exist</span></span><br><span class="line">        method_exchangeImplementations(origMethod, swizMethod);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/Objc/" rel="tag"># Objc</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/22/ios/objc/OC-KVC/" rel="prev" title="OC-KVC">
+                  <i class="fa fa-angle-left"></i> OC-KVC
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/06/02/ios/objc/OC-Block/" rel="next" title="OC-Block">
+                  OC-Block <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

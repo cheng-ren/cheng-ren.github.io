@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="不想成为架构的程序员不是好程序员。这篇文章主要是对App架构的理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS - App架构">
+<meta property="og:url" content="https://rencheng.cc/2019/04/08/ios/general/iOS-App%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="不想成为架构的程序员不是好程序员。这篇文章主要是对App架构的理解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/tctei.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/2fquy.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/4llxs.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/al2uf.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/8xdfb.png">
+<meta property="article:published_time" content="2019-04-08T12:55:27.000Z">
+<meta property="article:modified_time" content="2019-04-08T12:55:27.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/tctei.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2019/04/08/ios/general/iOS-App%E6%9E%B6%E6%9E%84/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2019/04/08/ios/general/iOS-App%E6%9E%B6%E6%9E%84/","path":"2019/04/08/ios/general/iOS-App架构/","title":"iOS - App架构"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS - App架构 | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5%E5%89%96%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">常见概念剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.1.</span> <span class="nav-text">系统与子系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">子系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E4%B8%8E%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">模块与组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">框架与架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC-Apple%E5%AE%98%E6%96%B9%E6%8E%A8%E8%8D%90"><span class="nav-number">2.1.</span> <span class="nav-text">MVC - Apple官方推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC-%E5%8F%98%E7%A7%8D"><span class="nav-number">2.2.</span> <span class="nav-text">MVC - 变种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVP"><span class="nav-number">2.3.</span> <span class="nav-text">MVP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM"><span class="nav-number">2.4.</span> <span class="nav-text">MVVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B1%82"><span class="nav-number">2.5.</span> <span class="nav-text">分层</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2019/04/08/ios/general/iOS-App%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS - App架构 | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS - App架构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-08 20:55:27" itemprop="dateCreated datePublished" datetime="2019-04-08T20:55:27+08:00">2019-04-08</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>不想成为架构的程序员不是好程序员。这篇文章主要是对App架构的理解<span id="more"></span></p>
+<h2 id="常见概念剖析"><a href="#常见概念剖析" class="headerlink" title="常见概念剖析"></a>常见概念剖析</h2><p>在做系统初始框架设计与系统重构的过程中，我们都会遇见下面的词。</p>
+<h3 id="系统与子系统"><a href="#系统与子系统" class="headerlink" title="系统与子系统"></a>系统与子系统</h3><h4 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h4><p><code>系统</code>泛指由一群有关联的个体组成，根据某种规则运作，能完成<code>个别元件</code>不能单独完成的工作的<code>群体</code>。它的意思是<code>总体</code> <code>整体</code>或<code>联盟</code>。<br><strong>提炼一下关键内容：</strong></p>
+<ul>
+<li><strong>关联</strong>：<code>系统</code>是由一群_有关联的_<code>个体</code>组成的。例如：把一个发动机和一台 PC 放在一起不能称之为一个系统，把发动机、底盘、轮胎、车架组合起来才能成为一台汽车。</li>
+<li><strong>规则</strong>：系统内的个体需要按照指定的规则运作，而不是单个个体各自为政。规则规定了系统内个体分工和协作的方式。例如：汽车发动机负责产生动力，然后通过变速器和传动轴，将动力输出到车轮上，从而驱动汽车前进。</li>
+<li><strong>能力</strong>：系统能力与个体能力有本质的差别，系统能力不是个体能力之和，而是产生了新的能力。例如：汽车能够载重前进，而发动机、变速器、传动轴、车轮本身都不具备这样的能力。</li>
+</ul>
+<blockquote>
+<p>没有关联的个体堆在一起不能成为一个系统。</p>
+</blockquote>
+<h4 id="子系统"><a href="#子系统" class="headerlink" title="子系统"></a>子系统</h4><p>子系统也是由一群有关联的个体所组成的系统，多半会是更大系统中的一部分。</p>
+<blockquote>
+<p>其实子系统的定义和系统定义是一样的，只是观察的角度有差异，一个系统可能是另外一个更大系统的子系统。</p>
+</blockquote>
+<p><strong>以微信为例来做分析</strong></p>
+<ol>
+<li>微信本身是一个系统，包含聊天、登录、支付、朋友圈等子系统。</li>
+<li>朋友圈这个系统又包括动态、评论、点赞等子系统。</li>
+<li>评论这个系统可能又包括防刷子系统、审核子系统、发布子系统、存储子系统。</li>
+<li>评论审核子系统不再包含业务意义上的子系统，而是包括各个模块或者组件，这些模块或者组件本身也是另外一个维度上的系统。例如，MySQL、Redis 等是存储系统，但不是业务子系统。</li>
+</ol>
+<h3 id="模块与组件"><a href="#模块与组件" class="headerlink" title="模块与组件"></a>模块与组件</h3><p><code>模块</code>和<code>组件</code>都是系统的组成部分，只是从不同的角度拆分系统而已。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">模块</th>
+<th align="left">组件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>拆分角度</td>
+<td align="left">逻辑</td>
+<td align="left">物理</td>
+</tr>
+<tr>
+<td>划分目的</td>
+<td align="left">职责分离</td>
+<td align="left">单元复用</td>
+</tr>
+</tbody></table>
+<p><strong>最简单的网站系统为例</strong><br>假设我们要做一个学生信息管理系统</p>
+<ul>
+<li>从逻辑的角度来拆分，可以分为<code>登录注册模块</code>,<code>个人信息模块</code>,<code>个人成绩模块</code>等；</li>
+<li>从物理的角度来拆分，可以拆分为 <code>Nginx</code>、<code>Web 服务器</code>、<code>MySQL</code>。</li>
+</ul>
+<h3 id="框架与架构"><a href="#框架与架构" class="headerlink" title="框架与架构"></a>框架与架构</h3><p>框架是和架构比较相似的概念，且两者有较强的关联关系，所以在实际工作中，这两个概念有时我们容易分不清楚。</p>
+<p>从软件系统来说，框架是规范也是约束，可以理解为封闭性的话题，定义好，让别人如何去使用，而架构是一种结构，是一种开放性的话题，如何去设计组织架构，如何让架构更具有拓展性，减少沟通错误成本。</p>
+<p>框架是规矩，架构是按照规矩做规划。系统是学校，子系统是班级，模块是学生老师，组件是课桌椅。每一层级的作用意义和范围不一样，要求和可复用度也不一样。</p>
+<p><strong>但是在iOS中</strong><br>框架</p>
+<ul>
+<li>编程规范，比如说MVC，MVVM等</li>
+<li>静态库和动态库，比如Foundation，AFNetworking</li>
+</ul>
+<p>架构</p>
+<ul>
+<li>CPU架构</li>
+<li>分层架构</li>
+<li>上面的框架</li>
+<li>软件开发中的设计方案</li>
+<li>类与类之间的关系、模块与模块之间的关系、客户端与服务端的关系</li>
+</ul>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><h3 id="MVC-Apple官方推荐"><a href="#MVC-Apple官方推荐" class="headerlink" title="MVC - Apple官方推荐"></a>MVC - Apple官方推荐</h3><ul>
+<li>Model</li>
+<li>View</li>
+<li>Controller</li>
+</ul>
+<p><img src="https://cdn.rencheng.cc/blog/tctei.png"></p>
+<p>优点：View、Model可以重复利用，可以独立使用<br>缺点：Controller的代码过于臃肿</p>
+<h3 id="MVC-变种"><a href="#MVC-变种" class="headerlink" title="MVC - 变种"></a>MVC - 变种</h3><p><img src="https://cdn.rencheng.cc/blog/2fquy.png"></p>
+<p>优点：对Controller进行瘦身，将View内部的细节封装起来了，外界不知道View内部的具体实现<br>缺点：View依赖于Model</p>
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p><img src="https://cdn.rencheng.cc/blog/4llxs.png"></p>
+<p>优点：对Controller进行瘦身，将Controller的一些业务代码移植到了Presenter里面</p>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p><img src="https://cdn.rencheng.cc/blog/al2uf.png"><br>一般搭配KVO实现双向绑定；</p>
+<h3 id="分层"><a href="#分层" class="headerlink" title="分层"></a>分层</h3><p>架构进行分层理解<br><img src="https://cdn.rencheng.cc/blog/8xdfb.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/06/ios/general/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="prev" title="性能优化">
+                  <i class="fa fa-angle-left"></i> 性能优化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/04/11/ml/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="next" title="机器学习-推荐系统">
+                  机器学习-推荐系统 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">600k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:05</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

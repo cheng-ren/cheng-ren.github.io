@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="今年整体上问题不大，没有出现编译报错问题。 用 Xcode10 编译的 App 在 iOS 13 上使用甚至几乎完美用 Xcode11 编译的 App 再在 iOS 13 上跑，就有些问题了">
 <meta property="og:type" content="article">
@@ -61,7 +61,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -90,6 +89,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -98,11 +98,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -216,13 +242,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5.6k</span>
-    </span>
 </div>
 
         </div>
@@ -237,13 +256,15 @@
 <span id="more"></span>
 
 <h2 id="modal新样式"><a href="#modal新样式" class="headerlink" title="modal新样式"></a>modal新样式</h2><p>iOS 13 多了一个新的枚举类型 <code>UIModalPresentationAutomatic</code>，且是<code>modalPresentationStyle</code>的默认值。</p>
-<p><code>UIModalPresentationAutomatic</code>实际是表现是在 =iOS 13的设备上被映射成<code>UIModalPresentationPageSheet</code>。</p>
+<p><code>UIModalPresentationAutomatic</code>实际是表现是在 &#x3D;iOS 13的设备上被映射成<code>UIModalPresentationPageSheet</code>。</p>
 <p>我这边的设计师表示，新样式不错，可以不用改😆。</p>
 <p>不过， <code>PageSheet</code> 与 <code>FullScreen</code> 对比 有个需要注意的地方，控制器的生命周期有点区别：</p>
 <p>以 <code>控制器A</code>、<code>控制器B</code> 举例：</p>
 <ul>
-<li><code>控制器A</code> present <code>控制器B</code><br>  <code>控制器A</code> 不会调用 <code>viewWillDisappear</code> 以及 <code>viewDidDisappear</code></li>
-<li><code>控制器B</code> dismiss 时<br>  <code>控制器A</code> 不会调用 <code>viewWillAppear</code> 以及 <code>viewDidAppear</code></li>
+<li><p><code>控制器A</code> present <code>控制器B</code><br>  <code>控制器A</code> 不会调用 <code>viewWillDisappear</code> 以及 <code>viewDidDisappear</code></p>
+</li>
+<li><p><code>控制器B</code> dismiss 时<br>  <code>控制器A</code> 不会调用 <code>viewWillAppear</code> 以及 <code>viewDidAppear</code></p>
+</li>
 </ul>
 <p>那么如果有些业务逻辑会在<code>控制器A</code>的生命周期里做的话，就需要考虑其他方式实现，或者改回<code>UIModalPresentationFullScreen</code><br><img src="https://cdn.rencheng.cc/blog/ojqu0.gif"></p>
 <p>如果需要改成原本全屏的样式，可以处理Controller:</p>
@@ -286,7 +307,7 @@
 <p>对此现象，找设计师沟通。设计师表示，暂时没有精力做夜间模式规划。<br>设计师问：能否强制只日间模式？<br>答：能。配置方式有两种，<code>单页面配置</code> 和 <code>全局配置</code>。</p>
 <ul>
 <li>单页配置<br>  将需要配置的<code>UIViewControler</code>对象的<code>overrideUserInterfaceStyle</code>属性设置成<code>UIUserInterfaceStyleLight</code>或者<code>UIUserInterfaceStyleDark</code>以强制是某个页面显示为<code>浅/深色模式</code></li>
-<li>全局配置<br>  在工程的<code>Info.plist</code>的中，增加/修改<code>UIUserInterfaceStyle</code>为<code>UIUserInterfaceStyleLight</code>或<code>UIUserInterfaceStyleDark</code></li>
+<li>全局配置<br>  在工程的<code>Info.plist</code>的中，增加&#x2F;修改<code>UIUserInterfaceStyle</code>为<code>UIUserInterfaceStyleLight</code>或<code>UIUserInterfaceStyleDark</code></li>
 </ul>
 <h2 id="禁用方法"><a href="#禁用方法" class="headerlink" title="禁用方法"></a>禁用方法</h2><p><strong>textField 更改holder颜色崩溃</strong></p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[textField setValue:HexColor(<span class="number">0x999999</span>) forKeyPath:<span class="string">@&quot;_placeholderLabel.textColor&quot;</span>];</span><br></pre></td></tr></table></figure>
@@ -341,25 +362,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -372,9 +385,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

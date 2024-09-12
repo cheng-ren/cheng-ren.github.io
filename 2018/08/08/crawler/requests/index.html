@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Python内置的urllib模块，用于访问网络资源。但是，它用起来比较麻烦，而且，缺少很多实用的高级功能。它是一个Python第三方库，处理URL资源特别方便。">
 <meta property="og:type" content="article">
@@ -54,7 +54,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -83,6 +82,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -91,11 +91,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -115,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">简单实用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">进阶指南</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E9%81%93%E7%BF%BB%E8%AF%91%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">有道翻译案例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%B8%80"><span class="nav-number">4.</span> <span class="nav-text">附录一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%9C%AC%E6%9C%BA%E5%85%AC%E7%BD%91IP"><span class="nav-number">4.1.</span> <span class="nav-text">查询本机公网IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E5%8F%82%E6%95%B0-%EF%BC%9Aproxies-%E2%80%93-gt-%E5%AD%97%E5%85%B8"><span class="nav-number">4.2.</span> <span class="nav-text">代理参数 ：proxies –&gt; 字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.1.</span> <span class="nav-text">普通代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%81%E5%AF%86%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.2.</span> <span class="nav-text">私密代理</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">简单实用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">进阶指南</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E9%81%93%E7%BF%BB%E8%AF%91%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">有道翻译案例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%B8%80"><span class="nav-number">4.</span> <span class="nav-text">附录一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%9C%AC%E6%9C%BA%E5%85%AC%E7%BD%91IP"><span class="nav-number">4.1.</span> <span class="nav-text">查询本机公网IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E5%8F%82%E6%95%B0-%EF%BC%9Aproxies-%E2%80%93-%E5%AD%97%E5%85%B8"><span class="nav-number">4.2.</span> <span class="nav-text">代理参数 ：proxies –&gt; 字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.1.</span> <span class="nav-text">普通代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%81%E5%AF%86%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.2.</span> <span class="nav-text">私密代理</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -218,13 +244,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.5k</span>
-    </span>
 </div>
 
         </div>
@@ -237,13 +256,13 @@
 <span id="more"></span>
 
 <h1 id="简单实用"><a href="#简单实用" class="headerlink" title="简单实用"></a>简单实用</h1><ol>
-<li><p>res = get(url, params=params, headers=headers)</p>
+<li><p>res &#x3D; get(url, params&#x3D;params, headers&#x3D;headers)</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求：</span><br><span class="line">会自动对params进行编码,并和前面url进行拼接</span><br></pre></td></tr></table></figure>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">参数：</span><br><span class="line">url： 请求地址</span><br><span class="line">params：请求参数</span><br><span class="line">headers：请求头部</span><br><span class="line">timeout: 超时时间</span><br><span class="line">proxies：代理参数【见附录1】</span><br></pre></td></tr></table></figure>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">响应对象res的属性</span><br><span class="line">1、encoding ：指定响应编码, res.encoding = &quot;utf-8&quot;</span><br><span class="line">2、text     ：字符串</span><br><span class="line">3、content  ：字节流</span><br><span class="line">4、status_code ：HTTP响应码</span><br><span class="line">5、url         ：返回实际数据的URL地址</span><br></pre></td></tr></table></figure></li>
 <li><p>非结构化数据保存</p>
  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">html = res.content</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;xxx&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(html)</span><br></pre></td></tr></table></figure></li>
-<li><p>post(url, data=data, headers=headers)</p>
+<li><p>post(url, data&#x3D;data, headers&#x3D;headers)</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data ：Form表单数据,字典,不用编码,不用转码</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h1 id="进阶指南"><a href="#进阶指南" class="headerlink" title="进阶指南"></a>进阶指南</h1><ol>
@@ -266,15 +285,18 @@
 <li>百度搜索<code>IP</code></li>
 <li>请求地址：<a target="_blank" rel="noopener" href="http://httpbin.org/get">http://httpbin.org/get</a></li>
 </ol>
-<h2 id="代理参数-：proxies-–-gt-字典"><a href="#代理参数-：proxies-–-gt-字典" class="headerlink" title="代理参数 ：proxies –&gt; 字典"></a>代理参数 ：proxies –&gt; 字典</h2><ol>
-<li>获取代理IP的网站<ol>
+<h2 id="代理参数-：proxies-–-字典"><a href="#代理参数-：proxies-–-字典" class="headerlink" title="代理参数 ：proxies –&gt; 字典"></a>代理参数 ：proxies –&gt; 字典</h2><ol>
+<li><p>获取代理IP的网站</p>
+<ol>
 <li><a target="_blank" rel="noopener" href="https://www.xicidaili.com/nn">西刺代理</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.kuaidaili.com/free/inha/">快代理</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.goubanjia.com/">全网代理</a></li>
 </ol>
 </li>
-<li>普通代理 ：字典<br>proxies = {“协议”:”协议://IP地址:端口号”} <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://183.129.207.82:11328&quot;</span>&#125;</span><br><span class="line">res = requests.get(url,proxies=proies,headers..)</span><br></pre></td></tr></table></figure></li>
-<li>私密代理 ：字典<br>proxies = {“协议”:”协议://用户名:密码@IP:端口”} <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://309435365:szayclhp@116.255.162.107:16816&quot;</span> &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>普通代理 ：字典<br>proxies &#x3D; {“协议”:”协议:&#x2F;&#x2F;IP地址:端口号”}</p>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://183.129.207.82:11328&quot;</span>&#125;</span><br><span class="line">res = requests.get(url,proxies=proies,headers..)</span><br></pre></td></tr></table></figure></li>
+<li><p>私密代理 ：字典<br>proxies &#x3D; {“协议”:”协议:&#x2F;&#x2F;用户名:密码@IP:端口”}</p>
+ <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://309435365:szayclhp@116.255.162.107:16816&quot;</span> &#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="普通代理"><a href="#普通代理" class="headerlink" title="普通代理"></a>普通代理</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://httpbin.org/get&quot;</span></span><br><span class="line"><span class="comment">#url = &quot;http://www.baidu.com/&quot;</span></span><br><span class="line">headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/5.0&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># IP代理池</span></span><br><span class="line">proxyList = [</span><br><span class="line">        &#123;<span class="string">&quot;&quot;</span>:<span class="string">&quot;&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;&quot;</span>:<span class="string">&quot;&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;&quot;</span>:<span class="string">&quot;&quot;</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">proxies = random.choice(proxyList)</span><br><span class="line"></span><br><span class="line">res = requests.get(url,proxies=proxies,</span><br><span class="line">                   headers=headers)</span><br><span class="line">res.encoding = <span class="string">&quot;utf-8&quot;</span></span><br><span class="line">html = res.text</span><br><span class="line"><span class="built_in">print</span>(html)</span><br></pre></td></tr></table></figure>
 
@@ -327,25 +349,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -358,9 +372,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

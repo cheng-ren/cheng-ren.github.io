@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。 MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。">
 <meta property="og:type" content="article">
@@ -30,8 +30,8 @@
 <meta property="article:published_time" content="2019-08-11T02:03:50.000Z">
 <meta property="article:modified_time" content="2019-08-11T02:03:50.000Z">
 <meta property="article:author" content="任成">
-<meta property="article:tag" content="MongoDB">
 <meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MongoDB">
 <meta name="twitter:card" content="summary">
 
 
@@ -55,7 +55,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -84,6 +83,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -92,11 +92,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -116,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%EF%BC%88NoSql-%E2%80%93-gt-not-only-sql%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">非关系型数据库 （NoSql –&gt; not  only  sql）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nosql%E7%9A%84%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-number">1.2.</span> <span class="nav-text">Nosql的使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nosql%E5%88%86%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">Nosql分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">MongoDB数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">MongoDB的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.1.</span> <span class="nav-text">自动安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.2.</span> <span class="nav-text">手动安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-%E5%92%8C-mongodb-%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="nav-number">2.2.</span> <span class="nav-text">mysql 和 mongodb 概念对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-%E5%91%BD%E4%BB%A4"><span class="nav-number">2.3.</span> <span class="nav-text">Mongodb 命令</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%EF%BC%88NoSql-%E2%80%93-not-only-sql%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">非关系型数据库 （NoSql –&gt; not  only  sql）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nosql%E7%9A%84%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-number">1.2.</span> <span class="nav-text">Nosql的使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nosql%E5%88%86%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">Nosql分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">MongoDB数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">MongoDB的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.1.</span> <span class="nav-text">自动安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.2.</span> <span class="nav-text">手动安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-%E5%92%8C-mongodb-%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="nav-number">2.2.</span> <span class="nav-text">mysql 和 mongodb 概念对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-%E5%91%BD%E4%BB%A4"><span class="nav-number">2.3.</span> <span class="nav-text">Mongodb 命令</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -219,13 +245,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
-    </span>
 </div>
 
         </div>
@@ -238,7 +257,7 @@
 <p>MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。</p>
 <span id="more"></span>
 
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="非关系型数据库-（NoSql-–-gt-not-only-sql）"><a href="#非关系型数据库-（NoSql-–-gt-not-only-sql）" class="headerlink" title="非关系型数据库 （NoSql –&gt; not  only  sql）"></a>非关系型数据库 （NoSql –&gt; not  only  sql）</h3><ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="非关系型数据库-（NoSql-–-not-only-sql）"><a href="#非关系型数据库-（NoSql-–-not-only-sql）" class="headerlink" title="非关系型数据库 （NoSql –&gt; not  only  sql）"></a>非关系型数据库 （NoSql –&gt; not  only  sql）</h3><ul>
 <li>优点 ： <ul>
 <li>高并发，读写能力强</li>
 <li>弱化数据结构一致性，使用更加灵活</li>
@@ -266,7 +285,7 @@
 <li>支持丰富的数据操作，增删改查索引聚合</li>
 <li>支持丰富的数据类型</li>
 <li>使用方便，可以很好的扩展。相对比较成熟</li>
-<li>支持众多的编程语言接口 （python  PHP c++  c#） </li>
+<li>支持众多的编程语言接口 （python  PHP c++  c#）</li>
 </ol>
 <p>要求：</p>
 <ol>
@@ -275,11 +294,11 @@
 </ol>
 <h3 id="MongoDB的安装"><a href="#MongoDB的安装" class="headerlink" title="MongoDB的安装"></a>MongoDB的安装</h3><h4 id="自动安装"><a href="#自动安装" class="headerlink" title="自动安装"></a>自动安装</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mongodb</span><br></pre></td></tr></table></figure>
 
-<p>默认安装位置 ： /var/lib/mongodb<br>配置文件位置 ： /etc/mongodb.conf<br>命令集： /usr/bin   /usr/local/bin</p>
+<p>默认安装位置 ： &#x2F;var&#x2F;lib&#x2F;mongodb<br>配置文件位置 ： &#x2F;etc&#x2F;mongodb.conf<br>命令集： &#x2F;usr&#x2F;bin   &#x2F;usr&#x2F;local&#x2F;bin</p>
 <h4 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h4><ol>
 <li>下载安装包<br><a href="www.mongodb.com">官网</a></li>
-<li>解压安装包<br>/usr/local   /opt</li>
-<li>将解压后的MongoDB文件夹中的bin目录添加到环境比变量<br>PATH=$PAHT:/opt/mongo…../bin<br>export PATH<br>将以上两句写入启动脚本  /etc/rc.local</li>
+<li>解压安装包<br>&#x2F;usr&#x2F;local   &#x2F;opt</li>
+<li>将解压后的MongoDB文件夹中的bin目录添加到环境比变量<br>PATH&#x3D;$PAHT:&#x2F;opt&#x2F;mongo…..&#x2F;bin<br>export PATH<br>将以上两句写入启动脚本  &#x2F;etc&#x2F;rc.local</li>
 <li>重启</li>
 </ol>
 <h3 id="mysql-和-mongodb-概念对比"><a href="#mysql-和-mongodb-概念对比" class="headerlink" title="mysql 和 mongodb 概念对比"></a>mysql 和 mongodb 概念对比</h3><table>
@@ -298,17 +317,17 @@
 <tr>
 <td align="left">table</td>
 <td align="left">collection</td>
-<td align="left">表/集合</td>
+<td align="left">表&#x2F;集合</td>
 </tr>
 <tr>
 <td align="left">column</td>
 <td align="left">field</td>
-<td align="left">字段/域</td>
+<td align="left">字段&#x2F;域</td>
 </tr>
 <tr>
 <td align="left">row</td>
 <td align="left">document</td>
-<td align="left">记录/文档</td>
+<td align="left">记录&#x2F;文档</td>
 </tr>
 <tr>
 <td align="left">index</td>
@@ -327,7 +346,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod --port  8080</span><br><span class="line">* 默认监听端口27017</span><br></pre></td></tr></table></figure>
 
 <ol start="3">
-<li>进入数据库交互操作界面 </li>
+<li>进入数据库交互操作界面</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongo shell ： 用来操作mongodb数据库的界面，在这里可                以使用mongo语句操作数据库内容</span><br><span class="line"></span><br><span class="line">退出 mongo shell：quit()  exit  ctrl-c</span><br></pre></td></tr></table></figure>
 
@@ -345,8 +364,8 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
           </div>
 
         
@@ -386,25 +405,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -417,9 +428,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

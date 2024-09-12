@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="在Flutter的应用场景中，有时候一个APP只有部分页面是由Flutter实现的，比如：我们常用的闲鱼App，它宝贝详情页面是由Flutter实现的，这种开发模式被称为混合开发。">
 <meta property="og:type" content="article">
@@ -66,7 +66,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -95,6 +94,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -103,11 +103,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -221,13 +247,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
-    </span>
 </div>
 
         </div>
@@ -247,8 +266,6 @@
 <li><p>原生页面中嵌入Flutter模块</p>
 <p>  <img src="https://cdn.rencheng.cc/blog/ve7f0.png" alt="FlutterHybrid"></p>
 </li>
-</ul>
-<ul>
 <li><p>Flutter页面中嵌入原生模块</p>
 <p>  <img src="https://cdn.rencheng.cc/blog/fw7be.png"></p>
 </li>
@@ -260,14 +277,14 @@
 </ul>
 <p><strong>将Flutter集成到现有的iOS应用中需要如下几个主要步骤：</strong></p>
 <ul>
-<li>  创建Flutter module；</li>
-<li>  为已存在的iOS应用添加Flutter module依赖；</li>
-<li>  在Object-c中调用Flutter module；</li>
-<li>  编写Dart代码；</li>
-<li>  运行项目；</li>
-<li>  热重启/重新加载；</li>
-<li>  调试Dart代码；</li>
-<li>  发布应用；</li>
+<li>创建Flutter module；</li>
+<li>为已存在的iOS应用添加Flutter module依赖；</li>
+<li>在Object-c中调用Flutter module；</li>
+<li>编写Dart代码；</li>
+<li>运行项目；</li>
+<li>热重启&#x2F;重新加载；</li>
+<li>调试Dart代码；</li>
+<li>发布应用；</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- flutter_hybrid</span><br><span class="line">    - flutter_module</span><br><span class="line">    - FlutterHybridAndroid </span><br><span class="line">    - FlutterHybridiOS</span><br></pre></td></tr></table></figure>
 
@@ -281,10 +298,10 @@
 
 <p>上面是<code>flutter_module</code>中的文件结构，你会发现它里面包含<code>.android</code>与<code>.ios</code>，这两个文件夹是隐藏文件，也是这个<code>flutter_module</code>宿主工程：</p>
 <ul>
-<li>  <code>.android</code> - <code>flutter_module</code>的Android宿主工程；</li>
-<li>  <code>.ios</code> - <code>flutter_module</code>的iOS宿主工程；</li>
-<li>  <code>lib</code> - <code>flutter_module</code>的Dart部分的代码；</li>
-<li>  <code>pubspec.yaml</code> - <code>flutter_module</code>的项目依赖配置文件；</li>
+<li><code>.android</code> - <code>flutter_module</code>的Android宿主工程；</li>
+<li><code>.ios</code> - <code>flutter_module</code>的iOS宿主工程；</li>
+<li><code>lib</code> - <code>flutter_module</code>的Dart部分的代码；</li>
+<li><code>pubspec.yaml</code> - <code>flutter_module</code>的项目依赖配置文件；</li>
 </ul>
 <blockquote>
 <p>因为宿主工程的存在，我们这个<code>flutter_module</code>在不加额外的配置的情况下是可以独立运行的，通过安装了Flutter与Dart插件的AndroidStudio打开这个<code>flutter_module</code>项目，通过运行按钮是可以直接运行它的。</p>
@@ -293,10 +310,14 @@
 <h4 id="在Podfile文件中添加flutter依赖"><a href="#在Podfile文件中添加flutter依赖" class="headerlink" title="在Podfile文件中添加flutter依赖"></a>在<code>Podfile</code>文件中添加<code>flutter</code>依赖</h4><ol>
 <li>如果你的iOS项目中没有<code>Podfile</code>文件可以通过： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod init</span><br></pre></td></tr></table></figure></li>
 <li>找到<code>Podfile</code>文件，填入依赖信息<br> 版本的新旧，依赖信息引入的方式也不同<ol>
-<li>Flutter &gt;= v1.10.14 版本添加的配置： <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;path/to/my_flutter/&#x27;</span></span><br><span class="line">load <span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line">install_all_flutter_pods(flutter_application_path)</span><br></pre></td></tr></table></figure>
- 下面是博主的配置：请参考 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;../flutter_module/&#x27;</span></span><br><span class="line">load <span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line">target <span class="string">&#x27;FlutterHybridiOS&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  <span class="comment"># Step2 添加</span></span><br><span class="line">  install_all_flutter_pods(flutter_application_path)</span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSTests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">    <span class="comment"># Pods for testing</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSUITests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">    <span class="comment"># Pods for testing</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
-<li>老版本Flutter,<code>Podfile</code>配置<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;path/to/my_flutter/&#x27;</span></span><br><span class="line">  eval(<span class="title class_">File</span>.read(<span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)), binding)</span><br></pre></td></tr></table></figure>
-下面是博主的配置：请参考<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">&#x27;FlutterHybridiOS&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  flutter_application_path = <span class="string">&#x27;../flutter_module/&#x27;</span></span><br><span class="line">  eval(<span class="title class_">File</span>.read(<span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)), binding)</span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSTests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSUITests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Flutter &gt;&#x3D; v1.10.14 版本添加的配置：</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;path/to/my_flutter/&#x27;</span></span><br><span class="line">load <span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line">install_all_flutter_pods(flutter_application_path)</span><br></pre></td></tr></table></figure>
+<p> 下面是博主的配置：请参考</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;../flutter_module/&#x27;</span></span><br><span class="line">load <span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line">target <span class="string">&#x27;FlutterHybridiOS&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  <span class="comment"># Step2 添加</span></span><br><span class="line">  install_all_flutter_pods(flutter_application_path)</span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSTests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">    <span class="comment"># Pods for testing</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSUITests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">    <span class="comment"># Pods for testing</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<li><p>老版本Flutter,<code>Podfile</code>配置</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;path/to/my_flutter/&#x27;</span></span><br><span class="line">  eval(<span class="title class_">File</span>.read(<span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)), binding)</span><br></pre></td></tr></table></figure>
+<p> 下面是博主的配置：请参考</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">&#x27;FlutterHybridiOS&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  flutter_application_path = <span class="string">&#x27;../flutter_module/&#x27;</span></span><br><span class="line">  eval(<span class="title class_">File</span>.read(<span class="title class_">File</span>.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)), binding)</span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSTests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  target <span class="string">&#x27;FlutterHybridiOSUITests&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    inherit! <span class="symbol">:search_paths</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 </li>
 </ol>
@@ -313,7 +334,7 @@
 <h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><p>在iOS项目的根目录运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
 <p>你会看到：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pod install </span><br><span class="line">Analyzing dependencies</span><br><span class="line">Fetching podspec <span class="keyword">for</span> `Flutter` from `../flutter_module/.ios/Flutter/engine`</span><br><span class="line">Fetching podspec <span class="keyword">for</span> `FlutterPluginRegistrant` from `../flutter_module/.ios/Flutter/FlutterPluginRegistrant`</span><br><span class="line">Downloading dependencies</span><br><span class="line">Installing Flutter (1.0.0)</span><br><span class="line">Installing FlutterPluginRegistrant (0.0.1)</span><br><span class="line">Generating Pods project</span><br><span class="line">Integrating client project</span><br><span class="line"></span><br><span class="line">[!] Please close any current Xcode sessions and use `FlutterHybridiOS.xcworkspace` <span class="keyword">for</span> this project from now on.</span><br><span class="line">Sending stats</span><br><span class="line">Pod installation complete! There are 2 dependencies from the Podfile and 2 total pods installed.</span><br><span class="line"></span><br><span class="line">[!] Automatically assigning platform `ios` with version `12.1` on target `FlutterHybridiOS` because no platform was specified. Please specify a platform <span class="keyword">for</span> this target <span class="keyword">in</span> your Podfile. See `https://guides.cocoapods.org/syntax/podfile.html<span class="comment">#platform`.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pod install </span><br><span class="line">Analyzing dependencies</span><br><span class="line">Fetching podspec <span class="keyword">for</span> `Flutter` from `../flutter_module/.ios/Flutter/engine`</span><br><span class="line">Fetching podspec <span class="keyword">for</span> `FlutterPluginRegistrant` from `../flutter_module/.ios/Flutter/FlutterPluginRegistrant`</span><br><span class="line">Downloading dependencies</span><br><span class="line">Installing Flutter (1.0.0)</span><br><span class="line">Installing FlutterPluginRegistrant (0.0.1)</span><br><span class="line">Generating Pods project</span><br><span class="line">Integrating client project</span><br><span class="line"></span><br><span class="line">[!] Please close any current Xcode sessions and use `FlutterHybridiOS.xcworkspace` <span class="keyword">for</span> this project from now on.</span><br><span class="line">Sending stats</span><br><span class="line">Pod installation complete! There are 2 dependencies from the Podfile and 2 total pods installed.</span><br><span class="line"></span><br><span class="line">[!] Automatically assigning platform `ios` with version `12.1` on target `FlutterHybridiOS` because no platform was specified. Please specify a platform <span class="keyword">for</span> this target <span class="keyword">in</span> your Podfile. See `https://guides.cocoapods.org/syntax/podfile.html#platform`.</span><br></pre></td></tr></table></figure>
 
 <p>当你在<code>flutter_module/pubspec.yaml</code>添加一个Flutter插件时，需要在<code>flutter_module</code>目录下运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter packages get</span><br></pre></td></tr></table></figure>
@@ -334,8 +355,8 @@
 <h3 id="在Object-c中调用Flutter-module"><a href="#在Object-c中调用Flutter-module" class="headerlink" title="在Object-c中调用Flutter module"></a>在Object-c中调用Flutter module</h3><p>至此，我们已经为我们的iOS项目添加了Flutter所必须的依赖，接下来我们来看如何在Object-c中调用Flutter模块：</p>
 <p>在Object-c中调用Flutter模块有两种方式：</p>
 <ul>
-<li>  直接使用<code>FlutterViewController</code>的方式；</li>
-<li>  使用<code>FlutterEngine</code>的方式；</li>
+<li>直接使用<code>FlutterViewController</code>的方式；</li>
+<li>使用<code>FlutterEngine</code>的方式；</li>
 </ul>
 <h4 id="FlutterViewController"><a href="#FlutterViewController" class="headerlink" title="FlutterViewController"></a>FlutterViewController</h4><pre><code>// ⁨flutter_hybrid⁩ ▸ ⁨FlutterHybridiOS⁩ ▸ ⁨FlutterHybridiOS⁩ ▸ ViewController.m 
 
@@ -389,15 +410,15 @@ Widget _widgetForRoute(String route) &#123;
 
 <p>通过上述方案的讲解是不是给大家分享了一个新的思路呢。</p>
 <blockquote>
-<p>注意使用<code>FlutterEngine</code>的方式中调用<code>setInitialRoute</code>会无效，你会发现Dart拿到的永远是“/”，这个是Fltter SDK的一个<a target="_blank" rel="noopener" href="https://github.com/flutter/flutter/issues/27216">Bug</a>，所以如果必须依赖<code>setInitialRoute</code>那么请使用方式一的形式；</p>
+<p>注意使用<code>FlutterEngine</code>的方式中调用<code>setInitialRoute</code>会无效，你会发现Dart拿到的永远是“&#x2F;”，这个是Fltter SDK的一个<a target="_blank" rel="noopener" href="https://github.com/flutter/flutter/issues/27216">Bug</a>，所以如果必须依赖<code>setInitialRoute</code>那么请使用方式一的形式；</p>
 </blockquote>
 <h4 id="编写Dart代码"><a href="#编写Dart代码" class="headerlink" title="编写Dart代码"></a>编写Dart代码</h4><p>接下来就是在编写Flutter module中的lib下编写Dart带了，快去<code>Enjoy Coding</code>吧！！！</p>
 <h4 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h4><p>接下来，我们就可以运行它了，经过上述步骤，我们就可以以运行普通iOS项目的方式来通过XCode运行一个集成了Flutter的iOS项目了。</p>
 <p><img src="https://cdn.rencheng.cc/blog/au9nm.png"></p>
-<h3 id="热重启-重新加载"><a href="#热重启-重新加载" class="headerlink" title="热重启/重新加载"></a>热重启/重新加载</h3><p>大家知道我们在做Flutter开发的时候，它带有热重启/重新加载的功能，但是你可能会发现，混合开发中在iOS项目中集成了Flutter项目，Flutter的热重启/重新加载功能好像失效了，那怎么启用混合开发汇总Flutter的热重启/重新加载呢：</p>
+<h3 id="热重启-重新加载"><a href="#热重启-重新加载" class="headerlink" title="热重启&#x2F;重新加载"></a>热重启&#x2F;重新加载</h3><p>大家知道我们在做Flutter开发的时候，它带有热重启&#x2F;重新加载的功能，但是你可能会发现，混合开发中在iOS项目中集成了Flutter项目，Flutter的热重启&#x2F;重新加载功能好像失效了，那怎么启用混合开发汇总Flutter的热重启&#x2F;重新加载呢：</p>
 <ul>
-<li>  打开一个模拟器，或连接一个设备到电脑上；</li>
-<li>  <strong>关闭我们的APP</strong>，然后运行<code>flutter attach</code>；</li>
+<li>打开一个模拟器，或连接一个设备到电脑上；</li>
+<li><strong>关闭我们的APP</strong>，然后运行<code>flutter attach</code>；</li>
 </ul>
 <p><img src="https://cdn.rencheng.cc/blog/sjte9.gif"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cd flutter_hybrid/flutter_module</span><br><span class="line">$ flutter attach</span><br><span class="line"></span><br><span class="line">Checking for advertised Dart observatories...</span><br><span class="line">Waiting for a connection from Flutter on iPhone X...</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 注意 </span><br><span class="line">如果，你同时有多个模拟器或连接的设备，运行`flutter attach`会提示你选择一个设备：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -407,21 +428,21 @@ Widget _widgetForRoute(String route) &#123;
 <p>运行APP，然后你会看到：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ flutter attach</span><br><span class="line">More than one device connected; please specify a device with the &#x27;-d &lt;deviceId&gt;&#x27; flag, or use &#x27;-d all&#x27; to act on all devices.</span><br><span class="line">    </span><br><span class="line">Android SDK built for x86 • emulator-5554                        • android-x86 • Android 8.1.0 (API 27) (emulator)</span><br><span class="line">iPhone X                  • 3E3FA943-715F-482F-B003-D46F5902C56C • ios         • iOS 12.1 (simulator)</span><br><span class="line">renchengdeMacBook-Pro:flutter_module jph$ flutter attach -d &#x27;3E3FA943-715F-482F-B003-D46F5902C56C&#x27;</span><br><span class="line">Checking for advertised Dart observatories...</span><br><span class="line">Waiting for a connection from Flutter on iPhone X...</span><br><span class="line">Done.</span><br><span class="line">Syncing files to device iPhone X...                              1,613ms</span><br><span class="line">    </span><br><span class="line">?  To hot reload changes while running, press &quot;r&quot;. To hot restart (and rebuild state), press &quot;R&quot;.</span><br><span class="line">An Observatory debugger and profiler on iPhone X is available at: http://127.0.0.1:64108/</span><br><span class="line">For a more detailed help message, press &quot;h&quot;. To detach, press &quot;d&quot;; to quit, press &quot;q&quot;.</span><br></pre></td></tr></table></figure>
 
-<p>说明连接成功了，接下来就可以通过上面的提示来进行热加载/热重启了，在终端输入：</p>
+<p>说明连接成功了，接下来就可以通过上面的提示来进行热加载&#x2F;热重启了，在终端输入：</p>
 <ul>
-<li>  r : 热加载；</li>
-<li>  R : 热重启；</li>
-<li>  h : 获取帮助；</li>
-<li>  d : 断开连接；</li>
+<li>r : 热加载；</li>
+<li>R : 热重启；</li>
+<li>h : 获取帮助；</li>
+<li>d : 断开连接；</li>
 </ul>
 <h3 id="调试Dart代码"><a href="#调试Dart代码" class="headerlink" title="调试Dart代码"></a>调试Dart代码</h3><p>混合开发的模式下，如何更好更高效的调试我们的代码呢，接下来我就跟大家分享一种混合开发模式下高效调试代码的方式：</p>
 <ul>
-<li><p>  <strong>关闭APP</strong>(这步很关键)</p>
+<li><p><strong>关闭APP</strong>(这步很关键)</p>
 </li>
-<li><p>  点击AndroidStudio的<code>Flutter Attach</code>按钮(需要首先安装Flutter与Dart插件)</p>
+<li><p>点击AndroidStudio的<code>Flutter Attach</code>按钮(需要首先安装Flutter与Dart插件)</p>
 </li>
 <li><p>启动APP</p>
-<p>  <img src="https://cdn.rencheng.cc/blog/uyu3j.png"></p>
+<p><img src="https://cdn.rencheng.cc/blog/uyu3j.png"></p>
 </li>
 </ul>
 <p>接下来就可以像调试普通Flutter项目一样来调试混合开发的模式下的Dart代码了。</p>
@@ -488,25 +509,17 @@ Widget _widgetForRoute(String route) &#123;
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -519,9 +532,11 @@ Widget _widgetForRoute(String route) &#123;
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

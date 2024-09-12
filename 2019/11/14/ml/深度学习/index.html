@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="这个世界正在发生一些不可思议的事，而且完全超出你的想象">
 <meta property="og:type" content="article">
@@ -90,7 +90,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -119,6 +118,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -127,11 +127,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -245,13 +271,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>16k</span>
-    </span>
 </div>
 
         </div>
@@ -306,7 +325,7 @@
 <p>考虑到神经元的累加性，我们对全部的输入信号进行累加整合，相当于生物神经元中膜电位的变化总量，其值可以用下述公式表示：</p>
 <p><img src="https://cdn.rencheng.cc/blog/312r2.png"></p>
 <p>生物神经元的激活与否取决于输入信号与某一阈值电平的比较。在神经元模型中也是类似的，只有当其输入总和超过阈值b是才会被激活，否则神经元不会被激活，当处于激活后，可以计算出y值。</p>
-<p>之后会在进行一个非线性变换，也就是经过非线性激活函数，计算出该节点的输出（激活值）a = g(y)</p>
+<p>之后会在进行一个非线性变换，也就是经过非线性激活函数，计算出该节点的输出（激活值）a &#x3D; g(y)</p>
 <p>其中g(y) 为非线性函数。在深度学习中，常用的激活函数主要有，sigmid, tanh, ReLu。</p>
 <p>比如此时我们选用sigmoid函数，该函数是将取值为负无穷到正无穷的数映射到（0，1）之间。Sigmoid函数的公式及图形如下。</p>
 <p><img src="https://cdn.rencheng.cc/blog/eq2ii.png"></p>
@@ -330,11 +349,11 @@
 <p>依据设计好的神经网络结构，为每一层的输入分配权重，完成神经网络正向结构搭建。基于正向传播计算样本预测输出。根据已知训练样本，设计损失函数，基于反向传播不断迭代更新每一层的权重参数使得损失函数值向最低点快速收敛。</p>
 </li>
 <li><p>预测</p>
-<p>使用训练好的一组权重，对未知输出的输入进行结果预测。 </p>
+<p>使用训练好的一组权重，对未知输出的输入进行结果预测。</p>
 </li>
 </ol>
 <h4 id="正向传播（FP-Forward-Propagation）"><a href="#正向传播（FP-Forward-Propagation）" class="headerlink" title="正向传播（FP - Forward Propagation）"></a>正向传播（FP - Forward Propagation）</h4><p><img src="https://cdn.rencheng.cc/blog/zwzod.png"></p>
-<p>正向传播推导过程如下：<br>$$<br>layer_0 = X \<br>$$<br>根据第一层权重计算第一层结果：<br>$$<br>layer_1 = sigmoid(layer_0 \times W_1)<br>$$<br>根据第二层权重计算当前样本的预测输出：<br>$$<br>layer_2(out) = sigmoid(layer_1 \times W_2)) = y’<br>$$</p>
+<p>正向传播推导过程如下：<br>$$<br>layer_0 &#x3D; X \<br>$$<br>根据第一层权重计算第一层结果：<br>$$<br>layer_1 &#x3D; sigmoid(layer_0 \times W_1)<br>$$<br>根据第二层权重计算当前样本的预测输出：<br>$$<br>layer_2(out) &#x3D; sigmoid(layer_1 \times W_2)) &#x3D; y’<br>$$</p>
 <h4 id="反向传播（BP-Backward-Propagation）"><a href="#反向传播（BP-Backward-Propagation）" class="headerlink" title="反向传播（BP - Backward Propagation）"></a>反向传播（BP - Backward Propagation）</h4><p>根据预测结果与实际结果的误差设计损失函数，对损失函数求偏导，随着迭代次数的不断增加。从而从后向前更新权重的过程称为反向传播。</p>
 <h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ol>
 <li>设计神经网络结构，按照已定结构训练神经网络实现分类业务。</li>
@@ -344,7 +363,7 @@
 <ol start="2">
 <li>封装模型</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ANNModel</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 随机初始化权重[-1 1)</span></span><br><span class="line">        self.w0 = <span class="number">2</span> * np.random.random((<span class="number">2</span>, <span class="number">4</span>)) - <span class="number">1</span></span><br><span class="line">        self.w1 = <span class="number">2</span> * np.random.random((<span class="number">4</span>, <span class="number">1</span>)) - <span class="number">1</span></span><br><span class="line">        self.lrate = <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># sigmiod 函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">active</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-x))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># sigmoid函数导函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">backward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> x * (<span class="number">1</span> - x)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 单层网路前向传播</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, w</span>):</span><br><span class="line">        <span class="keyword">return</span> np.dot(x, w)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>):</span><br><span class="line">            l0 = x</span><br><span class="line">            l1 = self.active(self.forward(l0, self.w0))</span><br><span class="line">            l2 = self.active(self.forward(l1, self.w1))</span><br><span class="line">            <span class="comment"># 损失</span></span><br><span class="line">            l2_error = y - l2</span><br><span class="line">            <span class="keyword">if</span> (j % <span class="number">100</span>) == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">&quot;Error:&quot;</span> + <span class="built_in">str</span>(np.mean(np.<span class="built_in">abs</span>(l2_error))))</span><br><span class="line">            l2_delta = l2_error * self.backward(l2)</span><br><span class="line">            self.w1 += l1.T.dot(l2_delta * self.lrate)</span><br><span class="line">            l1_error = l2_delta.dot(self.w1.T)</span><br><span class="line">            l1_delta = l1_error * self.backward(l1)</span><br><span class="line">            self.w0 += l0.T.dot(l1_delta * self.lrate)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, x</span>):</span><br><span class="line">        l0 = x</span><br><span class="line">        l1 = self.active(self.forward(l0, self.w0))</span><br><span class="line">        l2 = self.active(self.forward(l1, self.w1))</span><br><span class="line">        result = np.zeros_like(l2)</span><br><span class="line">        result[l2&gt;<span class="number">0.5</span>] = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">x = np.array([</span><br><span class="line">    [<span class="number">3</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">2</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">8</span>],</span><br><span class="line">    [<span class="number">6</span>, <span class="number">4</span>],</span><br><span class="line">    [<span class="number">5</span>, <span class="number">2</span>],</span><br><span class="line">    [<span class="number">3</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">7</span>],</span><br><span class="line">    [<span class="number">4</span>, -<span class="number">1</span>]])</span><br><span class="line">y = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]).reshape(-<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">500</span></span><br><span class="line">l, r = x[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, x[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">b, t = x[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, x[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">grid_x = np.meshgrid(np.linspace(l, r, n),</span><br><span class="line">                     np.linspace(b, t, n))</span><br><span class="line">flat_x = np.column_stack((grid_x[<span class="number">0</span>].ravel(), grid_x[<span class="number">1</span>].ravel()))   </span><br><span class="line">model = ANNModel()</span><br><span class="line">model.fit(x)</span><br><span class="line">flat_y = model.predict(flat_x)</span><br><span class="line">grid_y = flat_y.reshape(grid_x[<span class="number">0</span>].shape)</span><br><span class="line">mp.figure(<span class="string">&#x27;SVM Linear Classification&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;SVM Linear Classification&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.pcolormesh(grid_x[<span class="number">0</span>], grid_x[<span class="number">1</span>], grid_y, cmap=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">mp.scatter(x[:, <span class="number">0</span>], x[:, <span class="number">1</span>], c=y.ravel(), cmap=<span class="string">&#x27;brg&#x27;</span>, s=<span class="number">80</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ANNModel</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 随机初始化权重[-1 1)</span></span><br><span class="line">        <span class="variable language_">self</span>.w0 = <span class="number">2</span> * np.random.random((<span class="number">2</span>, <span class="number">4</span>)) - <span class="number">1</span></span><br><span class="line">        <span class="variable language_">self</span>.w1 = <span class="number">2</span> * np.random.random((<span class="number">4</span>, <span class="number">1</span>)) - <span class="number">1</span></span><br><span class="line">        <span class="variable language_">self</span>.lrate = <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># sigmiod 函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">active</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-x))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># sigmoid函数导函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">backward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> x * (<span class="number">1</span> - x)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 单层网路前向传播</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, w</span>):</span><br><span class="line">        <span class="keyword">return</span> np.dot(x, w)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>):</span><br><span class="line">            l0 = x</span><br><span class="line">            l1 = <span class="variable language_">self</span>.active(<span class="variable language_">self</span>.forward(l0, <span class="variable language_">self</span>.w0))</span><br><span class="line">            l2 = <span class="variable language_">self</span>.active(<span class="variable language_">self</span>.forward(l1, <span class="variable language_">self</span>.w1))</span><br><span class="line">            <span class="comment"># 损失</span></span><br><span class="line">            l2_error = y - l2</span><br><span class="line">            <span class="keyword">if</span> (j % <span class="number">100</span>) == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">&quot;Error:&quot;</span> + <span class="built_in">str</span>(np.mean(np.<span class="built_in">abs</span>(l2_error))))</span><br><span class="line">            l2_delta = l2_error * <span class="variable language_">self</span>.backward(l2)</span><br><span class="line">            <span class="variable language_">self</span>.w1 += l1.T.dot(l2_delta * <span class="variable language_">self</span>.lrate)</span><br><span class="line">            l1_error = l2_delta.dot(<span class="variable language_">self</span>.w1.T)</span><br><span class="line">            l1_delta = l1_error * <span class="variable language_">self</span>.backward(l1)</span><br><span class="line">            <span class="variable language_">self</span>.w0 += l0.T.dot(l1_delta * <span class="variable language_">self</span>.lrate)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, x</span>):</span><br><span class="line">        l0 = x</span><br><span class="line">        l1 = <span class="variable language_">self</span>.active(<span class="variable language_">self</span>.forward(l0, <span class="variable language_">self</span>.w0))</span><br><span class="line">        l2 = <span class="variable language_">self</span>.active(<span class="variable language_">self</span>.forward(l1, <span class="variable language_">self</span>.w1))</span><br><span class="line">        result = np.zeros_like(l2)</span><br><span class="line">        result[l2&gt;<span class="number">0.5</span>] = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">x = np.array([</span><br><span class="line">    [<span class="number">3</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">2</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">1</span>, <span class="number">8</span>],</span><br><span class="line">    [<span class="number">6</span>, <span class="number">4</span>],</span><br><span class="line">    [<span class="number">5</span>, <span class="number">2</span>],</span><br><span class="line">    [<span class="number">3</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">7</span>],</span><br><span class="line">    [<span class="number">4</span>, -<span class="number">1</span>]])</span><br><span class="line">y = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]).reshape(-<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">500</span></span><br><span class="line">l, r = x[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, x[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">b, t = x[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, x[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">grid_x = np.meshgrid(np.linspace(l, r, n),</span><br><span class="line">                     np.linspace(b, t, n))</span><br><span class="line">flat_x = np.column_stack((grid_x[<span class="number">0</span>].ravel(), grid_x[<span class="number">1</span>].ravel()))   </span><br><span class="line">model = ANNModel()</span><br><span class="line">model.fit(x)</span><br><span class="line">flat_y = model.predict(flat_x)</span><br><span class="line">grid_y = flat_y.reshape(grid_x[<span class="number">0</span>].shape)</span><br><span class="line">mp.figure(<span class="string">&#x27;SVM Linear Classification&#x27;</span>, facecolor=<span class="string">&#x27;lightgray&#x27;</span>)</span><br><span class="line">mp.title(<span class="string">&#x27;SVM Linear Classification&#x27;</span>, fontsize=<span class="number">20</span>)</span><br><span class="line">mp.xlabel(<span class="string">&#x27;x&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.ylabel(<span class="string">&#x27;y&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">mp.tick_params(labelsize=<span class="number">10</span>)</span><br><span class="line">mp.pcolormesh(grid_x[<span class="number">0</span>], grid_x[<span class="number">1</span>], grid_y, cmap=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">mp.scatter(x[:, <span class="number">0</span>], x[:, <span class="number">1</span>], c=y.ravel(), cmap=<span class="string">&#x27;brg&#x27;</span>, s=<span class="number">80</span>)</span><br><span class="line">mp.show()</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="神经网络的实现过程"><a href="#神经网络的实现过程" class="headerlink" title="神经网络的实现过程"></a>神经网络的实现过程</h2><p>1、准备数据集，提取特征，作为输入喂给神经网络（ Neural Network NN)<br>2、搭建 NN 结构，从输入到输出（先搭建计算图，再用会话执行）<br>3、大量特征数据喂给 NN ，迭代优化 NN 参数<br>4、使用训练好的模型预测和分类</p>
@@ -360,7 +379,7 @@
 <h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>反向传播 ：训练模型参数 ，在所有参数上用梯度下降，使神经网络模型在训练数据上的损失函数最小。</p>
 <h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>损失函数的计算有很多方法。</p>
 <h4 id="解决回归问题的损失函数：均方误差MSE"><a href="#解决回归问题的损失函数：均方误差MSE" class="headerlink" title="解决回归问题的损失函数：均方误差MSE"></a>解决回归问题的损失函数：均方误差MSE</h4><p><img src="https://cdn.rencheng.cc/blog/7vl0x.png"></p>
-<p>用tensorflow 函数表示为loss_mse = tf.reduce_mean(tf.square(y_ - y))</p>
+<p>用tensorflow 函数表示为loss_mse &#x3D; tf.reduce_mean(tf.square(y_ - y))</p>
 <p>反向传播训练方法： 以减小 loss 值为优化目标 ，有梯度下降 、  adam优化器等优化方法。</p>
 <p>这两种优化方法用tensorflow 的函数可以表示为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_step=tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)</span><br><span class="line"></span><br><span class="line">train_step=tf.train.AdamOptimizer(learning_rate).minimize(loss)</span><br></pre></td></tr></table></figure>
@@ -376,13 +395,13 @@
 </li>
 </ol>
 <p>学习率 learning_rate： 决定每次参数更新的幅度。<br>优化器中都需要一个叫做学习率的参数，使用时如果学习率选择过大会导致待优化的参数在最小值附近波动不收敛的情况，如果学习率选择过小，会出现收敛速度慢的情况。 我们可以选个比较小的值填入， 比如 0.01 、 0.001。</p>
-<h4 id="解决分类问题的损失函数：交叉熵（-cross-entropy-）"><a href="#解决分类问题的损失函数：交叉熵（-cross-entropy-）" class="headerlink" title="解决分类问题的损失函数：交叉熵（ cross entropy ）"></a>解决分类问题的损失函数：交叉熵（ cross entropy ）</h4><p>假设有两个分布p（1, 0, 0）与 q（0.8, 0.1, 0.1），则它们在给定样本集上的交叉熵定义如下：<br>$$<br>CE(p,q)=−\sum_{}p(x)logq(x)<br>$$</p>
+<h4 id="解决分类问题的损失函数：交叉熵（-cross-entropy-）"><a href="#解决分类问题的损失函数：交叉熵（-cross-entropy-）" class="headerlink" title="解决分类问题的损失函数：交叉熵（ cross entropy ）"></a>解决分类问题的损失函数：交叉熵（ cross entropy ）</h4><p>假设有两个分布p（1, 0, 0）与 q（0.8, 0.1, 0.1），则它们在给定样本集上的交叉熵定义如下：<br>$$<br>CE(p,q)&#x3D;−\sum_{}p(x)logq(x)<br>$$</p>
 <hr>
 <p>用Tensorflow 函数表示</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ce=-tf.reduce_sum(p * tf.log(tf.clip_by_value(q, <span class="number">1e-12</span>, <span class="number">1.0</span>))) </span><br></pre></td></tr></table></figure>
 
 <p>（1e-12 是为了防止log0出现）</p>
-<p>两个神经网络模型解决二分类问题中，已知标准答案为p = (1, 0)，第一个神经网络模型预测结果为q1=(0.6, 0.4)，第二个神经网络模型预测结果为q2=(0.8, 0.2)，判断哪个神经网络模型预测的结果更接近标准答案。<br>根据交叉熵的计算公式得：</p>
+<p>两个神经网络模型解决二分类问题中，已知标准答案为p &#x3D; (1, 0)，第一个神经网络模型预测结果为q1&#x3D;(0.6, 0.4)，第二个神经网络模型预测结果为q2&#x3D;(0.8, 0.2)，判断哪个神经网络模型预测的结果更接近标准答案。<br>根据交叉熵的计算公式得：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">H1((1,0),(0.6,0.4)) = -(1*log0.6 + 0*log0.4) ≈≈ -(-0.222 + 0) = 0.222</span><br><span class="line">H2((1,0),(0.8,0.2)) = -(1*log0.8 + 0*log0.2) ≈≈ -(-0.097 + 0) = 0.097</span><br></pre></td></tr></table></figure>
 
 <p>由于0.222&gt;0.097，所以预测结果y2与标准答案与标准答案y_更接近，y2预测更准确。</p>
@@ -393,9 +412,9 @@
 <h2 id="神经网络计算过程："><a href="#神经网络计算过程：" class="headerlink" title="神经网络计算过程："></a>神经网络计算过程：</h2><ol>
 <li><p>导入模块，生成模拟数据集；<br>import<br>常量定义<br>生成数据集</p>
 </li>
-<li><p>前向传播：定义输入、参数和输出<br>x=              y_ =<br>w1=           w2=<br>a=              y=</p>
+<li><p>前向传播：定义输入、参数和输出<br>x&#x3D;              y_ &#x3D;<br>w1&#x3D;           w2&#x3D;<br>a&#x3D;              y&#x3D;</p>
 </li>
-<li><p>反向传播：定义损失函数、反向传播方法<br>loss=<br>train_step=</p>
+<li><p>反向传播：定义损失函数、反向传播方法<br>loss&#x3D;<br>train_step&#x3D;</p>
 </li>
 <li><p>生成会话，训练 STEPS 轮</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.session() <span class="keyword">as</span> sess</span><br><span class="line">    Init_op=tf.global_variables_initializer()</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    STEPS=<span class="number">3000</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(STEPS):</span><br><span class="line">        start=</span><br><span class="line">        end=</span><br><span class="line">        sess.run(train_step, feed_dict:)</span><br></pre></td></tr></table></figure></li>
@@ -414,9 +433,9 @@
 <h3 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h3><h4 id="卷积定义"><a href="#卷积定义" class="headerlink" title="卷积定义"></a>卷积定义</h4><p>卷积是两个变量在某范围内相乘后求和的结果。</p>
 <h4 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h4><p>卷积运算的物理意义：一个函数（如：单位响应）在另一个函数（如:输入信号）上的加权叠加</p>
 <p>有两个离散信号</p>
-<p>待卷积信号 X=[1,2,3,0,1,0]，</p>
-<p>卷积核 H=[1,2,1]</p>
-<p>卷积运算 Y = X * H</p>
+<p>待卷积信号 X&#x3D;[1,2,3,0,1,0]，</p>
+<p>卷积核 H&#x3D;[1,2,1]</p>
+<p>卷积运算 Y &#x3D; X * H</p>
 <p><img src="https://cdn.rencheng.cc/blog/mmyal.jpg"></p>
 <p><strong>valid</strong></p>
 <p>自始至终卷积核都在“信号内”</p>
@@ -459,7 +478,7 @@
 <p>l  修正线性函数（rectified linear function）</p>
 <p><img src="https://cdn.rencheng.cc/blog/4v4zl.png"></p>
 <p><img src="https://cdn.rencheng.cc/blog/jv3oz.png"></p>
-<p>前两者sigmoid/tanh比较常见于全连接层，后者ReLU常见于卷积层。</p>
+<p>前两者sigmoid&#x2F;tanh比较常见于全连接层，后者ReLU常见于卷积层。</p>
 <p>激活函数是用来加入非线性因素的，使得神经网络可以任意逼近任何非线性函数，提高经网络对模型的表达能力，解决线性模型所不能解决的问题，这样神经网络就可以应用到众多的非线性模型中。</p>
 <p>以ReLU层为例，对于输入的特征向量或特征图，他会将其中小于零的元素变成零，而其他元素的值保持不变，就得到了输出。</p>
 <p><img src="https://cdn.rencheng.cc/blog/zkpow.png"></p>
@@ -467,7 +486,7 @@
 <h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><p>在计算卷积时，我们会用卷积核滑过图像或者特征图的每一个像素。如果图像或者特征图的分辨率很多，那么卷积的计算量就会很大。为了解决 这个问题，我们通常在几个卷积层之后插入池化层（pooling layer），已降低特征图的分辨率。</p>
 <p>池化层的基本操作步骤如下。首先，我们将特征图按通道分开，得到若干个矩阵。对于每个矩阵，我们将其切割成若干大小相等的正方形小块。如下图，我们将一个4<em>4的矩阵分割成4个正方形区块，每个区块的大小为2</em>2.接下来，我们对每一个区块取最大值或者平均值，并将结果组成一个新的矩阵。最后，我们将所有通道的结果矩阵按原顺序堆叠起来形成一个三阶张量，这个三阶张量就是池化层的输出。对于每一个区块取最大值的池化层，我们称之为最大池化层（<strong>max pooling</strong>），而取平均值的池化层成为平均池化层（<strong>average pooling layer</strong>）。</p>
 <p><img src="https://cdn.rencheng.cc/blog/se5cf.png"></p>
-<p>在经过池化后，特征图的长和宽都会减小到原来的1/2，特征图中的元素数目减小到原来的1/4。通常我们会在卷积层之后增加池化层。这样，在经过若干卷积、池化层的组合之后，在不考虑通道数的情况下，特征图的分辨率就会远小于输入图像的分辨率，大大减小了对计算量和参数数量的需求。</p>
+<p>在经过池化后，特征图的长和宽都会减小到原来的1&#x2F;2，特征图中的元素数目减小到原来的1&#x2F;4。通常我们会在卷积层之后增加池化层。这样，在经过若干卷积、池化层的组合之后，在不考虑通道数的情况下，特征图的分辨率就会远小于输入图像的分辨率，大大减小了对计算量和参数数量的需求。</p>
 <h4 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h4><p>全连接层在整个卷积神经网络中起到“分类器”的作用，即通过卷积、激活函数、池化等深度网络后，再经过全连接层对结果进行识别分类。：</p>
 <p><img src="https://cdn.rencheng.cc/blog/ox5o4.png"></p>
 <p>由于神经网络是属于监督学习，在模型训练时，根据训练样本对模型进行训练，从而得到全连接层的权重（如预测字母X的所有连接的权重)</p>
@@ -488,7 +507,7 @@
 
 <p><strong>模型上线：</strong></p>
 <p>MyModel.py</p>
-<p>y = model.predict(x)</p>
+<p>y &#x3D; model.predict(x)</p>
 <p>假设模型用于预测股票价格，如果已经得到y，如何交给调用者？</p>
 <p>设计web服务：</p>
 <p>url:  <a target="_blank" rel="noopener" href="http://172.10.0.13:8000/moviereco/%7BID%7D">http://172.10.0.13:8000/moviereco/{ID}</a></p>
@@ -547,25 +566,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -578,9 +589,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

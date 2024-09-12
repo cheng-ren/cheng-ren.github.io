@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="以后的一个阶段要进行数学方面的学习，所以整理博客的时候难免会用到数学公式，下面列一下">
 <meta property="og:type" content="article">
@@ -54,7 +54,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -83,6 +82,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -91,11 +91,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -218,13 +244,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5.8k</span>
-    </span>
 </div>
 
         </div>
@@ -254,7 +273,7 @@
 <p><strong>标签</strong>，符号<code>\tag&#123;数字&#125;</code><br>例如：<code>$\tag&#123;11&#125;$</code><br>效果：$\tag{11}$</p>
 <p><strong>上大括号</strong>，符号：<code>\overbrace&#123;算式&#125;</code><br>例如：<code>$\overbrace&#123;a+b+c+d&#125;^&#123;2.0&#125;$</code><br>效果：$\overbrace{a+b+c+d}^{2.0}$</p>
 <p><strong>下大括号</strong>，符号：<code>\underbrace&#123;算式&#125;</code><br>例如：<code>$a+\underbrace&#123;b+c&#125;_&#123;1.0&#125;+d$</code><br>效果：$a+\underbrace{b+c}_{1.0}+d$</p>
-<p><strong>上位符号</strong>，符号：<code>\stacrel&#123;上位符号&#125;&#123;基位符号&#125;</code><br>例如：<code>$\vec&#123;x&#125;\stackrel&#123;\mathrm&#123;def&#125;&#125;&#123;=&#125;&#123;x_1,\dots,x_n&#125;$</code><br>效果：$\vec{x}\stackrel{\mathrm{def}}{=}{x_1,\dots,x_n}$</p>
+<p><strong>上位符号</strong>，符号：<code>\stacrel&#123;上位符号&#125;&#123;基位符号&#125;</code><br>例如：<code>$\vec&#123;x&#125;\stackrel&#123;\mathrm&#123;def&#125;&#125;&#123;=&#125;&#123;x_1,\dots,x_n&#125;$</code><br>效果：$\vec{x}\stackrel{\mathrm{def}}{&#x3D;}{x_1,\dots,x_n}$</p>
 <h2 id="占位符"><a href="#占位符" class="headerlink" title="占位符"></a>占位符</h2><p><strong>两个quad空格</strong>，符号：<code>\qquad</code><br>例如：<code>$x \qquad y$</code><br>效果：$x \qquad y$</p>
 <p><strong>quad空格</strong>，符号：<code>\quad</code><br>例如：<code>$x \quad y$</code><br>效果：$x \quad y$</p>
 <p><strong>大空格</strong>，符号<br>例如：<code>$x \  y$</code><br>效果：$x \  y$</p>
@@ -266,17 +285,17 @@
 <p><strong>中括号</strong>，符号：<code>[]</code><br>例如：<code>$[x+y]$</code><br>效果：${x+y}$</p>
 <p><strong>大括号</strong>，符号：<code>\&#123; \&#125;</code><br>例如：<code>$&#123;x+y&#125;$</code><br>效果：${x+y}$</p>
 <p><strong>自适应括号</strong>，符号：\left \right<br>例如：<code>$\left(x\right)$，$\left(x&#123;yz&#125;\right)$</code><br>效果：$\left(x\right)$，$\left(x{yz}\right)$</p>
-<p><strong>组合公式</strong>，符号：{上位公式 \choose 下位公式}例例如：<code>$&#123;n+1 \choose k&#125;=&#123;n \choose k&#125;+&#123;n \choose k-1&#125;$</code><br>效果：${n+1 \choose k}={n \choose k}+{n \choose k-1}$</p>
+<p><strong>组合公式</strong>，符号：{上位公式 \choose 下位公式}例例如：<code>$&#123;n+1 \choose k&#125;=&#123;n \choose k&#125;+&#123;n \choose k-1&#125;$</code><br>效果：${n+1 \choose k}&#x3D;{n \choose k}+{n \choose k-1}$</p>
 <p><strong>组合公式</strong>，符号：<code>&#123;上位公式 \atop 下位公式&#125;</code><br>例如：<code>$\sum_&#123;k_0,k_1,\ldots&gt;0 \atop k_0+k_1+\cdots=n&#125;A_&#123;k_0&#125;A_&#123;k_1&#125;\cdots$</code><br>效果：</p>
-<h2 id="四则运算"><a href="#四则运算" class="headerlink" title="四则运算"></a>四则运算</h2><p><strong>加法运算</strong>，符号：<code>+</code><br>例如：<code>$x+y=z$</code><br>效果：$x+y=z$</p>
-<p><strong>减法运算</strong>，符号：<code>-</code><br>例如：<code>$x-y=z$</code><br>效果：$x-y=z$</p>
-<p><strong>加减运算</strong>，符号：<code>\pm</code><br>例如：<code>$x \pm y=z$</code><br>效果：$x \pm y=z$</p>
-<p><strong>减甲运算</strong>，符号：<code>\mp</code><br>例如：<code>$x \mp y=z$</code><br>效果：$x \mp y=z$</p>
-<p><strong>乘法运算</strong>，符号：<code>\times</code><br>例如：<code>$x \times y=z$</code><br>效果：$x \times y=z$</p>
-<p><strong>点乘运算</strong>，符号：<code>\cdot</code><br>例如：<code>$x \cdot y=z$</code><br>效果：$x \cdot y=z$</p>
-<p><strong>星乘运算</strong>，符号：<code>\ast</code><br>例如：<code>$x \ast y=z$</code><br>效果：$x \ast y=z$</p>
-<p><strong>除法运算</strong>，符号：<code>\div</code><br>例如：<code>$x \div y=z$</code><br>效果：$x \div y=z$</p>
-<p><strong>斜法运算</strong>，符号：<code>/</code><br>例如：<code>$x/y=z$</code><br>效果：$x/y=z$</p>
+<h2 id="四则运算"><a href="#四则运算" class="headerlink" title="四则运算"></a>四则运算</h2><p><strong>加法运算</strong>，符号：<code>+</code><br>例如：<code>$x+y=z$</code><br>效果：$x+y&#x3D;z$</p>
+<p><strong>减法运算</strong>，符号：<code>-</code><br>例如：<code>$x-y=z$</code><br>效果：$x-y&#x3D;z$</p>
+<p><strong>加减运算</strong>，符号：<code>\pm</code><br>例如：<code>$x \pm y=z$</code><br>效果：$x \pm y&#x3D;z$</p>
+<p><strong>减甲运算</strong>，符号：<code>\mp</code><br>例如：<code>$x \mp y=z$</code><br>效果：$x \mp y&#x3D;z$</p>
+<p><strong>乘法运算</strong>，符号：<code>\times</code><br>例如：<code>$x \times y=z$</code><br>效果：$x \times y&#x3D;z$</p>
+<p><strong>点乘运算</strong>，符号：<code>\cdot</code><br>例如：<code>$x \cdot y=z$</code><br>效果：$x \cdot y&#x3D;z$</p>
+<p><strong>星乘运算</strong>，符号：<code>\ast</code><br>例如：<code>$x \ast y=z$</code><br>效果：$x \ast y&#x3D;z$</p>
+<p><strong>除法运算</strong>，符号：<code>\div</code><br>例如：<code>$x \div y=z$</code><br>效果：$x \div y&#x3D;z$</p>
+<p><strong>斜法运算</strong>，符号：<code>/</code><br>例如：<code>$x/y=z$</code><br>效果：$x&#x2F;y&#x3D;z$</p>
 <p><strong>分式表示</strong>，符号：<code>\frac&#123;分子&#125;&#123;分母&#125;</code><br>例如：<code>$\frac&#123;x+y&#125;&#123;y+z&#125;$</code><br>效果：$\frac{x+y}{y+z}$</p>
 <p><strong>分式表示</strong>，符号：<code>&#123;分子&#125; \voer &#123;分母&#125;</code><br>例如：<code>$&#123;x+y&#125; \over &#123;y+z&#125;$</code><br>效果：${x+y} \over {y+z}$</p>
 <p><strong>绝对值表示</strong>，符号：<code>||</code><br>例如：<code>$|x+y|$</code><br>效果：$|x+y|$</p>
@@ -292,7 +311,7 @@
 <p><strong>积分运算</strong>，符号：<code>\displaystyle \int</code><br>例如：<code>$\displaystyle \int^&#123;\infty&#125;_&#123;0&#125;&#123;xdx&#125;$</code><br>效果：$\displaystyle \int^{\infty}_{0}{xdx}$</p>
 <p><strong>微分运算</strong>，符号：<code>\partial</code><br>例如：<code>$\frac&#123;\partial x&#125;&#123;\partial y&#125;$</code><br>效果：$\frac{\partial x}{\partial y}$</p>
 <p><strong>矩阵表示</strong>，符号：<code>\begin&#123;matrix&#125; \end&#123;matrix&#125;</code><br>例如：<code>$\left[ \begin&#123;matrix&#125; 1 &amp;2 &amp;\cdots &amp;4\5 &amp;6 &amp;\cdots &amp;8\\vdots &amp;\vdots &amp;\ddots &amp;\vdots\13 &amp;14 &amp;\cdots &amp;16\end&#123;matrix&#125; \right]$</code><br>效果：$\left[ \begin{matrix} 1 &amp;2 &amp;\cdots &amp;4\5 &amp;6 &amp;\cdots &amp;8\vdots &amp;\vdots &amp;\ddots &amp;\vdots\13 &amp;14 &amp;\cdots &amp;16\end{matrix} \right]$</p>
-<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><p>等于运算，符号：=，如：$x+y=z$<br>大于运算，符号：&gt;，如：$x+y&gt;z$<br>小于运算，符号：&lt;，如：$x+y&lt;z$<br>大于等于运算，符号：\geq，如：$x+y \geq z$<br>小于等于运算，符号：\leq，如：$x+y \leq z$<br>不等于运算，符号：\neq，如：$x+y \neq z$<br>不大于等于运算，符号：\ngeq，如：$x+y \ngeq z$<br>不大于等于运算，符号：\not\geq，如：$x+y \not\geq z$<br>不小于等于运算，符号：\nleq，如：$x+y \nleq z$<br>不小于等于运算，符号：\not\leq，如：$x+y \not\leq z$<br>约等于运算，符号：\approx，如：$x+y \approx z$<br>恒定等于运算，符号：\equiv，如：$x+y \equiv z$</p>
+<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><p>等于运算，符号：&#x3D;，如：$x+y&#x3D;z$<br>大于运算，符号：&gt;，如：$x+y&gt;z$<br>小于运算，符号：&lt;，如：$x+y&lt;z$<br>大于等于运算，符号：\geq，如：$x+y \geq z$<br>小于等于运算，符号：\leq，如：$x+y \leq z$<br>不等于运算，符号：\neq，如：$x+y \neq z$<br>不大于等于运算，符号：\ngeq，如：$x+y \ngeq z$<br>不大于等于运算，符号：\not\geq，如：$x+y \not\geq z$<br>不小于等于运算，符号：\nleq，如：$x+y \nleq z$<br>不小于等于运算，符号：\not\leq，如：$x+y \not\leq z$<br>约等于运算，符号：\approx，如：$x+y \approx z$<br>恒定等于运算，符号：\equiv，如：$x+y \equiv z$</p>
 <h2 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h2><p>属于运算，符号：\in，如：$x \in y$<br>不属于运算，符号：\notin，如：$x \notin y$<br>不属于运算，符号：\not\in，如：$x \not\in y$<br>子集运算，符号：\subset，如：$x \subset y$<br>子集运算，符号：\supset，如：$x \supset y$<br>真子集运算，符号：\subseteq，如：$x \subseteq y$<br>非真子集运算，符号：\subsetneq，如：$x \subsetneq y$<br>真子集运算，符号：\supseteq，如：$x \supseteq y$<br>非真子集运算，符号：\supsetneq，如：$x \supsetneq y$<br>非子集运算，符号：\not\subset，如：$x \not\subset y$<br>非子集运算，符号：\not\supset，如：$x \not\supset y$<br>并集运算，符号：\cup，如：$x \cup y$<br>交集运算，符号：\cap，如：$x \cap y$<br>差集运算，符号：\setminus，如：$x \setminus y$<br>同或运算，符号：\bigodot，如：$x \bigodot y$<br>同与运算，符号：\bigotimes，如：$x \bigotimes y$<br>实数集合，符号：\mathbb{R}，如：\mathbb{R}</p>
 <p>自然数集合，符号：\mathbb{Z}，如：\mathbb{Z}</p>
 <p>空集，符号：\emptyset，如：$\emptyset$</p>
@@ -346,25 +365,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -377,9 +388,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="XPath即为XML路径语言（XML Path Language）;在XML文档中查找信息的语言,同样适用于HTML文档的检索;lxml库的使用">
 <meta property="og:type" content="article">
@@ -54,7 +54,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -83,6 +82,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -91,11 +91,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -218,13 +244,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.8k</span>
-    </span>
 </div>
 
         </div>
@@ -242,30 +261,34 @@
 <li><p>Chrome安装插件方式</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、打开浏览器 - 设置 - 更多工具 - 扩展程序 </span><br><span class="line">2、右上角 ：开发者模式</span><br><span class="line">3、从网上下载的插件 拖拽到 浏览器页面</span><br></pre></td></tr></table></figure></li>
 <li><p>网页解析相关插件</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、Chrome浏览器 ：XPath Helper</span><br><span class="line">2、Firefox浏览器：XPath Checker</span><br><span class="line">3、XPath表达式编辑工具 ：XML Quire</span><br></pre></td></tr></table></figure></li>
-<li><p>打开和关闭xpath辅助工具<br> 打开/关闭 ：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、Chrome浏览器 ：XPath Helper</span><br><span class="line">2、Firefox浏览器：XPath Checker</span><br><span class="line">3、XPath表达式编辑工具 ：XML Quire</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开和关闭xpath辅助工具<br> 打开&#x2F;关闭 ：</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctrl + shift + x</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="xpath匹配规则"><a href="#xpath匹配规则" class="headerlink" title="xpath匹配规则"></a>xpath匹配规则</h2><p><a target="_blank" rel="noopener" href="https://object.rencheng.cc/blog/bookStore.xml">演示文档</a></p>
 <h3 id="匹配演示"><a href="#匹配演示" class="headerlink" title="匹配演示"></a>匹配演示</h3><ol>
-<li>查找bookstore下所有节点 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bookstore</span><br></pre></td></tr></table></figure>
+<li><p>查找bookstore下所有节点</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bookstore</span><br></pre></td></tr></table></figure>
 </li>
-<li>查找所有的book节点 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book</span><br></pre></td></tr></table></figure>
+<li><p>查找所有的book节点</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book</span><br></pre></td></tr></table></figure>
 </li>
-<li>查找所有book节点下的title节点 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book/title</span><br></pre></td></tr></table></figure>
+<li><p>查找所有book节点下的title节点</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book/title</span><br></pre></td></tr></table></figure>
 </li>
-<li>查找//book/title节点中lang属性为 “en” 的节点 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book/title[@lang=&quot;en&quot;]</span><br></pre></td></tr></table></figure>
+<li><p>查找&#x2F;&#x2F;book&#x2F;title节点中lang属性为 “en” 的节点</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//book/title[@lang=&quot;en&quot;]</span><br></pre></td></tr></table></figure>
 </li>
-<li>获取bookstore节点下的第2个book节点下的title节点的文本内容 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bookstore/book[2]/title/text()</span><br></pre></td></tr></table></figure></li>
+<li><p>获取bookstore节点下的第2个book节点下的title节点的文本内容</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bookstore/book[2]/title/text()</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="选取节点"><a href="#选取节点" class="headerlink" title="选取节点"></a>选取节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//  ：从整个HTML文档中查找节点</span><br><span class="line">//price   //book//price</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@   ：选取某个节点的属性</span><br><span class="line">    1、 //title[@lang=&quot;en&quot;]</span><br><span class="line">    2、 //title/@lang</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">./  ：选取已经存在的条件之上追加条件</span><br><span class="line">     aList = parseHtml.xpath(&#x27;//div[@class=&quot;pl2&quot;]&#x27;)</span><br><span class="line">        for element in aList:</span><br><span class="line">            nameList = element.xpath(&#x27;./a/text()&#x27;)</span><br><span class="line">            if len(nameList) &gt; 0:</span><br><span class="line">                name = nameList[0]</span><br><span class="line">                name = name.replace(&quot; &quot;, &quot;&quot;)</span><br><span class="line">                name = name.replace(&quot;\n&quot;, &quot;&quot;)</span><br><span class="line">                name = name.replace(&quot;\r&quot;, &quot;&quot;)</span><br><span class="line">                name = name.replace(&quot;/&quot;, &quot; / &quot;)</span><br><span class="line">            else:</span><br><span class="line">                name = &quot;&quot;</span><br></pre></td></tr></table></figure>
 <h3 id="匹配多路径"><a href="#匹配多路径" class="headerlink" title="匹配多路径"></a>匹配多路径</h3><ol>
 <li>符号 ：xpath表达式 | xpath表达式</li>
-<li>获取所有book节点下的 title节点 和 price节点<pre><code>  //book/title  |  //book/price
-</code></pre>
-</li>
+<li>获取所有book节点下的 title节点 和 price节点<br>  &#x2F;&#x2F;book&#x2F;title  |  &#x2F;&#x2F;book&#x2F;price</li>
 </ol>
 <h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ol>
 <li>contains() ：匹配一个属性值中包含某些字符串的节点</li>
@@ -273,7 +296,7 @@
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//title[contains(@lang,&quot;ch&quot;)]/text()</span><br></pre></td></tr></table></figure>
 
-<h2 id="lxml库及xpath使用"><a href="#lxml库及xpath使用" class="headerlink" title="lxml库及xpath使用"></a>lxml库及xpath使用</h2><p>HTML/XML解析库</p>
+<h2 id="lxml库及xpath使用"><a href="#lxml库及xpath使用" class="headerlink" title="lxml库及xpath使用"></a>lxml库及xpath使用</h2><p>HTML&#x2F;XML解析库</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmd -&gt; python -m pip install lxml</span><br><span class="line">Anaconda Prompt -&gt; conda install lxml</span><br></pre></td></tr></table></figure>
 
 <h3 id="使用流程-xpath返回的一定是1个列表"><a href="#使用流程-xpath返回的一定是1个列表" class="headerlink" title="使用流程(xpath返回的一定是1个列表)"></a>使用流程(xpath返回的一定是1个列表)</h3><ol>
@@ -287,7 +310,7 @@
  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rList = parseHtml.xpath(<span class="string">&#x27;xpath表达式&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">&lt;div class=&quot;wrapper&quot;&gt;</span></span><br><span class="line"><span class="string">	&lt;i class=&quot;iconfont icon-back&quot; id=&quot;back&quot;&gt;&lt;/i&gt;</span></span><br><span class="line"><span class="string">	&lt;a href=&quot;/&quot; id=&quot;channel&quot;&gt;新浪社会&lt;/a&gt;</span></span><br><span class="line"><span class="string">	&lt;ul id=&quot;nav&quot;&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://domestic.firefox.sina.com/&quot; title=&quot;国内&quot;&gt;国内&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://world.firefox.sina.com/&quot; title=&quot;国际&quot;&gt;国际&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://mil.firefox.sina.com/&quot; title=&quot;军事&quot;&gt;军事&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://photo.firefox.sina.com/&quot; title=&quot;图片&quot;&gt;图片&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://society.firefox.sina.com/&quot; title=&quot;社会&quot;&gt;社会&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://ent.firefox.sina.com/&quot; title=&quot;娱乐&quot;&gt;娱乐&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://tech.firefox.sina.com/&quot; title=&quot;科技&quot;&gt;科技&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://sports.firefox.sina.com/&quot; title=&quot;体育&quot;&gt;体育&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://finance.firefox.sina.com/&quot; title=&quot;财经&quot;&gt;财经&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">		&lt;li&gt;&lt;a href=&quot;http://auto.firefox.sina.com/&quot; title=&quot;汽车&quot;&gt;汽车&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">	&lt;/ul&gt;</span></span><br><span class="line"><span class="string">	&lt;i class=&quot;iconfont icon-liebiao&quot; id=&quot;menu&quot;&gt;&lt;/i&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 创建解析对象</span></span><br><span class="line">parseHtml = etree.HTML(html)</span><br><span class="line"><span class="comment"># 调xpath工具,得到列表</span></span><br><span class="line">rList = parseHtml.xpath(<span class="string">&#x27;//li/a/@href&#x27;</span>)</span><br><span class="line"><span class="comment">#print(rList)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 /</span></span><br><span class="line"><span class="comment">#r1=parseHtml.xpath(&#x27;//a[@id=&quot;channel&quot;]/@href&#x27;)</span></span><br><span class="line">r1=parseHtml.xpath\</span><br><span class="line">   (<span class="string">&#x27;//div[@class=&quot;wrapper&quot;]/a[@id=&quot;channel&quot;]/@href&#x27;</span>)</span><br><span class="line"><span class="comment">#print(r1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取文本 ：新浪社会、国际、国内</span></span><br><span class="line">r2 = parseHtml.xpath(<span class="string">&#x27;//a/text()&#x27;</span>)</span><br><span class="line"><span class="comment">#print(r2)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取文本 ：国际、国内、军事 ...</span></span><br><span class="line">r3 = parseHtml.xpath(<span class="string">&#x27;//ul[@id=&quot;nav&quot;]//a&#x27;</span>)</span><br><span class="line"><span class="comment"># r3:[&#x27;&lt;element&gt;&#x27;,&#x27;&lt;element&gt;&#x27;]</span></span><br><span class="line"><span class="keyword">for</span> r <span class="keyword">in</span> r3:</span><br><span class="line">    <span class="comment"># text属性获取节点对象文本内容</span></span><br><span class="line">    <span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
-<h2 id="练习-xpath匹配猫眼电影"><a href="#练习-xpath匹配猫眼电影" class="headerlink" title="练习: xpath匹配猫眼电影"></a>练习: xpath匹配猫眼电影</h2>  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MaoyanSpider</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)&quot;</span>&#125;</span><br><span class="line">        self.baseurl = <span class="string">&quot;http://maoyan.com/board/4?offset=&quot;</span></span><br><span class="line">        self.offset = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 使用私密代理</span></span><br><span class="line">        self.proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://309435365:szayclhp@116.255.162.107:16816&quot;</span>&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 获取页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPage</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.get(url,</span><br><span class="line">                           headers=self.headers)</span><br><span class="line">        res.encoding = <span class="string">&quot;utf-8&quot;</span></span><br><span class="line">        html = res.text</span><br><span class="line">        self.parsePage(html)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 解析页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parsePage</span>(<span class="params">self,html</span>):</span><br><span class="line">        <span class="comment"># 创建解析对象</span></span><br><span class="line">        parseHtml = etree.HTML(html)</span><br><span class="line">        <span class="comment"># 调用xpath</span></span><br><span class="line">        nameList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[1]/a/text()&#x27;</span>)</span><br><span class="line">        starList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[2]/text()&#x27;</span>)</span><br><span class="line">        timeList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[3]/text()&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> name,star,time <span class="keyword">in</span> <span class="built_in">zip</span>(nameList,starList,timeList):</span><br><span class="line">            <span class="built_in">print</span>(name.strip(),star.strip(),time.strip())</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># L1 = [1,2,3]</span></span><br><span class="line">        <span class="comment"># L2 = [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;]</span></span><br><span class="line">        <span class="comment"># zip后 ： [(1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;)]</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 保存数据</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writePage</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">workOn</span>(<span class="params">self</span>):</span><br><span class="line">        self.getPage(<span class="string">&quot;http://maoyan.com/board/4?offset=0&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    spider = MaoyanSpider()</span><br><span class="line">    spider.workOn()</span><br></pre></td></tr></table></figure>
+<h2 id="练习-xpath匹配猫眼电影"><a href="#练习-xpath匹配猫眼电影" class="headerlink" title="练习: xpath匹配猫眼电影"></a>练习: xpath匹配猫眼电影</h2>  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MaoyanSpider</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.headers = &#123;<span class="string">&quot;User-Agent&quot;</span>:<span class="string">&quot;Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)&quot;</span>&#125;</span><br><span class="line">        <span class="variable language_">self</span>.baseurl = <span class="string">&quot;http://maoyan.com/board/4?offset=&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.offset = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 使用私密代理</span></span><br><span class="line">        <span class="variable language_">self</span>.proxies = &#123;<span class="string">&quot;http&quot;</span>:<span class="string">&quot;http://309435365:szayclhp@116.255.162.107:16816&quot;</span>&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 获取页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getPage</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.get(url,</span><br><span class="line">                           headers=<span class="variable language_">self</span>.headers)</span><br><span class="line">        res.encoding = <span class="string">&quot;utf-8&quot;</span></span><br><span class="line">        html = res.text</span><br><span class="line">        <span class="variable language_">self</span>.parsePage(html)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 解析页面</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parsePage</span>(<span class="params">self,html</span>):</span><br><span class="line">        <span class="comment"># 创建解析对象</span></span><br><span class="line">        parseHtml = etree.HTML(html)</span><br><span class="line">        <span class="comment"># 调用xpath</span></span><br><span class="line">        nameList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[1]/a/text()&#x27;</span>)</span><br><span class="line">        starList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[2]/text()&#x27;</span>)</span><br><span class="line">        timeList = parseHtml.xpath(<span class="string">&#x27;//div[@class=&quot;movie-item-info&quot;]/p[3]/text()&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> name,star,time <span class="keyword">in</span> <span class="built_in">zip</span>(nameList,starList,timeList):</span><br><span class="line">            <span class="built_in">print</span>(name.strip(),star.strip(),time.strip())</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># L1 = [1,2,3]</span></span><br><span class="line">        <span class="comment"># L2 = [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;]</span></span><br><span class="line">        <span class="comment"># zip后 ： [(1,&#x27;A&#x27;),(2,&#x27;B&#x27;),(3,&#x27;C&#x27;)]</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 保存数据</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writePage</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">workOn</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.getPage(<span class="string">&quot;http://maoyan.com/board/4?offset=0&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    spider = MaoyanSpider()</span><br><span class="line">    spider.workOn()</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -336,25 +359,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -367,9 +382,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

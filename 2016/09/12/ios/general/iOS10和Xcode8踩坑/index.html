@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="iOS10和Xcode8的GM版放出后，iOS10适配工作就非常重要了。Xcode8下完打开项目后就陆续碰到了一些坑，本文对此这些坑做一些记录。">
 <meta property="og:type" content="article">
@@ -82,7 +82,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -111,6 +110,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,11 +119,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -237,13 +263,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.1k</span>
-    </span>
 </div>
 
         </div>
@@ -278,7 +297,7 @@
 <li>使用Xcode8，并点开storyboard后<br> 发现git修改记录中删除了很多标签的元素<br> <img src="https://cdn.rencheng.cc/blog/4erku.png"><br> 在Xcode8中运行后，打印结果，发现viewDidLoad和awakeFromNib中，执行layoutIfNeeded之前拖上去的控件的frame都变成了{0, 0, 1000, 1000}，执行之后的frame是正常的，给cell赋值时的frame也是正常的。<br> <img src="https://cdn.rencheng.cc/blog/yne47.png"></li>
 <li>再次打开Xcode7， 使用source code模式删除storyboard中版本限制后，再以interface builder方式打开storyboard，发现size被设置成了inferred模式，而且各控件的值也是不对的。<br> <img src="https://cdn.rencheng.cc/blog/2s0uo.png"></li>
 </ol>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在更新Xcode8后，并打开了某个xib/storyboard后，最好run下看看是不是乱了。如果乱了，就去对应的controller或cell看看是不是在<code>viewDidLoad</code>和<code>awakeFromNib</code>中使用了控件的frame，如果使用了，请在使用前调用<code>layoutIfNeeded</code>方法。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在更新Xcode8后，并打开了某个xib&#x2F;storyboard后，最好run下看看是不是乱了。如果乱了，就去对应的controller或cell看看是不是在<code>viewDidLoad</code>和<code>awakeFromNib</code>中使用了控件的frame，如果使用了，请在使用前调用<code>layoutIfNeeded</code>方法。</p>
 <p>如：之前我司项目中的布局乱了，确实是在<code>awakeFromNib</code>中利用控件的frame来修改某个控件的frame，于是就坑了。<br><img src="https://cdn.rencheng.cc/blog/jdro1.png"></p>
 <p>然后，加上调用<code>layoutIfNeeded</code>后，就恢复如初了。<br><img src="https://cdn.rencheng.cc/blog/8iaxi.png"></p>
 <h2 id="swift版本兼容问题"><a href="#swift版本兼容问题" class="headerlink" title="swift版本兼容问题"></a>swift版本兼容问题</h2><p>如果工程中使用了swift，则第一次使用xcode8打开时，会弹窗提示转换，也有可能不弹窗而且是编译的时候，报错，错误如下：</p>
@@ -286,7 +305,7 @@
 <p>如图：<br><img src="https://cdn.rencheng.cc/blog/q0akf.png"></p>
 <p>实际上就是提示你去转换一下swift版本，因为在Xcode7.3.1时swift为2.2，而xcode8支持swift2.3或者swift3.0。如果是直接弹窗提示了，且你是纯swift工程或是自己写的siwft库，可以尝试转换一下，虽然可能他的修改建议不合适。如果是三方库是swift写的，可以考虑等待三方库更新。</p>
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>引入swift2.3/3.0的三方库 或者 自行修改之后，手动从Xcode菜单栏-&gt;Edit-&gt;Convert-&gt;To Current Swift Syntax…打开迁移引导。<br> <img src="https://cdn.rencheng.cc/blog/jz2p9.png"></li>
+<li>引入swift2.3&#x2F;3.0的三方库 或者 自行修改之后，手动从Xcode菜单栏-&gt;Edit-&gt;Convert-&gt;To Current Swift Syntax…打开迁移引导。<br> <img src="https://cdn.rencheng.cc/blog/jz2p9.png"></li>
 <li>选择符合的swift版本<br> <img src="https://cdn.rencheng.cc/blog/yxu3y.png"></li>
 <li>勾选需要转换的framework或者工程<br> 比如：我司项目使用了一个swift库<a target="_blank" rel="noopener" href="https://github.com/danielgindi/Charts">Charts</a>，使用pod引入最新支持2.3的版本后，xcode8会报错让执行迁移引导，实际上勾选并点击next后，会提示不需要转换。（此图是已经进行过迁移引导后的截图，所以下方会提示已经转换成2.3的语法了）<br> <img src="https://cdn.rencheng.cc/blog/iyvwi.png"></li>
 <li>目前还有pod useFramework导致其他库.h文件找不到问题，还在尝试解决</li>
@@ -340,25 +359,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -371,9 +382,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

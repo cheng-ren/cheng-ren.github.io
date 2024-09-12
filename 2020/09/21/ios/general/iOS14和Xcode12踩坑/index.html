@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="今年整体适配强度不大。">
 <meta property="og:type" content="article">
@@ -58,7 +58,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -87,6 +86,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -95,11 +95,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -213,13 +239,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>6.7k</span>
-    </span>
 </div>
 
         </div>
@@ -359,7 +378,7 @@
 <p><strong>支持不同参数</strong><br>只需要提供不同参数，就可以针对不同场景不同需求来提供不同的 <code>App Clip</code> 体验，例如官方提供的统一连锁下不同咖啡馆举例</p>
 <p><strong>如何处理Universal Link和App Clip URL？</strong></p>
 <p>官方Demo提供的解决方案是通过编译宏<code>APPCLIP</code>来做分支处理，这样能够最大程度共用代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"><span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line"><span class="keyword">import</span> AppClip</span><br><span class="line"><span class="keyword">import</span> CoreLocation</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@main</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">FrutaApp</span>: <span class="title class_">App</span> &#123;</span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> model <span class="operator">=</span> <span class="type">FrutaModel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="operator">!</span><span class="type">APPCLIP</span></span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> store <span class="operator">=</span> <span class="type">Store</span>()</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@SceneBuilder</span> <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">Scene</span> &#123;</span><br><span class="line">        <span class="type">WindowGroup</span> &#123;</span><br><span class="line">            <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">            <span class="type">NavigationView</span> &#123;</span><br><span class="line">                <span class="type">SmoothieMenu</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            .environmentObject(model)</span><br><span class="line">            .onContinueUserActivity(<span class="type">NSUserActivityTypeBrowsingWeb</span>, perform: handleUserActivity)</span><br><span class="line">            <span class="keyword">#else</span></span><br><span class="line">            <span class="type">ContentView</span>()</span><br><span class="line">                .environmentObject(model)</span><br><span class="line">                .environmentObject(store)</span><br><span class="line">            <span class="keyword">#endif</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">handleUserActivity</span>(<span class="keyword">_</span> <span class="params">userActivity</span>: <span class="type">NSUserActivity</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> incomingURL <span class="operator">=</span> userActivity.webpageURL,</span><br><span class="line">              <span class="keyword">let</span> components <span class="operator">=</span> <span class="type">NSURLComponents</span>(url: incomingURL, resolvingAgainstBaseURL: <span class="literal">true</span>),</span><br><span class="line">              <span class="keyword">let</span> queryItems <span class="operator">=</span> components.queryItems <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> smoothieID <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;smoothie&quot;</span> &#125;)<span class="operator">?</span>.value &#123;</span><br><span class="line">            model.selectSmoothie(id: smoothieID)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> payload <span class="operator">=</span> userActivity.appClipActivationPayload,</span><br><span class="line">              <span class="keyword">let</span> latitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;latitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> longitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;longitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> latitude <span class="operator">=</span> <span class="type">Double</span>(latitudeValue), <span class="keyword">let</span> longitude <span class="operator">=</span> <span class="type">Double</span>(longitudeValue) <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> region <span class="operator">=</span> <span class="type">CLCircularRegion</span>(center: <span class="type">CLLocationCoordinate2D</span>(latitude: latitude,</span><br><span class="line">                            longitude: longitude), radius: <span class="number">100</span>, identifier: <span class="string">&quot;smoothie_location&quot;</span>)</span><br><span class="line">        payload.confirmAcquired(in: region) &#123; inRegion, error <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> error <span class="operator">=</span> error &#123;</span><br><span class="line">                <span class="built_in">print</span>(error.localizedDescription)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">                model.applePayAllowed <span class="operator">=</span> inRegion</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"><span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line"><span class="keyword">import</span> AppClip</span><br><span class="line"><span class="keyword">import</span> CoreLocation</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@main</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">FrutaApp</span>: <span class="title class_ inherited__">App</span> &#123;</span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> model <span class="operator">=</span> <span class="type">FrutaModel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="operator">!</span><span class="type">APPCLIP</span></span><br><span class="line">    <span class="meta">@StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> store <span class="operator">=</span> <span class="type">Store</span>()</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@SceneBuilder</span> <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">Scene</span> &#123;</span><br><span class="line">        <span class="type">WindowGroup</span> &#123;</span><br><span class="line">            <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">            <span class="type">NavigationView</span> &#123;</span><br><span class="line">                <span class="type">SmoothieMenu</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            .environmentObject(model)</span><br><span class="line">            .onContinueUserActivity(<span class="type">NSUserActivityTypeBrowsingWeb</span>, perform: handleUserActivity)</span><br><span class="line">            <span class="keyword">#else</span></span><br><span class="line">            <span class="type">ContentView</span>()</span><br><span class="line">                .environmentObject(model)</span><br><span class="line">                .environmentObject(store)</span><br><span class="line">            <span class="keyword">#endif</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">#if</span> <span class="type">APPCLIP</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">handleUserActivity</span>(<span class="keyword">_</span> <span class="params">userActivity</span>: <span class="type">NSUserActivity</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> incomingURL <span class="operator">=</span> userActivity.webpageURL,</span><br><span class="line">              <span class="keyword">let</span> components <span class="operator">=</span> <span class="type">NSURLComponents</span>(url: incomingURL, resolvingAgainstBaseURL: <span class="literal">true</span>),</span><br><span class="line">              <span class="keyword">let</span> queryItems <span class="operator">=</span> components.queryItems <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> smoothieID <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;smoothie&quot;</span> &#125;)<span class="operator">?</span>.value &#123;</span><br><span class="line">            model.selectSmoothie(id: smoothieID)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> payload <span class="operator">=</span> userActivity.appClipActivationPayload,</span><br><span class="line">              <span class="keyword">let</span> latitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;latitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> longitudeValue <span class="operator">=</span> queryItems.first(where: &#123; <span class="variable">$0</span>.name <span class="operator">==</span> <span class="string">&quot;longitude&quot;</span> &#125;)<span class="operator">?</span>.value,</span><br><span class="line">              <span class="keyword">let</span> latitude <span class="operator">=</span> <span class="type">Double</span>(latitudeValue), <span class="keyword">let</span> longitude <span class="operator">=</span> <span class="type">Double</span>(longitudeValue) <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> region <span class="operator">=</span> <span class="type">CLCircularRegion</span>(center: <span class="type">CLLocationCoordinate2D</span>(latitude: latitude,</span><br><span class="line">                            longitude: longitude), radius: <span class="number">100</span>, identifier: <span class="string">&quot;smoothie_location&quot;</span>)</span><br><span class="line">        payload.confirmAcquired(in: region) &#123; inRegion, error <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> error <span class="operator">=</span> error &#123;</span><br><span class="line">                <span class="built_in">print</span>(error.localizedDescription)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">                model.applePayAllowed <span class="operator">=</span> inRegion</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>其中<code>handleUserActivity</code>就是在处理<code>App Clip</code>链接。<br>当然，直接将主App和<code>App Clip</code>的代码分开也是可以的，但是这可能对于两者区别较大的产品更适合，但同时也违反了Apple的初衷，希望<code>App Clip</code>仅仅是主App的一部分，这可能会导致审核遇阻。</p>
 <p><strong>与小程序的异同</strong></p>
@@ -420,25 +439,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -451,9 +462,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

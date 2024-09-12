@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="数据库软件：一个软件,看的见,可操作,实现数据库的逻辑功能数据库：是一种逻辑概念,用来存放数据的仓库,侧重存储数据仓库：从数据量上来说,比数据库庞大的多,主要用于数据分析和">
 <meta property="og:type" content="article">
@@ -30,8 +30,8 @@
 <meta property="article:published_time" content="2019-07-02T12:02:43.000Z">
 <meta property="article:modified_time" content="2019-07-02T12:02:43.000Z">
 <meta property="article:author" content="任成">
-<meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
 
 
@@ -55,7 +55,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -84,6 +83,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -92,11 +92,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -219,13 +245,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.6k</span>
-    </span>
 </div>
 
         </div>
@@ -246,10 +265,13 @@
 
 <ol start="2">
 <li>生产环境中,如何选择使用哪个数据库软件<ol>
-<li>是否开源<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  1. 开源软件：MySQL、Mariadb、MongoDB</span><br><span class="line">2. 商业软件：Oracle、DB2、SQL_Server</span><br></pre></td></tr></table></figure>
+<li><p>是否开源</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  1. 开源软件：MySQL、Mariadb、MongoDB</span><br><span class="line">2. 商业软件：Oracle、DB2、SQL_Server</span><br></pre></td></tr></table></figure>
 </li>
-<li>是否跨平台<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 不跨平台 ：SQL_Server</span><br><span class="line">2. 跨平台 ：...</span><br></pre></td></tr></table></figure></li>
-<li>公司的类型<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 商业软件 ：政府部门、金融机构</span><br><span class="line">2. 开源软件 ：游戏网站、购物网站、论坛网站 ..</span><br></pre></td></tr></table></figure></li>
+<li><p>是否跨平台<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 不跨平台 ：SQL_Server</span><br><span class="line">2. 跨平台 ：...</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>公司的类型<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 商业软件 ：政府部门、金融机构</span><br><span class="line">2. 开源软件 ：游戏网站、购物网站、论坛网站 ..</span><br></pre></td></tr></table></figure></p>
+</li>
 </ol>
 </li>
 </ol>
@@ -268,7 +290,8 @@
 <h4 id="数据库软件、数据库、数据仓库的概念"><a href="#数据库软件、数据库、数据仓库的概念" class="headerlink" title="数据库软件、数据库、数据仓库的概念"></a>数据库软件、数据库、数据仓库的概念</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 数据库软件</span><br><span class="line">    一个软件,看的见,可操作,实现数据库的逻辑功能</span><br><span class="line">2. 数据库</span><br><span class="line">      是一种逻辑概念,用来存放数据的仓库,侧重存储</span><br><span class="line">3. 数据仓库</span><br><span class="line">    从数据量上来说,比数据库庞大的多,主要用于数据分析和数据挖掘</span><br></pre></td></tr></table></figure>
 <h2 id="MySQL安装"><a href="#MySQL安装" class="headerlink" title="MySQL安装"></a>MySQL安装</h2><h3 id="Ubuntu安装软件"><a href="#Ubuntu安装软件" class="headerlink" title="Ubuntu安装软件"></a>Ubuntu安装软件</h3><ol>
 <li><p>更新apt-get</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>把本地已安装软件与刚下载的软件列表进行对比,如果发现已安装软件版本低,则更新</p>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure></li>
 <li><p>修复依赖关系</p>
@@ -284,7 +307,7 @@
 </ol>
 <h3 id="Mac安装"><a href="#Mac安装" class="headerlink" title="Mac安装"></a>Mac安装</h3><ol>
 <li>cd</li>
-<li>vi .bash_profile<br>添加 ：PATH=”$PATH”:/usr/local/mysql/bin</li>
+<li>vi .bash_profile<br>添加 ：PATH&#x3D;”$PATH”:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</li>
 <li>source .bash_profile</li>
 </ol>
 <h2 id="启动和连接MySQL服务"><a href="#启动和连接MySQL服务" class="headerlink" title="启动和连接MySQL服务"></a>启动和连接MySQL服务</h2><ol>
@@ -295,8 +318,8 @@
 <li>命令格式</li>
 </ol>
  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -h主机地址 -u用户名 -p密码</span><br><span class="line">mysql -hlocalhost -uroot -p123456</span><br></pre></td></tr></table></figure>
-<p> 2、本地连接可省略 -h 选项</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p123456</span><br></pre></td></tr></table></figure></li>
+<p> 2、本地连接可省略 -h 选项<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p123456</span><br></pre></td></tr></table></figure></p>
+</li>
 </ol>
 <h2 id="基本SQL命令"><a href="#基本SQL命令" class="headerlink" title="基本SQL命令"></a>基本SQL命令</h2><h3 id="SQL命令的使用规则"><a href="#SQL命令的使用规则" class="headerlink" title="SQL命令的使用规则"></a>SQL命令的使用规则</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、每条命令必须以 ; 结尾</span><br><span class="line">2、SQL命令不区分字母大小写</span><br><span class="line">3、使用 \c 来终止当前命令的执行</span><br></pre></td></tr></table></figure>
 
@@ -307,7 +330,7 @@
 <h3 id="表的管理"><a href="#表的管理" class="headerlink" title="表的管理"></a>表的管理</h3><h4 id="表的基本操作"><a href="#表的基本操作" class="headerlink" title="表的基本操作"></a>表的基本操作</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1、创建表(指定字符集)</span><br><span class="line">create table 表名(</span><br><span class="line">	   字段名 数据类型,</span><br><span class="line">	   字段名 数据类型,</span><br><span class="line">	   ...</span><br><span class="line">	   字段名 数据类型</span><br><span class="line">);</span><br><span class="line">2、查看已有表的字符集</span><br><span class="line">show create table 表名;</span><br><span class="line">3、查看表结构</span><br><span class="line">desc 表名;</span><br><span class="line">4、删除表</span><br><span class="line">drop table 表名;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>1、所有的数据都是以文件的形式存放在数据库目录下<br>    2、数据库目录 ：/var/lib/mysql</p>
+<p>1、所有的数据都是以文件的形式存放在数据库目录下<br>    2、数据库目录 ：&#x2F;var&#x2F;lib&#x2F;mysql</p>
 </blockquote>
 <h4 id="表记录管理"><a href="#表记录管理" class="headerlink" title="表记录管理"></a>表记录管理</h4><ol>
 <li>插入(insert)</li>
@@ -326,7 +349,7 @@
 <h2 id="客户端把数据存储到数据库服务器上的过程"><a href="#客户端把数据存储到数据库服务器上的过程" class="headerlink" title="客户端把数据存储到数据库服务器上的过程"></a>客户端把数据存储到数据库服务器上的过程</h2><ol>
 <li>连接到数据服务器 mysql -uroot -p123456</li>
 <li>选择一个库  use 库名</li>
-<li>创建表/修改表  update 表名…</li>
+<li>创建表&#x2F;修改表  update 表名…</li>
 <li>断开与数据库连接  exit; | quit; | \q;</li>
 </ol>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><ol>
@@ -348,7 +371,7 @@
 <h4 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h4><ol>
 <li>char(定长)<br>取值范围：1~255;浪费存储空间,性能高</li>
 <li>varchar(变长)<br>取值范围：1~65535;节省存储空间,性能低</li>
-<li>text / longtext(4G) / blob / longblob(4G)</li>
+<li>text &#x2F; longtext(4G) &#x2F; blob &#x2F; longblob(4G)</li>
 </ol>
 <h5 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h5><ol>
 <li>字符类型宽度和数值类型宽度的区别</li>
@@ -381,8 +404,9 @@
 <li><strong>year(date)</strong> 返回指定时间的年份</li>
 <li><strong>date(date)</strong> 返回指定时间的日期</li>
 <li><strong>time(date)</strong> 返回指定时间的时间</li>
-<li>示例<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、在表中插入3条记录</span><br><span class="line">insert into t7 values</span><br><span class="line">(3,&quot;小昭&quot;,19000520,3000,20180630000000),</span><br><span class="line">(4,&quot;赵敏&quot;,19000521,4000,20180702000000),</span><br><span class="line">(5,&quot;周芷若&quot;,19010522,3500,20180702100000);</span><br><span class="line">2、查找2018年7月2日有哪些用户充值了</span><br><span class="line">   select * from t7 where date(shijian)=&quot;2018-07-02&quot;;</span><br><span class="line"></span><br><span class="line">    3、查找2018年7月份充值的信息</span><br><span class="line">      select * from t7 </span><br><span class="line">      where </span><br><span class="line">      date(shijian)&gt;=&quot;2018-07-01&quot; and date(shijian)&lt;=&quot;2018-07-31&quot;;</span><br><span class="line"></span><br><span class="line">    4、查找7月30日10:00-12:00充值的信息</span><br><span class="line">      select * from t7</span><br><span class="line">      where</span><br><span class="line">      date(shijian)=&quot;2018-07-31&quot; and </span><br><span class="line">      time(shijian)&gt;=&quot;10:00:00&quot; and </span><br><span class="line">      time(shijian)&lt;=&quot;12:00:00&quot;;</span><br></pre></td></tr></table></figure>
-<h5 id="日期时间运算"><a href="#日期时间运算" class="headerlink" title="日期时间运算"></a>日期时间运算</h5></li>
+<li>示例<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、在表中插入3条记录</span><br><span class="line">insert into t7 values</span><br><span class="line">(3,&quot;小昭&quot;,19000520,3000,20180630000000),</span><br><span class="line">(4,&quot;赵敏&quot;,19000521,4000,20180702000000),</span><br><span class="line">(5,&quot;周芷若&quot;,19010522,3500,20180702100000);</span><br><span class="line">2、查找2018年7月2日有哪些用户充值了</span><br><span class="line">   select * from t7 where date(shijian)=&quot;2018-07-02&quot;;</span><br><span class="line"></span><br><span class="line">    3、查找2018年7月份充值的信息</span><br><span class="line">      select * from t7 </span><br><span class="line">      where </span><br><span class="line">      date(shijian)&gt;=&quot;2018-07-01&quot; and date(shijian)&lt;=&quot;2018-07-31&quot;;</span><br><span class="line"></span><br><span class="line">    4、查找7月30日10:00-12:00充值的信息</span><br><span class="line">      select * from t7</span><br><span class="line">      where</span><br><span class="line">      date(shijian)=&quot;2018-07-31&quot; and </span><br><span class="line">      time(shijian)&gt;=&quot;10:00:00&quot; and </span><br><span class="line">      time(shijian)&lt;=&quot;12:00:00&quot;;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="日期时间运算"><a href="#日期时间运算" class="headerlink" title="日期时间运算"></a>日期时间运算</h5><ol>
 <li>语法格式</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from 表名</span><br><span class="line">where 字段名 运算符 (时间-interval 时间间隔单位);</span><br><span class="line">    </span><br><span class="line">时间间隔单位：</span><br><span class="line">1 day | 2 hour | 1 minute | 2 year | 3 month</span><br></pre></td></tr></table></figure>
@@ -397,8 +421,8 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
               <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
           </div>
 
         
@@ -438,25 +462,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -469,9 +485,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

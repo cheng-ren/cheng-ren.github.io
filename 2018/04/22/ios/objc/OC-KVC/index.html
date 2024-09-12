@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="KVC的全称是Key-Value Coding，俗称“键值编码”，可以通过一个key来访问某个属性">
 <meta property="og:type" content="article">
@@ -55,7 +55,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -84,6 +83,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -92,11 +92,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -219,13 +245,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1k</span>
-    </span>
 </div>
 
         </div>
@@ -242,41 +261,11 @@
 <blockquote>
 <p>keyPath比key增加了路径访问；例：person.age</p>
 </blockquote>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="setValue-forKey-原理"><a href="#setValue-forKey-原理" class="headerlink" title="setValue:forKey:原理"></a><code>setValue:forKey:</code>原理</h3><pre class="mermaid">graph LR
-    id1[setValue:forKey:]
-    id2{按照</br>setKey:&nbsp_setKey:</br>顺序查找方法}
-    id3[传递参数'调用方法]
-    id4{查看</br>accessInstanceVariablesDirectly</br>类方法的返回值}
-    id5{按照</br>_key&nbsp_isKey&nbspkey&nbspisKey</br>查找}
-    id6[直接赋值]
-    id7[调用:</br>setValue:forUndefinedKey:</br>并抛出异常NSUnknownKeyException]
-
-    id1 --> id2
-    id2 --找到了方法--> id3
-    id2 --没找到方法--> id4
-    id4 --YES--> id5
-    id5 --找到了成员变量--> id6
-    id5 --没找到成员变量--> id7
-    id4 --NO--> id7</pre>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="setValue-forKey-原理"><a href="#setValue-forKey-原理" class="headerlink" title="setValue:forKey:原理"></a><code>setValue:forKey:</code>原理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    id1[setValue:forKey:]</span><br><span class="line">    id2&#123;按照&lt;/br&gt;setKey:&amp;nbsp_setKey:&lt;/br&gt;顺序查找方法&#125;</span><br><span class="line">    id3[传递参数&#x27;调用方法]</span><br><span class="line">    id4&#123;查看&lt;/br&gt;accessInstanceVariablesDirectly&lt;/br&gt;类方法的返回值&#125;</span><br><span class="line">    id5&#123;按照&lt;/br&gt;_key&amp;nbsp_isKey&amp;nbspkey&amp;nbspisKey&lt;/br&gt;查找&#125;</span><br><span class="line">    id6[直接赋值]</span><br><span class="line">    id7[调用:&lt;/br&gt;setValue:forUndefinedKey:&lt;/br&gt;并抛出异常NSUnknownKeyException]</span><br><span class="line"></span><br><span class="line">    id1 --&gt; id2</span><br><span class="line">    id2 --找到了方法--&gt; id3</span><br><span class="line">    id2 --没找到方法--&gt; id4</span><br><span class="line">    id4 --YES--&gt; id5</span><br><span class="line">    id5 --找到了成员变量--&gt; id6</span><br><span class="line">    id5 --没找到成员变量--&gt; id7</span><br><span class="line">    id4 --NO--&gt; id7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><code>accessInstanceVariablesDirectly</code>方法的默认返回值是YES</p>
 </blockquote>
-<h3 id="valueForKey-的原理"><a href="#valueForKey-的原理" class="headerlink" title="valueForKey:的原理"></a><code>valueForKey:</code>的原理</h3><pre class="mermaid">graph LR
-    id1[valueForKey:]
-    id2{按照</br>getKey&nbspkey&nbspisKey&nbsp_key</br>顺序查找方法}
-    id3[调用方法]
-    id4{查看</br>accessInstanceVariablesDirectly</br>类方法的返回值}
-    id5{按照</br>_key&nbsp_isKey&nbspkey&nbspisKey</br>查找}
-    id6[直接取值]
-    id7[调用:</br>valueForUndefinedKey:</br>并抛出异常NSUnknownKeyException]
-
-    id1 --> id2
-    id2 --找到了方法--> id3
-    id2 --没找到方法--> id4
-    id4 --YES--> id5
-    id5 --找到了成员变量--> id6
-    id5 --没找到成员变量--> id7
-    id4 --NO--> id7</pre>
+<h3 id="valueForKey-的原理"><a href="#valueForKey-的原理" class="headerlink" title="valueForKey:的原理"></a><code>valueForKey:</code>的原理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    id1[valueForKey:]</span><br><span class="line">    id2&#123;按照&lt;/br&gt;getKey&amp;nbspkey&amp;nbspisKey&amp;nbsp_key&lt;/br&gt;顺序查找方法&#125;</span><br><span class="line">    id3[调用方法]</span><br><span class="line">    id4&#123;查看&lt;/br&gt;accessInstanceVariablesDirectly&lt;/br&gt;类方法的返回值&#125;</span><br><span class="line">    id5&#123;按照&lt;/br&gt;_key&amp;nbsp_isKey&amp;nbspkey&amp;nbspisKey&lt;/br&gt;查找&#125;</span><br><span class="line">    id6[直接取值]</span><br><span class="line">    id7[调用:&lt;/br&gt;valueForUndefinedKey:&lt;/br&gt;并抛出异常NSUnknownKeyException]</span><br><span class="line"></span><br><span class="line">    id1 --&gt; id2</span><br><span class="line">    id2 --找到了方法--&gt; id3</span><br><span class="line">    id2 --没找到方法--&gt; id4</span><br><span class="line">    id4 --YES--&gt; id5</span><br><span class="line">    id5 --找到了成员变量--&gt; id6</span><br><span class="line">    id5 --没找到成员变量--&gt; id7</span><br><span class="line">    id4 --NO--&gt; id7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -326,25 +315,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -357,9 +338,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

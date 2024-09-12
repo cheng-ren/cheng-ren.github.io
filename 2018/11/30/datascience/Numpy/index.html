@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -15,10 +15,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="NumPy(Numerical Python) 是 Python 语言的一个扩展程序库，支持大量的维度数组与矩阵运算，此外也针对数组运算提供大量的数学函数库。">
 <meta property="og:type" content="article">
@@ -56,7 +56,6 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="任成の博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -85,6 +84,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -93,11 +93,37 @@
 
 <nav class="site-nav">
   <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -220,13 +246,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>14k</span>
-    </span>
 </div>
 
         </div>
@@ -306,10 +325,10 @@
 <p>np.arange(起始值(0),终止值,步长(1))</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># arange 生成一个等差数列</span></span><br><span class="line">a = np.arange(<span class="number">0</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line">b = np.arange(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></table></figure>
 
-<p>np.zeros(数组元素个数, dtype=’类型’)</p>
+<p>np.zeros(数组元素个数, dtype&#x3D;’类型’)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.zeros(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
 
-<p>np.ones(数组元素个数, dtype=’类型’)</p>
+<p>np.ones(数组元素个数, dtype&#x3D;’类型’)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.ones(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
 
 <h4 id="ndarray对象属性的基本操作"><a href="#ndarray对象属性的基本操作" class="headerlink" title="ndarray对象属性的基本操作"></a>ndarray对象属性的基本操作</h4><p><strong>数组的维度：</strong>np.ndarray.shape</p>
@@ -340,19 +359,19 @@
 </tr>
 <tr>
 <td>有符号整数型</td>
-<td>int8(-128~127)/int16/int32/int64</td>
+<td>int8(-128~127)&#x2F;int16&#x2F;int32&#x2F;int64</td>
 </tr>
 <tr>
 <td>无符号整数型</td>
-<td>uint8(0~255)/uint16/uint32/uint64</td>
+<td>uint8(0~255)&#x2F;uint16&#x2F;uint32&#x2F;uint64</td>
 </tr>
 <tr>
 <td>浮点型</td>
-<td>float16/float32/float64</td>
+<td>float16&#x2F;float32&#x2F;float64</td>
 </tr>
 <tr>
 <td>复数型</td>
-<td>complex64/complex128        3</td>
+<td>complex64&#x2F;complex128        3</td>
 </tr>
 <tr>
 <td>字串型</td>
@@ -375,20 +394,20 @@
 <td>?</td>
 </tr>
 <tr>
-<td>np.int8/16/32/64</td>
-<td>i1/i2/i4/i8</td>
+<td>np.int8&#x2F;16&#x2F;32&#x2F;64</td>
+<td>i1&#x2F;i2&#x2F;i4&#x2F;i8</td>
 </tr>
 <tr>
-<td>np.uint8/16/32/64</td>
-<td>u1/u2/u4/u8</td>
+<td>np.uint8&#x2F;16&#x2F;32&#x2F;64</td>
+<td>u1&#x2F;u2&#x2F;u4&#x2F;u8</td>
 </tr>
 <tr>
-<td>np.float/16/32/64</td>
-<td>f2/f4/f8</td>
+<td>np.float&#x2F;16&#x2F;32&#x2F;64</td>
+<td>f2&#x2F;f4&#x2F;f8</td>
 </tr>
 <tr>
-<td>np.complex64/128</td>
-<td>c8/c16</td>
+<td>np.complex64&#x2F;128</td>
+<td>c8&#x2F;c16</td>
 </tr>
 <tr>
 <td>np.str_</td>
@@ -467,7 +486,7 @@
 <li>size - 元素数量</li>
 <li>ndim - 维数，len(shape)</li>
 <li>itemsize - 元素字节数</li>
-<li>nbytes - 总字节数 = size x itemsize</li>
+<li>nbytes - 总字节数 &#x3D; size x itemsize</li>
 <li>real - 复数数组的实部数组</li>
 <li>imag - 复数数组的虚部数组</li>
 <li>T - 数组对象的转置视图</li>
@@ -488,9 +507,9 @@
 <p>案例：计算收盘价的算术平均值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">closing_prices = np.loadtxt(</span><br><span class="line">    <span class="string">&#x27;../../data/aapl.csv&#x27;</span>, delimiter=<span class="string">&#x27;,&#x27;</span>,</span><br><span class="line">    usecols=(<span class="number">6</span>), unpack=<span class="literal">True</span>)</span><br><span class="line">mean = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> closing_price <span class="keyword">in</span> closing_prices:</span><br><span class="line">    mean += closing_price</span><br><span class="line">mean /= closing_prices.size</span><br><span class="line"><span class="built_in">print</span>(mean)</span><br><span class="line">mean = np.mean(closing_prices)</span><br><span class="line"><span class="built_in">print</span>(mean)</span><br></pre></td></tr></table></figure>
 
-<h4 id="加权平均值"><a href="#加权平均值" class="headerlink" title="加权平均值"></a>加权平均值</h4><p>样本：S = [s<sub>1</sub>, s<sub>2</sub>, …, s<sub>n</sub>]</p>
-<p>权重：W = [w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub>]</p>
-<p>加权平均值：a = (s<sub>1</sub>w<sub>1</sub>+s<sub>2</sub>w<sub>2</sub>+…+s<sub>n</sub>w<sub>n</sub>)/(w<sub>1</sub>+w<sub>2</sub>+…+w<sub>n</sub>)</p>
+<h4 id="加权平均值"><a href="#加权平均值" class="headerlink" title="加权平均值"></a>加权平均值</h4><p>样本：S &#x3D; [s<sub>1</sub>, s<sub>2</sub>, …, s<sub>n</sub>]</p>
+<p>权重：W &#x3D; [w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub>]</p>
+<p>加权平均值：a &#x3D; (s<sub>1</sub>w<sub>1</sub>+s<sub>2</sub>w<sub>2</sub>+…+s<sub>n</sub>w<sub>n</sub>)&#x2F;(w<sub>1</sub>+w<sub>2</sub>+…+w<sub>n</sub>)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.average(closing_prices, weights=volumes)</span><br></pre></td></tr></table></figure>
 
 
@@ -503,13 +522,13 @@
 
 
 
-<h4 id="最值"><a href="#最值" class="headerlink" title="最值"></a>最值</h4><p><strong>np.max()  np.min() np.ptp()：</strong> 返回一个数组中最大值/最小值/极差</p>
+<h4 id="最值"><a href="#最值" class="headerlink" title="最值"></a>最值</h4><p><strong>np.max()  np.min() np.ptp()：</strong> 返回一个数组中最大值&#x2F;最小值&#x2F;极差</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># 产生9个介于[10, 100)区间的随机数</span></span><br><span class="line">a = np.random.randint(<span class="number">10</span>, <span class="number">100</span>, <span class="number">9</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line"><span class="built_in">print</span>(np.<span class="built_in">max</span>(a), np.<span class="built_in">min</span>(a), np.ptp(a))</span><br></pre></td></tr></table></figure>
 
-<p><strong>np.argmax() mp.argmin()：</strong> 返回一个数组中最大/最小元素的下标</p>
+<p><strong>np.argmax() mp.argmin()：</strong> 返回一个数组中最大&#x2F;最小元素的下标</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(np.argmax(a), np.argmin(a))</span><br></pre></td></tr></table></figure>
 
-<p><strong>np.maximum() np.minimum()：</strong> 将两个同维数组中对应元素中最大/最小元素构成一个新的数组</p>
+<p><strong>np.maximum() np.minimum()：</strong> 将两个同维数组中对应元素中最大&#x2F;最小元素构成一个新的数组</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(np.maximum(a, b), np.minimum(a, b), sep=<span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>案例：评估AAPL股票的波动性。</p>
@@ -529,7 +548,7 @@
 <p>案例：分析中位数的算法，测试numpy提供的中位数API：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">closing_prices = np.loadtxt( <span class="string">&#x27;../../data/aapl.csv&#x27;</span>, </span><br><span class="line">	delimiter=<span class="string">&#x27;,&#x27;</span>, usecols=(<span class="number">6</span>), unpack=<span class="literal">True</span>)</span><br><span class="line">size = closing_prices.size</span><br><span class="line">sorted_prices = np.msort(closing_prices)</span><br><span class="line">median = (sorted_prices[<span class="built_in">int</span>((size - <span class="number">1</span>) / <span class="number">2</span>)] + sorted_prices[<span class="built_in">int</span>(size / <span class="number">2</span>)]) / <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(median)</span><br><span class="line">median = np.median(closing_prices)</span><br><span class="line"><span class="built_in">print</span>(median)</span><br></pre></td></tr></table></figure>
 
-<h4 id="标准差"><a href="#标准差" class="headerlink" title="标准差"></a>标准差</h4><p>样本：S = [s1, s2, …, sn]<br>平均值：m = (s1+s2+…+sn)/n<br>离差：D = [d1, d2, …, dn], di = si-m<br>离差方：Q = [q1, q2, …, qn], qi = di<sup>2</sup><br>总体方差：v = (q1+q2+…+qn)/n<br>总体标准差：s = sqrt(v)，方均根<br>样本方差：v’ = (q1+q2+…+qn)/(n-1)<br>样本标准差：s’ = sqrt(v’)，方均根</p>
+<h4 id="标准差"><a href="#标准差" class="headerlink" title="标准差"></a>标准差</h4><p>样本：S &#x3D; [s1, s2, …, sn]<br>平均值：m &#x3D; (s1+s2+…+sn)&#x2F;n<br>离差：D &#x3D; [d1, d2, …, dn], di &#x3D; si-m<br>离差方：Q &#x3D; [q1, q2, …, qn], qi &#x3D; di<sup>2</sup><br>总体方差：v &#x3D; (q1+q2+…+qn)&#x2F;n<br>总体标准差：s &#x3D; sqrt(v)，方均根<br>样本方差：v’ &#x3D; (q1+q2+…+qn)&#x2F;(n-1)<br>样本标准差：s’ &#x3D; sqrt(v’)，方均根</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">closing_prices = np.loadtxt(</span><br><span class="line">    <span class="string">&#x27;../../data/aapl.csv&#x27;</span>, delimiter=<span class="string">&#x27;,&#x27;</span>, usecols=(<span class="number">6</span>), unpack=<span class="literal">True</span>)</span><br><span class="line">mean = np.mean(closing_prices)         <span class="comment"># 算数平均值</span></span><br><span class="line">devs = closing_prices - mean           <span class="comment"># 离差</span></span><br><span class="line">dsqs = devs ** <span class="number">2</span>                       <span class="comment"># 离差方</span></span><br><span class="line">pvar = np.<span class="built_in">sum</span>(dsqs) / dsqs.size        <span class="comment"># 总体方差</span></span><br><span class="line">pstd = np.sqrt(pvar)                   <span class="comment"># 总体标准差</span></span><br><span class="line">svar = np.<span class="built_in">sum</span>(dsqs) / (dsqs.size - <span class="number">1</span>)  <span class="comment"># 样本方差</span></span><br><span class="line">sstd = np.sqrt(svar)                   <span class="comment"># 样本标准差</span></span><br><span class="line"><span class="built_in">print</span>(pstd, sstd)</span><br><span class="line">pstd = np.std(closing_prices)          <span class="comment"># 总体标准差</span></span><br><span class="line">sstd = np.std(closing_prices, ddof=<span class="number">1</span>)  <span class="comment"># 样本标准差</span></span><br><span class="line"><span class="built_in">print</span>(pstd, sstd)</span><br></pre></td></tr></table></figure>
 
 
@@ -550,8 +569,8 @@
 <h4 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h4><p>激励函数：g(t)</p>
 <p>单位激励下的响应函数：f(t)</p>
 <p>绘制时间（t）与痛感（h）的函数关系图。</p>
-<p>a = [1 2 3 4 5]    （理解为某单位时间的击打力度序列）</p>
-<p>b = [6 7 8]        （理解为痛感系数序列）</p>
+<p>a &#x3D; [1 2 3 4 5]	（理解为某单位时间的击打力度序列）</p>
+<p>b &#x3D; [6 7 8]		（理解为痛感系数序列）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">c = numpy.convolve(a, b, 卷积类型)</span><br><span class="line"></span><br><span class="line">                <span class="number">40</span>  <span class="number">61</span>  <span class="number">82</span>         - 有效卷积(valid)</span><br><span class="line">            <span class="number">19</span>  <span class="number">40</span>  <span class="number">61</span>  <span class="number">82</span>  <span class="number">67</span>     - 同维卷积(same)</span><br><span class="line">        <span class="number">6</span>   <span class="number">19</span>  <span class="number">40</span>  <span class="number">61</span>  <span class="number">82</span>  <span class="number">67</span>  <span class="number">40</span> - 完全卷积(full)</span><br><span class="line"><span class="number">0</span>   <span class="number">0</span>   <span class="number">1</span>   <span class="number">2</span>   <span class="number">3</span>   <span class="number">4</span>   <span class="number">5</span>   <span class="number">0</span>   <span class="number">0</span></span><br><span class="line"><span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">    <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">        <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">            <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">                <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">                    <span class="number">8</span>   <span class="number">7</span>   <span class="number">6</span></span><br><span class="line">                        <span class="number">8</span>    <span class="number">7</span>   <span class="number">6</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>5日移动均线序列可以直接使用卷积实现</strong></p>
@@ -568,8 +587,8 @@
 
 <h4 id="布林带"><a href="#布林带" class="headerlink" title="布林带"></a>布林带</h4><p>布林带由三条线组成：</p>
 <p>中轨：移动平均线</p>
-<p>上轨：中轨+2x5日收盘价标准差    （顶部的压力）</p>
-<p>下轨：中轨-2x5日收盘价标准差     （底部的支撑力）</p>
+<p>上轨：中轨+2x5日收盘价标准差	（顶部的压力）</p>
+<p>下轨：中轨-2x5日收盘价标准差 	（底部的支撑力）</p>
 <p>布林带收窄代表稳定的趋势，布林带张开代表有较大的波动空间的趋势。</p>
 <p><strong>绘制5日均线的布林带</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">weights = np.exp(np.linspace(-<span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>))</span><br><span class="line">weights /= weights.<span class="built_in">sum</span>()</span><br><span class="line">em5 = np.convolve(closing_prices, weights[::-<span class="number">1</span>], <span class="string">&#x27;valid&#x27;</span>)</span><br><span class="line">stds = np.zeros(em5.size)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(stds.size):</span><br><span class="line">    stds[i] = closing_prices[i:i + <span class="number">5</span>].std()</span><br><span class="line">stds *= <span class="number">2</span></span><br><span class="line">lowers = medios - stds</span><br><span class="line">uppers = medios + stds</span><br><span class="line"></span><br><span class="line">mp.plot(dates, closing_prices, c=<span class="string">&#x27;lightgray&#x27;</span>, label=<span class="string">&#x27;Closing Price&#x27;</span>)</span><br><span class="line">mp.plot(dates[<span class="number">4</span>:], medios, c=<span class="string">&#x27;dodgerblue&#x27;</span>, label=<span class="string">&#x27;Medio&#x27;</span>)</span><br><span class="line">mp.plot(dates[<span class="number">4</span>:], lowers, c=<span class="string">&#x27;limegreen&#x27;</span>, label=<span class="string">&#x27;Lower&#x27;</span>)</span><br><span class="line">mp.plot(dates[<span class="number">4</span>:], uppers, c=<span class="string">&#x27;orangered&#x27;</span>, label=<span class="string">&#x27;Upper&#x27;</span>)</span><br></pre></td></tr></table></figure>
@@ -623,25 +642,17 @@
     </span>
     <span class="author" itemprop="copyrightHolder">任成</span>
   </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">600k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">9:05</span>
-  </span>
-</div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
   <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
@@ -654,9 +665,11 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
 
 
 

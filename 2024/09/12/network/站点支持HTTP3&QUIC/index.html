@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rencheng.cc","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="为优化全链路耗时，尽可能缩短建连时间，实践下H3.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="站点支持HTTP3&#x2F;QUIC">
+<meta property="og:url" content="https://rencheng.cc/2024/09/12/network/%E7%AB%99%E7%82%B9%E6%94%AF%E6%8C%81HTTP3&QUIC/index.html">
+<meta property="og:site_name" content="任成の博客">
+<meta property="og:description" content="为优化全链路耗时，尽可能缩短建连时间，实践下H3.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/17261398201361.png">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/17261399440994.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/17261404223583.jpg">
+<meta property="og:image" content="https://cdn.rencheng.cc/blog/17261404223591.jpg">
+<meta property="article:published_time" content="2024-09-12T09:51:12.000Z">
+<meta property="article:modified_time" content="2024-09-12T09:51:12.000Z">
+<meta property="article:author" content="任成">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.rencheng.cc/blog/17261398201361.png">
+
+
+<link rel="canonical" href="https://rencheng.cc/2024/09/12/network/%E7%AB%99%E7%82%B9%E6%94%AF%E6%8C%81HTTP3&QUIC/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rencheng.cc/2024/09/12/network/%E7%AB%99%E7%82%B9%E6%94%AF%E6%8C%81HTTP3&QUIC/","path":"2024/09/12/network/站点支持HTTP3&QUIC/","title":"站点支持HTTP3/QUIC"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>站点支持HTTP3/QUIC | 任成の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">任成の博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">朝闻道，夕可眠矣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-待办"><a href="/todo/" rel="section"><i class="fa fa-calendar fa-fw"></i>待办</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-简历"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>简历</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%94%AF%E6%8C%81H3%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.</span> <span class="nav-text">服务端支持H3协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E4%BF%9DH3%E9%93%BE%E8%B7%AF%E7%95%85%E9%80%9A"><span class="nav-number">2.</span> <span class="nav-text">确保H3链路畅通</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E4%BE%A7%E5%90%84%E8%8A%82%E7%82%B9%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%80%E5%90%AFudp%E6%B5%81%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">服务侧各节点防火墙开启udp流量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E4%BF%9D%E7%BD%91%E7%BB%9C%E4%B8%AD%E9%97%B4%E9%93%BE%E8%B7%AF%E7%95%85%E9%80%9A"><span class="nav-number">2.2.</span> <span class="nav-text">确保网络中间链路畅通</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95H3%E6%98%AF%E5%90%A6%E8%BF%9E%E9%80%9A"><span class="nav-number">2.3.</span> <span class="nav-text">测试H3是否连通</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%94%AF%E6%8C%81H3"><span class="nav-number">3.</span> <span class="nav-text">iOS客户端支持H3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">技术选型</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="任成"
+      src="https://object.rencheng.cc/image/avatar.jpg">
+  <p class="site-author-name" itemprop="name">任成</p>
+  <div class="site-description" itemprop="description">iOSer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheng-ren" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheng-ren" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rencheng11@icloud.com" title="E-Mail → mailto:rencheng11@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rencheng.cc/2024/09/12/network/%E7%AB%99%E7%82%B9%E6%94%AF%E6%8C%81HTTP3&QUIC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://object.rencheng.cc/image/avatar.jpg">
+      <meta itemprop="name" content="任成">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="任成の博客">
+      <meta itemprop="description" content="iOSer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="站点支持HTTP3/QUIC | 任成の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          站点支持HTTP3/QUIC
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-12 17:51:12" itemprop="dateCreated datePublished" datetime="2024-09-12T17:51:12+08:00">2024-09-12</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>为优化全链路耗时，尽可能缩短建连时间，实践下H3.</p>
+<span id="more"></span>
+
+<p>H3是否能打通，可以拆分为3块</p>
+<ol>
+<li>服务端支持H3协议</li>
+<li>H3链路是否畅通</li>
+<li>客户端&#x2F;Chrome需要支持H3协议</li>
+</ol>
+<h2 id="服务端支持H3协议"><a href="#服务端支持H3协议" class="headerlink" title="服务端支持H3协议"></a>服务端支持H3协议</h2><p>以 Nginx 为例，其他同理。默认站点已支持H2，且TLS版本支持1.3。</p>
+<p><strong>必要配置</strong></p>
+<ol>
+<li>开启监控<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen 443 quic reuseport;</span><br></pre></td></tr></table></figure></li>
+<li>add_header<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header alt-svc &#x27;h3=&quot;:443&quot;; ma=2592000, h3-29=&quot;:443&quot;; ma=2592000, h3-Q050=&quot;:443&quot;; ma=2592000, h3-Q046=&quot;:443&quot;; ma=2592000, h3-Q043=&quot;:443&quot;; ma=2592000, quic=&quot;:443&quot;; ma=2592000; v=&quot;43,46&quot;&#x27;;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>nginx.conf</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">		listen 443 ssl ;</span><br><span class="line">    #listen [::]:443 ssl;</span><br><span class="line">    listen 443 quic reuseport;</span><br><span class="line">    #listen [::]:443 quic reuseport;</span><br><span class="line">    http2 on;</span><br><span class="line">    server_name rencheng.cc www.rencheng.cc;</span><br><span class="line">    index index.php index.html index.htm default.php default.htm default.html;</span><br><span class="line">    root /www/wwwroot/rencheng.cc;</span><br><span class="line">    </span><br><span class="line">    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则</span><br><span class="line">    #error_page 404/404.html;</span><br><span class="line">    #HTTP_TO_HTTPS_START</span><br><span class="line">    if ($server_port !~ 443)&#123;</span><br><span class="line">        rewrite ^(/.*)$ https://$host$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">    #HTTP_TO_HTTPS_END</span><br><span class="line">    ssl_certificate    /www/server/panel/vhost/cert/rencheng.cc/fullchain.pem;</span><br><span class="line">    ssl_certificate_key    /www/server/panel/vhost/cert/rencheng.cc/privkey.pem;</span><br><span class="line">    ssl_protocols TLSv1.3;</span><br><span class="line">    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line">    ssl_session_cache shared:SSL:10m;</span><br><span class="line">    ssl_session_timeout 10m;</span><br><span class="line">    #ssl_early_data on;</span><br><span class="line">    add_header Strict-Transport-Security &quot;max-age=31536000&quot;;</span><br><span class="line">    add_header alt-svc &#x27;h3=&quot;:443&quot;; ma=2592000, h3-29=&quot;:443&quot;; ma=2592000, h3-Q050=&quot;:443&quot;; ma=2592000, h3-Q046=&quot;:443&quot;; ma=2592000, h3-Q043=&quot;:443&quot;; ma=2592000, quic=&quot;:443&quot;; ma=2592000; v=&quot;43,46&quot;&#x27;;</span><br><span class="line">    error_page 497  https://$host$request_uri;</span><br><span class="line">		#SSL-END</span><br><span class="line">    </span><br><span class="line">    #ERROR-PAGE-START  错误页配置，可以注释、删除或修改</span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">    error_page 502 /502.html;</span><br><span class="line">    #ERROR-PAGE-END</span><br><span class="line">    </span><br><span class="line">    #PHP-INFO-START  PHP引用配置，可以注释或修改</span><br><span class="line">    include enable-php-00.conf;</span><br><span class="line">    #PHP-INFO-END</span><br><span class="line">    </span><br><span class="line">    #REWRITE-START URL重写规则引用,修改后将导致面板设置的伪静态规则失效</span><br><span class="line">    include /www/server/panel/vhost/rewrite/rencheng.cc.conf;</span><br><span class="line">    #REWRITE-END</span><br><span class="line">    </span><br><span class="line">    #禁止访问的文件或目录</span><br><span class="line">    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)</span><br><span class="line">    &#123;</span><br><span class="line">        return 404;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    #一键申请SSL证书验证目录相关设置</span><br><span class="line">    location ~ \.well-known&#123;</span><br><span class="line">        allow all;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$</span><br><span class="line">    &#123;</span><br><span class="line">        expires      30d;</span><br><span class="line">        error_log /dev/null;</span><br><span class="line">        access_log /dev/null;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location ~ .*\.(js|css)?$</span><br><span class="line">    &#123;</span><br><span class="line">        expires      12h;</span><br><span class="line">        error_log /dev/null;</span><br><span class="line">        access_log /dev/null; </span><br><span class="line">    &#125;</span><br><span class="line">    access_log  /www/wwwlogs/rencheng.cc.log;</span><br><span class="line">    error_log  /www/wwwlogs/rencheng.cc.error.log;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="确保H3链路畅通"><a href="#确保H3链路畅通" class="headerlink" title="确保H3链路畅通"></a>确保H3链路畅通</h2><h3 id="服务侧各节点防火墙开启udp流量"><a href="#服务侧各节点防火墙开启udp流量" class="headerlink" title="服务侧各节点防火墙开启udp流量"></a>服务侧各节点防火墙开启udp流量</h3><ol>
+<li>云实例的安全防火墙<br><img src="https://cdn.rencheng.cc/blog/17261398201361.png"></li>
+<li>服务器内防火墙打开，以宝塔为例<br><img src="https://cdn.rencheng.cc/blog/17261399440994.jpg"></li>
+</ol>
+<h3 id="确保网络中间链路畅通"><a href="#确保网络中间链路畅通" class="headerlink" title="确保网络中间链路畅通"></a>确保网络中间链路畅通</h3><ol>
+<li>路由器支持udp流量</li>
+<li>代理服务器支持udp流量</li>
+<li>本地是否开启了代理（如果开启，需要关闭，目前为止大部分代理工具不支持udp流量转发）</li>
+<li>首次使用流量测试，避免因为不确定WIFI连接的链路是否支持</li>
+</ol>
+<h3 id="测试H3是否连通"><a href="#测试H3是否连通" class="headerlink" title="测试H3是否连通"></a>测试H3是否连通</h3><ol>
+<li><p>使用外部测试站点<a target="_blank" rel="noopener" href="https://http3check.net/">http3check.net</a></p>
+</li>
+<li><p>测试通过后，Chrome 需要设置开启 HTTP3，在chrome地址栏输入<code>chrome://flags</code>，搜索<code>Experimental QUIC protocol</code>，将<code>default</code>改为<code>enable</code>后重启即可。<br> <img src="https://cdn.rencheng.cc/blog/17261404223583.jpg"></p>
+</li>
+<li><p>多次清除缓存确认是否支持H3<br> <img src="https://cdn.rencheng.cc/blog/17261404223591.jpg" alt="Xnip2024-09-12_17-48-46"></p>
+</li>
+</ol>
+<h2 id="iOS客户端支持H3"><a href="#iOS客户端支持H3" class="headerlink" title="iOS客户端支持H3"></a>iOS客户端支持H3</h2><h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>由于iOS系统URLSession是在<code>iOS 15</code>开始支持的，如果升级，并不能覆盖老系统</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/07/ios/general/iOS%E9%80%86%E5%90%91%E7%A0%B8%E5%A3%B3/" rel="prev" title="iOS逆向砸壳">
+                  <i class="fa fa-angle-left"></i> iOS逆向砸壳
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">任成</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right"},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

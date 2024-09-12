@@ -300,7 +300,7 @@
 </li>
 </ol>
 <h2 id="iOS客户端支持H3"><a href="#iOS客户端支持H3" class="headerlink" title="iOS客户端支持H3"></a>iOS客户端支持H3</h2><h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><ol>
-<li>方案一：由于iOS系统URLSession是在<code>iOS 15</code>开始支持的，如果仍然想使用URLSession的方式请求，并不能覆盖老系统。推荐等级⭐️⭐️。</li>
+<li>方案一：由于iOS系统URLSession是在<code>iOS 14.5</code>开始支持的，如果仍然想使用URLSession的方式请求，并不能覆盖老系统。推荐等级⭐️⭐️。</li>
 <li>方案二：使用Cronet，该方案的思路是通过URLProtocol的方式拦截到所有请求后，重定向到其内部发送H3请求，但需要研发对源码熟悉后精简功能，以减少对包体积的影响。比如：FTP等无用协议、TCP连接池等。推荐等级⭐️⭐️⭐️。</li>
 <li>方案三：使用大厂对Cronet精简过的库，优势是可以轻松迁移新版本，且大厂对其增加了很多<a target="_blank" rel="noopener" href="https://tquic.net/zh/docs/intro">功能</a>。推荐等级⭐️⭐️⭐️⭐️。</li>
 </ol>
